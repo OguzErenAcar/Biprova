@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>biprova — Proje Tahtası</title>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Nunito:wght@700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  background: #fdf8f0;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* TAHTA DOKUSU */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image:
+    linear-gradient(rgba(180,160,120,0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(180,160,120,0.08) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.board {
+  position: relative;
+  z-index: 1;
+  padding: 2.5rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* BAŞLIK */
+.board-title {
+  text-align: center;
+  margin-bottom: 3rem;
+  position: relative;
+}
+
+.board-title h1 {
+  font-family: 'Caveat', cursive;
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-weight: 700;
+  color: #1a1a2e;
+  letter-spacing: -1px;
+  line-height: 1;
+}
+
+.board-title h1 span {
+  color: #2563eb;
+  position: relative;
+}
+
+.board-title h1 span::after {
+  content: '';
+  position: absolute;
+  bottom: -4px; left: 0; right: 0;
+  height: 3px;
+  background: #2563eb;
+  border-radius: 2px;
+  transform: rotate(-1deg);
+}
+
+.board-title p {
+  font-family: 'Caveat', cursive;
+  font-size: 1.3rem;
+  color: #64748b;
+  margin-top: 0.5rem;
+}
+
+.tape {
+  position: absolute;
+  width: 60px; height: 20px;
+  background: rgba(255,220,100,0.6);
+  border-radius: 2px;
+  top: -10px; left: 50%;
+  transform: translateX(-50%) rotate(-2deg);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* STICKY NOTES */
+.sticky {
+  background: #fff;
+  border-radius: 3px;
+  padding: 1.2rem 1.3rem;
+  box-shadow: 3px 4px 12px rgba(0,0,0,0.12), 0 1px 3px rgba(0,0,0,0.08);
+  position: relative;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.sticky:hover {
+  transform: translateY(-3px) rotate(0deg) !important;
+  box-shadow: 5px 8px 20px rgba(0,0,0,0.15);
+}
+
+.sticky::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 6px;
+  border-radius: 3px 3px 0 0;
+}
+
+.sticky.yellow { background: #fffbeb; }
+.sticky.yellow::before { background: #fbbf24; }
+
+.sticky.blue { background: #eff6ff; }
+.sticky.blue::before { background: #3b82f6; }
+
+.sticky.green { background: #f0fdf4; }
+.sticky.green::before { background: #22c55e; }
+
+.sticky.pink { background: #fdf2f8; }
+.sticky.pink::before { background: #ec4899; }
+
+.sticky.purple { background: #faf5ff; }
+.sticky.purple::before { background: #8b5cf6; }
+
+.sticky.orange { background: #fff7ed; }
+.sticky.orange::before { background: #f97316; }
+
+.sticky.red { background: #fef2f2; }
+.sticky.red::before { background: #ef4444; }
+
+.sticky.cyan { background: #ecfeff; }
+.sticky.cyan::before { background: #06b6d4; }
+
+.sticky h3 {
+  font-family: 'Caveat', cursive;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 0.6rem;
+  line-height: 1.2;
+}
+
+.sticky p, .sticky li {
+  font-size: 0.82rem;
+  color: #475569;
+  line-height: 1.55;
+}
+
+.sticky ul { padding-left: 1rem; }
+.sticky li { margin-bottom: 0.25rem; }
+
+.sticky .tag {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 0.15rem 0.5rem;
+  border-radius: 100px;
+  margin-bottom: 0.6rem;
+}
+
+/* BÜYÜK BÖLÜMLER */
+.section-label {
+  font-family: 'Caveat', cursive;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #94a3b8;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.section-label::after {
+  content: '';
+  flex: 1;
+  height: 2px;
+  background: linear-gradient(90deg, #e2e8f0, transparent);
+  border-radius: 1px;
+}
+
+/* GRID LAYOUT */
+.row {
+  display: grid;
+  gap: 1.2rem;
+  margin-bottom: 1.5rem;
+}
+
+.row-3 { grid-template-columns: repeat(3, 1fr); }
+.row-4 { grid-template-columns: repeat(4, 1fr); }
+.row-2-1 { grid-template-columns: 2fr 1fr; }
+.row-1-2 { grid-template-columns: 1fr 2fr; }
+.row-2 { grid-template-columns: 1fr 1fr; }
+
+/* BÜYÜK KART */
+.big-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 1.8rem;
+  box-shadow: 4px 6px 20px rgba(0,0,0,0.08);
+  border: 2px dashed #e2e8f0;
+  position: relative;
+}
+
+.big-card h2 {
+  font-family: 'Caveat', cursive;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 1rem;
+}
+
+/* AKIŞ OKLAR */
+.flow-row {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  margin-bottom: 1.5rem;
+}
+
+.flow-item {
+  flex: 1;
+  background: #fff;
+  border-radius: 12px;
+  padding: 1rem;
+  text-align: center;
+  box-shadow: 2px 3px 10px rgba(0,0,0,0.08);
+  position: relative;
+}
+
+.flow-item .num {
+  font-family: 'Caveat', cursive;
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 0.3rem;
+}
+
+.flow-item h4 {
+  font-family: 'Caveat', cursive;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 0.3rem;
+}
+
+.flow-item p {
+  font-size: 0.75rem;
+  color: #64748b;
+  line-height: 1.4;
+}
+
+.flow-arrow {
+  display: flex;
+  align-items: center;
+  padding: 0 0.3rem;
+  font-size: 1.2rem;
+  color: #94a3b8;
+}
+
+/* STACK ITEM */
+.stack-row-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.stack-chip {
+  background: #fff;
+  border: 2px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 0.5rem 0.9rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #475569;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  box-shadow: 1px 2px 6px rgba(0,0,0,0.06);
+}
+
+/* ROTASYONLAR */
+.r1 { transform: rotate(-1.5deg); }
+.r2 { transform: rotate(1deg); }
+.r3 { transform: rotate(-0.5deg); }
+.r4 { transform: rotate(2deg); }
+.r5 { transform: rotate(-2deg); }
+
+/* PIN */
+.pin {
+  position: absolute;
+  top: -8px; left: 50%;
+  transform: translateX(-50%);
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  z-index: 2;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+/* ÇERÇEVE */
+.frame {
+  border: 3px dashed #e2e8f0;
+  border-radius: 20px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+.frame-label {
+  position: absolute;
+  top: -14px; left: 20px;
+  background: #fdf8f0;
+  padding: 0 0.8rem;
+  font-family: 'Caveat', cursive;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #94a3b8;
+}
+
+/* DIVIDER */
+.divider {
+  text-align: center;
+  margin: 1.5rem 0;
+  position: relative;
+}
+.divider::before {
+  content: '';
+  position: absolute;
+  top: 50%; left: 0; right: 0;
+  height: 1px;
+  background: #e2e8f0;
+}
+.divider span {
+  background: #fdf8f0;
+  padding: 0 1rem;
+  position: relative;
+  font-family: 'Caveat', cursive;
+  font-size: 1rem;
+  color: #94a3b8;
+}
+
+@media(max-width: 900px) {
+  .row-3, .row-4 { grid-template-columns: repeat(2, 1fr); }
+  .row-2-1, .row-1-2 { grid-template-columns: 1fr; }
+  .flow-row { flex-direction: column; }
+  .flow-arrow { transform: rotate(90deg); align-self: center; }
+}
+
+@media(max-width: 600px) {
+  .row-3, .row-4, .row-2 { grid-template-columns: 1fr; }
+  .board { padding: 1.5rem 1rem; }
+}
+</style>
+</head>
+<body>
+<div class="board">
+
+  <!-- BAŞLIK -->
+  <div class="board-title" style="position:relative">
+    <div class="tape"></div>
+    <h1>bir<span>prova</span> nedir?</h1>
+    <p>Proje kurmak isteyenlerin buluşma yeri — fikir değil, ekip paylaşılır.</p>
+  </div>
+
+  <!-- PROBLEM & ÇÖZÜM -->
+  <div class="section-label">💡 Problem & Çözüm</div>
+  <div class="row row-3" style="margin-bottom:2rem">
+
+    <div class="sticky yellow r2" style="position:relative">
+      <div class="pin" style="background:#fbbf24"></div>
+      <div class="tag" style="background:#fef3c7;color:#b45309">😓 Problem</div>
+      <h3>İş dünyası deneyim istiyor</h3>
+      <p>Mezunlar "deneyim yok" diye reddediliyor ama deneyim kazanmak için iş gerekiyor. Kısır döngü.</p>
+    </div>
+
+    <div class="sticky red r5" style="position:relative">
+      <div class="pin" style="background:#ef4444"></div>
+      <div class="tag" style="background:#fef2f2;color:#b91c1c">😣 Problem</div>
+      <h3>Yalnız proje yapmak zor</h3>
+      <p>Motivasyon düşüyor, farklı yeteneklere ihtiyaç var, kimle yapacağını bilmiyorsun.</p>
+    </div>
+
+    <div class="sticky green r1" style="position:relative">
+      <div class="pin" style="background:#22c55e"></div>
+      <div class="tag" style="background:#dcfce7;color:#15803d">✅ Çözüm</div>
+      <h3>biprova</h3>
+      <p>Her alandan insanlar proje etrafında buluşur, birlikte üretir. CV'ye giren gerçek deneyim.</p>
+    </div>
+
+  </div>
+
+  <!-- NASIL ÇALIŞIR -->
+  <div class="section-label">🔄 Nasıl Çalışır?</div>
+  <div class="flow-row" style="margin-bottom:2rem">
+    <div class="flow-item" style="background:#eff6ff;border:2px solid #bfdbfe">
+      <div class="num" style="color:#2563eb">1</div>
+      <h4>Proje Aç</h4>
+      <p>Fikir değil, ihtiyaç paylaş. Kim lazım, hangi şehir.</p>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-item" style="background:#f0fdf4;border:2px solid #bbf7d0">
+      <div class="num" style="color:#22c55e">2</div>
+      <h4>Başvurular Gelir</h4>
+      <p>"Ben şunu yapabilirim" notu ile başvurulur.</p>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-item" style="background:#faf5ff;border:2px solid #ddd6fe">
+      <div class="num" style="color:#8b5cf6">3</div>
+      <h4>Bar Dolar</h4>
+      <p>Tüm roller dolunca ekip otomatik kurulur.</p>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-item" style="background:#ecfeff;border:2px solid #a5f3fc">
+      <div class="num" style="color:#06b6d4">4</div>
+      <h4>Özel Grup</h4>
+      <p>Sadece ekibe özel chat. Fikir detayı burada paylaşılır.</p>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-item" style="background:#fff7ed;border:2px solid #fed7aa">
+      <div class="num" style="color:#f97316">5</div>
+      <h4>24 Saat Kuralı</h4>
+      <p>Leader başlatmazsa ekip dağılır. Aktif projeler kalır.</p>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-item" style="background:#fdf2f8;border:2px solid #fbcfe8">
+      <div class="num" style="color:#ec4899">6</div>
+      <h4>Proje Başlar!</h4>
+      <p>Tamamlanınca portfolyoya eklenir. CV'ye girer.</p>
+    </div>
+  </div>
+
+  <!-- KRİTİK KARARLAR -->
+  <div class="section-label">🎯 Kritik Kararlar</div>
+  <div class="row row-4" style="margin-bottom:2rem">
+
+    <div class="sticky blue r3">
+      <h3>🔒 Fikir Gizliliği</h3>
+      <p>Timeline'da fikir değil, sadece <strong>ihtiyaç</strong> paylaşılır. Detaylar ekip kurulduktan sonra özel grupta açıklanır.</p>
+    </div>
+
+    <div class="sticky green r1">
+      <h3>🔗 LinkedIn Zorunlu</h3>
+      <p>Sahte hesap açmak zorlaşır. İsim, fotoğraf, meslek LinkedIn'den otomatik gelir. Trol engeli.</p>
+    </div>
+
+    <div class="sticky purple r4">
+      <h3>🏅 İlk 100 Rozeti</h3>
+      <p>İlk 100 kullanıcıya kalıcı "Kurucu Üye" rozeti. Kıtlık hissi, erken benimseme teşviki.</p>
+    </div>
+
+    <div class="sticky orange r2">
+      <h3>⏰ 24 Saat Kuralı</h3>
+      <p>Ölü projeler otomatik temizlenir. Platform her zaman aktif görünür. Tembel ekipler elenir.</p>
+    </div>
+
+  </div>
+
+  <!-- HEDEF KİTLE & ÖRNEKLER YAN YANA -->
+  <div class="row row-2" style="margin-bottom:2rem">
+
+    <div class="frame">
+      <div class="frame-label">👥 Hedef Kitle</div>
+      <div class="row row-2" style="margin-bottom:0">
+        <div class="sticky yellow r2" style="margin:0">
+          <h3>Yeni mezunlar</h3>
+          <p>CV'si boş, deneyim kazanmak istiyor, ne yapacağını bilmiyor.</p>
+        </div>
+        <div class="sticky pink r5" style="margin:0">
+          <h3>Kariyer değiştirenler</h3>
+          <p>Yeni alanda portföy oluşturmak istiyor.</p>
+        </div>
+        <div class="sticky cyan r1" style="margin:0">
+          <h3>Proje fikri olanlar</h3>
+          <p>Ekip bulamıyor, yalnız yapamıyor.</p>
+        </div>
+        <div class="sticky green r3" style="margin:0">
+          <h3>Her yaş, her bölüm</h3>
+          <p>Sadece yazılım değil. Veteriner, grafiker, muhasebeci, sinema...</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="frame">
+      <div class="frame-label">📌 Proje Örnekleri</div>
+      <div style="display:flex;flex-direction:column;gap:0.7rem">
+        <div style="background:#eff6ff;border-radius:10px;padding:0.75rem 1rem;font-size:0.82rem">
+          <strong>📍 İzmir</strong> — Sokak Hayvanlarına Yardım<br>
+          <span style="color:#64748b">2 Veteriner + 1 Haberci + 1 Fotoğrafçı</span>
+        </div>
+        <div style="background:#f0fdf4;border-radius:10px;padding:0.75rem 1rem;font-size:0.82rem">
+          <strong>📍 İstanbul</strong> — Bağımsız Kısa Film<br>
+          <span style="color:#64748b">Yönetmen + Kameraman + Ses + Oyuncu</span>
+        </div>
+        <div style="background:#faf5ff;border-radius:10px;padding:0.75rem 1rem;font-size:0.82rem">
+          <strong>🌐 Remote</strong> — Girişimcilik Podcast'i<br>
+          <span style="color:#64748b">İçerik + Ses Editör + Grafiker + Pazarlama</span>
+        </div>
+        <div style="background:#fff7ed;border-radius:10px;padding:0.75rem 1rem;font-size:0.82rem">
+          <strong>📍 Ankara</strong> — Mahalle Bostanı<br>
+          <span style="color:#64748b">Ziraat Müh. + Sosyal Hizmet + Grafiker</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- BÜYÜME STRATEJİSİ -->
+  <div class="section-label">📈 Büyüme Stratejisi</div>
+  <div class="row row-3" style="margin-bottom:2rem">
+
+    <div class="big-card" style="border-color:#bfdbfe">
+      <h2 style="color:#2563eb">🌱 Etap 0<br>Waitlist</h2>
+      <ul style="font-size:0.82rem;color:#475569;padding-left:1.2rem;line-height:1.8">
+        <li>Landing page canlıya al</li>
+        <li>Email listesi topla</li>
+        <li>İlk 100 rozeti için hype yarat</li>
+        <li>LinkedIn & sosyal medya</li>
+        <li>Üniversite toplulukları</li>
+      </ul>
+    </div>
+
+    <div class="big-card" style="border-color:#bbf7d0">
+      <h2 style="color:#22c55e">🚀 Etap 1<br>MVP</h2>
+      <ul style="font-size:0.82rem;color:#475569;padding-left:1.2rem;line-height:1.8">
+        <li>LinkedIn ile giriş</li>
+        <li>Proje aç + timeline</li>
+        <li>Başvuru + team bar</li>
+        <li>Özel grup chat</li>
+        <li>24h timer + bildirimler</li>
+      </ul>
+    </div>
+
+    <div class="big-card" style="border-color:#ddd6fe">
+      <h2 style="color:#8b5cf6">✨ Etap 2<br>Büyüme</h2>
+      <ul style="font-size:0.82rem;color:#475569;padding-left:1.2rem;line-height:1.8">
+        <li>AI ile proje fikri önerisi</li>
+        <li>Ekip paylaşımları (timeline)</li>
+        <li>Başarı hikayeleri</li>
+        <li>Rozet sistemi</li>
+        <li>Payload CMS admin panel</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- TECH STACK & NEDEN DEĞİL YAN YANA -->
+  <div class="row row-2" style="margin-bottom:2rem">
+
+    <div class="frame">
+      <div class="frame-label">🛠 Tech Stack</div>
+      <div class="stack-row-items">
+        <div class="stack-chip">⚛️ Next.js 14</div>
+        <div class="stack-chip">🐘 Supabase</div>
+        <div class="stack-chip">🎨 Tailwind</div>
+        <div class="stack-chip">🔗 LinkedIn OAuth</div>
+        <div class="stack-chip">🔌 Supabase Realtime</div>
+        <div class="stack-chip">▲ Vercel</div>
+        <div class="stack-chip">📧 Resend</div>
+        <div class="stack-chip">📦 Payload CMS*</div>
+      </div>
+      <p style="font-size:0.72rem;color:#94a3b8;margin-top:0.8rem">* Etap 2'de admin panel için</p>
+    </div>
+
+    <div class="frame">
+      <div class="frame-label">🚫 Neden Değil</div>
+      <div style="display:flex;flex-direction:column;gap:0.6rem">
+        <div style="display:flex;align-items:center;gap:0.7rem;font-size:0.82rem">
+          <span style="color:#ef4444;font-weight:700;width:20px">✗</span>
+          <span><strong>AI yok</strong> — Platform kimliği: gerçek insan bağlantısı</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:0.7rem;font-size:0.82rem">
+          <span style="color:#ef4444;font-weight:700;width:20px">✗</span>
+          <span><strong>Genel topluluk yok</strong> — Odak dağılmasın, kimlik korunsun</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:0.7rem;font-size:0.82rem">
+          <span style="color:#ef4444;font-weight:700;width:20px">✗</span>
+          <span><strong>Fikir timeline'ı yok</strong> — Güven sorunu yaratır</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:0.7rem;font-size:0.82rem">
+          <span style="color:#ef4444;font-weight:700;width:20px">✗</span>
+          <span><strong>Davet sistemi yok</strong> — Büyümeyi engeller</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:0.7rem;font-size:0.82rem">
+          <span style="color:#ef4444;font-weight:700;width:20px">✗</span>
+          <span><strong>Strapi / Prisma yok</strong> — Supabase yeterli, gereksiz karmaşıklık</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- RAKIP ANALİZ -->
+  <div class="section-label">🔍 Rakip vs biprova</div>
+  <div class="row row-4" style="margin-bottom:2rem">
+
+    <div class="sticky r1" style="background:#fff;border:2px solid #e2e8f0">
+      <h3>projearkadaşım.com</h3>
+      <div style="color:#ef4444;font-size:0.8rem;margin-bottom:0.5rem">😵 Kapandı</div>
+      <ul style="font-size:0.78rem;color:#64748b">
+        <li>Aktivasyon sorunu</li>
+        <li>Kritik kitle yok</li>
+        <li>Ölü proje mekanizması yok</li>
+        <li>İş modeli belirsiz</li>
+      </ul>
+    </div>
+
+    <div class="sticky r3" style="background:#fff;border:2px solid #e2e8f0">
+      <h3>LinkedIn</h3>
+      <div style="color:#64748b;font-size:0.8rem;margin-bottom:0.5rem">😐 Farklı amaç</div>
+      <ul style="font-size:0.78rem;color:#64748b">
+        <li>İş arama odaklı</li>
+        <li>Proje kurma yok</li>
+        <li>Resmi ve soğuk</li>
+      </ul>
+    </div>
+
+    <div class="sticky r5" style="background:#fff;border:2px solid #e2e8f0">
+      <h3>GitHub</h3>
+      <div style="color:#64748b;font-size:0.8rem;margin-bottom:0.5rem">😐 Sadece yazılım</div>
+      <ul style="font-size:0.78rem;color:#64748b">
+        <li>Teknik kitleye özel</li>
+        <li>Proje bulma zor</li>
+        <li>Sosyal özellik az</li>
+      </ul>
+    </div>
+
+    <div class="sticky blue r2">
+      <h3>biprova 🎯</h3>
+      <div style="color:#22c55e;font-size:0.8rem;margin-bottom:0.5rem">✅ Fark yaratan</div>
+      <ul style="font-size:0.78rem;color:#475569">
+        <li>Her alandan insan</li>
+        <li>24h aktivasyon kuralı</li>
+        <li>Fikir gizliliği</li>
+        <li>Şehir bazlı eşleşme</li>
+        <li>LinkedIn güveni</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- ALT BİLGİ -->
+  <div style="text-align:center;padding:2rem;border-top:2px dashed #e2e8f0;margin-top:1rem">
+    <p style="font-family:'Caveat',cursive;font-size:1.8rem;font-weight:700;color:#2563eb">biprova</p>
+    <p style="font-family:'Caveat',cursive;font-size:1rem;color:#94a3b8;margin-top:0.3rem">"Bir projem var" — kısaltması</p>
+    <div style="display:flex;justify-content:center;gap:2rem;margin-top:1rem;flex-wrap:wrap">
+      <span style="font-size:0.8rem;color:#64748b">⏱ 2-3 hafta geliştirme</span>
+      <span style="font-size:0.8rem;color:#64748b">🚀 Vibe Coding + Claude Code</span>
+      <span style="font-size:0.8rem;color:#64748b">🆓 Başlangıçta ücretsiz</span>
+      <span style="font-size:0.8rem;color:#64748b">🇹🇷 Türkiye odaklı</span>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
