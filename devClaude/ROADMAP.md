@@ -28,8 +28,8 @@ Tab bar sırası: Home | Teams | Proje Oluştur (merkez) | News | Profile
 ## Faz 1 — UI Temeli
 
 - [ ] Design dosyalarında TakımBul → biprova rename
-- [ ] `devClaude/design/introPage.html` → `app/(marketing)/` landing page componentleri
-- [ ] `devClaude/design/HomePage.html` → dashboard componentleri (mock data ile)
+- [ ] `devClaude/design/public pages/public-landing.html` → `app/(marketing)/` landing page componentleri
+- [ ] `devClaude/design/public pages/home.html` → dashboard componentleri (mock data ile)
   - [ ] Sidebar component (web)
   - [ ] Tab bar component (mobil)
   - [ ] Project card component

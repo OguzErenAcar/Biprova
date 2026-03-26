@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>biprova — Profil</title>
+<link rel="stylesheet" href="../design-tokens.css">
+<style>
+
+.edit-btn {
+  background: var(--white);
+  color: var(--blue);
+  border: 1.5px solid var(--blue);
+  border-radius: 10px;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 800;
+  font-size: 0.88rem;
+  padding: 0.55rem 1.1rem;
+  cursor: pointer;
+  display: flex; align-items: center; gap: 0.4rem;
+  transition: all 0.15s;
+}
+.edit-btn:hover { background: var(--blue-soft); }
+
+/* CONTENT */
+.content {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 1.5rem;
+  padding: 1.5rem 2rem;
+  align-items: start;
+}
+
+/* PROFILE HERO */
+.profile-hero {
+  background: var(--white);
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  margin-bottom: 1.25rem;
+}
+
+.hero-cover {
+  height: 100px;
+  background: linear-gradient(135deg, #1d4ed8, #6366f1, #8b5cf6);
+  position: relative;
+}
+
+.hero-body {
+  padding: 0 1.5rem 1.5rem;
+  position: relative;
+}
+
+.hero-avatar {
+  width: 80px; height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--blue), #6366f1);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 900;
+  font-size: 1.8rem;
+  color: #fff;
+  border: 4px solid var(--white);
+  position: absolute;
+  top: -40px;
+  left: 1.5rem;
+  box-shadow: 0 4px 16px rgba(37,99,235,0.25);
+}
+
+.hero-top {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 0.6rem;
+  margin-bottom: 2.2rem;
+  gap: 0.5rem;
+}
+
+.linkedin-badge {
+  display: flex; align-items: center; gap: 0.35rem;
+  background: #0a66c2;
+  color: #fff;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.3rem 0.7rem;
+  text-decoration: none;
+}
+
+.founder-badge {
+  display: flex; align-items: center; gap: 0.35rem;
+  background: var(--yellow-soft);
+  color: #92400e;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.3rem 0.7rem;
+}
+
+.hero-name {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 900;
+  font-size: 1.4rem;
+  color: var(--text);
+  margin-bottom: 0.2rem;
+}
+
+.hero-title {
+  font-size: 0.92rem;
+  color: var(--muted);
+  margin-bottom: 0.6rem;
+}
+
+.hero-meta {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.hero-meta-item {
+  display: flex; align-items: center; gap: 0.3rem;
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+.hero-bio {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+  font-size: 0.88rem;
+  color: var(--text);
+  line-height: 1.6;
+}
+
+/* STATS ROW */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.stat-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1.1rem 1rem;
+  text-align: center;
+}
+
+.stat-num {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 900;
+  font-size: 1.7rem;
+  color: var(--blue);
+  line-height: 1;
+  margin-bottom: 0.3rem;
+}
+
+.stat-label {
+  font-size: 0.78rem;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+/* SECTION CARD */
+.section-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1.4rem 1.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.section-title {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 900;
+  font-size: 1rem;
+  color: var(--text);
+  display: flex; align-items: center; gap: 0.4rem;
+}
+
+.section-link {
+  font-size: 0.8rem;
+  color: var(--blue);
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+}
+.section-link:hover { text-decoration: underline; }
+
+/* SKILLS */
+.skills-wrap { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+
+.skill-chip {
+  background: var(--blue-soft);
+  color: var(--blue);
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 0.35rem 0.8rem;
+  font-family: 'Nunito', sans-serif;
+}
+
+/* PROJECT ITEMS */
+.project-item {
+  display: flex;
+  gap: 1rem;
+  padding: 0.9rem 0;
+  border-bottom: 1px solid var(--border);
+  align-items: flex-start;
+}
+.project-item:last-child { border-bottom: none; padding-bottom: 0; }
+.project-item:first-child { padding-top: 0; }
+
+.proj-icon {
+  width: 40px; height: 40px;
+  border-radius: 11px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.15rem;
+  flex-shrink: 0;
+}
+
+.proj-info { flex: 1; }
+.proj-name {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 0.2rem;
+}
+.proj-meta {
+  font-size: 0.77rem;
+  color: var(--muted);
+  display: flex; gap: 0.7rem; flex-wrap: wrap;
+}
+
+.proj-status {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.2rem 0.6rem;
+  border-radius: 6px;
+  white-space: nowrap;
+  align-self: flex-start;
+  margin-top: 2px;
+}
+.status-active { background: var(--green-soft); color: #15803d; }
+.status-done { background: var(--blue-soft); color: var(--blue); }
+.status-dissolved { background: #f1f5f9; color: var(--muted); }
+
+/* APPLICATION ITEMS */
+.app-item {
+  display: flex;
+  gap: 1rem;
+  padding: 0.9rem 0;
+  border-bottom: 1px solid var(--border);
+  align-items: center;
+}
+.app-item:last-child { border-bottom: none; padding-bottom: 0; }
+.app-item:first-child { padding-top: 0; }
+
+.app-info { flex: 1; }
+.app-project { font-size: 0.88rem; font-weight: 700; color: var(--text); margin-bottom: 0.15rem; }
+.app-role { font-size: 0.78rem; color: var(--muted); }
+
+.app-status {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.25rem 0.65rem;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+.app-pending { background: var(--yellow-soft); color: #92400e; }
+.app-accepted { background: var(--green-soft); color: #15803d; }
+.app-rejected { background: var(--red-soft); color: #b91c1c; }
+
+/* RIGHT COLUMN WIDGETS */
+.widget {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1.3rem 1.4rem;
+  margin-bottom: 1.25rem;
+}
+
+.widget-title {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 900;
+  font-size: 0.95rem;
+  color: var(--text);
+  margin-bottom: 1rem;
+  display: flex; align-items: center; gap: 0.4rem;
+}
+
+/* INFO LIST */
+.info-list { display: flex; flex-direction: column; gap: 0.7rem; }
+.info-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.84rem;
+}
+.info-row .label { color: var(--muted); min-width: 80px; font-weight: 600; }
+.info-row .val { color: var(--text); font-weight: 600; }
+
+/* BADGES */
+.badges-grid { display: flex; flex-direction: column; gap: 0.65rem; }
+.badge-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.65rem 0.8rem;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+}
+.badge-icon { font-size: 1.3rem; }
+.badge-name { font-size: 0.82rem; font-weight: 700; color: var(--text); }
+.badge-sub { font-size: 0.7rem; color: var(--muted); margin-top: 0.1rem; }
+
+/* ACTIVE TEAM MINI */
+.active-team-mini {
+  background: linear-gradient(135deg, #1d4ed8, #6366f1);
+  border-radius: 12px;
+  padding: 1rem 1.1rem;
+  margin-bottom: 1rem;
+}
+.atm-label { font-size: 0.72rem; color: rgba(255,255,255,0.7); font-weight: 600; margin-bottom: 0.3rem; }
+.atm-name { font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 0.95rem; color: #fff; margin-bottom: 0.6rem; }
+.atm-row { display: flex; justify-content: space-between; align-items: center; }
+.atm-avatars { display: flex; }
+.atm-av {
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.4);
+  margin-left: -6px;
+  font-size: 0.62rem;
+  font-weight: 900;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff;
+  font-family: 'Nunito', sans-serif;
+}
+.atm-av:first-child { margin-left: 0; }
+.atm-btn {
+  background: rgba(255,255,255,0.2);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 7px;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 800;
+  font-size: 0.75rem;
+  padding: 0.3rem 0.75rem;
+  cursor: pointer;
+}
+
+/* RESPONSIVE */
+@media(max-width:900px) {
+  .sidebar.open { transform: translateX(0); }
+  .content { grid-template-columns: 1fr; padding: 1rem 1rem 5rem; }
+  .right-col { display: none; }
+}
+
+@media(max-width:600px) {
+  .stats-row { grid-template-columns: repeat(3, 1fr); gap: 0.5rem; }
+  .stat-num { font-size: 1.4rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="layout">
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="logo">bir<span>prova</span></div>
+
+  <div class="nav-group">
+    <a class="nav-item" href="home.html"><span class="icon">🏠</span> Ana Sayfa</a>
+    <a class="nav-item" href="teams.html"><span class="icon">👥</span> Ekipler</a>
+    <a class="nav-item" href="create-project.html"><span class="icon">✨</span> Proje Oluştur</a>
+    <a class="nav-item" href="news.html"><span class="icon">📰</span> Haberler</a>
+    <a class="nav-item active" href="profile.html"><span class="icon">👤</span> Profilim</a>
+  </div>
+
+  <div class="nav-label">Genel</div>
+  <div class="nav-group">
+    <div class="nav-item"><span class="icon">🔍</span> Keşfet</div>
+    <div class="nav-item"><span class="icon">💬</span> Mesajlar <span class="nav-badge">3</span></div>
+  </div>
+
+  <div class="nav-label">Ekibim</div>
+  <div class="nav-group">
+    <div class="nav-item"><span class="icon">⚡</span> Aktif Proje</div>
+    <div class="nav-item"><span class="icon">✅</span> Tamamlananlar</div>
+  </div>
+
+  <div class="nav-label">Hesap</div>
+  <div class="nav-group">
+    <div class="nav-item"><span class="icon">⚙️</span> Ayarlar</div>
+  </div>
+
+  <div class="sidebar-footer">
+    <div class="profile-mini">
+      <div class="avatar-sm">AK</div>
+      <div class="profile-info">
+        <div class="name">Ahmet K.</div>
+        <div class="role">UI/UX Tasarımcı</div>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="topbar-title">👤 Profilim</div>
+    <div class="topbar-actions">
+      <div class="icon-btn" title="Bildirimler">🔔</div>
+      <button class="edit-btn">✏️ Düzenle</button>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <!-- LEFT COL -->
+    <div class="left-col">
+
+      <!-- PROFILE HERO -->
+      <div class="profile-hero">
+        <div class="hero-cover"></div>
+        <div class="hero-body">
+          <div class="hero-avatar">AK</div>
+
+          <div class="hero-top">
+            <div class="founder-badge">🏅 İlk 100 Kurucu Üye</div>
+            <a class="linkedin-badge" href="#">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+              LinkedIn
+            </a>
+          </div>
+
+          <div class="hero-name">Ahmet Kaya</div>
+          <div class="hero-title">UI/UX Tasarımcı · Ürün Stratejisti</div>
+
+          <div class="hero-meta">
+            <span class="hero-meta-item">📍 İstanbul</span>
+            <span class="hero-meta-item">🌐 Remote uyumlu</span>
+            <span class="hero-meta-item">📅 Mart 2024'ten beri üye</span>
+          </div>
+
+          <div class="hero-bio">
+            Kullanıcı odaklı ürünler tasarlıyorum. Startup ekiplerinde çalışmayı, sıfırdan bir şey inşa etmeyi seviyorum.
+            Şu an yan projeler için güçlü bir ekip arıyorum — özellikle sosyal etki alanında.
+          </div>
+        </div>
+      </div>
+
+      <!-- STATS -->
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-num">5</div>
+          <div class="stat-label">Açılan Proje</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">3</div>
+          <div class="stat-label">Kurulan Ekip</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">2</div>
+          <div class="stat-label">Tamamlanan</div>
+        </div>
+      </div>
+
+      <!-- SKILLS -->
+      <div class="section-card">
+        <div class="section-header">
+          <div class="section-title">🛠 Yetenekler</div>
+          <a class="section-link">+ Ekle</a>
+        </div>
+        <div class="skills-wrap">
+          <span class="skill-chip">Figma</span>
+          <span class="skill-chip">UI/UX</span>
+          <span class="skill-chip">Ürün Yönetimi</span>
+          <span class="skill-chip">Kullanıcı Araştırması</span>
+          <span class="skill-chip">Prototipleme</span>
+          <span class="skill-chip">Framer</span>
+          <span class="skill-chip">Design System</span>
+          <span class="skill-chip">Tailwind CSS</span>
+        </div>
+      </div>
+
+      <!-- MY PROJECTS -->
+      <div class="section-card">
+        <div class="section-header">
+          <div class="section-title">🗂 Projelerim</div>
+          <a class="section-link">Tümünü gör</a>
+        </div>
+
+        <div class="project-item">
+          <div class="proj-icon" style="background:#eff6ff">🎬</div>
+          <div class="proj-info">
+            <div class="proj-name">Kısa Film Projesi</div>
+            <div class="proj-meta">
+              <span>📍 İstanbul</span>
+              <span>4 kişi</span>
+              <span>Lider: Sen</span>
+            </div>
+          </div>
+          <span class="proj-status status-active">Aktif</span>
+        </div>
+
+        <div class="project-item">
+          <div class="proj-icon" style="background:#dcfce7">🌱</div>
+          <div class="proj-info">
+            <div class="proj-name">Mahalle Bostanı Girişimi</div>
+            <div class="proj-meta">
+              <span>📍 Ankara</span>
+              <span>3 kişi</span>
+              <span>UI Tasarımcı rolünde</span>
+            </div>
+          </div>
+          <span class="proj-status status-done">Tamamlandı</span>
+        </div>
+
+        <div class="project-item">
+          <div class="proj-icon" style="background:#fef3c7">🎙️</div>
+          <div class="proj-info">
+            <div class="proj-name">Girişimcilik Podcast'i</div>
+            <div class="proj-meta">
+              <span>🌐 Remote</span>
+              <span>4 kişi</span>
+              <span>Lider: Sen</span>
+            </div>
+          </div>
+          <span class="proj-status status-done">Tamamlandı</span>
+        </div>
+
+        <div class="project-item">
+          <div class="proj-icon" style="background:#f1f5f9">📱</div>
+          <div class="proj-info">
+            <div class="proj-name">Yerel Haber Uygulaması</div>
+            <div class="proj-meta">
+              <span>📍 İzmir</span>
+              <span>5 kişi</span>
+              <span>Lider: Sen</span>
+            </div>
+          </div>
+          <span class="proj-status status-dissolved">Dağıldı</span>
+        </div>
+
+      </div>
+
+      <!-- APPLICATIONS -->
+      <div class="section-card">
+        <div class="section-header">
+          <div class="section-title">📨 Başvurularım</div>
+          <a class="section-link">Tümünü gör</a>
+        </div>
+
+        <div class="app-item">
+          <div class="proj-icon" style="background:#ede9fe">🐾</div>
+          <div class="app-info">
+            <div class="app-project">Sokak Hayvanlarına Yardım</div>
+            <div class="app-role">Rol: Fotoğrafçı · 1 gün önce başvuruldu</div>
+          </div>
+          <span class="app-status app-pending">Bekliyor</span>
+        </div>
+
+        <div class="app-item">
+          <div class="proj-icon" style="background:#dcfce7">🌍</div>
+          <div class="app-info">
+            <div class="app-project">Çevre Farkındalık Kampanyası</div>
+            <div class="app-role">Rol: UI Tasarımcı · 5 gün önce başvuruldu</div>
+          </div>
+          <span class="app-status app-accepted">Kabul Edildi</span>
+        </div>
+
+        <div class="app-item">
+          <div class="proj-icon" style="background:#fee2e2">🎓</div>
+          <div class="app-info">
+            <div class="app-project">Online Eğitim Platformu</div>
+            <div class="app-role">Rol: Ürün Tasarımcısı · 2 hafta önce başvuruldu</div>
+          </div>
+          <span class="app-status app-rejected">Reddedildi</span>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- RIGHT COL -->
+    <div class="right-col">
+
+      <!-- ACTIVE TEAM -->
+      <div class="widget">
+        <div class="widget-title">⚡ Aktif Ekibim</div>
+        <div class="active-team-mini">
+          <div class="atm-label">Şu an aktif proje</div>
+          <div class="atm-name">🎬 Kısa Film Projesi</div>
+          <div class="atm-row">
+            <div class="atm-avatars">
+              <div class="atm-av" style="background:#3b82f6">AK</div>
+              <div class="atm-av" style="background:#8b5cf6">ME</div>
+              <div class="atm-av" style="background:#22c55e">SY</div>
+              <div class="atm-av" style="background:#f59e0b">BT</div>
+            </div>
+            <button class="atm-btn">Gruba Git →</button>
+          </div>
+        </div>
+        <div style="font-size:0.78rem; color:var(--muted); text-align:center;">⏰ Kickoff için <strong style="color:var(--red)">6s 14d</strong> kaldı</div>
+      </div>
+
+      <!-- INFO -->
+      <div class="widget">
+        <div class="widget-title">ℹ️ Hakkında</div>
+        <div class="info-list">
+          <div class="info-row">
+            <span class="label">Şehir</span>
+            <span class="val">📍 İstanbul</span>
+          </div>
+          <div class="info-row">
+            <span class="label">Çalışma</span>
+            <span class="val">🌐 Remote uyumlu</span>
+          </div>
+          <div class="info-row">
+            <span class="label">Üyelik</span>
+            <span class="val">Mart 2024</span>
+          </div>
+          <div class="info-row">
+            <span class="label">LinkedIn</span>
+            <span class="val" style="color:var(--blue)">Bağlı ✓</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- BADGES -->
+      <div class="widget">
+        <div class="widget-title">🏅 Rozetler</div>
+        <div class="badges-grid">
+          <div class="badge-item">
+            <div class="badge-icon">🏅</div>
+            <div>
+              <div class="badge-name">İlk 100 Kurucu Üye</div>
+              <div class="badge-sub">Platforma ilk katılanlardan</div>
+            </div>
+          </div>
+          <div class="badge-item">
+            <div class="badge-icon">🚀</div>
+            <div>
+              <div class="badge-name">İlk Projem</div>
+              <div class="badge-sub">İlk projesini açan kullanıcı</div>
+            </div>
+          </div>
+          <div class="badge-item">
+            <div class="badge-icon">🤝</div>
+            <div>
+              <div class="badge-name">Ekip Oyuncusu</div>
+              <div class="badge-sub">3+ tamamlanmış ekip üyeliği</div>
+            </div>
+          </div>
+          <div class="badge-item" style="opacity:0.4;">
+            <div class="badge-icon">⭐</div>
+            <div>
+              <div class="badge-name">Süper Lider</div>
+              <div class="badge-sub">5 ekip kur — 2 kaldı</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<!-- MOBILE TAB BAR -->
+<nav class="tab-bar">
+  <div class="tab-bar-inner">
+    <a class="tab-item" href="home.html">
+      <div class="tab-icon">🏠</div>
+      <div class="tab-label">Ana Sayfa</div>
+    </a>
+    <a class="tab-item" href="teams.html">
+      <div class="tab-icon">👥</div>
+      <div class="tab-label">Ekipler</div>
+    </a>
+    <a class="tab-create" href="create-project.html">
+      <div class="tab-create-btn">＋</div>
+      <div class="tab-label">Proje Aç</div>
+    </a>
+    <a class="tab-item" href="news.html">
+      <div class="tab-icon">📰</div>
+      <div class="tab-label">Haberler</div>
+    </a>
+    <a class="tab-item active" href="profile.html">
+      <div class="tab-icon">👤</div>
+      <div class="tab-label">Profil</div>
+    </a>
+  </div>
+</nav>
+
+</div><!-- .layout -->
+
+</body>
+</html>

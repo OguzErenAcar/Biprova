@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>biprova — Ekipler</title>
+<link rel="stylesheet" href="../design-tokens.css">
+<style>
+
+/* TOPBAR overrides */
+.topbar {
+  position: sticky; top: 0; z-index: 40;
+  background: rgba(241,245,249,0.9);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 0.9rem 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.notif-dot {
+  position: absolute; top: 6px; right: 6px;
+  width: 7px; height: 7px;
+  background: var(--red);
+  border-radius: 50%;
+  border: 1.5px solid var(--bg);
+}
+
+/* FILTER TABS */
+.filter-tabs {
+  display: flex;
+  gap: 0.4rem;
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  padding: 0.3rem;
+}
+.ftab {
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 0.35rem 0.8rem;
+  border-radius: 7px;
+  cursor: pointer;
+  color: var(--muted);
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.ftab.active { background: var(--blue); color: #fff; }
+
+/* CONTENT */
+.content {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 1.5rem;
+  padding: 1.5rem 2rem;
+  align-items: start;
+}
+
+/* MY ACTIVE TEAM BANNER */
+.my-team-banner {
+  background: linear-gradient(135deg, #1d4ed8, #6366f1);
+  border-radius: 16px;
+  padding: 1.4rem 1.6rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.mtb-left { display: flex; align-items: center; gap: 1rem; }
+.mtb-icon {
+  width: 46px; height: 46px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.4rem;
+  flex-shrink: 0;
+}
+.mtb-label { font-size: 0.72rem; color: rgba(255,255,255,0.65); font-weight: 600; margin-bottom: 0.15rem; }
+.mtb-name {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 900;
+  font-size: 1rem;
+  color: #fff;
+}
+.mtb-sub { font-size: 0.78rem; color: rgba(255,255,255,0.65); margin-top: 0.1rem; }
+.mtb-right { display: flex; align-items: center; gap: 0.8rem; }
+.mtb-avatars { display: flex; }
+.mtb-av {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.35);
+  margin-left: -7px;
+  font-size: 0.65rem;
+  font-weight: 900;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff;
+  font-family: 'Nunito', sans-serif;
+}
+.mtb-av:first-child { margin-left: 0; }
+.mtb-btn {
+  background: #fff;
+  color: var(--blue);
+  border: none;
+  border-radius: 9px;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 800;
+  font-size: 0.84rem;
+  padding: 0.5rem 1.1rem;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+/* SECTION HEADER */
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+.section-title {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 900;
+  font-size: 1.05rem;
+  color: var(--text);
+  display: flex; align-items: center; gap: 0.4rem;
+}
+
+/* TEAM POST CARD */
+.post-card {
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: 16px;
+  padding: 1.4rem;
+  margin-bottom: 1rem;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.post-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.07); }
+
+/* Team identity row */
+.post-team-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+.team-avatar-group {
+  position: relative;
+  width: 44px; height: 44px;
+  flex-shrink: 0;
+}
+.team-avatar-main {
+  width: 44px; height: 44px;
+  border-radius: 13px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.3rem;
+  font-weight: 900;
+}
+.post-team-info { flex: 1; }
+.post-team-name {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 900;
+  font-size: 0.95rem;
+  color: var(--text);
+  margin-bottom: 0.1rem;
+}
+.post-team-meta {
+  font-size: 0.75rem;
+  color: var(--muted);
+  display: flex; align-items: center; gap: 0.5rem;
+}
+.post-team-meta .dot-sep { opacity: 0.4; }
+.post-time { font-size: 0.75rem; color: #94a3b8; white-space: nowrap; }
+
+.team-verified {
+  display: inline-flex; align-items: center; gap: 0.2rem;
+  background: var(--blue-soft);
+  color: var(--blue);
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 0.15rem 0.5rem;
+  border-radius: 5px;
+  margin-left: 0.3rem;
+}
+
+/* Post content */
+.post-title {
+  font-family: 'Nunito', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 900;
+  margin-bottom: 0.45rem;
+  line-height: 1.35;
+}
+
+.post-body {
+  font-size: 0.86rem;
+  color: var(--muted);
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+.post-body .read-more { color: var(--blue); font-weight: 600; cursor: pointer; }
+
+/* Post image */
+.post-image {
+  width: 100%;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #e0e7ff, #dbeafe);
+  height: 180px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  overflow: hidden;
+}
+
+/* Tags row */
+.post-tags { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 1rem; }
+.tag {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.25rem 0.65rem;
+  border-radius: 100px;
+}
+.tag-city { background: var(--blue-soft); color: var(--blue); }
+.tag-cat { background: #f1f5f9; color: var(--muted); }
+.tag-update { background: var(--green-soft); color: #15803d; }
+.tag-milestone { background: var(--purple-soft); color: var(--purple); }
+.tag-hiring { background: var(--yellow-soft); color: #92400e; }
+
+/* Members chips */
+.post-members {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+.member-chip {
+  display: flex; align-items: center; gap: 0.35rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  padding: 0.2rem 0.55rem 0.2rem 0.25rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+.member-av {
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  font-size: 0.55rem;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 900;
+  color: #fff;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* Post actions */
+.post-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+}
+.action-btn {
+  display: flex; align-items: center; gap: 0.35rem;
+  background: transparent;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--muted);
+  padding: 0.4rem 0.85rem;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.action-btn:hover { border-color: var(--blue); color: var(--blue); background: var(--blue-soft); }
+.action-btn.liked { border-color: var(--red); color: var(--red); background: var(--red-soft); }
+.action-share { margin-left: auto; }
+
+/* EMPTY STATE */
+.empty-state {
+  text-align: center;
+  padding: 3rem 2rem;
+  color: var(--muted);
+}
+.empty-icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
+.empty-title { font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 1rem; color: var(--text); margin-bottom: 0.3rem; }
+.empty-sub { font-size: 0.84rem; }
+
+/* WIDGET */
+.widget {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1.3rem 1.4rem;
+  margin-bottom: 1.25rem;
+}
+.widget-title {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 900;
+  font-size: 0.95rem;
+  color: var(--text);
+  margin-bottom: 1rem;
+  display: flex; align-items: center; gap: 0.4rem;
+}
+
+/* TRENDING TEAMS */
+.trending-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+}
+.trending-item:last-child { border-bottom: none; padding-bottom: 0; }
+.trending-item:first-child { padding-top: 0; }
+.trend-icon {
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+.trend-info { flex: 1; }
+.trend-name { font-size: 0.85rem; font-weight: 700; color: var(--text); margin-bottom: 0.1rem; }
+.trend-meta { font-size: 0.72rem; color: var(--muted); }
+.trend-posts { font-size: 0.72rem; font-weight: 700; color: var(--blue); }
+
+/* CATEGORIES */
+.cat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+.cat-chip {
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: 9px;
+  padding: 0.5rem 0.7rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--muted);
+  cursor: pointer;
+  display: flex; align-items: center; gap: 0.35rem;
+  transition: all 0.15s;
+}
+.cat-chip:hover { border-color: var(--blue); color: var(--blue); background: var(--blue-soft); }
+.cat-chip.active { border-color: var(--blue); color: var(--blue); background: var(--blue-soft); }
+
+/* RESPONSIVE */
+@media(max-width:900px) {
+  .sidebar.open { transform: translateX(0); }
+  .content { grid-template-columns: 1fr; padding: 1rem 1rem 5rem; }
+  .right-col { display: none; }
+}
+@media(max-width:600px) {
+  .filter-tabs { display: none; }
+  .my-team-banner { flex-direction: column; align-items: flex-start; }
+  .mtb-right { width: 100%; justify-content: space-between; }
+}
+</style>
+</head>
+<body>
+
+<div class="layout">
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="logo">bir<span>prova</span></div>
+
+  <div class="nav-group">
+    <a class="nav-item" href="home.html"><span class="icon">🏠</span> Ana Sayfa</a>
+    <a class="nav-item active" href="teams.html"><span class="icon">👥</span> Ekipler</a>
+    <a class="nav-item" href="create-project.html"><span class="icon">✨</span> Proje Oluştur</a>
+    <a class="nav-item" href="news.html"><span class="icon">📰</span> Haberler</a>
+    <a class="nav-item" href="profile.html"><span class="icon">👤</span> Profilim</a>
+  </div>
+
+  <div class="nav-label">Genel</div>
+  <div class="nav-group">
+    <div class="nav-item"><span class="icon">🔍</span> Keşfet</div>
+    <div class="nav-item"><span class="icon">💬</span> Mesajlar <span class="nav-badge">3</span></div>
+  </div>
+
+  <div class="nav-label">Ekibim</div>
+  <div class="nav-group">
+    <div class="nav-item"><span class="icon">⚡</span> Aktif Proje</div>
+    <div class="nav-item"><span class="icon">✅</span> Tamamlananlar</div>
+  </div>
+
+  <div class="nav-label">Hesap</div>
+  <div class="nav-group">
+    <div class="nav-item"><span class="icon">⚙️</span> Ayarlar</div>
+  </div>
+
+  <div class="sidebar-footer">
+    <div class="profile-mini">
+      <div class="avatar-sm">AK</div>
+      <div class="profile-info">
+        <div class="name">Ahmet K.</div>
+        <div class="role">UI/UX Tasarımcı</div>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="topbar-title">👥 Ekip Gönderileri</div>
+    <div class="filter-tabs">
+      <div class="ftab active">Tümü</div>
+      <div class="ftab">Takip</div>
+      <div class="ftab">Güncellemeler</div>
+      <div class="ftab">Duyurular</div>
+    </div>
+    <div class="topbar-actions">
+      <div class="icon-btn" title="Bildirimler">
+        🔔
+        <div class="notif-dot"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <!-- LEFT: FEED -->
+    <div class="left-col">
+
+      <!-- MY ACTIVE TEAM BANNER -->
+      <div class="my-team-banner">
+        <div class="mtb-left">
+          <div class="mtb-icon">🎬</div>
+          <div>
+            <div class="mtb-label">Aktif ekibindesin</div>
+            <div class="mtb-name">Kısa Film Projesi</div>
+            <div class="mtb-sub">İstanbul · 4 kişi · Lider sensin</div>
+          </div>
+        </div>
+        <div class="mtb-right">
+          <div class="mtb-avatars">
+            <div class="mtb-av" style="background:#3b82f6">AK</div>
+            <div class="mtb-av" style="background:#8b5cf6">ME</div>
+            <div class="mtb-av" style="background:#22c55e">SY</div>
+            <div class="mtb-av" style="background:#f59e0b">BT</div>
+          </div>
+          <button class="mtb-btn">Gönderi Yaz →</button>
+        </div>
+      </div>
+
+      <!-- POST 1 — Update with image -->
+      <div class="post-card">
+        <div class="post-team-row">
+          <div class="team-avatar-main" style="background:#ede9fe">🐾</div>
+          <div class="post-team-info">
+            <div class="post-team-name">
+              Sokak Hayvanları Yardım Ekibi
+              <span class="team-verified">✓ Ekip</span>
+            </div>
+            <div class="post-team-meta">
+              <span>📍 İzmir</span>
+              <span class="dot-sep">·</span>
+              <span>4 üye</span>
+            </div>
+          </div>
+          <div class="post-time">2 saat önce</div>
+        </div>
+
+        <div class="post-tags">
+          <span class="tag tag-update">🟢 Güncelleme</span>
+          <span class="tag tag-city">📍 İzmir</span>
+          <span class="tag tag-cat">Sosyal</span>
+        </div>
+
+        <div class="post-title">İlk mama dağıtımını tamamladık! 🎉</div>
+        <div class="post-body">
+          Bu hafta İzmir Konak'ta 3 farklı noktada 120 sokak hayvanına mama dağıttık.
+          Veteriner arkadaşımız Zeynep de aşı takibini başlattı. Desteğiniz için teşekkürler!
+          <span class="read-more"> Devamını oku</span>
+        </div>
+
+        <div class="post-image">🐕 📸</div>
+
+        <div class="post-members">
+          <span class="member-chip"><span class="member-av" style="background:#22c55e">ZK</span> Zeynep K.</span>
+          <span class="member-chip"><span class="member-av" style="background:#3b82f6">AT</span> Ali T.</span>
+          <span class="member-chip"><span class="member-av" style="background:#8b5cf6">MB</span> Merve B.</span>
+          <span class="member-chip"><span class="member-av" style="background:#f59e0b">CS</span> Cem S.</span>
+        </div>
+
+        <div class="post-actions">
+          <button class="action-btn liked">❤️ 48</button>
+          <button class="action-btn">💬 12 Yorum</button>
+          <button class="action-btn action-share">↗ Paylaş</button>
+        </div>
+      </div>
+
+      <!-- POST 2 — Milestone, no image -->
+      <div class="post-card">
+        <div class="post-team-row">
+          <div class="team-avatar-main" style="background:#fef3c7">🎙️</div>
+          <div class="post-team-info">
+            <div class="post-team-name">
+              Girişimcilik Podcast Ekibi
+              <span class="team-verified">✓ Ekip</span>
+            </div>
+            <div class="post-team-meta">
+              <span>🌐 Remote</span>
+              <span class="dot-sep">·</span>
+              <span>4 üye</span>
+            </div>
+          </div>
+          <div class="post-time">5 saat önce</div>
+        </div>
+
+        <div class="post-tags">
+          <span class="tag tag-milestone">🏆 Kilometre Taşı</span>
+          <span class="tag tag-cat">Medya</span>
+        </div>
+
+        <div class="post-title">1000 dinleyiciye ulaştık! 🎧</div>
+        <div class="post-body">
+          3. bölümümüzü yayınladık ve toplam dinleyici sayımız 1000'i geçti.
+          Bu hafta Ankara'daki genç girişimci Selin Yıldız ile konuştuk; iş modelinden
+          erken kullanıcı kazanmaya kadar pek çok konuyu ele aldık.
+          <span class="read-more"> Devamını oku</span>
+        </div>
+
+        <div class="post-members">
+          <span class="member-chip"><span class="member-av" style="background:#8b5cf6">MO</span> Mert O.</span>
+          <span class="member-chip"><span class="member-av" style="background:#22c55e">EA</span> Elif A.</span>
+          <span class="member-chip"><span class="member-av" style="background:#f59e0b">BK</span> Burak K.</span>
+          <span class="member-chip"><span class="member-av" style="background:#ef4444">SY</span> Selin Y.</span>
+        </div>
+
+        <div class="post-actions">
+          <button class="action-btn">❤️ 31</button>
+          <button class="action-btn">💬 7 Yorum</button>
+          <button class="action-btn action-share">↗ Paylaş</button>
+        </div>
+      </div>
+
+      <!-- POST 3 — Hiring / Role opening -->
+      <div class="post-card">
+        <div class="post-team-row">
+          <div class="team-avatar-main" style="background:#dcfce7">🌱</div>
+          <div class="post-team-info">
+            <div class="post-team-name">
+              Mahalle Bostanı Ekibi
+              <span class="team-verified">✓ Ekip</span>
+            </div>
+            <div class="post-team-meta">
+              <span>📍 Ankara</span>
+              <span class="dot-sep">·</span>
+              <span>3 üye</span>
+            </div>
+          </div>
+          <div class="post-time">1 gün önce</div>
+        </div>
+
+        <div class="post-tags">
+          <span class="tag tag-hiring">📢 Duyuru</span>
+          <span class="tag tag-city">📍 Ankara</span>
+          <span class="tag tag-cat">Çevre</span>
+        </div>
+
+        <div class="post-title">İkinci alana başladık — sosyal medya gönüllüsü arıyoruz</div>
+        <div class="post-body">
+          Çankaya'daki ilk bostanımız hasat vermeye başladı! Şimdi Keçiören'de ikinci alanı
+          hazırlıyoruz. Süreci belgeleyecek, sosyal medyayı yönetecek bir gönüllü ekip üyesine
+          ihtiyacımız var.
+          <span class="read-more"> Devamını oku</span>
+        </div>
+
+        <div class="post-members">
+          <span class="member-chip"><span class="member-av" style="background:#22c55e">EA</span> Elif A.</span>
+          <span class="member-chip"><span class="member-av" style="background:#3b82f6">KD</span> Kemal D.</span>
+          <span class="member-chip"><span class="member-av" style="background:#f59e0b">NB</span> Naz B.</span>
+        </div>
+
+        <div class="post-actions">
+          <button class="action-btn">❤️ 19</button>
+          <button class="action-btn">💬 4 Yorum</button>
+          <button class="action-btn action-share">↗ Paylaş</button>
+        </div>
+      </div>
+
+      <!-- POST 4 — My team (own post) -->
+      <div class="post-card" style="border-color:#bfdbfe; background:#f8faff;">
+        <div class="post-team-row">
+          <div class="team-avatar-main" style="background:#dbeafe">🎬</div>
+          <div class="post-team-info">
+            <div class="post-team-name">
+              Kısa Film Projesi
+              <span class="team-verified">✓ Ekip</span>
+            </div>
+            <div class="post-team-meta">
+              <span>📍 İstanbul</span>
+              <span class="dot-sep">·</span>
+              <span>4 üye</span>
+              <span class="dot-sep">·</span>
+              <span style="color:var(--blue); font-weight:700;">Senin ekibin</span>
+            </div>
+          </div>
+          <div class="post-time">3 gün önce</div>
+        </div>
+
+        <div class="post-tags">
+          <span class="tag tag-update">🟢 Güncelleme</span>
+          <span class="tag tag-city">📍 İstanbul</span>
+          <span class="tag tag-cat">Sanat</span>
+        </div>
+
+        <div class="post-title">Senaryo kilidi kırıldı, çekimlere hazırız!</div>
+        <div class="post-body">
+          3 haftalık yoğun çalışmanın ardından senaryomuzu tamamladık.
+          Beykoz'da iki lokasyon netleşti, kostüm ve ekipman listesi hazır.
+          Önümüzdeki Cumartesi ilk sahne çekimini yapıyoruz!
+        </div>
+
+        <div class="post-members">
+          <span class="member-chip"><span class="member-av" style="background:#3b82f6">AK</span> Ahmet K. (Sen)</span>
+          <span class="member-chip"><span class="member-av" style="background:#8b5cf6">ME</span> Mert E.</span>
+          <span class="member-chip"><span class="member-av" style="background:#22c55e">SY</span> Selin Y.</span>
+          <span class="member-chip"><span class="member-av" style="background:#f59e0b">BT</span> Berk T.</span>
+        </div>
+
+        <div class="post-actions">
+          <button class="action-btn liked">❤️ 62</button>
+          <button class="action-btn">💬 18 Yorum</button>
+          <button class="action-btn action-share">↗ Paylaş</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT COL -->
+    <div class="right-col">
+
+      <!-- TRENDING TEAMS -->
+      <div class="widget">
+        <div class="widget-title">🔥 Aktif Ekipler</div>
+        <div class="trending-item">
+          <div class="trend-icon" style="background:#ede9fe">🐾</div>
+          <div class="trend-info">
+            <div class="trend-name">Sokak Hayvanları Yardım</div>
+            <div class="trend-meta">İzmir · 4 üye</div>
+          </div>
+          <div class="trend-posts">8 gönderi</div>
+        </div>
+        <div class="trending-item">
+          <div class="trend-icon" style="background:#fef3c7">🎙️</div>
+          <div class="trend-info">
+            <div class="trend-name">Girişimcilik Podcast</div>
+            <div class="trend-meta">Remote · 4 üye</div>
+          </div>
+          <div class="trend-posts">5 gönderi</div>
+        </div>
+        <div class="trending-item">
+          <div class="trend-icon" style="background:#dbeafe">🎬</div>
+          <div class="trend-info">
+            <div class="trend-name">Kısa Film Projesi</div>
+            <div class="trend-meta">İstanbul · 4 üye</div>
+          </div>
+          <div class="trend-posts">4 gönderi</div>
+        </div>
+        <div class="trending-item">
+          <div class="trend-icon" style="background:#dcfce7">🌱</div>
+          <div class="trend-info">
+            <div class="trend-name">Mahalle Bostanı</div>
+            <div class="trend-meta">Ankara · 3 üye</div>
+          </div>
+          <div class="trend-posts">3 gönderi</div>
+        </div>
+      </div>
+
+      <!-- FILTER BY CATEGORY -->
+      <div class="widget">
+        <div class="widget-title">🗂 Kategoriye Göre</div>
+        <div class="cat-grid">
+          <div class="cat-chip active">🌍 Sosyal</div>
+          <div class="cat-chip">🎨 Sanat</div>
+          <div class="cat-chip">💻 Teknoloji</div>
+          <div class="cat-chip">🌱 Çevre</div>
+          <div class="cat-chip">🎙️ Medya</div>
+          <div class="cat-chip">🎓 Eğitim</div>
+        </div>
+      </div>
+
+      <!-- INFO NOTICE -->
+      <div class="widget" style="background:var(--blue-soft); border-color:#bfdbfe;">
+        <div style="font-size:1.1rem; margin-bottom:0.5rem;">💡</div>
+        <div style="font-size:0.82rem; color:#1e40af; line-height:1.55; font-weight:600;">
+          Yalnızca kurulan ekipler gönderi paylaşabilir. Bireysel gönderiler bu akışta görünmez.
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<!-- MOBILE TAB BAR -->
+<nav class="tab-bar">
+  <div class="tab-bar-inner">
+    <a class="tab-item" href="home.html">
+      <div class="tab-icon">🏠</div>
+      <div class="tab-label">Ana Sayfa</div>
+    </a>
+    <a class="tab-item active" href="teams.html">
+      <div class="tab-icon">👥</div>
+      <div class="tab-label">Ekipler</div>
+    </a>
+    <a class="tab-create" href="create-project.html">
+      <div class="tab-create-btn">＋</div>
+      <div class="tab-label">Proje Aç</div>
+    </a>
+    <a class="tab-item" href="news.html">
+      <div class="tab-icon">📰</div>
+      <div class="tab-label">Haberler</div>
+    </a>
+    <a class="tab-item" href="profile.html">
+      <div class="tab-icon">👤</div>
+      <div class="tab-label">Profil</div>
+    </a>
+  </div>
+</nav>
+
+</div><!-- .layout -->
+
+</body>
+</html>

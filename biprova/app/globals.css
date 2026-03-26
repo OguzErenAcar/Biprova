@@ -66,3 +66,39 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* ── Biprova Design Tokens ── */
+:root {
+  --bp-blue:        #2563eb;
+  --bp-blue-light:  #3b82f6;
+  --bp-blue-dark:   #1d4ed8;
+  --bp-blue-soft:   #eff6ff;
+  --bp-bg:          #f8faff;
+  --bp-text:        #0f172a;
+  --bp-muted:       #64748b;
+  --bp-border:      #e2e8f0;
+  --bp-green:       #22c55e;
+  --bp-red:         #ef4444;
+}
+
+/* ── Animations ── */
+@keyframes bp-float {
+  0%, 100% { transform: translateY(0px) scale(1); }
+  50%       { transform: translateY(-30px) scale(1.05); }
+}
+
+@keyframes bp-fade-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes bp-pulse-dot {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.4; }
+}
+
+.animate-bp-float          { animation: bp-float 8s ease-in-out infinite; }
+.animate-bp-float-reverse  { animation: bp-float 10s ease-in-out infinite reverse; }
+.animate-bp-float-slow     { animation: bp-float 12s ease-in-out infinite 2s; }
+.animate-bp-fade-up        { animation: bp-fade-up 0.5s ease both; }
+.animate-bp-pulse-dot      { animation: bp-pulse-dot 2s infinite; }
