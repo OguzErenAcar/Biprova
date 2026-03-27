@@ -1,4 +1,4 @@
-import { TeamBar } from "./team-bar";
+import { TeamBar } from "@/components/shared/team-bar";
 
 type ProjectStatus = "open" | "almost" | "full";
 
