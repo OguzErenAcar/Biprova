@@ -16,7 +16,7 @@ interface SidebarProps {
 const NAV_MAIN = [
   { href: "/dashboard", icon: "🏠", label: "Ana Sayfa", exact: true },
   { href: "/dashboard/teams", icon: "👥", label: "Ekipler" },
-  { href: "/dashboard/projects/new", icon: "✨", label: "Proje Oluştur" },
+  { href: "/dashboard/create-project", icon: "✨", label: "Proje Oluştur" },
   { href: "/dashboard/news", icon: "📰", label: "Haberler" },
   { href: "/dashboard/profile", icon: "👤", label: "Profilim" },
 ];
@@ -24,8 +24,7 @@ const NAV_MAIN = [
 function NavItem({
   href,
   icon,
-  label,
-  exact,
+  label, 
   isActive,
 }: {
   href: string;

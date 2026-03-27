@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>biprova — Haberler</title>
+<link rel="stylesheet" href="../design-tokens.css">
+<style>
+
+/* FILTER TABS */
+.filter-tabs { display: flex; gap: 0.4rem; background: var(--white); border: 1.5px solid var(--border); border-radius: 10px; padding: 0.3rem; }
+.ftab { font-size: 0.78rem; font-weight: 700; padding: 0.35rem 0.8rem; border-radius: 7px; cursor: pointer; color: var(--muted); transition: all 0.15s; white-space: nowrap; }
+.ftab.active { background: var(--blue); color: #fff; }
+
+/* CONTENT */
+.content { display: grid; grid-template-columns: 1fr 300px; gap: 1.5rem; padding: 1.5rem 2rem; align-items: start; }
+
+/* FEATURED / HERO NEWS */
+.featured-card {
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: 18px;
+  overflow: hidden;
+  margin-bottom: 1.25rem;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.featured-card:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(0,0,0,0.08); }
+
+.featured-cover {
+  height: 200px;
+  background: linear-gradient(135deg, #1d4ed8 0%, #6366f1 60%, #8b5cf6 100%);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 4rem;
+  position: relative;
+}
+.featured-cover-label {
+  position: absolute;
+  top: 1rem; left: 1rem;
+  background: rgba(255,255,255,0.2);
+  border: 1px solid rgba(255,255,255,0.3);
+  backdrop-filter: blur(8px);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 0.3rem 0.75rem;
+  border-radius: 100px;
+  display: flex; align-items: center; gap: 0.3rem;
+}
+
+.featured-body { padding: 1.4rem; }
+
+.featured-tag-row { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.7rem; }
+.news-tag {
+  font-size: 0.7rem; font-weight: 700;
+  padding: 0.22rem 0.6rem;
+  border-radius: 100px;
+}
+.tag-platform { background: var(--blue-soft); color: var(--blue); }
+.tag-girişim { background: var(--green-soft); color: #15803d; }
+.tag-etkinlik { background: var(--yellow-soft); color: #92400e; }
+.tag-duyuru { background: var(--purple-soft); color: var(--purple); }
+.tag-başarı { background: var(--red-soft); color: #b91c1c; }
+
+.news-date { font-size: 0.72rem; color: #94a3b8; margin-left: auto; }
+
+.featured-title {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 900;
+  font-size: 1.2rem;
+  line-height: 1.35;
+  margin-bottom: 0.5rem;
+  color: var(--text);
+}
+
+.featured-excerpt {
+  font-size: 0.86rem;
+  color: var(--muted);
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.featured-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.admin-tag {
+  display: flex; align-items: center; gap: 0.4rem;
+  font-size: 0.76rem;
+  color: var(--muted);
+  font-weight: 600;
+}
+.admin-badge {
+  background: var(--blue-soft);
+  color: var(--blue);
+  font-size: 0.65rem;
+  font-weight: 800;
+  padding: 0.15rem 0.5rem;
+  border-radius: 5px;
+}
+.read-btn {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--blue);
+  display: flex; align-items: center; gap: 0.3rem;
+  cursor: pointer;
+}
+.read-btn:hover { text-decoration: underline; }
+
+/* NEWS CARD — standard */
+.news-card {
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: 16px;
+  padding: 1.3rem;
+  margin-bottom: 0.9rem;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+.news-card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.07); }
+
+.news-thumb {
+  width: 80px; height: 80px;
+  border-radius: 12px;
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.9rem;
+}
+
+.news-body { flex: 1; }
+.news-tag-row { display: flex; align-items: center; gap: 0.4rem; margin-bottom: 0.45rem; flex-wrap: wrap; }
+.news-title {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 900;
+  font-size: 0.95rem;
+  line-height: 1.35;
+  margin-bottom: 0.3rem;
+  color: var(--text);
+}
+.news-excerpt {
+  font-size: 0.8rem;
+  color: var(--muted);
+  line-height: 1.5;
+  margin-bottom: 0.6rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.news-footer {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.news-read-time { font-size: 0.72rem; color: #94a3b8; }
+
+/* SECTION DIVIDER */
+.section-divider {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 1.5rem 0 1rem;
+}
+.section-divider-title {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 900;
+  font-size: 0.95rem;
+  color: var(--text);
+  white-space: nowrap;
+}
+.section-divider-line { flex: 1; height: 1.5px; background: var(--border); }
+
+/* WIDGET */
+.widget { background: var(--white); border: 1.5px solid var(--border); border-radius: 16px; padding: 1.3rem 1.4rem; margin-bottom: 1.25rem; }
+.widget-title { font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 0.95rem; color: var(--text); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.4rem; }
+
+/* PINNED */
+.pinned-item {
+  display: flex; align-items: flex-start; gap: 0.65rem;
+  padding: 0.7rem 0;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+}
+.pinned-item:last-child { border-bottom: none; padding-bottom: 0; }
+.pinned-item:first-child { padding-top: 0; }
+.pinned-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 0.05rem; }
+.pinned-title { font-size: 0.83rem; font-weight: 700; color: var(--text); margin-bottom: 0.1rem; line-height: 1.35; }
+.pinned-date { font-size: 0.71rem; color: #94a3b8; }
+
+/* TOPICS */
+.topic-list { display: flex; flex-direction: column; gap: 0.4rem; }
+.topic-chip {
+  display: flex; align-items: center; justify-content: space-between;
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: 9px;
+  padding: 0.5rem 0.8rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.topic-chip:hover { border-color: var(--blue); color: var(--blue); background: var(--blue-soft); }
+.topic-chip.active { border-color: var(--blue); color: var(--blue); background: var(--blue-soft); }
+.topic-count { font-size: 0.72rem; font-weight: 700; color: #94a3b8; }
+
+/* ADMIN NOTE */
+.admin-note {
+  background: var(--blue-soft);
+  border: 1.5px solid #bfdbfe;
+  border-radius: 12px;
+  padding: 1rem 1.1rem;
+  display: flex; gap: 0.7rem; align-items: flex-start;
+}
+.admin-note-icon { font-size: 1.1rem; flex-shrink: 0; }
+.admin-note-text { font-size: 0.8rem; color: #1e40af; line-height: 1.55; font-weight: 600; }
+
+/* RESPONSIVE */
+@media(max-width:900px) {
+  .content { grid-template-columns: 1fr; padding: 1rem 1rem 5rem; }
+  .right-col { display: none; }
+}
+@media(max-width:600px) {
+  .filter-tabs { display: none; }
+  .featured-cover { height: 150px; font-size: 3rem; }
+  .news-thumb { width: 64px; height: 64px; font-size: 1.5rem; }
+}
+
+/* POST DETAIL VIEW */
+.post-detail {
+  padding: 1.5rem 2rem;
+  max-width: 780px;
+  animation: fadeUp 0.2s ease;
+}
+.post-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 0.4rem 0.75rem;
+  border-radius: 8px;
+  border: 1.5px solid var(--border);
+  background: var(--white);
+  margin-bottom: 1.5rem;
+  transition: all 0.15s;
+}
+.post-back-btn:hover { border-color: var(--blue); color: var(--blue); background: var(--blue-soft); }
+
+.post-hero {
+  border-radius: 18px;
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+}
+.post-hero-cover {
+  height: 240px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 5rem;
+  position: relative;
+}
+.post-hero-label {
+  position: absolute;
+  top: 1rem; left: 1rem;
+  background: rgba(255,255,255,0.2);
+  border: 1px solid rgba(255,255,255,0.3);
+  backdrop-filter: blur(8px);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 0.3rem 0.75rem;
+  border-radius: 100px;
+}
+
+.post-meta {
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: 16px;
+  padding: 1.4rem 1.6rem;
+  margin-bottom: 1.25rem;
+}
+.post-tag-row { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.9rem; flex-wrap: wrap; }
+.post-title {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 900;
+  font-size: 1.55rem;
+  line-height: 1.3;
+  color: var(--text);
+  margin-bottom: 0.75rem;
+}
+.post-byline {
+  display: flex; align-items: center; gap: 0.75rem;
+  font-size: 0.8rem; color: var(--muted); font-weight: 600;
+}
+.post-byline-sep { color: var(--border); }
+
+.post-body {
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: 16px;
+  padding: 1.6rem 1.8rem;
+  font-size: 0.92rem;
+  line-height: 1.8;
+  color: #334155;
+}
+.post-body p { margin-bottom: 1.1rem; }
+.post-body p:last-child { margin-bottom: 0; }
+.post-body h3 {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 900;
+  font-size: 1.05rem;
+  color: var(--text);
+  margin: 1.5rem 0 0.6rem;
+}
+.post-body ul { padding-left: 1.4rem; margin-bottom: 1.1rem; }
+.post-body ul li { margin-bottom: 0.4rem; }
+.post-callout {
+  background: var(--blue-soft);
+  border-left: 4px solid var(--blue);
+  border-radius: 0 10px 10px 0;
+  padding: 0.9rem 1.1rem;
+  margin: 1.2rem 0;
+  font-size: 0.88rem;
+  color: #1e40af;
+  font-weight: 600;
+  line-height: 1.55;
+}
+
+@media(max-width:900px) {
+  .post-detail { padding: 1rem 1rem 5rem; }
+  .post-hero-cover { height: 180px; font-size: 3.5rem; }
+  .post-title { font-size: 1.25rem; }
+  .post-body { padding: 1.2rem 1.3rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="layout">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="logo">bir<span>prova</span></div>
+
+  <div class="nav-group">
+    <a class="nav-item" href="home.html"><span class="icon">🏠</span> Ana Sayfa</a>
+    <a class="nav-item" href="teams.html"><span class="icon">👥</span> Ekipler</a>
+    <a class="nav-item" href="create-project.html"><span class="icon">✨</span> Proje Oluştur</a>
+    <a class="nav-item active" href="news.html"><span class="icon">📰</span> Haberler</a>
+    <a class="nav-item" href="profile.html"><span class="icon">👤</span> Profilim</a>
+  </div>
+
+  <div class="nav-label">Genel</div>
+  <div class="nav-group">
+    <div class="nav-item"><span class="icon">🔍</span> Keşfet</div>
+    <div class="nav-item"><span class="icon">💬</span> Mesajlar <span class="nav-badge">3</span></div>
+  </div>
+
+  <div class="nav-label">Ekibim</div>
+  <div class="nav-group">
+    <div class="nav-item"><span class="icon">⚡</span> Aktif Proje</div>
+    <div class="nav-item"><span class="icon">✅</span> Tamamlananlar</div>
+  </div>
+
+  <div class="nav-label">Hesap</div>
+  <div class="nav-group">
+    <div class="nav-item"><span class="icon">⚙️</span> Ayarlar</div>
+  </div>
+
+  <div class="sidebar-footer">
+    <div class="profile-mini">
+      <div class="avatar-sm">AK</div>
+      <div class="profile-info">
+        <div class="name">Ahmet K.</div>
+        <div class="role">UI/UX Tasarımcı</div>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="topbar-title">📰 Haberler</div>
+    <div class="filter-tabs">
+      <div class="ftab active">Tümü</div>
+      <div class="ftab">Platform</div>
+      <div class="ftab">Girişim</div>
+      <div class="ftab">Etkinlik</div>
+      <div class="ftab">Duyuru</div>
+    </div>
+    <div class="topbar-actions">
+      <div class="icon-btn">🔔<div class="notif-dot"></div></div>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="content">
+    <div class="left-col">
+
+      <!-- FEATURED -->
+      <div class="featured-card" data-post-id="1">
+        <div class="featured-cover">
+          🚀
+          <div class="featured-cover-label">📌 Öne Çıkan</div>
+        </div>
+        <div class="featured-body">
+          <div class="featured-tag-row">
+            <span class="news-tag tag-platform">Platform</span>
+            <span class="news-tag tag-duyuru">Duyuru</span>
+            <span class="news-date">24 Mart 2026</span>
+          </div>
+          <div class="featured-title">biprova resmen yayında! Türkiye'nin ekip bulma platformu açıldı</div>
+          <div class="featured-excerpt">
+            Uzun beta sürecinin ardından biprova tüm kullanıcılara açıldı. LinkedIn ile saniyeler içinde giriş yap,
+            projenin için doğru ekip arkadaşlarını bul. İlk 100 üyeye özel Kurucu Rozeti kazanma fırsatını kaçırma.
+          </div>
+          <div class="featured-footer">
+            <div class="admin-tag">
+              biprova Ekibi <span class="admin-badge">Admin</span>
+            </div>
+            <div class="read-btn">Devamını Oku →</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STANDARD NEWS LIST -->
+      <div class="news-card" data-post-id="2">
+        <div class="news-thumb" style="background:var(--green-soft);">🏆</div>
+        <div class="news-body">
+          <div class="news-tag-row">
+            <span class="news-tag tag-başarı">Başarı Hikayesi</span>
+            <span class="news-date">22 Mart 2026</span>
+          </div>
+          <div class="news-title">Sokak Hayvanları Yardım ekibi 3 ayda 500 hayvana ulaştı</div>
+          <div class="news-excerpt">
+            biprova üzerinden kurulan ilk ekiplerden biri olan Sokak Hayvanları Yardım Grubu, İzmir genelinde
+            büyük bir etki yarattı. Ekip lideri Zeynep K. ile konuştuk.
+          </div>
+          <div class="news-footer">
+            <span class="admin-tag">biprova Ekibi <span class="admin-badge">Admin</span></span>
+            <span class="news-read-time">4 dk okuma</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="news-card" data-post-id="3">
+        <div class="news-thumb" style="background:var(--yellow-soft);">🎤</div>
+        <div class="news-body">
+          <div class="news-tag-row">
+            <span class="news-tag tag-etkinlik">Etkinlik</span>
+            <span class="news-date">20 Mart 2026</span>
+          </div>
+          <div class="news-title">İstanbul Buluşması — 5 Nisan'da bir aradayız</div>
+          <div class="news-excerpt">
+            biprova kullanıcılarını bir araya getireceğimiz ilk yüz yüze etkinlik İstanbul Kadıköy'de gerçekleşecek.
+            Katılım ücretsiz, kontenjan sınırlı.
+          </div>
+          <div class="news-footer">
+            <span class="admin-tag">biprova Ekibi <span class="admin-badge">Admin</span></span>
+            <span class="news-read-time">2 dk okuma</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="news-card" data-post-id="4">
+        <div class="news-thumb" style="background:var(--purple-soft);">✨</div>
+        <div class="news-body">
+          <div class="news-tag-row">
+            <span class="news-tag tag-platform">Platform</span>
+            <span class="news-date">18 Mart 2026</span>
+          </div>
+          <div class="news-title">Yeni özellik: Ekip gönderileri artık ana akışta görünüyor</div>
+          <div class="news-excerpt">
+            Kurulan ekipler artık yaptıkları çalışmaları platforma paylaşabiliyor. Sadece ekip üyeleri gönderi
+            oluşturabilir — bireysel paylaşım yok.
+          </div>
+          <div class="news-footer">
+            <span class="admin-tag">biprova Ekibi <span class="admin-badge">Admin</span></span>
+            <span class="news-read-time">2 dk okuma</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-divider">
+        <div class="section-divider-title">Girişim Haberleri</div>
+        <div class="section-divider-line"></div>
+      </div>
+
+      <div class="news-card" data-post-id="5">
+        <div class="news-thumb" style="background:#fce7f3;">💡</div>
+        <div class="news-body">
+          <div class="news-tag-row">
+            <span class="news-tag tag-girişim">Girişim</span>
+            <span class="news-date">15 Mart 2026</span>
+          </div>
+          <div class="news-title">Türkiye'de yan proje kültürü büyüyor: rakamlar ne diyor?</div>
+          <div class="news-excerpt">
+            Son araştırmalara göre Türkiye'deki çalışanların %38'i aktif olarak yan proje geliştiriyor.
+            Bu oran 2023'e göre iki katına çıktı.
+          </div>
+          <div class="news-footer">
+            <span class="admin-tag">biprova Ekibi <span class="admin-badge">Admin</span></span>
+            <span class="news-read-time">5 dk okuma</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="news-card" data-post-id="6">
+        <div class="news-thumb" style="background:#ecfdf5;">🌱</div>
+        <div class="news-body">
+          <div class="news-tag-row">
+            <span class="news-tag tag-girişim">Girişim</span>
+            <span class="news-date">12 Mart 2026</span>
+          </div>
+          <div class="news-title">Sosyal girişimcilik: Kar gütmeden büyük etki yaratmanın 5 yolu</div>
+          <div class="news-excerpt">
+            Biprova'da en çok proje açılan alan olan sosyal girişimcilik üzerine derlediğimiz ipuçları
+            ve başarılı ekiplerden öğrendiklerimiz.
+          </div>
+          <div class="news-footer">
+            <span class="admin-tag">biprova Ekibi <span class="admin-badge">Admin</span></span>
+            <span class="news-read-time">6 dk okuma</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="news-card" data-post-id="7">
+        <div class="news-thumb" style="background:#fef9c3;">🎬</div>
+        <div class="news-body">
+          <div class="news-tag-row">
+            <span class="news-tag tag-etkinlik">Etkinlik</span>
+            <span class="news-date">8 Mart 2026</span>
+          </div>
+          <div class="news-title">Ankara'da "Projen Var mı?" buluşması — 12 Nisan</div>
+          <div class="news-excerpt">
+            Ankara'daki biprova kullanıcıları için ikinci şehir buluşmasını duyuruyoruz.
+            Kendi projenle gel, ekip arkadaşı bul veya var olan bir projeye katıl.
+          </div>
+          <div class="news-footer">
+            <span class="admin-tag">biprova Ekibi <span class="admin-badge">Admin</span></span>
+            <span class="news-read-time">3 dk okuma</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT COL -->
+    <div class="right-col">
+
+      <!-- PINNED -->
+      <div class="widget">
+        <div class="widget-title">📌 Sabitlenmiş</div>
+        <div class="pinned-item" data-post-id="1">
+          <div class="pinned-icon">🚀</div>
+          <div>
+            <div class="pinned-title">biprova resmen yayında!</div>
+            <div class="pinned-date">24 Mart 2026</div>
+          </div>
+        </div>
+        <div class="pinned-item" data-post-id="3">
+          <div class="pinned-icon">🎤</div>
+          <div>
+            <div class="pinned-title">İstanbul Buluşması — 5 Nisan</div>
+            <div class="pinned-date">20 Mart 2026</div>
+          </div>
+        </div>
+        <div class="pinned-item" data-post-id="7">
+          <div class="pinned-icon">🎬</div>
+          <div>
+            <div class="pinned-title">Ankara Buluşması — 12 Nisan</div>
+            <div class="pinned-date">8 Mart 2026</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TOPICS -->
+      <div class="widget">
+        <div class="widget-title">🗂 Konular</div>
+        <div class="topic-list">
+          <div class="topic-chip active"><span>Tümü</span><span class="topic-count">12</span></div>
+          <div class="topic-chip"><span>🔵 Platform</span><span class="topic-count">4</span></div>
+          <div class="topic-chip"><span>🟢 Girişim</span><span class="topic-count">3</span></div>
+          <div class="topic-chip"><span>🟡 Etkinlik</span><span class="topic-count">3</span></div>
+          <div class="topic-chip"><span>🟣 Duyuru</span><span class="topic-count">2</span></div>
+        </div>
+      </div>
+
+      <!-- ADMIN NOTE -->
+      <div class="admin-note">
+        <div class="admin-note-icon">✍️</div>
+        <div class="admin-note-text">
+          Bu sayfadaki tüm içerikler biprova ekibi tarafından hazırlanmaktadır.
+          Kullanıcı paylaşımı bulunmaz.
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- MOBILE TAB BAR -->
+<nav class="tab-bar">
+  <div class="tab-bar-inner">
+    <a class="tab-item" href="home.html">
+      <div class="tab-icon">🏠</div>
+      <div class="tab-label">Ana Sayfa</div>
+    </a>
+    <a class="tab-item" href="teams.html">
+      <div class="tab-icon">👥</div>
+      <div class="tab-label">Ekipler</div>
+    </a>
+    <a class="tab-create" href="create-project.html">
+      <div class="tab-create-btn">＋</div>
+      <div class="tab-label">Proje Aç</div>
+    </a>
+    <a class="tab-item active" href="news.html">
+      <div class="tab-icon">📰</div>
+      <div class="tab-label">Haberler</div>
+    </a>
+    <a class="tab-item" href="profile.html">
+      <div class="tab-icon">👤</div>
+      <div class="tab-label">Profil</div>
+    </a>
+  </div>
+</nav>
+
+</div>
+
+<script>
+const POSTS = {
+  1: {
+    emoji: '🚀',
+    coverStyle: 'background: linear-gradient(135deg, #1d4ed8 0%, #6366f1 60%, #8b5cf6 100%);',
+    label: '📌 Öne Çıkan',
+    tags: '<span class="news-tag tag-platform">Platform</span><span class="news-tag tag-duyuru">Duyuru</span>',
+    date: '24 Mart 2026',
+    readTime: '3 dk okuma',
+    title: 'biprova resmen yayında! Türkiye\'nin ekip bulma platformu açıldı',
+    body: `
+      <p>Uzun süredir beklenen an geldi: <strong>biprova</strong>, bugün tüm kullanıcılara kapılarını açtı. Beta döneminde seçili kullanıcılarla test ettiğimiz platform, aldığımız geri bildirimler doğrultusunda büyük bir olgunluğa erişti.</p>
+      <h3>LinkedIn ile saniyeler içinde giriş</h3>
+      <p>biprova'ya kayıt olmak için yalnızca LinkedIn hesabın yeterli. Profil bilgilerin otomatik olarak aktarılıyor, şifre hatırlamak gerekmiyor. Bu sayede sahte hesap oluşturma riski ortadan kalkıyor ve gerçek bir topluluk inşa ediliyor.</p>
+      <div class="post-callout">💡 İlk 100 üyeye özel <strong>Kurucu Rozeti</strong> kazanma fırsatını kaçırma — bu rozet bir daha verilmeyecek.</div>
+      <h3>Nasıl çalışır?</h3>
+      <ul>
+        <li>Projen için ihtiyaç duyduğun rolleri belirle</li>
+        <li>İlanını paylaş, başvuruları incele</li>
+        <li>Tüm roller dolduğunda ekip otomatik kurulur</li>
+        <li>24 saat içinde kick-off'u başlat</li>
+      </ul>
+      <p>Türkiye'de yan proje kültürünün hızla büyüdüğü bu dönemde, biprova tam da ihtiyaç duyulan köprüyü kuruyor: fikri olan ama ekibi olmayan girişimcilerle, projeye katılmak isteyen yetenekli profesyonelleri buluşturuyor.</p>
+      <p>Bizi takip etmeye devam edin — önümüzdeki haftalarda çok daha büyük duyurularımız var!</p>
+    `
+  },
+  2: {
+    emoji: '🏆',
+    coverStyle: 'background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);',
+    label: '⭐ Başarı Hikayesi',
+    tags: '<span class="news-tag tag-başarı">Başarı Hikayesi</span>',
+    date: '22 Mart 2026',
+    readTime: '4 dk okuma',
+    title: 'Sokak Hayvanları Yardım ekibi 3 ayda 500 hayvana ulaştı',
+    body: `
+      <p>biprova üzerinden kurulan ilk ekiplerden biri olan <strong>Sokak Hayvanları Yardım Grubu</strong>, İzmir genelinde büyük bir etki yaratmayı başardı. Kuruluşundan bu yana yalnızca 3 ay geçmesine rağmen 500'den fazla sokak hayvanına mama, tıbbi bakım ve barınak desteği sağladılar.</p>
+      <h3>Zeynep K. ile konuştuk</h3>
+      <p>Ekip lideri Zeynep K., biprova'yı nasıl kullandıklarını anlattı: "Veteriner, grafik tasarımcı, sosyal medya yöneticisi ve saha koordinatörüne ihtiyacımız vardı. biprova sayesinde 4 günde ekibimizi tamamladık. Daha önce böyle bir platform olsaydı çok daha erken başlayabilirdik."</p>
+      <div class="post-callout">🐾 Ekip şu anda İzmir'in 12 farklı ilçesinde aktif olarak faaliyet gösteriyor.</div>
+      <h3>Rakamlar</h3>
+      <ul>
+        <li>500+ sokak hayvanına ulaşıldı</li>
+        <li>12 ilçede aktif nokta kuruldu</li>
+        <li>35 gönüllü koordinasyon sağlandı</li>
+        <li>3 veteriner klinik ile iş birliği yapıldı</li>
+      </ul>
+      <p>Bu başarı hikayesi, biprova'nın yalnızca ticari girişimler için değil; sosyal fayda odaklı projeler için de ne kadar güçlü bir araç olduğunu kanıtlıyor.</p>
+    `
+  },
+  3: {
+    emoji: '🎤',
+    coverStyle: 'background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);',
+    label: '📅 Etkinlik',
+    tags: '<span class="news-tag tag-etkinlik">Etkinlik</span>',
+    date: '20 Mart 2026',
+    readTime: '2 dk okuma',
+    title: 'İstanbul Buluşması — 5 Nisan\'da bir aradayız',
+    body: `
+      <p>biprova kullanıcılarını ilk kez yüz yüze bir araya getireceğimiz <strong>İstanbul Buluşması</strong>, 5 Nisan 2026 Cumartesi günü Kadıköy'de gerçekleşecek.</p>
+      <h3>Etkinlik detayları</h3>
+      <ul>
+        <li><strong>Tarih:</strong> 5 Nisan 2026, Cumartesi</li>
+        <li><strong>Saat:</strong> 14:00 – 18:00</li>
+        <li><strong>Konum:</strong> Kadıköy, İstanbul (kayıt sonrası tam adres paylaşılacak)</li>
+        <li><strong>Katılım:</strong> Ücretsiz — kontenjan sınırlı (50 kişi)</li>
+      </ul>
+      <div class="post-callout">🎟 Kayıt için profilinden "Etkinliklere Katıl" butonuna tıkla. Kontenjan dolmadan yer ayırt!</div>
+      <h3>Etkinlikte ne olacak?</h3>
+      <p>Kendi projenle gel ve ekip arkadaşı bul, var olan bir projeye katılmak için başvur ya da sadece biprova topluluğunu tanı. Kısa sunumlar, networking ve sürpriz duyurular seni bekliyor.</p>
+      <p>Bu ilk buluşmada sizi görmekten çok mutlu olacağız. Görüşmek üzere!</p>
+    `
+  },
+  4: {
+    emoji: '✨',
+    coverStyle: 'background: linear-gradient(135deg, #ede9fe 0%, #ddd6fe 100%);',
+    label: '🆕 Yeni Özellik',
+    tags: '<span class="news-tag tag-platform">Platform</span>',
+    date: '18 Mart 2026',
+    readTime: '2 dk okuma',
+    title: 'Yeni özellik: Ekip gönderileri artık ana akışta görünüyor',
+    body: `
+      <p>Uzun süredir beklenen özellik nihayet yayında: <strong>ekip gönderileri</strong> artık tüm kullanıcıların ana akışında görünüyor.</p>
+      <h3>Nasıl çalışır?</h3>
+      <p>Kurulan ekipler artık yaptıkları çalışmaları, ilerlemelerini ve kilometre taşlarını platforma paylaşabiliyor. Bu gönderiler, hem ekip üyelerinin bağını güçlendiriyor hem de toplulukla başarıları kutlama imkânı sunuyor.</p>
+      <div class="post-callout">⚠️ Önemli kural: Yalnızca ekip üyeleri gönderi oluşturabilir. Bireysel paylaşım yok — bu biprova'nın temel değerlerinden biri.</div>
+      <h3>Neden bu kararı aldık?</h3>
+      <ul>
+        <li>Ekipleri motive etmek ve ilerlemeyi görünür kılmak</li>
+        <li>Topluluğun başarı hikayelerinden ilham almasını sağlamak</li>
+        <li>Platforma canlılık katmak</li>
+      </ul>
+      <p>Bu özelliği test etmeye başlayın ve bize geri bildirim gönderin. Her hafta yeni geliştirmeler gelmeye devam edecek.</p>
+    `
+  },
+  5: {
+    emoji: '💡',
+    coverStyle: 'background: linear-gradient(135deg, #fce7f3 0%, #fbcfe8 100%);',
+    label: '📊 Araştırma',
+    tags: '<span class="news-tag tag-girişim">Girişim</span>',
+    date: '15 Mart 2026',
+    readTime: '5 dk okuma',
+    title: 'Türkiye\'de yan proje kültürü büyüyor: rakamlar ne diyor?',
+    body: `
+      <p>Son yıllarda Türkiye'de yan proje (side project) kültürünün hızla büyüdüğüne dair güçlü sinyaller alıyorduk. Artık rakamlar da bunu doğruluyor.</p>
+      <h3>Temel bulgular</h3>
+      <ul>
+        <li>Türkiye'deki çalışanların <strong>%38'i</strong> aktif olarak yan proje geliştiriyor</li>
+        <li>Bu oran 2023'e kıyasla <strong>iki katına</strong> çıktı</li>
+        <li>25-34 yaş arası profesyoneller bu trendin öncüsü</li>
+        <li>En popüler kategoriler: teknoloji, sosyal etki, eğitim</li>
+      </ul>
+      <div class="post-callout">📈 Araştırma 2.400 katılımcıyla gerçekleştirildi ve Ocak–Şubat 2026 dönemini kapsıyor.</div>
+      <h3>Neden bu kadar hızlı büyüdü?</h3>
+      <p>Uzaktan çalışma modelinin yaygınlaşması, esnek çalışma saatleri ve giderek artan girişimcilik ekosistemine erişim kolaylığı bu büyümenin arkasındaki temel etkenler olarak öne çıkıyor.</p>
+      <p>biprova tam da bu ihtiyacın merkezinde konumlanıyor: bir projesi olan ama ekibi olmayan herkese yönelik bir köprü görevi görüyor.</p>
+    `
+  },
+  6: {
+    emoji: '🌱',
+    coverStyle: 'background: linear-gradient(135deg, #ecfdf5 0%, #a7f3d0 100%);',
+    label: '📚 Rehber',
+    tags: '<span class="news-tag tag-girişim">Girişim</span>',
+    date: '12 Mart 2026',
+    readTime: '6 dk okuma',
+    title: 'Sosyal girişimcilik: Kar gütmeden büyük etki yaratmanın 5 yolu',
+    body: `
+      <p>biprova'da en çok proje açılan alan sosyal girişimcilik. Başarılı ekiplerle yaptığımız görüşmelerden derlediğimiz bu rehber, sana doğru temeli atmanda yardımcı olacak.</p>
+      <h3>1. Problemi net tanımla</h3>
+      <p>Sosyal girişimlerde en yaygın hata, çözümden başlamak. Önce etkilediğin kişileri dinle, sonra problemi somut bir cümleyle yaz.</p>
+      <h3>2. Sürdürülebilir bir model kur</h3>
+      <p>Bağış odaklı modeller kısa vadede işe yarar, ancak uzun vadeli etki için hibrit gelir modelleri daha sağlam zemin sağlar.</p>
+      <div class="post-callout">💬 "İnsanlara balık vermek yerine balık tutmayı öğret" — bu klişe sosyal girişimciliğin özünü anlatıyor.</div>
+      <h3>3. Ekibini çeşitlendir</h3>
+      <p>Farklı uzmanlık alanlarından insanları bir araya getir: saha deneyimi, teknik bilgi, iletişim becerisi ve finansal yönetim bir arada olmalı.</p>
+      <h3>4. Etkiyi ölç</h3>
+      <p>Sayılar olmadan etki hikayesi anlatılamaz. Basit ama tutarlı metrikler belirle ve düzenli olarak raporla.</p>
+      <h3>5. Toplulukla büyü</h3>
+      <p>biprova gibi platformlar, sosyal girişimciler için muazzam bir ağ kurma fırsatı sunuyor. Sadece ekip bulmakla kalmaz, mentor ve iş ortağı da bulabilirsin.</p>
+    `
+  },
+  7: {
+    emoji: '🎬',
+    coverStyle: 'background: linear-gradient(135deg, #fef9c3 0%, #fde68a 100%);',
+    label: '📅 Etkinlik',
+    tags: '<span class="news-tag tag-etkinlik">Etkinlik</span>',
+    date: '8 Mart 2026',
+    readTime: '3 dk okuma',
+    title: 'Ankara\'da "Projen Var mı?" buluşması — 12 Nisan',
+    body: `
+      <p>İstanbul buluşmasının ardından Ankara sıraya girdi! <strong>"Projen Var mı?" Ankara Buluşması</strong>, 12 Nisan 2026 Cumartesi günü Çankaya'da gerçekleşecek.</p>
+      <h3>Etkinlik detayları</h3>
+      <ul>
+        <li><strong>Tarih:</strong> 12 Nisan 2026, Cumartesi</li>
+        <li><strong>Saat:</strong> 14:00 – 18:00</li>
+        <li><strong>Konum:</strong> Çankaya, Ankara (kayıt sonrası tam adres paylaşılacak)</li>
+        <li><strong>Katılım:</strong> Ücretsiz — kontenjan sınırlı (40 kişi)</li>
+      </ul>
+      <div class="post-callout">🎟 Kontenjan İstanbul'dan daha kısa sürede dolabilir — hemen kayıt ol!</div>
+      <h3>Format</h3>
+      <p>Kendi projenle gel ve ekip arkadaşı bul. Üç dakikalık proje tanıtımları, açık networking ve biprova ekibiyle yüz yüze soru-cevap seansı seni bekliyor.</p>
+      <p>Ankara'da görüşmek üzere! 🙌</p>
+    `
+  }
+};
+
+function renderPostDetail(id) {
+  const post = POSTS[id];
+  if (!post) return;
+
+  const main = document.querySelector('.main');
+  const content = main.querySelector('.content');
+  const topbarTitle = document.querySelector('.topbar-title');
+  const filterTabs = document.querySelector('.filter-tabs');
+
+  // topbar güncelle
+  topbarTitle.textContent = '← Haber';
+  if (filterTabs) filterTabs.style.display = 'none';
+
+  const detail = document.createElement('div');
+  detail.className = 'post-detail';
+  detail.id = 'post-detail-view';
+  detail.innerHTML = `
+    <div class="post-back-btn" id="back-btn">← Haberlere Dön</div>
+    <div class="post-hero">
+      <div class="post-hero-cover" style="${post.coverStyle}">
+        ${post.emoji}
+        <div class="post-hero-label">${post.label}</div>
+      </div>
+    </div>
+    <div class="post-meta">
+      <div class="post-tag-row">
+        ${post.tags}
+        <span class="news-date" style="margin-left:auto;">${post.date}</span>
+      </div>
+      <div class="post-title">${post.title}</div>
+      <div class="post-byline">
+        <span>biprova Ekibi</span>
+        <span class="admin-badge">Admin</span>
+        <span class="post-byline-sep">·</span>
+        <span>${post.readTime}</span>
+      </div>
+    </div>
+    <div class="post-body">${post.body}</div>
+  `;
+
+  content.style.display = 'none';
+  main.appendChild(detail);
+
+  detail.querySelector('#back-btn').addEventListener('click', () => {
+    detail.remove();
+    content.style.display = '';
+    topbarTitle.textContent = '📰 Haberler';
+    if (filterTabs) filterTabs.style.display = '';
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('[data-post-id]').forEach(el => {
+    el.addEventListener('click', () => {
+      renderPostDetail(Number(el.dataset.postId));
+    });
+  });
+});
+</script>
+
+</body>
+</html>
