@@ -1,0 +1,217 @@
+'use client';
+
+import { useState, useEffect, useTransition } from 'react';
+import { UserProfile, updateProfile } from '@/features/users/actions';
+import { getCities } from '@/features/auth/actions';
+
+interface ProfileEditModalProps {
+  user: UserProfile;
+}
+
+export function ProfileEditModal({ user }: ProfileEditModalProps) {
+  const [open, setOpen] = useState(false);
+  const [name, setName] = useState(user.name);
+  const [linkedinUrl, setLinkedinUrl] = useState(user.linkedin_url ?? '');
+  const [city, setCity] = useState(user.city ?? '');
+  const [cityQuery, setCityQuery] = useState(user.city ?? '');
+  const [cityOpen, setCityOpen] = useState(false);
+  const [cities, setCities] = useState<{ id: string; name: string }[]>([]);
+  const [isRemote, setIsRemote] = useState(user.is_remote ?? false);
+  const [bio, setBio] = useState(user.bio ?? '');
+  const [formError, setFormError] = useState<string | null>(null);
+  const [isPending, startTransition] = useTransition();
+
+  useEffect(() => {
+    getCities().then(setCities);
+  }, []);
+
+  const filteredCities = cityQuery.trim()
+    ? cities.filter((c) => c.name.toLowerCase().includes(cityQuery.toLowerCase()))
+    : cities;
+
+  function handleOpen() {
+    setName(user.name);
+    setLinkedinUrl(user.linkedin_url ?? '');
+    setCity(user.city ?? '');
+    setCityQuery(user.city ?? '');
+    setIsRemote(user.is_remote ?? false);
+    setBio(user.bio ?? '');
+    setFormError(null);
+    setOpen(true);
+  }
+
+  function handleCitySelect(name: string) {
+    setCity(name);
+    setCityQuery(name);
+    setCityOpen(false);
+  }
+
+  function handleSubmit() {
+    setFormError(null);
+    startTransition(async () => {
+      const result = await updateProfile({
+        name,
+        linkedin_url: linkedinUrl.trim() || null,
+        city: city.trim() || null,
+        is_remote: isRemote,
+        bio: bio.trim() || null,
+      });
+
+      if (result.success) {
+        setOpen(false);
+      } else {
+        setFormError(result.error ?? 'Bir hata oluştu');
+      }
+    });
+  }
+
+  return (
+    <>
+      <button
+        onClick={handleOpen}
+        className="flex items-center gap-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-[0.75rem] font-bold px-2.5 py-1 rounded-[8px] transition-colors"
+      >
+        ✏️ Düzenle
+      </button>
+
+      {open && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm"
+          onClick={(e) => { if (e.target === e.currentTarget) setOpen(false); }}
+        >
+          <div className="bg-white rounded-[20px] w-full max-w-md shadow-xl p-6">
+            <div className="font-nunito font-black text-[1.1rem] text-slate-900 mb-5">
+              Profili Düzenle
+            </div>
+
+            <div className="flex flex-col gap-4">
+              {/* Name */}
+              <div>
+                <label className="text-[0.78rem] font-bold text-slate-500 mb-1 block">İsim</label>
+                <input
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="w-full border border-slate-200 rounded-[10px] px-3.5 py-2.5 text-[0.9rem] text-slate-900 outline-none focus:border-blue-500 transition-colors"
+                  placeholder="Adınız Soyadınız"
+                />
+              </div>
+
+              {/* LinkedIn URL */}
+              <div>
+                <label className="text-[0.78rem] font-bold text-slate-500 mb-1 block">
+                  LinkedIn URL
+                </label>
+                <input
+                  type="url"
+                  value={linkedinUrl}
+                  onChange={(e) => setLinkedinUrl(e.target.value)}
+                  className="w-full border border-slate-200 rounded-[10px] px-3.5 py-2.5 text-[0.9rem] text-slate-900 outline-none focus:border-blue-500 transition-colors"
+                  placeholder="https://linkedin.com/in/kullanici"
+                />
+              </div>
+
+              {/* City dropdown */}
+              <div>
+                <label className="text-[0.78rem] font-bold text-slate-500 mb-1 block">Şehir</label>
+                <div className="relative">
+                  <input
+                    type="text"
+                    value={cityQuery}
+                    onChange={(e) => {
+                      setCityQuery(e.target.value);
+                      setCity(e.target.value);
+                      setCityOpen(true);
+                    }}
+                    onFocus={() => setCityOpen(true)}
+                    onBlur={() => setTimeout(() => setCityOpen(false), 150)}
+                    className="w-full border border-slate-200 rounded-[10px] px-3.5 py-2.5 text-[0.9rem] text-slate-900 outline-none focus:border-blue-500 transition-colors"
+                    placeholder="Şehir seç veya yazın..."
+                    autoComplete="off"
+                  />
+                  {cityOpen && filteredCities.length > 0 && (
+                    <div className="absolute z-10 top-full left-0 right-0 mt-1 bg-white border border-slate-200 rounded-[10px] shadow-lg overflow-hidden">
+                      <div className="overflow-y-auto max-h-[190px]">
+                        {filteredCities.map((c) => (
+                          <button
+                            key={c.id}
+                            type="button"
+                            onMouseDown={() => handleCitySelect(c.name)}
+                            className={`w-full text-left px-3.5 py-2.5 text-[0.88rem] transition-colors ${
+                              city === c.name
+                                ? 'bg-blue-50 text-blue-700 font-semibold'
+                                : 'text-slate-800 hover:bg-slate-50'
+                            }`}
+                          >
+                            {c.name}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Remote toggle */}
+              <div className="flex items-center justify-between bg-slate-50 rounded-[10px] px-3.5 py-2.5">
+                <span className="text-[0.88rem] font-semibold text-slate-700">🌐 Remote uyumlu</span>
+                <button
+                  type="button"
+                  onClick={() => setIsRemote(!isRemote)}
+                  className={`relative w-11 h-6 rounded-full transition-colors ${isRemote ? 'bg-blue-600' : 'bg-slate-300'}`}
+                >
+                  <span
+                    className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform ${isRemote ? 'translate-x-5' : 'translate-x-0'}`}
+                  />
+                </button>
+              </div>
+
+              {/* Bio */}
+              <div>
+                <label className="text-[0.78rem] font-bold text-slate-500 mb-1 block">Bio</label>
+                <textarea
+                  value={bio}
+                  onChange={(e) => setBio(e.target.value)}
+                  rows={3}
+                  maxLength={500}
+                  className="w-full border border-slate-200 rounded-[10px] px-3.5 py-2.5 text-[0.9rem] text-slate-900 outline-none focus:border-blue-500 transition-colors resize-none"
+                  placeholder="Kendinizden kısaca bahsedin..."
+                />
+                <div className="text-[0.72rem] text-slate-400 text-right mt-0.5">
+                  {bio.length}/500
+                </div>
+              </div>
+
+              {/* Error */}
+              {formError && (
+                <div className="text-[0.82rem] text-red-600 bg-red-50 rounded-[8px] px-3.5 py-2">
+                  {formError}
+                </div>
+              )}
+            </div>
+
+            {/* Actions */}
+            <div className="flex gap-2.5 mt-6">
+              <button
+                type="button"
+                onClick={() => setOpen(false)}
+                disabled={isPending}
+                className="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-[0.88rem] py-2.5 rounded-[10px] transition-colors disabled:opacity-50"
+              >
+                İptal
+              </button>
+              <button
+                type="button"
+                onClick={handleSubmit}
+                disabled={isPending || !name.trim()}
+                className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold text-[0.88rem] py-2.5 rounded-[10px] transition-colors disabled:opacity-50"
+              >
+                {isPending ? 'Kaydediliyor...' : 'Kaydet'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+  );
+}

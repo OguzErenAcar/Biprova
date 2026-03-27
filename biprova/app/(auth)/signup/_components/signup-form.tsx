@@ -1,56 +1,36 @@
 'use client';
 
-import { useState, useTransition } from 'react';
-import { z } from 'zod';
-import { signup } from '@/features/auth/actions';
+import { useState, useEffect } from 'react';
+import { SignupStep1 } from './signup-step1';
+import { SignupStep2 } from './signup-step2';
+import { SignupStep3 } from './signup-step3';
+import { getCities } from '@/features/auth/actions';
 
-const signupSchema = z.object({
-  name:     z.string().min(2, 'Ad en az 2 karakter olmalı'),
-  email:    z.string().email('Geçerli bir e-posta gir'),
-  password: z.string().min(8, 'Şifre en az 8 karakter olmalı'),
-  linkedin: z
-    .string()
-    .url('Geçerli bir URL gir')
-    .refine((v) => v.includes('linkedin.com/in/'), 'linkedin.com/in/ içermeli'),
-});
+interface FormData {
+  name: string;
+  email: string;
+  password: string;
+  city: string;
+  is_remote: boolean;
+}
 
-type Field = 'name' | 'email' | 'password' | 'linkedin';
+const INITIAL: FormData = {
+  name: '',
+  email: '',
+  password: '',
+  city: '',
+  is_remote: false,
+};
 
 export function SignupForm() {
-  const [values, setValues]     = useState({ name: '', email: '', password: '', linkedin: '' });
-  const [errors, setErrors]     = useState<Partial<Record<Field, string>>>({});
-  const [serverError, setServerError] = useState('');
-  const [success, setSuccess]   = useState(false);
-  const [isPending, startTransition] = useTransition();
+  const [step, setStep]       = useState<1 | 2 | 3>(1);
+  const [data, setData]       = useState<FormData>(INITIAL);
+  const [success, setSuccess] = useState(false);
+  const [cities, setCities]   = useState<{ id: string; name: string }[]>([]);
 
-  function handleSubmit() {
-    const result = signupSchema.safeParse(values);
-    if (!result.success) {
-      const fieldErrors: Partial<Record<Field, string>> = {};
-      for (const issue of result.error.issues) {
-        const field = issue.path[0] as Field;
-        if (!fieldErrors[field]) fieldErrors[field] = issue.message;
-      }
-      setErrors(fieldErrors);
-      return;
-    }
-    setErrors({});
-    setServerError('');
-
-    startTransition(async () => {
-      const res = await signup({
-        name:         values.name,
-        email:        values.email,
-        password:     values.password,
-        linkedin_url: values.linkedin,
-      });
-      if ('error' in res) {
-        setServerError(res.error);
-      } else {
-        setSuccess(true);
-      }
-    });
-  }
+  useEffect(() => {
+    getCities().then(setCities);
+  }, []);
 
   if (success) {
     return (
@@ -65,95 +45,52 @@ export function SignupForm() {
   }
 
   return (
-    <div className="flex flex-col gap-4">
-      <Field
-        id="name"
-        label="Ad Soyad"
-        type="text"
-        placeholder="Ahmet Yılmaz"
-        value={values.name}
-        error={errors.name}
-        onChange={(v) => setValues({ ...values, name: v })}
-      />
-      <Field
-        id="email"
-        label="E-posta"
-        type="email"
-        placeholder="ornek@mail.com"
-        value={values.email}
-        error={errors.email}
-        onChange={(v) => setValues({ ...values, email: v })}
-      />
-      <Field
-        id="password"
-        label="Şifre"
-        type="password"
-        placeholder="En az 8 karakter"
-        value={values.password}
-        error={errors.password}
-        onChange={(v) => setValues({ ...values, password: v })}
-      />
-      <Field
-        id="linkedin"
-        label={<>LinkedIn Profil URL <span className="text-blue-600">*</span></>}
-        type="url"
-        placeholder="https://linkedin.com/in/kullanici"
-        value={values.linkedin}
-        error={errors.linkedin}
-        onChange={(v) => setValues({ ...values, linkedin: v })}
-      />
+    <div className="flex flex-col gap-5">
+      {/* Progress dots */}
+      <div className="flex items-center justify-center gap-2">
+        {([1, 2, 3] as const).map((s) => (
+          <div
+            key={s}
+            className={`rounded-full transition-all duration-300 ${
+              s === step
+                ? 'w-6 h-2 bg-blue-600'
+                : s < step
+                ? 'w-2 h-2 bg-blue-300'
+                : 'w-2 h-2 bg-slate-200'
+            }`}
+          />
+        ))}
+      </div>
 
-      {serverError && (
-        <p className="text-[0.8rem] text-red-500 text-center">{serverError}</p>
+      {step === 1 && (
+        <SignupStep1
+          initial={{ name: data.name, email: data.email, password: data.password }}
+          onNext={(values) => {
+            setData({ ...data, ...values });
+            setStep(2);
+          }}
+        />
       )}
 
-      <button
-        onClick={handleSubmit}
-        disabled={isPending}
-        className="
-          w-full mt-1 py-4 rounded-[14px]
-          bg-blue-600 hover:bg-blue-700 disabled:opacity-60
-          text-white font-nunito font-extrabold text-base
-          transition-colors cursor-pointer border-none
-        "
-      >
-        {isPending ? 'Kaydediliyor...' : 'Kayıt Ol →'}
-      </button>
-    </div>
-  );
-}
+      {step === 2 && (
+        <SignupStep2
+          initial={{ city: data.city, is_remote: data.is_remote }}
+          cities={cities}
+          onNext={(values) => {
+            setData({ ...data, ...values });
+            setStep(3);
+          }}
+          onBack={() => setStep(1)}
+        />
+      )}
 
-function Field({
-  id, label, type, placeholder, value, error, onChange,
-}: {
-  id: string;
-  label: React.ReactNode;
-  type: string;
-  placeholder: string;
-  value: string;
-  error?: string;
-  onChange: (v: string) => void;
-}) {
-  return (
-    <div className="flex flex-col gap-1.5">
-      <label htmlFor={id} className="text-[0.82rem] font-bold text-slate-900">
-        {label}
-      </label>
-      <input
-        id={id}
-        type={type}
-        placeholder={placeholder}
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        className={`
-          w-full bg-[#f8faff] border-[1.5px] rounded-[12px]
-          px-4 py-3 text-[0.95rem] font-jakarta text-slate-900
-          placeholder:text-slate-400 outline-none
-          focus:bg-white transition-colors
-          ${error ? 'border-red-400 focus:border-red-400' : 'border-slate-200 focus:border-blue-600'}
-        `}
-      />
-      {error && <p className="text-[0.75rem] text-red-500">{error}</p>}
+      {step === 3 && (
+        <SignupStep3
+          allData={data}
+          onBack={() => setStep(2)}
+          onSuccess={() => setSuccess(true)}
+        />
+      )}
     </div>
   );
 }

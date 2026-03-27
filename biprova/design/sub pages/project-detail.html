@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>biprova — Proje Detay</title>
+<link rel="stylesheet" href="../design-tokens.css">
+<style>
+
+/* ── TOPBAR ── */
+.topbar {
+  position: sticky; top: 0; z-index: 40;
+  background: rgba(241,245,249,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 0.9rem 2rem;
+  display: flex; align-items: center; gap: 0.75rem;
+}
+.back-btn {
+  display: flex; align-items: center; gap: 0.4rem;
+  font-size: 0.82rem; font-weight: 700; color: var(--muted);
+  background: var(--white); border: 1.5px solid var(--border);
+  border-radius: 9px; padding: 0.4rem 0.8rem;
+  cursor: pointer; text-decoration: none;
+  transition: border-color 0.15s, color 0.15s;
+}
+.back-btn:hover { border-color: var(--blue); color: var(--blue); }
+.topbar-title {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 900; font-size: 1rem; color: var(--text);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  flex: 1;
+}
+.topbar-actions { margin-left: auto; display: flex; gap: 0.5rem; align-items: center; }
+
+/* ── GEAR DROPDOWN (owner only) ── */
+.gear-wrap { position: relative; }
+.gear-btn {
+  width: 36px; height: 36px;
+  background: var(--white); border: 1.5px solid var(--border);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem; cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+.gear-btn:hover, .gear-wrap.open .gear-btn { border-color: var(--blue); background: var(--blue-soft); }
+
+.gear-dropdown {
+  position: absolute; top: calc(100% + 8px); right: 0;
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.1);
+  min-width: 200px; z-index: 200;
+  overflow: hidden; display: none;
+}
+.gear-wrap.open .gear-dropdown { display: block; }
+.gear-section-label {
+  font-size: 0.62rem; font-weight: 700;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--subtle); padding: 0.65rem 0.9rem 0.3rem;
+}
+.gear-item {
+  display: flex; align-items: center; gap: 0.6rem;
+  padding: 0.6rem 0.9rem;
+  font-size: 0.82rem; font-weight: 600; color: var(--text);
+  cursor: pointer; transition: background 0.12s; text-decoration: none;
+}
+.gear-item:hover { background: var(--bg); }
+.gear-item .gi-icon { font-size: 0.95rem; width: 18px; text-align: center; }
+.gear-item.danger { color: var(--red); }
+.gear-item.danger:hover { background: var(--red-soft); }
+.gear-divider { height: 1px; background: var(--border); margin: 0.3rem 0; }
+
+/* ── CONTENT GRID ── */
+.content {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 1.5rem;
+  padding: 1.75rem 2rem;
+  align-items: start;
+  max-width: 1100px;
+}
+
+/* ════════════════════════════
+   MAIN COLUMN
+════════════════════════════ */
+
+/* Project header card */
+.project-hero {
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: 18px;
+  overflow: hidden;
+  margin-bottom: 1.25rem;
+}
+.hero-banner {
+  height: 120px;
+  background: linear-gradient(135deg, #1d4ed8 0%, #6366f1 60%, #a855f7 100%);
+  display: flex; align-items: flex-end;
+  padding: 1rem 1.5rem;
+  position: relative;
+}
+.hero-emoji {
+  width: 56px; height: 56px;
+  background: var(--white);
+  border-radius: 16px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.6rem;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+  position: absolute;
+  bottom: -20px; left: 1.5rem;
+}
+.hero-body { padding: 2.2rem 1.5rem 1.5rem; }
+.hero-tags {
+  display: flex; flex-wrap: wrap; gap: 0.4rem;
+  margin-bottom: 0.85rem;
+}
+.tag {
+  font-size: 0.72rem; font-weight: 700;
+  padding: 0.25rem 0.65rem;
+  border-radius: 100px;
+}
+.tag-city    { background: var(--blue-soft); color: var(--blue); }
+.tag-cat     { background: #f1f5f9; color: var(--muted); }
+.tag-remote  { background: var(--green-soft); color: #15803d; }
+.tag-open    { background: var(--green-soft); color: #15803d; }
+.tag-almost  { background: var(--yellow-soft); color: #b45309; }
+.tag-full    { background: var(--purple-soft); color: #7c3aed; }
+
+.hero-title {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 900; font-size: 1.35rem; line-height: 1.3;
+  color: var(--text); margin-bottom: 0.75rem;
+}
+.hero-desc {
+  font-size: 0.875rem; color: var(--muted);
+  line-height: 1.65; margin-bottom: 1.1rem;
+}
+.hero-poster {
+  display: flex; align-items: center; gap: 0.55rem;
+  font-size: 0.8rem; color: var(--muted);
+}
+.poster-avatar {
+  width: 26px; height: 26px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--blue), #6366f1);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Nunito', sans-serif; font-weight: 900;
+  font-size: 0.65rem; color: #fff; flex-shrink: 0;
+}
+.poster-name { font-weight: 600; }
+.poster-name span { color: var(--text); }
+.poster-dot { color: var(--subtle); }
+
+/* ── TEAM BAR ── */
+.section-card {
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: 16px;
+  padding: 1.25rem 1.4rem;
+  margin-bottom: 1.25rem;
+}
+.section-title {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 900; font-size: 0.95rem;
+  color: var(--text); margin-bottom: 1rem;
+  display: flex; align-items: center; gap: 0.5rem;
+}
+.section-title .s-count {
+  font-size: 0.72rem; font-weight: 700;
+  background: var(--bg); color: var(--muted);
+  padding: 0.15rem 0.55rem; border-radius: 100px;
+}
+
+.team-bar-track {
+  height: 10px;
+  background: var(--bg);
+  border-radius: 100px;
+  overflow: hidden;
+  margin-bottom: 0.55rem;
+}
+.team-bar-fill {
+  height: 100%;
+  border-radius: 100px;
+  background: linear-gradient(90deg, var(--blue), #6366f1);
+  transition: width 0.5s ease;
+}
+.team-bar-meta {
+  display: flex; justify-content: space-between;
+  font-size: 0.75rem; font-weight: 600; color: var(--muted);
+}
+.team-bar-meta .filled { color: var(--blue); }
+
+/* ── ROLES ── */
+.role-item {
+  display: flex; align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--border);
+}
+.role-item:last-child { border-bottom: none; padding-bottom: 0; }
+.role-item:first-child { padding-top: 0; }
+
+.role-status-dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  flex-shrink: 0;
+}
+.role-status-dot.open   { background: var(--green); }
+.role-status-dot.filled { background: var(--blue); }
+
+.role-info { flex: 1; min-width: 0; }
+.role-name  {
+  font-size: 0.875rem; font-weight: 700; color: var(--text);
+  margin-bottom: 0.1rem;
+}
+.role-desc { font-size: 0.75rem; color: var(--muted); }
+
+/* filled by */
+.role-filled-by {
+  display: flex; align-items: center; gap: 0.45rem;
+  flex-shrink: 0;
+}
+.role-avatar {
+  width: 26px; height: 26px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Nunito', sans-serif; font-weight: 900;
+  font-size: 0.65rem; color: #fff;
+}
+.role-filled-name { font-size: 0.78rem; font-weight: 600; color: var(--text); }
+.role-filled-badge {
+  font-size: 0.65rem; font-weight: 800;
+  background: var(--blue-soft); color: var(--blue);
+  padding: 0.1rem 0.45rem; border-radius: 5px;
+}
+
+/* apply chip */
+.apply-chip {
+  font-size: 0.75rem; font-weight: 700;
+  background: var(--green-soft); color: #15803d;
+  border: 1.5px solid #bbf7d0;
+  padding: 0.3rem 0.75rem; border-radius: 100px;
+  cursor: pointer; flex-shrink: 0;
+  transition: background 0.15s;
+}
+.apply-chip:hover { background: #dcfce7; }
+
+/* ── APPLY CTA ── */
+.apply-cta {
+  background: linear-gradient(135deg, var(--blue-soft), #ede9fe);
+  border: 1.5px solid #c7d2fe;
+  border-radius: 16px;
+  padding: 1.25rem 1.4rem;
+  display: flex; align-items: center; gap: 1rem;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+}
+.apply-cta-text { flex: 1; min-width: 180px; }
+.apply-cta-text strong {
+  display: block;
+  font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 0.95rem;
+  color: var(--text); margin-bottom: 0.2rem;
+}
+.apply-cta-text span { font-size: 0.8rem; color: var(--muted); }
+.apply-btn {
+  background: var(--blue); color: #fff;
+  border: none; border-radius: 11px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 700; font-size: 0.875rem;
+  padding: 0.65rem 1.4rem;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(37,99,235,0.3);
+  transition: background 0.15s, transform 0.1s;
+  flex-shrink: 0;
+}
+.apply-btn:hover { background: var(--blue-dark); transform: translateY(-1px); }
+
+/* ── TEAM FORMED BANNER ── */
+.team-formed-banner {
+  background: linear-gradient(135deg, #14532d, #166534);
+  border-radius: 16px;
+  padding: 1.1rem 1.4rem;
+  display: flex; align-items: center; gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+.tfb-icon { font-size: 1.4rem; }
+.tfb-text strong {
+  display: block;
+  font-family: 'Nunito', sans-serif; font-weight: 900;
+  font-size: 0.95rem; color: #fff; margin-bottom: 0.1rem;
+}
+.tfb-text span { font-size: 0.78rem; color: rgba(255,255,255,0.7); }
+
+/* ── TEAM MEMBERS (horizontal scroll) ── */
+.members-scroll-wrap {
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  margin: 0 -1.4rem;
+  padding: 0 1.4rem;
+}
+.members-scroll-wrap::-webkit-scrollbar { display: none; }
+.members-scroll {
+  display: flex;
+  gap: 0.75rem;
+  padding-bottom: 0.25rem;
+  width: max-content;
+}
+.member-card {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 0.45rem;
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  padding: 0.85rem 1rem;
+  min-width: 100px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: border-color 0.15s, transform 0.15s;
+}
+.member-card:hover { border-color: var(--blue); transform: translateY(-2px); }
+.member-av {
+  width: 44px; height: 44px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Nunito', sans-serif; font-weight: 900;
+  font-size: 0.9rem; color: #fff; flex-shrink: 0;
+  position: relative;
+}
+.member-name-text {
+  font-size: 0.78rem; font-weight: 700; color: var(--text);
+  text-align: center; white-space: nowrap;
+}
+.member-role-text {
+  font-size: 0.68rem; color: var(--muted);
+  text-align: center; white-space: nowrap;
+}
+.leader-pill {
+  font-size: 0.6rem; font-weight: 800;
+  background: var(--blue-soft); color: var(--blue);
+  padding: 0.1rem 0.45rem; border-radius: 5px;
+}
+
+/* ── TEAM POSTS ── */
+.posts-tabs {
+  display: flex; gap: 0;
+  border-bottom: 1.5px solid var(--border);
+  margin-bottom: 1.25rem;
+}
+.ptab {
+  font-size: 0.82rem; font-weight: 700;
+  padding: 0.6rem 1rem;
+  cursor: pointer; color: var(--muted);
+  border-bottom: 2.5px solid transparent;
+  margin-bottom: -1.5px;
+  transition: color 0.15s, border-color 0.15s;
+}
+.ptab.active { color: var(--blue); border-color: var(--blue); }
+
+.post-card {
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  padding: 1.1rem 1.25rem;
+  margin-bottom: 0.9rem;
+  transition: transform 0.15s, box-shadow 0.15s;
+  cursor: pointer;
+}
+.post-card:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(0,0,0,0.06); }
+.post-header {
+  display: flex; align-items: center; gap: 0.65rem;
+  margin-bottom: 0.75rem;
+}
+.post-team-av {
+  width: 34px; height: 34px; border-radius: 10px;
+  background: linear-gradient(135deg, #1d4ed8, #6366f1);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem; flex-shrink: 0;
+}
+.post-team-name { font-size: 0.82rem; font-weight: 700; color: var(--text); }
+.post-date { font-size: 0.72rem; color: var(--subtle); margin-left: auto; }
+.post-body { font-size: 0.86rem; color: var(--text); line-height: 1.6; margin-bottom: 0.75rem; }
+.post-image {
+  width: 100%; height: 160px;
+  background: linear-gradient(135deg, #e0f2fe, #ddd6fe);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 2.5rem;
+  margin-bottom: 0.75rem;
+}
+.post-footer {
+  display: flex; gap: 1rem;
+  font-size: 0.75rem; font-weight: 700; color: var(--muted);
+}
+.post-stat { display: flex; align-items: center; gap: 0.3rem; cursor: pointer; }
+.post-stat:hover { color: var(--blue); }
+
+/* ════════════════════════════
+   RIGHT SIDEBAR
+════════════════════════════ */
+.sidebar-col { display: flex; flex-direction: column; gap: 1rem; }
+
+.info-card {
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: 16px;
+  padding: 1.2rem;
+}
+.info-card-title {
+  font-size: 0.72rem; font-weight: 700;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--subtle); margin-bottom: 0.85rem;
+}
+.info-row {
+  display: flex; align-items: center; gap: 0.6rem;
+  font-size: 0.82rem; color: var(--muted);
+  padding: 0.4rem 0;
+  border-bottom: 1px solid var(--border);
+}
+.info-row:last-child { border-bottom: none; padding-bottom: 0; }
+.info-row:first-of-type { padding-top: 0; }
+.info-row .ir-icon { font-size: 0.9rem; width: 18px; text-align: center; }
+.info-row .ir-val  { font-weight: 600; color: var(--text); margin-left: auto; }
+
+/* creator card */
+.creator-card {
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: 16px;
+  padding: 1.2rem;
+  text-align: center;
+}
+.creator-av {
+  width: 52px; height: 52px; border-radius: 50%;
+  background: linear-gradient(135deg, #0891b2, #22c55e);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Nunito', sans-serif; font-weight: 900;
+  font-size: 1rem; color: #fff;
+  margin: 0 auto 0.6rem;
+}
+.creator-name { font-weight: 800; font-size: 0.9rem; color: var(--text); margin-bottom: 0.15rem; }
+.creator-role { font-size: 0.75rem; color: var(--muted); margin-bottom: 0.85rem; }
+.creator-btn {
+  width: 100%;
+  background: var(--bg); border: 1.5px solid var(--border);
+  border-radius: 9px; padding: 0.5rem;
+  font-size: 0.78rem; font-weight: 700; color: var(--muted);
+  cursor: pointer; transition: border-color 0.15s, color 0.15s;
+}
+.creator-btn:hover { border-color: var(--blue); color: var(--blue); }
+
+/* action buttons */
+.action-card {
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: 16px;
+  padding: 0.85rem 1.1rem;
+  display: flex; gap: 0.5rem;
+}
+.act-btn {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; gap: 0.3rem;
+  padding: 0.6rem 0.4rem; border-radius: 10px;
+  border: 1.5px solid var(--border);
+  background: none; cursor: pointer;
+  font-size: 0.7rem; font-weight: 700; color: var(--muted);
+  transition: all 0.15s;
+}
+.act-btn .act-icon { font-size: 1.1rem; }
+.act-btn:hover { border-color: var(--blue); color: var(--blue); background: var(--blue-soft); }
+
+/* similar projects */
+.similar-card {
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+}
+.similar-item {
+  display: flex; align-items: center; gap: 0.65rem;
+  padding: 0.75rem 1.1rem;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer; transition: background 0.15s;
+  text-decoration: none;
+}
+.similar-item:last-child { border-bottom: none; }
+.similar-item:hover { background: var(--bg); }
+.sim-icon {
+  width: 32px; height: 32px; border-radius: 9px;
+  background: var(--bg);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.95rem; flex-shrink: 0;
+}
+.sim-info { flex: 1; min-width: 0; }
+.sim-title { font-size: 0.78rem; font-weight: 700; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sim-meta  { font-size: 0.68rem; color: var(--muted); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  .content { grid-template-columns: 1fr; padding: 1rem; }
+  .sidebar-col { display: none; }
+  .topbar { padding: 0.75rem 1rem; }
+}
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <!-- ═══════ SIDEBAR ═══════ -->
+  <aside class="sidebar">
+    <a href="#" class="logo">bir<span>prova</span></a>
+    <nav>
+      <a href="#" class="nav-item active"><span class="icon">🏠</span> Ana Sayfa</a>
+      <a href="#" class="nav-item"><span class="icon">👥</span> Ekipler</a>
+      <a href="#" class="nav-item"><span class="icon">✨</span> Proje Oluştur</a>
+      <a href="#" class="nav-item"><span class="icon">📰</span> Haberler</a>
+      <a href="#" class="nav-item"><span class="icon">👤</span> Profilim</a>
+    </nav>
+    <div class="nav-label">Ekibim</div>
+    <nav>
+      <a href="#" class="nav-item"><span class="icon">⚡</span> Aktif Proje</a>
+      <a href="#" class="nav-item"><span class="icon">✅</span> Tamamlananlar</a>
+    </nav>
+    <div class="nav-label">Hesap</div>
+    <nav>
+      <a href="#" class="nav-item"><span class="icon">⚙️</span> Ayarlar</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="profile-mini">
+        <div class="avatar-sm">SK</div>
+        <div class="profile-info">
+          <div class="name">Selin Koç</div>
+          <div class="role">Frontend Dev</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ═══════ MAIN ═══════ -->
+  <div class="main">
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <a href="#" class="back-btn">← Geri</a>
+      <div class="topbar-title">Sokak Hayvanları Takip Uygulaması</div>
+      <div class="topbar-actions">
+        <div class="icon-btn">🔔<span class="notif-dot"></span></div>
+
+        <!-- ⚙️ Sadece proje sahibi görür -->
+        <div class="gear-wrap" id="gearWrap">
+          <div class="gear-btn" onclick="toggleGear()" title="Proje Ayarları">⚙️</div>
+          <div class="gear-dropdown">
+            <div class="gear-section-label">Proje Yönetimi</div>
+            <a href="#" class="gear-item"><span class="gi-icon">✏️</span> Projeyi Düzenle</a>
+            <a href="#" class="gear-item"><span class="gi-icon">📋</span> Başvuruları Yönet</a>
+            <div class="gear-divider"></div>
+            <div class="gear-section-label">Roller</div>
+            <a href="#" class="gear-item"><span class="gi-icon">➕</span> Rol Ekle</a>
+            <a href="#" class="gear-item"><span class="gi-icon">✂️</span> Rol Düzenle / Sil</a>
+            <div class="gear-divider"></div>
+            <a href="#" class="gear-item danger"><span class="gi-icon">🚫</span> Projeyi Kapat</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="content">
+
+      <!-- ══ LEFT / MAIN COLUMN ══ -->
+      <div>
+
+        <!-- PROJECT HERO -->
+        <div class="project-hero">
+          <div class="hero-banner">
+            <div class="hero-emoji">📱</div>
+          </div>
+          <div class="hero-body">
+            <div class="hero-tags">
+              <span class="tag tag-city">📍 İstanbul</span>
+              <span class="tag tag-cat">Mobil Uygulama</span>
+              <span class="tag tag-remote">🌐 Remote</span>
+              <span class="tag tag-almost">⚡ 1 rol açık</span>
+            </div>
+            <div class="hero-title">Sokak Hayvanları Takip Uygulaması</div>
+            <div class="hero-desc">
+              İstanbul'daki sokak hayvanlarını harita üzerinde takip edebileceğimiz, mama bırakma noktalarını işaretleyebileceğimiz ve gönüllülerin koordineli çalışmasını sağlayacak bir mobil uygulama geliştiriyoruz. Expo + Node.js + PostgreSQL stack'ini planlıyoruz.
+            </div>
+            <div class="hero-poster">
+              <div class="poster-avatar" style="background: linear-gradient(135deg,#0891b2,#22c55e);">ZK</div>
+              <div class="poster-name"><span>Zeynep Kaya</span> tarafından paylaşıldı</div>
+              <span class="poster-dot">·</span>
+              <span style="font-size:0.78rem; color:var(--subtle);">3 gün önce</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- TEAM MEMBERS (horizontal scroll) -->
+        <div class="section-card" style="margin-bottom:1.25rem;">
+          <div class="section-title">Ekip Üyeleri</div>
+          <div class="members-scroll-wrap">
+            <div class="members-scroll">
+
+              <a href="#" class="member-card">
+                <div class="member-av" style="background:linear-gradient(135deg,#0891b2,#22c55e);">ZK</div>
+                <div class="member-name-text">Zeynep K.</div>
+                <div class="member-role-text">Proje Lideri</div>
+                <span class="leader-pill">Lider</span>
+              </a>
+
+              <a href="#" class="member-card">
+                <div class="member-av" style="background:linear-gradient(135deg,#7c3aed,#ec4899);">AY</div>
+                <div class="member-name-text">Ali Y.</div>
+                <div class="member-role-text">Backend Dev</div>
+              </a>
+
+              <a href="#" class="member-card">
+                <div class="member-av" style="background:linear-gradient(135deg,#f59e0b,#ef4444);">MB</div>
+                <div class="member-name-text">Merve B.</div>
+                <div class="member-role-text">UI Tasarımcı</div>
+              </a>
+
+              <a href="#" class="member-card" style="border-style:dashed; opacity:0.55; pointer-events:none;">
+                <div class="member-av" style="background:var(--border); color:var(--muted);">?</div>
+                <div class="member-name-text" style="color:var(--muted);">Açık Rol</div>
+                <div class="member-role-text">Frontend Dev</div>
+              </a>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- TEAM BAR -->
+        <div class="section-card">
+          <div class="section-title">Ekip İlerlemesi</div>
+          <div class="team-bar-track">
+            <div class="team-bar-fill" style="width: 75%;"></div>
+          </div>
+          <div class="team-bar-meta">
+            <span>3 / 4 rol dolu</span>
+            <span class="filled">%75</span>
+          </div>
+        </div>
+
+        <!-- ROLES -->
+        <div class="section-card">
+          <div class="section-title">
+            Roller
+            <span class="s-count">4 rol</span>
+          </div>
+
+          <!-- Filled role -->
+          <div class="role-item">
+            <div class="role-status-dot filled"></div>
+            <div class="role-info">
+              <div class="role-name">Proje Lideri</div>
+              <div class="role-desc">Koordinasyon, iletişim, roadmap</div>
+            </div>
+            <div class="role-filled-by">
+              <div class="role-avatar" style="background:linear-gradient(135deg,#0891b2,#22c55e);">ZK</div>
+              <span class="role-filled-name">Zeynep K.</span>
+              <span class="role-filled-badge">Lider</span>
+            </div>
+          </div>
+
+          <!-- Filled role -->
+          <div class="role-item">
+            <div class="role-status-dot filled"></div>
+            <div class="role-info">
+              <div class="role-name">Backend Developer</div>
+              <div class="role-desc">Node.js, PostgreSQL, REST API</div>
+            </div>
+            <div class="role-filled-by">
+              <div class="role-avatar" style="background:linear-gradient(135deg,#7c3aed,#ec4899);">AY</div>
+              <span class="role-filled-name">Ali Y.</span>
+            </div>
+          </div>
+
+          <!-- Filled role -->
+          <div class="role-item">
+            <div class="role-status-dot filled"></div>
+            <div class="role-info">
+              <div class="role-name">UI / UX Tasarımcı</div>
+              <div class="role-desc">Figma, mobil tasarım, ikonografi</div>
+            </div>
+            <div class="role-filled-by">
+              <div class="role-avatar" style="background:linear-gradient(135deg,#f59e0b,#ef4444);">MB</div>
+              <span class="role-filled-name">Merve B.</span>
+            </div>
+          </div>
+
+          <!-- OPEN role -->
+          <div class="role-item">
+            <div class="role-status-dot open"></div>
+            <div class="role-info">
+              <div class="role-name">Frontend Developer</div>
+              <div class="role-desc">React Native / Expo, harita entegrasyonu</div>
+            </div>
+            <span class="apply-chip">Başvur →</span>
+          </div>
+        </div>
+
+        <!-- APPLY CTA (only when open roles exist) -->
+        <div class="apply-cta">
+          <div class="apply-cta-text">
+            <strong>Frontend Developer arıyoruz!</strong>
+            <span>React Native deneyimin varsa ekibe katıl — 1 açık pozisyon kaldı.</span>
+          </div>
+          <button class="apply-btn">Başvur</button>
+        </div>
+
+        <!-- ─────── TEAM FORMED STATE (uncomment to preview) ─────── -->
+        <!--
+        <div class="team-formed-banner">
+          <div class="tfb-icon">🎉</div>
+          <div class="tfb-text">
+            <strong>Ekip kuruldu!</strong>
+            <span>Tüm roller doldu · 26 Mart 2026</span>
+          </div>
+        </div>
+        -->
+
+        <!-- TEAM POSTS -->
+        <div>
+          <div class="posts-tabs">
+            <div class="ptab active">Ekip Gönderileri</div>
+            <div class="ptab">Hakkında</div>
+          </div>
+
+          <!-- Post 1 -->
+          <div class="post-card">
+            <div class="post-header">
+              <div class="post-team-av">📱</div>
+              <div>
+                <div class="post-team-name">Sokak Hayvanları Takip Ekibi</div>
+              </div>
+              <div class="post-date">2 gün önce</div>
+            </div>
+            <div class="post-body">
+              İlk sprint'i tamamladık! 🎉 Harita entegrasyonu çalışıyor, mama noktası ekleme akışı tamamlandı. Backend API'ı da hazır — şimdi mobil UI'a geçiyoruz.
+            </div>
+            <div class="post-image">🗺️</div>
+            <div class="post-footer">
+              <span class="post-stat">❤️ 24</span>
+              <span class="post-stat">💬 7 yorum</span>
+              <span class="post-stat">↗️ Paylaş</span>
+            </div>
+          </div>
+
+          <!-- Post 2 -->
+          <div class="post-card">
+            <div class="post-header">
+              <div class="post-team-av">📱</div>
+              <div>
+                <div class="post-team-name">Sokak Hayvanları Takip Ekibi</div>
+              </div>
+              <div class="post-date">5 gün önce</div>
+            </div>
+            <div class="post-body">
+              Kickoff toplantımızı yaptık. Tech stack belirlendi: Expo + Node.js + PostGIS. Hedefimiz 6 haftada beta versiyonu çıkarmak. Ekibimiz harika, çok heyecanlıyız! 🚀
+            </div>
+            <div class="post-footer">
+              <span class="post-stat">❤️ 41</span>
+              <span class="post-stat">💬 12 yorum</span>
+              <span class="post-stat">↗️ Paylaş</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <!-- /main column -->
+
+      <!-- ══ RIGHT SIDEBAR ══ -->
+      <div class="sidebar-col">
+
+        <!-- Creator -->
+        <div class="creator-card">
+          <div class="creator-av">ZK</div>
+          <div class="creator-name">Zeynep Kaya</div>
+          <div class="creator-role">Proje Lideri · İstanbul</div>
+          <button class="creator-btn">LinkedIn Profilini Gör →</button>
+        </div>
+
+        <!-- Actions -->
+        <div class="action-card">
+          <button class="act-btn">
+            <span class="act-icon">🔖</span> Kaydet
+          </button>
+          <button class="act-btn">
+            <span class="act-icon">↗️</span> Paylaş
+          </button>
+          <button class="act-btn">
+            <span class="act-icon">🚩</span> Bildir
+          </button>
+        </div>
+
+        <!-- Project info -->
+        <div class="info-card">
+          <div class="info-card-title">Proje Bilgisi</div>
+          <div class="info-row">
+            <span class="ir-icon">📍</span> Şehir
+            <span class="ir-val">İstanbul</span>
+          </div>
+          <div class="info-row">
+            <span class="ir-icon">🏷️</span> Kategori
+            <span class="ir-val">Mobil Uygulama</span>
+          </div>
+          <div class="info-row">
+            <span class="ir-icon">🌐</span> Çalışma
+            <span class="ir-val">Remote</span>
+          </div>
+          <div class="info-row">
+            <span class="ir-icon">👥</span> Ekip
+            <span class="ir-val">4 kişi</span>
+          </div>
+          <div class="info-row">
+            <span class="ir-icon">📅</span> Paylaşıldı
+            <span class="ir-val">24 Mart 2026</span>
+          </div>
+        </div>
+
+        <!-- Similar projects -->
+        <div class="info-card" style="padding: 0;">
+          <div style="padding: 0.9rem 1.1rem 0.6rem; font-size:0.72rem; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--subtle);">
+            Benzer Projeler
+          </div>
+          <a href="#" class="similar-item">
+            <div class="sim-icon">🐾</div>
+            <div class="sim-info">
+              <div class="sim-title">Kedi Kolonisi Yönetim Sistemi</div>
+              <div class="sim-meta">Ankara · 2 rol açık</div>
+            </div>
+          </a>
+          <a href="#" class="similar-item">
+            <div class="sim-icon">🌱</div>
+            <div class="sim-info">
+              <div class="sim-title">Bitki Sulama Hatırlatıcı</div>
+              <div class="sim-meta">Remote · 3 rol açık</div>
+            </div>
+          </a>
+          <a href="#" class="similar-item">
+            <div class="sim-icon">♻️</div>
+            <div class="sim-info">
+              <div class="sim-title">Geri Dönüşüm Nokta Haritası</div>
+              <div class="sim-meta">İzmir · 1 rol açık</div>
+            </div>
+          </a>
+        </div>
+
+      </div>
+      <!-- /sidebar -->
+
+    </div>
+    <!-- /content -->
+  </div>
+  <!-- /main -->
+</div>
+<!-- /layout -->
+
+<!-- Mobile tab bar -->
+<nav class="tab-bar">
+  <div class="tab-bar-inner">
+    <a href="#" class="tab-item active"><span class="tab-icon">🏠</span><span class="tab-label">Ana Sayfa</span></a>
+    <a href="#" class="tab-item"><span class="tab-icon">👥</span><span class="tab-label">Ekipler</span></a>
+    <a href="#" class="tab-create">
+      <div class="tab-create-btn">✨</div>
+      <span class="tab-label">Oluştur</span>
+    </a>
+    <a href="#" class="tab-item"><span class="tab-icon">📰</span><span class="tab-label">Haberler</span></a>
+    <a href="#" class="tab-item"><span class="tab-icon">👤</span><span class="tab-label">Profil</span></a>
+  </div>
+</nav>
+
+<script>
+function toggleGear() {
+  document.getElementById('gearWrap').classList.toggle('open');
+}
+document.addEventListener('click', function(e) {
+  const wrap = document.getElementById('gearWrap');
+  if (wrap && !wrap.contains(e.target)) wrap.classList.remove('open');
+});
+</script>
+</body>
+</html>

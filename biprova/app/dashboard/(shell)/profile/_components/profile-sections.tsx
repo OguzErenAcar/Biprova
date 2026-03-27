@@ -1,5 +1,11 @@
-type ProjectStatus = "active" | "done" | "dissolved";
-type ApplicationStatus = "pending" | "accepted" | "rejected";
+import { UserProjectEntry, ProjectStatus, UserApplicationEntry, ApplicationStatus } from '@/features/users/actions';
+
+interface ProfileSectionsProps {
+  skills: { id: string; name: string }[];
+  projects: UserProjectEntry[];
+  applications: UserApplicationEntry[];
+}
+
 
 const PROJECT_STATUS_STYLES: Record<ProjectStatus, string> = {
   active:    "bg-green-50 text-green-700",
@@ -25,23 +31,21 @@ const APP_STATUS_LABELS: Record<ApplicationStatus, string> = {
   rejected: "Reddedildi",
 };
 
-const SKILLS = [
-  "Figma", "UI/UX", "Ürün Yönetimi", "Kullanıcı Araştırması",
-  "Prototipleme", "Framer", "Design System", "Tailwind CSS",
-];
 
-const PROJECTS: { emoji: string; bg: string; name: string; meta: string[]; status: ProjectStatus }[] = [
-  { emoji: "🎬", bg: "#eff6ff", name: "Kısa Film Projesi",        meta: ["📍 İstanbul", "4 kişi", "Lider: Sen"],              status: "active"    },
-  { emoji: "🌱", bg: "#dcfce7", name: "Mahalle Bostanı Girişimi", meta: ["📍 Ankara",   "3 kişi", "UI Tasarımcı rolünde"],    status: "done"      },
-  { emoji: "🎙️", bg: "#fef3c7", name: "Girişimcilik Podcast'i",   meta: ["🌐 Remote",  "4 kişi", "Lider: Sen"],              status: "done"      },
-  { emoji: "📱", bg: "#f1f5f9", name: "Yerel Haber Uygulaması",   meta: ["📍 İzmir",   "5 kişi", "Lider: Sen"],              status: "dissolved" },
-];
+const PROJECT_BG_COLORS = ["#eff6ff", "#dcfce7", "#fef3c7", "#f1f5f9", "#ede9fe", "#fee2e2"];
 
-const APPLICATIONS: { emoji: string; bg: string; project: string; role: string; status: ApplicationStatus }[] = [
-  { emoji: "🐾", bg: "#ede9fe", project: "Sokak Hayvanlarına Yardım",    role: "Rol: Fotoğrafçı · 1 gün önce başvuruldu",         status: "pending"  },
-  { emoji: "🌍", bg: "#dcfce7", project: "Çevre Farkındalık Kampanyası", role: "Rol: UI Tasarımcı · 5 gün önce başvuruldu",        status: "accepted" },
-  { emoji: "🎓", bg: "#fee2e2", project: "Online Eğitim Platformu",      role: "Rol: Ürün Tasarımcısı · 2 hafta önce başvuruldu", status: "rejected" },
-];
+const APP_BG_COLORS = ["#ede9fe", "#dcfce7", "#fef3c7", "#eff6ff", "#fee2e2", "#f1f5f9"];
+
+function formatRelativeDate(dateStr: string): string {
+  const diff = Date.now() - new Date(dateStr).getTime();
+  const days = Math.floor(diff / 86400000);
+  if (days === 0) return 'Bugün başvuruldu';
+  if (days === 1) return '1 gün önce başvuruldu';
+  if (days < 7) return `${days} gün önce başvuruldu`;
+  const weeks = Math.floor(days / 7);
+  if (weeks === 1) return '1 hafta önce başvuruldu';
+  return `${weeks} hafta önce başvuruldu`;
+}
 
 function SectionCard({ title, action, children }: { title: string; action?: string; children: React.ReactNode }) {
   return (
@@ -59,71 +63,93 @@ function SectionCard({ title, action, children }: { title: string; action?: stri
   );
 }
 
-export function ProfileSections() {
+export function ProfileSections({ skills, projects, applications }: ProfileSectionsProps) {
   return (
     <>
       {/* Skills */}
       <SectionCard title="🛠 Yetenekler" action="+ Ekle">
-        <div className="flex flex-wrap gap-2">
-          {SKILLS.map((skill) => (
-            <span
-              key={skill}
-              className="bg-blue-50 text-blue-600 text-[0.8rem] font-bold px-3 py-1.5 rounded-[8px] font-nunito"
-            >
-              {skill}
-            </span>
-          ))}
-        </div>
+        {skills.length === 0 ? (
+          <p className="text-[0.85rem] text-slate-400">Henüz yetenek eklenmemiş.</p>
+        ) : (
+          <div className="flex flex-wrap gap-2">
+            {skills.map((skill) => (
+              <span
+                key={skill.id}
+                className="bg-blue-50 text-blue-600 text-[0.8rem] font-bold px-3 py-1.5 rounded-[8px] font-nunito"
+              >
+                {skill.name}
+              </span>
+            ))}
+          </div>
+        )}
       </SectionCard>
 
       {/* Projects */}
       <SectionCard title="🗂 Projelerim" action="Tümünü gör">
-        {PROJECTS.map((p, i) => (
-          <div
-            key={p.name}
-            className={`flex gap-4 items-start py-3.5 ${i < PROJECTS.length - 1 ? "border-b border-slate-100" : ""} ${i === 0 ? "pt-0" : ""}`}
-          >
-            <div
-              className="w-10 h-10 rounded-[11px] flex items-center justify-center text-[1.15rem] flex-shrink-0"
-              style={{ background: p.bg }}
-            >
-              {p.emoji}
-            </div>
-            <div className="flex-1 min-w-0">
-              <div className="text-[0.9rem] font-bold text-slate-900 mb-1">{p.name}</div>
-              <div className="flex flex-wrap gap-2.5 text-[0.77rem] text-slate-500">
-                {p.meta.map((m) => <span key={m}>{m}</span>)}
+        {projects.length === 0 ? (
+          <p className="text-[0.85rem] text-slate-400">Henüz proje yok.</p>
+        ) : (
+          projects.map((p, i) => {
+            const bg = PROJECT_BG_COLORS[i % PROJECT_BG_COLORS.length];
+            const meta: string[] = [];
+            if (p.city) meta.push(`📍 ${p.city}`);
+            else if (p.is_remote) meta.push('🌐 Remote');
+            meta.push(p.isLeader ? 'Lider: Sen' : p.userRole ? `${p.userRole} rolünde` : 'Üye');
+
+            return (
+              <div
+                key={p.id}
+                className={`flex gap-4 items-start py-3.5 ${i < projects.length - 1 ? "border-b border-slate-100" : ""} ${i === 0 ? "pt-0" : ""}`}
+              >
+                <div
+                  className="w-10 h-10 rounded-[11px] flex items-center justify-center text-[1.15rem] flex-shrink-0"
+                  style={{ background: bg }}
+                >
+                  📁
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="text-[0.9rem] font-bold text-slate-900 mb-1">{p.title}</div>
+                  <div className="flex flex-wrap gap-2.5 text-[0.77rem] text-slate-500">
+                    {meta.map((m) => <span key={m}>{m}</span>)}
+                  </div>
+                </div>
+                <span className={`text-[0.72rem] font-bold px-2.5 py-1 rounded-[6px] whitespace-nowrap self-start mt-0.5 ${PROJECT_STATUS_STYLES[p.status as ProjectStatus] ?? PROJECT_STATUS_STYLES.active}`}>
+                  {PROJECT_STATUS_LABELS[p.status as ProjectStatus] ?? p.status}
+                </span>
               </div>
-            </div>
-            <span className={`text-[0.72rem] font-bold px-2.5 py-1 rounded-[6px] whitespace-nowrap self-start mt-0.5 ${PROJECT_STATUS_STYLES[p.status]}`}>
-              {PROJECT_STATUS_LABELS[p.status]}
-            </span>
-          </div>
-        ))}
+            );
+          })
+        )}
       </SectionCard>
 
       {/* Applications */}
       <SectionCard title="📨 Başvurularım" action="Tümünü gör">
-        {APPLICATIONS.map((a, i) => (
-          <div
-            key={a.project}
-            className={`flex gap-4 items-center py-3.5 ${i < APPLICATIONS.length - 1 ? "border-b border-slate-100" : ""} ${i === 0 ? "pt-0" : ""}`}
-          >
+        {applications.length === 0 ? (
+          <p className="text-[0.85rem] text-slate-400">Henüz başvuru yok.</p>
+        ) : (
+          applications.map((a, i) => (
             <div
-              className="w-10 h-10 rounded-[11px] flex items-center justify-center text-[1.15rem] flex-shrink-0"
-              style={{ background: a.bg }}
+              key={a.id}
+              className={`flex gap-4 items-center py-3.5 ${i < applications.length - 1 ? "border-b border-slate-100" : ""} ${i === 0 ? "pt-0" : ""}`}
             >
-              {a.emoji}
+              <div
+                className="w-10 h-10 rounded-[11px] flex items-center justify-center text-[1.15rem] flex-shrink-0"
+                style={{ background: APP_BG_COLORS[i % APP_BG_COLORS.length] }}
+              >
+                📨
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="text-[0.88rem] font-bold text-slate-900 mb-0.5">{a.projectTitle}</div>
+                <div className="text-[0.78rem] text-slate-500">
+                  {a.roleName ? `Rol: ${a.roleName} · ` : ''}{formatRelativeDate(a.createdAt)}
+                </div>
+              </div>
+              <span className={`text-[0.72rem] font-bold px-2.5 py-1 rounded-[6px] whitespace-nowrap ${APP_STATUS_STYLES[a.status]}`}>
+                {APP_STATUS_LABELS[a.status]}
+              </span>
             </div>
-            <div className="flex-1 min-w-0">
-              <div className="text-[0.88rem] font-bold text-slate-900 mb-0.5">{a.project}</div>
-              <div className="text-[0.78rem] text-slate-500">{a.role}</div>
-            </div>
-            <span className={`text-[0.72rem] font-bold px-2.5 py-1 rounded-[6px] whitespace-nowrap ${APP_STATUS_STYLES[a.status]}`}>
-              {APP_STATUS_LABELS[a.status]}
-            </span>
-          </div>
-        ))}
+          ))
+        )}
       </SectionCard>
     </>
   );

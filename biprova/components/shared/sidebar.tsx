@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { SidebarAccountActions } from "@/components/shared/sidebar-account-actions";
 
 interface SidebarUser {
   name: string;
@@ -16,7 +17,7 @@ interface SidebarProps {
 const NAV_MAIN = [
   { href: "/dashboard", icon: "🏠", label: "Ana Sayfa", exact: true },
   { href: "/dashboard/teams", icon: "👥", label: "Ekipler" },
-  { href: "/dashboard/create-project", icon: "✨", label: "Proje Oluştur" },
+  { href: "/dashboard/createProject", icon: "✨", label: "Proje Oluştur" },
   { href: "/dashboard/news", icon: "📰", label: "Haberler" },
   { href: "/dashboard/profile", icon: "👤", label: "Profilim" },
 ];
@@ -84,10 +85,10 @@ export function Sidebar({ user }: SidebarProps) {
         Ekibim
       </div>
       <nav>
-        <div className="flex items-center gap-[0.65rem] px-3 py-[0.65rem] rounded-[10px] text-[0.9rem] font-semibold text-slate-500 cursor-pointer hover:bg-slate-100 hover:text-slate-900 transition-all duration-150">
+        <Link href="/dashboard/activeProject" className="flex items-center gap-[0.65rem] px-3 py-[0.65rem] rounded-[10px] text-[0.9rem] font-semibold text-slate-500 cursor-pointer hover:bg-slate-100 hover:text-slate-900 transition-all duration-150">
           <span className="text-[1.1rem] w-5 text-center">⚡</span>
           Aktif Proje
-        </div>
+        </Link>
         <div className="flex items-center gap-[0.65rem] px-3 py-[0.65rem] rounded-[10px] text-[0.9rem] font-semibold text-slate-500 cursor-pointer hover:bg-slate-100 hover:text-slate-900 transition-all duration-150">
           <span className="text-[1.1rem] w-5 text-center">✅</span>
           Tamamlananlar
@@ -98,12 +99,7 @@ export function Sidebar({ user }: SidebarProps) {
       <div className="text-[0.68rem] font-bold tracking-[2px] uppercase text-slate-400 px-3 mt-4 mb-1.5">
         Hesap
       </div>
-      <nav>
-        <div className="flex items-center gap-[0.65rem] px-3 py-[0.65rem] rounded-[10px] text-[0.9rem] font-semibold text-slate-500 cursor-pointer hover:bg-slate-100 hover:text-slate-900 transition-all duration-150">
-          <span className="text-[1.1rem] w-5 text-center">⚙️</span>
-          Ayarlar
-        </div>
-      </nav>
+      <SidebarAccountActions />
 
       {/* Footer — kullanıcı mini profil */}
       {user && (

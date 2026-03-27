@@ -1,61 +1,52 @@
 import { ProjectCard } from "@/features/projects/components/project-card";
+import { getProjectFeed } from "@/features/projects/actions";
 
 const FILTER_TABS = ["Tümü", "Şehrim", "Remote", "Takip"];
 
-const MOCK_PROJECTS = [
-  {
-    city: "İzmir",
-    isRemote: false,
-    status: "almost" as const,
-    category: "Sosyal",
-    postedAt: "2 saat önce",
-    title: "Sokak Hayvanlarına Yardım Organizasyonu",
-    description:
-      "İzmir'de sokak hayvanlarına mama ve sağlık desteği sağlamak için küçük ama güçlü bir ekip arıyoruz.",
-    poster: { name: "Zeynep K.", initials: "ZK", color: "#22c55e" },
-    roles: [
-      { name: "Veteriner", filled: true },
-      { name: "Veteriner", filled: true },
-      { name: "Haberci", filled: false },
-      { name: "Fotoğrafçı", filled: false },
-    ],
-  },
-  {
-    city: "Remote",
-    isRemote: true,
-    status: "open" as const,
-    category: "Medya",
-    postedAt: "5 saat önce",
-    title: "Girişimcilik & Teknoloji Podcast'i",
-    description:
-      "Her hafta bir girişimciyle röportaj yapacağımız, tamamen remote çalışan bir podcast ekibi kuruyoruz.",
-    poster: { name: "Mert O.", initials: "MO", color: "#8b5cf6" },
-    roles: [
-      { name: "İçerik Üretici", filled: true },
-      { name: "Ses Editör", filled: true },
-      { name: "Grafiker", filled: false },
-      { name: "Pazarlama", filled: false },
-    ],
-  },
-  {
-    city: "Ankara",
-    isRemote: false,
-    status: "open" as const,
-    category: "Çevre",
-    postedAt: "1 gün önce",
-    title: "Mahalle Bostanı Kurma Girişimi",
-    description:
-      "Ankara Çankaya'da boş bir alanı topluluk bostanına dönüştürmek istiyoruz. Elini taşın altına koymak isteyenler burada!",
-    poster: { name: "Elif A.", initials: "EA", color: "#f59e0b" },
-    roles: [
-      { name: "Ziraat Müh.", filled: false },
-      { name: "Sosyal Hizmet", filled: false },
-      { name: "Grafiker", filled: false },
-    ],
-  },
+const POSTER_COLORS = [
+  "#3b82f6", "#8b5cf6", "#22c55e", "#f59e0b",
+  "#ef4444", "#06b6d4", "#ec4899", "#f97316",
 ];
 
-export function ProjectFeed() {
+function getPosterColor(userId: string): string {
+  let hash = 0;
+  for (let i = 0; i < userId.length; i++) {
+    hash = userId.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  return POSTER_COLORS[Math.abs(hash) % POSTER_COLORS.length];
+}
+
+function getInitials(name: string): string {
+  return name
+    .split(" ")
+    .slice(0, 2)
+    .map((n) => n[0]?.toUpperCase() ?? "")
+    .join("");
+}
+
+function getVisualStatus(roles: { is_filled: boolean }[]): "open" | "almost" | "full" {
+  if (roles.length === 0) return "open";
+  const filled = roles.filter((r) => r.is_filled).length;
+  if (filled === roles.length) return "full";
+  if (filled / roles.length >= 0.5) return "almost";
+  return "open";
+}
+
+function formatPostedAt(dateStr: string): string {
+  const diff = Date.now() - new Date(dateStr).getTime();
+  const minutes = Math.floor(diff / 60000);
+  if (minutes < 60) return `${minutes} dk önce`;
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return `${hours} saat önce`;
+  const days = Math.floor(hours / 24);
+  if (days < 7) return `${days} gün önce`;
+  const weeks = Math.floor(days / 7);
+  return `${weeks} hafta önce`;
+}
+
+export async function ProjectFeed() {
+  const projects = await getProjectFeed();
+
   return (
     <div>
       {/* Başlık + filtreler */}
@@ -80,11 +71,35 @@ export function ProjectFeed() {
       </div>
 
       {/* Proje kartları */}
-      <div className="space-y-4">
-        {MOCK_PROJECTS.map((project, i) => (
-          <ProjectCard key={i} {...project} />
-        ))}
-      </div>
+      {projects.length === 0 ? (
+        <div className="bg-white border-[1.5px] border-slate-200 rounded-2xl p-10 text-center text-slate-400 text-[0.9rem]">
+          Henüz aktif proje yok.
+        </div>
+      ) : (
+        <div className="space-y-4">
+          {projects.map((project) => (
+            <ProjectCard
+              key={project.id}
+              city={project.city ?? "Belirtilmemiş"}
+              isRemote={project.is_remote ?? false}
+              status={getVisualStatus(project.roles)}
+              category={project.category ?? "Genel"}
+              postedAt={formatPostedAt(project.created_at)}
+              title={project.title}
+              description={project.description}
+              poster={{
+                name: project.creator.name,
+                initials: getInitials(project.creator.name),
+                color: getPosterColor(project.creator.id),
+              }}
+              roles={project.roles.map((r) => ({
+                name: r.role_name,
+                filled: r.is_filled,
+              }))}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 }

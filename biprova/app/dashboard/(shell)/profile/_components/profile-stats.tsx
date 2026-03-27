@@ -1,3 +1,5 @@
+import { UserStats } from '@/features/users/actions';
+
 interface StatCardProps {
   value: number;
   label: string;
@@ -14,12 +16,12 @@ function StatCard({ value, label }: StatCardProps) {
   );
 }
 
-export function ProfileStats() {
+export function ProfileStats({ stats }: { stats: UserStats }) {
   return (
     <div className="grid grid-cols-3 gap-3 mb-5">
-      <StatCard value={5} label="Açılan Proje" />
-      <StatCard value={3} label="Kurulan Ekip" />
-      <StatCard value={2} label="Tamamlanan" />
+      <StatCard value={stats.projectCount} label="Açılan Proje" />
+      <StatCard value={stats.teamCount} label="Kurulan Ekip" />
+      <StatCard value={stats.completedCount} label="Tamamlanan" />
     </div>
   );
 }

@@ -19,7 +19,7 @@ const TAG_LABELS: Record<NewsTag, string> = {
 interface FeaturedNewsCardProps {
   title: string;
   excerpt: string;
-  tags: NewsTag[];
+  tags: readonly NewsTag[];
   date: string;
 }
 
