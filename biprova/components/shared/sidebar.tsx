@@ -63,22 +63,21 @@ function NavItem({
   );
 }
 
+const STATUS_LABEL: Record<SidebarProject["status"], { label: string; className: string }> = {
+  open:      { label: "Açık",       className: "text-blue-600 bg-blue-50" },
+  full:      { label: "Dolu",       className: "text-amber-600 bg-amber-50" },
+  active:    { label: "Aktif",      className: "text-emerald-600 bg-emerald-50" },
+  completed: { label: "Tamamlandı", className: "text-slate-400 bg-slate-100" },
+  cancelled: { label: "İptal",      className: "text-red-400 bg-red-50" },
+};
+
 function StatusBadge({ status }: { status: SidebarProject["status"] }) {
-  if (status === "active") {
-    return (
-      <span className="ml-auto text-[0.65rem] font-bold text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded-md flex-shrink-0">
-        Aktif
-      </span>
-    );
-  }
-  if (status === "completed") {
-    return (
-      <span className="ml-auto text-[0.65rem] font-bold text-slate-400 bg-slate-100 px-1.5 py-0.5 rounded-md flex-shrink-0">
-        Tamamlandı
-      </span>
-    );
-  }
-  return null;
+  const { label, className } = STATUS_LABEL[status];
+  return (
+    <span className={`ml-auto text-[0.65rem] font-bold px-1.5 py-0.5 rounded-md flex-shrink-0 ${className}`}>
+      {label}
+    </span>
+  );
 }
 
 export function Sidebar({ user, teams = [], projects = [] }: SidebarProps) {
