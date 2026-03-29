@@ -87,6 +87,45 @@ export async function getProjectFeed(
     }));
 }
 
+export interface UserTeamOption {
+  id: string;
+  name: string;
+  status: string;
+  is_leader: boolean;
+}
+
+type TeamMemberRow = {
+  teams: {
+    id: string;
+    name: string | null;
+    status: string;
+    leader_id: string | null;
+  };
+};
+
+export async function getUserTeams(): Promise<UserTeamOption[]> {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return [];
+
+  const { data } = await supabase
+    .from('team_members')
+    .select('teams!inner(id, name, status, leader_id)')
+    .eq('user_id', user.id)
+    .limit(20);
+
+  if (!data) return [];
+
+  return (data as unknown as TeamMemberRow[])
+    .filter((r) => ['active', 'pending', 'no_project'].includes(r.teams.status))
+    .map((r) => ({
+      id: r.teams.id,
+      name: r.teams.name ?? 'İsimsiz Ekip',
+      status: r.teams.status,
+      is_leader: r.teams.leader_id === user.id,
+    }));
+}
+
 export interface CategoryOption {
   id: string;
   name: string;
