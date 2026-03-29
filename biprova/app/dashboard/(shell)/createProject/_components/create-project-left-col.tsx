@@ -167,73 +167,150 @@ export function CreateProjectLeftCol({ categories, cities, skills, userTeams }: 
       </FormCard>
 
       {/* EKİBİ BELİRLE */}
-      <FormCard id="section-roles" title="👥 Ekibi Belirle" sub="Hangi becerilere sahip kişilere ihtiyacın var? En az 1, en fazla 6 rol ekleyebilirsin.">
-        {roles.length > 0 && (
-          <div id="roles-list" className="flex flex-col gap-2.5 mb-3.5">
-            {roles.map((role) => (
-              <div
-                key={role.id}
-                className="flex items-center gap-2.5 bg-slate-50 border-[1.5px] border-slate-200 rounded-[11px] px-4 py-3 transition-colors hover:border-slate-300"
-              >
-                <span className="text-slate-300 cursor-grab text-base">⠿</span>
-                <span className="flex-1 text-[0.88rem] font-bold text-slate-900">{role.name}</span>
-                <div className="flex items-center gap-1 bg-white border-[1.5px] border-slate-200 rounded-[8px] p-0.5">
-                  <button
-                    type="button"
-                    onClick={() => changeCount(role.id, -1)}
-                    className="w-6 h-6 rounded-[6px] border-none bg-transparent cursor-pointer text-[0.9rem] text-slate-400 flex items-center justify-center transition-colors hover:bg-slate-50 hover:text-slate-900"
-                  >
-                    −
-                  </button>
-                  <span className="font-nunito font-black text-[0.88rem] min-w-[18px] text-center">
-                    {role.count}
-                  </span>
-                  <button
-                    type="button"
-                    onClick={() => changeCount(role.id, 1)}
-                    className="w-6 h-6 rounded-[6px] border-none bg-transparent cursor-pointer text-[0.9rem] text-slate-400 flex items-center justify-center transition-colors hover:bg-slate-50 hover:text-slate-900"
-                  >
-                    +
-                  </button>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => removeRole(role.id)}
-                  className="w-7 h-7 rounded-[7px] border-none bg-transparent cursor-pointer text-slate-300 flex items-center justify-center text-base transition-all hover:bg-red-50 hover:text-red-500"
-                >
-                  ✕
-                </button>
-              </div>
-            ))}
+      <FormCard
+        id="section-roles"
+        title="👥 Ekibi Belirle"
+        sub={
+          teamMode === "existing"
+            ? "Projeyi mevcut ekiplerinden biriyle başlat."
+            : "Hangi becerilere sahip kişilere ihtiyacın var? En az 1, en fazla 6 rol ekleyebilirsin."
+        }
+      >
+        {/* Mod toggle — sadece ekibi olan kullanıcılara göster */}
+        {userTeams.length > 0 && (
+          <div className="flex gap-1.5 bg-slate-100 rounded-[11px] p-1 mb-1">
+            <button
+              type="button"
+              onClick={() => setTeamMode("existing")}
+              className={`flex-1 text-[0.82rem] font-bold rounded-[8px] py-2 transition-all ${
+                teamMode === "existing"
+                  ? "bg-white text-slate-900 shadow-sm"
+                  : "text-slate-400 hover:text-slate-600"
+              }`}
+            >
+              🤝 Mevcut Ekibimden
+            </button>
+            <button
+              type="button"
+              onClick={() => setTeamMode("new")}
+              className={`flex-1 text-[0.82rem] font-bold rounded-[8px] py-2 transition-all ${
+                teamMode === "new"
+                  ? "bg-white text-slate-900 shadow-sm"
+                  : "text-slate-400 hover:text-slate-600"
+              }`}
+            >
+              ✨ Sıfırdan Belirle
+            </button>
           </div>
         )}
 
-        <div id="roles-input" className="flex gap-2.5">
-          <div className="relative flex-1">
-            <select
-              className="form-input appearance-none pr-8 w-full"
-              value={selectedSkillId}
-              onChange={(e) => setSelectedSkillId(e.target.value)}
-              disabled={roles.length >= 6 || availableSkills.length === 0}
-            >
-              <option value="">
-                {availableSkills.length === 0 ? "Tüm beceriler eklendi" : "Beceri seçin..."}
-              </option>
-              {availableSkills.map((s) => (
-                <option key={s.id} value={s.id}>{s.name}</option>
-              ))}
-            </select>
-            <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-[0.8rem]">▾</span>
+        {/* Mevcut ekip seçimi */}
+        {teamMode === "existing" && (
+          <div className="flex flex-col gap-2.5">
+            {userTeams.map((team) => {
+              const isSelected = selectedTeamId === team.id;
+              return (
+                <button
+                  key={team.id}
+                  type="button"
+                  onClick={() => setSelectedTeamId(team.id)}
+                  className={`flex items-center gap-3 rounded-[11px] px-4 py-3 border-[1.5px] text-left transition-all ${
+                    isSelected
+                      ? "border-blue-600 bg-blue-50"
+                      : "border-slate-200 bg-slate-50 hover:border-slate-300"
+                  }`}
+                >
+                  <div className={`w-9 h-9 rounded-full flex items-center justify-center text-base shrink-0 ${isSelected ? "bg-blue-100" : "bg-white border-[1.5px] border-slate-200"}`}>
+                    {team.is_leader ? "👑" : "👤"}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className={`text-[0.88rem] font-bold truncate ${isSelected ? "text-blue-700" : "text-slate-900"}`}>
+                      {team.name}
+                    </div>
+                    <div className="text-[0.74rem] text-slate-400 mt-0.5">
+                      {team.is_leader ? "Lider" : "Üye"} · {TEAM_STATUS_LABEL[team.status] ?? team.status}
+                    </div>
+                  </div>
+                  <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-all ${isSelected ? "border-blue-600 bg-blue-600" : "border-slate-300"}`}>
+                    {isSelected && <span className="text-white text-[0.6rem]">✓</span>}
+                  </div>
+                </button>
+              );
+            })}
           </div>
-          <button
-            type="button"
-            onClick={addRole}
-            disabled={!selectedSkillId || roles.length >= 6}
-            className="bg-blue-50 text-blue-600 border-[1.5px] border-blue-200 rounded-[10px] font-nunito font-extrabold text-[0.86rem] px-4 py-[0.7rem] cursor-pointer whitespace-nowrap transition-all flex items-center gap-1 hover:bg-blue-600 hover:text-white hover:border-blue-600 disabled:opacity-40 disabled:cursor-not-allowed"
-          >
-            ＋ Ekle
-          </button>
-        </div>
+        )}
+
+        {/* Sıfırdan rol ekleme */}
+        {teamMode === "new" && (
+          <>
+            {roles.length > 0 && (
+              <div id="roles-list" className="flex flex-col gap-2.5 mb-3.5">
+                {roles.map((role) => (
+                  <div
+                    key={role.id}
+                    className="flex items-center gap-2.5 bg-slate-50 border-[1.5px] border-slate-200 rounded-[11px] px-4 py-3 transition-colors hover:border-slate-300"
+                  >
+                    <span className="text-slate-300 cursor-grab text-base">⠿</span>
+                    <span className="flex-1 text-[0.88rem] font-bold text-slate-900">{role.name}</span>
+                    <div className="flex items-center gap-1 bg-white border-[1.5px] border-slate-200 rounded-[8px] p-0.5">
+                      <button
+                        type="button"
+                        onClick={() => changeCount(role.id, -1)}
+                        className="w-6 h-6 rounded-[6px] border-none bg-transparent cursor-pointer text-[0.9rem] text-slate-400 flex items-center justify-center transition-colors hover:bg-slate-50 hover:text-slate-900"
+                      >
+                        −
+                      </button>
+                      <span className="font-nunito font-black text-[0.88rem] min-w-[18px] text-center">
+                        {role.count}
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => changeCount(role.id, 1)}
+                        className="w-6 h-6 rounded-[6px] border-none bg-transparent cursor-pointer text-[0.9rem] text-slate-400 flex items-center justify-center transition-colors hover:bg-slate-50 hover:text-slate-900"
+                      >
+                        +
+                      </button>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => removeRole(role.id)}
+                      className="w-7 h-7 rounded-[7px] border-none bg-transparent cursor-pointer text-slate-300 flex items-center justify-center text-base transition-all hover:bg-red-50 hover:text-red-500"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            <div id="roles-input" className="flex gap-2.5">
+              <div className="relative flex-1">
+                <select
+                  className="form-input appearance-none pr-8 w-full"
+                  value={selectedSkillId}
+                  onChange={(e) => setSelectedSkillId(e.target.value)}
+                  disabled={roles.length >= 6 || availableSkills.length === 0}
+                >
+                  <option value="">
+                    {availableSkills.length === 0 ? "Tüm beceriler eklendi" : "Beceri seçin..."}
+                  </option>
+                  {availableSkills.map((s) => (
+                    <option key={s.id} value={s.id}>{s.name}</option>
+                  ))}
+                </select>
+                <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-[0.8rem]">▾</span>
+              </div>
+              <button
+                type="button"
+                onClick={addRole}
+                disabled={!selectedSkillId || roles.length >= 6}
+                className="bg-blue-50 text-blue-600 border-[1.5px] border-blue-200 rounded-[10px] font-nunito font-extrabold text-[0.86rem] px-4 py-[0.7rem] cursor-pointer whitespace-nowrap transition-all flex items-center gap-1 hover:bg-blue-600 hover:text-white hover:border-blue-600 disabled:opacity-40 disabled:cursor-not-allowed"
+              >
+                ＋ Ekle
+              </button>
+            </div>
+          </>
+        )}
       </FormCard>
 
       {/* ZAMAN DİLİMİ */}
