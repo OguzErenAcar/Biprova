@@ -21,7 +21,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
         .from("projects")
         .select("id, title, status")
         .eq("creator_id", user.id)
-        .in("status", ["active", "completed"])
+        .in("status", ["open", "full", "active", "completed"])
         .order("created_at", { ascending: false })
         .limit(10),
     ]);
