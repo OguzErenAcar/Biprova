@@ -50,7 +50,7 @@ function RoleRow({ name, initials, gradient, person, last }: RoleRowProps) {
 
 export function ProjectDetailPanel() {
   return (
-    <div className="flex-1 overflow-y-auto px-[1.4rem] py-[1.2rem] flex flex-col gap-4">
+    <div id="project-detail-panel" className="flex-1 overflow-y-auto px-[1.4rem] py-[1.2rem] flex flex-col gap-4">
       <div className="bg-white border-[1.5px] border-slate-200 rounded-[14px] p-[1.1rem_1.25rem]">
         <div className="font-nunito font-black text-[0.9rem] text-slate-900 mb-[0.85rem] flex items-center gap-[0.4rem]">
           📋 Proje Bilgisi

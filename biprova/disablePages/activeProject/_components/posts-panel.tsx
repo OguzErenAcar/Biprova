@@ -31,7 +31,7 @@ function PostCard({ date, body, likes, comments }: PostCardProps) {
 
 export function PostsPanel() {
   return (
-    <div className="flex-1 flex flex-col overflow-hidden">
+    <div id="posts-panel" className="flex-1 flex flex-col overflow-hidden">
       <div className="bg-white border-b border-slate-200 px-[1.4rem] py-[0.85rem] flex items-center justify-between shrink-0">
         <div className="font-nunito font-black text-[0.95rem]">Ekip Gönderileri</div>
         <button className="bg-blue-600 text-white border-none rounded-[9px] py-[0.42rem] px-[0.85rem] font-['Plus_Jakarta_Sans'] font-bold text-[0.78rem] cursor-pointer flex items-center gap-[0.3rem] hover:bg-blue-700 transition-colors">

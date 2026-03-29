@@ -25,7 +25,7 @@ export function ProfileHero({ user, isOwner = false }: ProfileHeroProps) {
   const initials = getInitials(user.name);
 
   return (
-    <div className="bg-white border border-slate-200 rounded-[16px] overflow-hidden mb-5">
+    <div id="profile-hero" className="bg-white border border-slate-200 rounded-[16px] overflow-hidden mb-5">
       {/* Cover */}
       <div className="h-[100px] bg-gradient-to-br from-blue-800 via-indigo-500 to-violet-500" />
 

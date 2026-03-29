@@ -70,7 +70,7 @@ export async function TeamPostFeed() {
   const posts = await getTeamPostFeed();
 
   return (
-    <div>
+    <div id="team-post-feed">
       {/* Başlık + filtreler */}
       <div className="flex items-center justify-between mb-4">
         <h2 className="font-nunito font-black text-[1.1rem] text-slate-900">
@@ -128,6 +128,7 @@ export async function TeamPostFeed() {
             return (
               <TeamPostCard
                 key={post.id}
+                postId={post.id}
                 teamEmoji={teamEmoji}
                 teamAvatarBg={teamAvatarBg}
                 teamName={post.team.projectTitle}

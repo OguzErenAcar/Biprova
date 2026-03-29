@@ -19,7 +19,7 @@ export function TabBar() {
   }
 
   return (
-    <nav className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 z-[100] pt-[0.4rem] pb-[calc(0.4rem+env(safe-area-inset-bottom))]">
+    <nav id="dashboard-tab-bar" className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 z-[100] pt-[0.4rem] pb-[calc(0.4rem+env(safe-area-inset-bottom))]">
       <div className="flex justify-around items-end">
         {TABS.map(({ href, icon, label, exact, isCreate }) => {
           if (isCreate) {

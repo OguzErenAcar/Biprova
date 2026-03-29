@@ -7,7 +7,7 @@ const AVATARS = [
 
 export function ActiveTeamBanner() {
   return (
-    <div className="bg-gradient-to-br from-blue-700 to-indigo-500 rounded-2xl px-[1.6rem] py-[1.4rem] mb-6 flex items-center justify-between gap-4 flex-wrap">
+    <div id="active-team-banner" className="bg-gradient-to-br from-blue-700 to-indigo-500 rounded-2xl px-[1.6rem] py-[1.4rem] mb-6 flex items-center justify-between gap-4 flex-wrap">
       <div className="flex items-center gap-4">
         <div className="w-11 h-11 bg-white/15 rounded-xl flex items-center justify-center text-[1.3rem] flex-shrink-0">
           🎬

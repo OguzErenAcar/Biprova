@@ -18,7 +18,7 @@ function StatCard({ value, label }: StatCardProps) {
 
 export function ProfileStats({ stats }: { stats: UserStats }) {
   return (
-    <div className="grid grid-cols-3 gap-3 mb-5">
+    <div id="profile-stats" className="grid grid-cols-3 gap-3 mb-5">
       <StatCard value={stats.projectCount} label="Açılan Proje" />
       <StatCard value={stats.teamCount} label="Kurulan Ekip" />
       <StatCard value={stats.completedCount} label="Tamamlanan" />

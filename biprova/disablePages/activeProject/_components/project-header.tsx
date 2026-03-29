@@ -34,7 +34,7 @@ export function ProjectHeader() {
   const [gearOpen, setGearOpen] = useState(false);
 
   return (
-    <header className="bg-white border-b border-slate-200 px-5 py-[0.8rem] flex items-center gap-[0.85rem] shrink-0">
+    <header id="active-project-header" className="bg-white border-b border-slate-200 px-5 py-[0.8rem] flex items-center gap-[0.85rem] shrink-0">
       <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-indigo-500 rounded-[11px] flex items-center justify-center text-[1.15rem] shrink-0">
         📱
       </div>

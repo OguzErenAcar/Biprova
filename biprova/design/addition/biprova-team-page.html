@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>biprova — Ekip Sayfası</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f1f5f9;
+  --white: #ffffff;
+  --border: #e2e8f0;
+  --text: #0f172a;
+  --muted: #64748b;
+  --blue: #2563eb;
+  --blue-soft: #eff6ff;
+  --blue-mid: #bfdbfe;
+  --green: #22c55e;
+  --green-soft: #dcfce7;
+  --yellow: #f59e0b;
+  --yellow-soft: #fef3c7;
+  --red: #ef4444;
+  --red-soft: #fee2e2;
+  --purple: #8b5cf6;
+  --purple-soft: #ede9fe;
+  --orange: #f97316;
+  --orange-soft: #fff7ed;
+  --sidebar: 220px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+
+/* SIDEBAR */
+.sidebar{width:var(--sidebar);background:var(--white);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:50;padding:1.2rem 0.8rem;}
+.logo{font-family:'Nunito',sans-serif;font-weight:900;font-size:1.2rem;color:var(--blue);padding:0 0.5rem;margin-bottom:1.5rem;}
+.logo span{color:var(--text);}
+.nav-item{display:flex;align-items:center;gap:0.6rem;padding:0.6rem 0.75rem;border-radius:10px;font-size:0.85rem;font-weight:600;color:var(--muted);cursor:pointer;transition:all 0.15s;margin-bottom:0.2rem;}
+.nav-item:hover{background:var(--bg);color:var(--text);}
+.nav-item.active{background:var(--blue-soft);color:var(--blue);}
+.nav-badge{margin-left:auto;background:var(--red);color:#fff;font-size:0.62rem;font-weight:800;padding:0.1rem 0.4rem;border-radius:100px;}
+.nav-label{font-size:0.65rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#94a3b8;padding:0.8rem 0.75rem 0.3rem;}
+.sidebar-footer{margin-top:auto;border-top:1px solid var(--border);padding-top:0.8rem;}
+.profile-mini{display:flex;align-items:center;gap:0.6rem;padding:0.5rem;border-radius:10px;cursor:pointer;transition:background 0.15s;}
+.profile-mini:hover{background:var(--bg);}
+.av{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Nunito',sans-serif;font-weight:900;font-size:0.75rem;color:#fff;flex-shrink:0;}
+
+/* MAIN */
+.main{margin-left:var(--sidebar);flex:1;}
+
+/* TOPBAR */
+.topbar{position:sticky;top:0;z-index:40;background:rgba(241,245,249,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0.8rem 1.5rem;display:flex;align-items:center;gap:0.8rem;}
+.back{font-size:0.82rem;font-weight:700;color:var(--muted);cursor:pointer;transition:color 0.15s;}
+.back:hover{color:var(--blue);}
+.tb-title{font-family:'Nunito',sans-serif;font-weight:900;font-size:1rem;}
+.tb-badge{font-size:0.7rem;font-weight:700;padding:0.2rem 0.6rem;border-radius:100px;}
+.tb-actions{margin-left:auto;display:flex;gap:0.5rem;align-items:center;}
+.icon-btn{width:34px;height:34px;border-radius:9px;background:var(--white);border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:0.9rem;cursor:pointer;transition:border-color 0.15s;}
+.icon-btn:hover{border-color:var(--blue);}
+
+/* TABS */
+.tabs{display:flex;border-bottom:1px solid var(--border);background:var(--white);padding:0 1.5rem;position:sticky;top:53px;z-index:39;}
+.tab{font-size:0.82rem;font-weight:700;padding:0.75rem 1rem;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;transition:all 0.15s;white-space:nowrap;display:flex;align-items:center;gap:0.4rem;}
+.tab:hover{color:var(--text);}
+.tab.active{color:var(--blue);border-bottom-color:var(--blue);}
+
+/* CONTENT */
+.content{padding:1.5rem;}
+.panel{display:none;}
+.panel.active{display:block;}
+
+/* EKİP HERO */
+.team-hero{background:var(--white);border:1.5px solid var(--border);border-radius:20px;overflow:hidden;margin-bottom:1.2rem;}
+.hero-cover{height:80px;background:linear-gradient(135deg,#1e3a8a,#4f46e5,#7c3aed);position:relative;}
+.hero-cover::after{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Ccircle cx='20' cy='20' r='2'/%3E%3C/g%3E%3C/svg%3E");}
+.hero-body{padding:0 1.5rem 1.5rem;}
+.hero-avatar{width:64px;height:64px;border-radius:16px;background:linear-gradient(135deg,#3b82f6,#8b5cf6);display:flex;align-items:center;justify-content:center;font-family:'Nunito',sans-serif;font-weight:900;font-size:1.3rem;color:#fff;border:3px solid var(--white);margin-top:-32px;margin-bottom:0.8rem;}
+.hero-info{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:0.8rem;}
+.hero-name{font-family:'Nunito',sans-serif;font-size:1.3rem;font-weight:900;margin-bottom:0.2rem;}
+.hero-meta{display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap;}
+.meta-chip{font-size:0.72rem;font-weight:700;padding:0.22rem 0.65rem;border-radius:100px;border:1.5px solid var(--border);}
+.hero-actions{display:flex;gap:0.6rem;flex-wrap:wrap;}
+.btn{font-family:'Nunito',sans-serif;font-weight:800;font-size:0.82rem;padding:0.5rem 1.1rem;border-radius:9px;cursor:pointer;border:none;transition:all 0.15s;}
+.btn-primary{background:var(--blue);color:#fff;box-shadow:0 3px 10px rgba(37,99,235,0.25);}
+.btn-primary:hover{background:#1d4ed8;}
+.btn-secondary{background:var(--white);color:var(--text);border:1.5px solid var(--border);}
+.btn-secondary:hover{border-color:var(--blue);color:var(--blue);}
+.btn-danger{background:var(--red-soft);color:var(--red);border:1.5px solid #fca5a5;}
+.btn-danger:hover{background:#fee2e2;}
+
+/* GRID */
+.grid2{display:grid;grid-template-columns:1fr 300px;gap:1.2rem;align-items:start;}
+
+/* CARD */
+.card{background:var(--white);border:1.5px solid var(--border);border-radius:16px;overflow:hidden;margin-bottom:1.2rem;}
+.card-header{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.2rem;border-bottom:1px solid var(--border);}
+.card-title{font-family:'Nunito',sans-serif;font-size:0.9rem;font-weight:900;}
+.card-action{font-size:0.75rem;font-weight:700;color:var(--blue);cursor:pointer;background:none;border:none;}
+.card-body{padding:1rem 1.2rem;}
+
+/* ÜYELER */
+.member{display:flex;align-items:center;gap:0.8rem;padding:0.7rem 0;border-bottom:1px solid var(--border);}
+.member:last-child{border-bottom:none;}
+.member-av{position:relative;flex-shrink:0;}
+.member-av .av{width:38px;height:38px;font-size:0.8rem;}
+.online{position:absolute;bottom:0;right:0;width:9px;height:9px;border-radius:50%;border:1.5px solid var(--white);}
+.member-info{flex:1;}
+.member-name{font-size:0.86rem;font-weight:700;display:flex;align-items:center;gap:0.4rem;}
+.member-role-text{font-size:0.72rem;color:var(--muted);}
+.member-badges{display:flex;gap:0.3rem;align-items:center;flex-wrap:wrap;margin-top:0.2rem;}
+.badge-pill{font-size:0.62rem;font-weight:800;padding:0.12rem 0.45rem;border-radius:100px;}
+.member-actions{display:flex;gap:0.4rem;opacity:0;transition:opacity 0.15s;}
+.member:hover .member-actions{opacity:1;}
+.ma-btn{font-size:0.7rem;font-weight:700;padding:0.25rem 0.6rem;border-radius:6px;cursor:pointer;border:none;transition:background 0.15s;}
+
+/* PROJELER */
+.proj-item{display:flex;align-items:center;gap:0.8rem;padding:0.7rem 0.5rem;border-radius:10px;cursor:pointer;transition:background 0.15s;border-bottom:1px solid var(--border);}
+.proj-item:last-child{border-bottom:none;}
+.proj-item:hover{background:var(--bg);}
+.proj-icon{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;}
+.proj-info{flex:1;}
+.proj-name{font-size:0.86rem;font-weight:700;}
+.proj-meta{font-size:0.72rem;color:var(--muted);margin-top:0.1rem;}
+.proj-status{font-size:0.68rem;font-weight:800;padding:0.18rem 0.5rem;border-radius:100px;}
+
+/* AKTİVİTE */
+.activity-item{display:flex;gap:0.8rem;padding:0.7rem 0;border-bottom:1px solid var(--border);align-items:flex-start;}
+.activity-item:last-child{border-bottom:none;}
+.act-icon{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:0.85rem;flex-shrink:0;}
+.act-text{flex:1;font-size:0.82rem;line-height:1.45;}
+.act-text strong{font-weight:700;}
+.act-time{font-size:0.7rem;color:#94a3b8;white-space:nowrap;margin-top:1px;}
+
+/* STATS */
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:0.8rem;margin-bottom:1.2rem;}
+.stat-card{background:var(--white);border:1.5px solid var(--border);border-radius:14px;padding:1rem;text-align:center;}
+.stat-num{font-family:'Nunito',sans-serif;font-weight:900;font-size:1.5rem;color:var(--blue);}
+.stat-label{font-size:0.72rem;color:var(--muted);margin-top:0.2rem;font-weight:600;}
+
+/* MODAL */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.35);z-index:200;align-items:center;justify-content:center;padding:1rem;}
+.overlay.open{display:flex;}
+.modal{background:var(--white);border-radius:18px;padding:1.8rem;width:100%;max-width:420px;box-shadow:0 20px 50px rgba(0,0,0,0.12);}
+.modal h3{font-family:'Nunito',sans-serif;font-weight:900;font-size:1.1rem;margin-bottom:0.3rem;}
+.modal p{font-size:0.84rem;color:var(--muted);margin-bottom:1.3rem;}
+.modal-actions{display:flex;gap:0.6rem;margin-top:1.2rem;}
+.modal-actions .btn{flex:1;padding:0.7rem;}
+
+/* NO PROJECT BANNER */
+.no-proj-banner{background:var(--orange-soft);border:1.5px solid #fed7aa;border-radius:14px;padding:1rem 1.2rem;display:flex;align-items:center;gap:0.8rem;margin-bottom:1.2rem;}
+.npb-icon{font-size:1.4rem;}
+.npb-title{font-family:'Nunito',sans-serif;font-weight:800;font-size:0.9rem;color:#9a3412;}
+.npb-sub{font-size:0.76rem;color:#c2410c;}
+.npb-btn{margin-left:auto;background:#fff;border:1.5px solid #fed7aa;border-radius:8px;font-family:'Nunito',sans-serif;font-weight:800;font-size:0.78rem;color:#c2410c;padding:0.38rem 0.9rem;cursor:pointer;white-space:nowrap;}
+
+@media(max-width:900px){.sidebar{transform:translateX(-100%)}.main{margin-left:0}.grid2{grid-template-columns:1fr}}
+@media(max-width:600px){.content{padding:1rem}.stats-row{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="logo">bi<span>prova</span></div>
+  <div class="nav-item"><span>🏠</span> Ana Sayfa</div>
+  <div class="nav-item"><span>📋</span> Projelerim</div>
+  <div class="nav-item active"><span>👥</span> Ekibim</div>
+  <div class="nav-item"><span>🔍</span> Keşfet</div>
+  <div class="nav-item"><span>💬</span> Mesajlar <span class="nav-badge">3</span></div>
+  <div class="nav-label">Hesap</div>
+  <div class="nav-item"><span>👤</span> Profilim</div>
+  <div class="nav-item"><span>⚙️</span> Ayarlar</div>
+  <div class="sidebar-footer">
+    <div class="profile-mini">
+      <div class="av" style="background:linear-gradient(135deg,#2563eb,#6366f1)">AK</div>
+      <div>
+        <div style="font-size:0.82rem;font-weight:700">Ahmet K.</div>
+        <div style="font-size:0.7rem;color:var(--muted)">UI/UX Tasarımcı</div>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <span class="back">← Geri</span>
+    <span class="tb-title">Ekip Detayı</span>
+    <div class="tb-actions">
+      <div class="icon-btn">🔔</div>
+      <button class="btn btn-danger" onclick="openModal('leave')">Ekipten Ayrıl</button>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <div class="tab active" onclick="switchTab('genel',this)">👥 Genel</div>
+    <div class="tab" onclick="switchTab('projeler',this)">📌 Projeler</div>
+    <div class="tab" onclick="switchTab('aktivite',this)">📊 Aktivite</div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <!-- GENEL PANELİ -->
+    <div class="panel active" id="panel-genel">
+
+      <!-- Proje yok banner -->
+      <div class="no-proj-banner" id="no-proj-banner">
+        <span class="npb-icon">⚠️</span>
+        <div>
+          <div class="npb-title">Aktif proje yok</div>
+          <div class="npb-sub">Ekibinizin şu an aktif bir projesi bulunmuyor. Yeni bir proje açın!</div>
+        </div>
+        <button class="npb-btn" onclick="openModal('newproj')">+ Proje Aç</button>
+      </div>
+
+      <!-- HERO -->
+      <div class="team-hero">
+        <div class="hero-cover"></div>
+        <div class="hero-body">
+          <div class="hero-avatar">KF</div>
+          <div class="hero-info">
+            <div>
+              <div class="hero-name">Kısa Film Ekibi</div>
+              <div class="hero-meta">
+                <span class="meta-chip" style="background:var(--green-soft);color:#15803d;border-color:#bbf7d0">● Aktif</span>
+                <span class="meta-chip">📍 İstanbul</span>
+                <span class="meta-chip">4 üye</span>
+                <span class="meta-chip">3 proje tamamlandı</span>
+                <span class="meta-chip">12 gün önce kuruldu</span>
+              </div>
+            </div>
+            <div class="hero-actions">
+              <button class="btn btn-secondary" onclick="openModal('settings')">⚙️ Ekip Ayarları</button>
+              <button class="btn btn-primary" onclick="openModal('newproj')">+ Yeni Proje Aç</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STATS -->
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-num">3</div>
+          <div class="stat-label">Tamamlanan Proje</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">4</div>
+          <div class="stat-label">Ekip Üyesi</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">12</div>
+          <div class="stat-label">Aktif Gün</div>
+        </div>
+      </div>
+
+      <div class="grid2">
+        <div>
+
+          <!-- ÜYELER -->
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">👥 Üyeler</span>
+              <button class="card-action" onclick="openModal('invite')">+ Üye Davet Et</button>
+            </div>
+            <div class="card-body">
+
+              <!-- Lider -->
+              <div class="member">
+                <div class="member-av">
+                  <div class="av" style="background:#8b5cf6">ME</div>
+                  <div class="online" style="background:var(--green)"></div>
+                </div>
+                <div class="member-info">
+                  <div class="member-name">
+                    Mert E.
+                    <span style="font-size:0.68rem;color:var(--orange);font-weight:800">⚡ Lider</span>
+                  </div>
+                  <div class="member-role-text">Yönetmen</div>
+                  <div class="member-badges">
+                    <span class="badge-pill" style="background:var(--orange-soft);color:#9a3412;border:1px solid #fed7aa">⚡ Lider</span>
+                  </div>
+                </div>
+                <div class="member-actions">
+                  <button class="ma-btn" style="background:var(--bg);color:var(--muted)">Profil</button>
+                </div>
+              </div>
+
+              <!-- Biprova yetkili -->
+              <div class="member">
+                <div class="member-av">
+                  <div class="av" style="background:linear-gradient(135deg,#2563eb,#6366f1)">AK</div>
+                  <div class="online" style="background:var(--green)"></div>
+                </div>
+                <div class="member-info">
+                  <div class="member-name">
+                    Ahmet K.
+                    <span style="font-size:0.68rem;color:var(--blue)">(Sen)</span>
+                  </div>
+                  <div class="member-role-text">UI/UX Tasarımcı</div>
+                  <div class="member-badges">
+                    <span class="badge-pill" style="background:var(--blue-soft);color:#1d4ed8;border:1px solid var(--blue-mid)">biprova yetkili</span>
+                  </div>
+                </div>
+                <div class="member-actions">
+                  <button class="ma-btn" style="background:var(--bg);color:var(--muted)">Profil</button>
+                </div>
+              </div>
+
+              <!-- Normal üye -->
+              <div class="member">
+                <div class="member-av">
+                  <div class="av" style="background:#22c55e">SY</div>
+                  <div class="online" style="background:#cbd5e1"></div>
+                </div>
+                <div class="member-info">
+                  <div class="member-name">Selin Y.</div>
+                  <div class="member-role-text">Kameraman</div>
+                </div>
+                <div class="member-actions">
+                  <button class="ma-btn" style="background:var(--blue-soft);color:var(--blue)" onclick="openModal('biprova', 'Selin Y.')">biprova ver</button>
+                  <button class="ma-btn" style="background:var(--bg);color:var(--muted)">Profil</button>
+                </div>
+              </div>
+
+              <!-- Normal üye -->
+              <div class="member">
+                <div class="member-av">
+                  <div class="av" style="background:#f59e0b">BT</div>
+                  <div class="online" style="background:var(--green)"></div>
+                </div>
+                <div class="member-info">
+                  <div class="member-name">Berk T.</div>
+                  <div class="member-role-text">Ses Tasarımcı</div>
+                </div>
+                <div class="member-actions">
+                  <button class="ma-btn" style="background:var(--blue-soft);color:var(--blue)" onclick="openModal('biprova', 'Berk T.')">biprova ver</button>
+                  <button class="ma-btn" style="background:var(--red-soft);color:var(--red)" onclick="openModal('kick', 'Berk T.')">Çıkar</button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- TEHLİKE ZONU -->
+          <div class="card" style="border-color:#fca5a5">
+            <div class="card-header" style="background:var(--red-soft)">
+              <span class="card-title" style="color:var(--red)">⚠️ Tehlike Zonu</span>
+            </div>
+            <div class="card-body">
+              <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.8rem;padding:0.3rem 0">
+                <div>
+                  <div style="font-size:0.86rem;font-weight:700;margin-bottom:0.2rem">Liderliği Devret</div>
+                  <div style="font-size:0.76rem;color:var(--muted)">Başka bir üyeyi lider yap</div>
+                </div>
+                <button class="btn btn-secondary" onclick="openModal('transfer')">Devret</button>
+              </div>
+              <div style="border-top:1px solid var(--border);margin:0.8rem 0"></div>
+              <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.8rem;padding:0.3rem 0">
+                <div>
+                  <div style="font-size:0.86rem;font-weight:700;margin-bottom:0.2rem">Ekibi Dağıt</div>
+                  <div style="font-size:0.76rem;color:var(--muted)">Tüm üyeler ayrılır, geri alınamaz</div>
+                </div>
+                <button class="btn btn-danger" onclick="openModal('disband')">Dağıt</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- SAĞ KOL -->
+        <div>
+
+          <!-- SON PROJE -->
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">📌 Son Proje</span>
+              <button class="card-action" onclick="switchTab('projeler', document.querySelectorAll('.tab')[1])">Tümü →</button>
+            </div>
+            <div class="card-body" style="padding:0.8rem 1rem">
+              <div style="background:var(--bg);border-radius:12px;padding:1rem;border:1.5px solid var(--border)">
+                <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.5rem">
+                  <span style="font-size:1rem">🎬</span>
+                  <span style="font-family:'Nunito',sans-serif;font-weight:800;font-size:0.9rem">Kısa Film — Bölüm 3</span>
+                </div>
+                <div style="font-size:0.76rem;color:var(--muted);margin-bottom:0.7rem">📍 İstanbul · 8 gün önce</div>
+                <div style="display:flex;align-items:center;justify-content:space-between;font-size:0.74rem;color:var(--muted);margin-bottom:0.3rem">
+                  <span>İlerleme</span><span>65%</span>
+                </div>
+                <div style="height:5px;background:var(--border);border-radius:100px;overflow:hidden">
+                  <div style="height:100%;width:65%;background:linear-gradient(90deg,var(--blue),#6366f1);border-radius:100px"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- HIZLI İŞLEMLER -->
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">⚡ Hızlı İşlemler</span>
+            </div>
+            <div class="card-body" style="display:flex;flex-direction:column;gap:0.5rem">
+              <button onclick="openModal('newproj')" style="width:100%;padding:0.65rem;border-radius:10px;border:1.5px dashed var(--border);font-size:0.84rem;font-weight:700;color:var(--blue);cursor:pointer;background:var(--blue-soft);display:flex;align-items:center;justify-content:center;gap:0.5rem">
+                ＋ Yeni Proje Aç
+              </button>
+              <button style="width:100%;padding:0.65rem;border-radius:10px;border:1.5px solid var(--border);font-size:0.84rem;font-weight:700;color:var(--muted);cursor:pointer;background:var(--white);display:flex;align-items:center;justify-content:center;gap:0.5rem">
+                📢 Timeline'a Paylaş
+              </button>
+              <button style="width:100%;padding:0.65rem;border-radius:10px;border:1.5px solid var(--border);font-size:0.84rem;font-weight:700;color:var(--muted);cursor:pointer;background:var(--white);display:flex;align-items:center;justify-content:center;gap:0.5rem">
+                💬 Gruba Git
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- PROJELER PANELİ -->
+    <div class="panel" id="panel-projeler">
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">📌 Tüm Projeler</span>
+          <button class="btn btn-primary" style="padding:0.4rem 0.9rem;font-size:0.78rem" onclick="openModal('newproj')">+ Yeni Proje</button>
+        </div>
+        <div class="card-body">
+          <div class="proj-item">
+            <div class="proj-icon" style="background:var(--blue-soft)">🎬</div>
+            <div class="proj-info">
+              <div class="proj-name">Kısa Film — Bölüm 3</div>
+              <div class="proj-meta">📍 İstanbul · Ahmet K. açtı · 8 gün önce</div>
+            </div>
+            <span class="proj-status" style="background:var(--yellow-soft);color:#b45309">Devam Ediyor</span>
+          </div>
+          <div class="proj-item">
+            <div class="proj-icon" style="background:var(--green-soft)">🎬</div>
+            <div class="proj-info">
+              <div class="proj-name">Kısa Film — Bölüm 2</div>
+              <div class="proj-meta">📍 İstanbul · Mert E. açtı · 1 ay önce</div>
+            </div>
+            <span class="proj-status" style="background:var(--green-soft);color:#15803d">Tamamlandı</span>
+          </div>
+          <div class="proj-item">
+            <div class="proj-icon" style="background:var(--green-soft)">🎬</div>
+            <div class="proj-info">
+              <div class="proj-name">Kısa Film — Bölüm 1</div>
+              <div class="proj-meta">📍 İstanbul · Mert E. açtı · 2 ay önce</div>
+            </div>
+            <span class="proj-status" style="background:var(--green-soft);color:#15803d">Tamamlandı</span>
+          </div>
+          <div class="proj-item">
+            <div class="proj-icon" style="background:var(--red-soft)">🎤</div>
+            <div class="proj-info">
+              <div class="proj-name">Podcast Denemesi</div>
+              <div class="proj-meta">🌐 Remote · Ahmet K. açtı · 45 gün önce</div>
+            </div>
+            <span class="proj-status" style="background:var(--red-soft);color:#b91c1c">Feshedildi</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AKTİVİTE PANELİ -->
+    <div class="panel" id="panel-aktivite">
+      <div class="card">
+        <div class="card-header"><span class="card-title">📊 Ekip Aktivitesi</span></div>
+        <div class="card-body">
+          <div class="activity-item">
+            <div class="act-icon" style="background:var(--blue-soft)">🔑</div>
+            <div class="act-text"><strong>Mert E.</strong> Ahmet K.'ya <span style="color:var(--blue);font-weight:700">biprova yetkisi</span> verdi</div>
+            <div class="act-time">2 saat önce</div>
+          </div>
+          <div class="activity-item">
+            <div class="act-icon" style="background:var(--green-soft)">📌</div>
+            <div class="act-text"><strong>Ahmet K.</strong> yeni proje açtı — <em>Kısa Film Bölüm 3</em></div>
+            <div class="act-time">8 gün önce</div>
+          </div>
+          <div class="activity-item">
+            <div class="act-icon" style="background:var(--green-soft)">✅</div>
+            <div class="act-text"><strong>Kısa Film Bölüm 2</strong> tamamlandı!</div>
+            <div class="act-time">1 ay önce</div>
+          </div>
+          <div class="activity-item">
+            <div class="act-icon" style="background:var(--purple-soft)">👋</div>
+            <div class="act-text"><strong>Berk T.</strong> ekibe katıldı</div>
+            <div class="act-time">45 gün önce</div>
+          </div>
+          <div class="activity-item">
+            <div class="act-icon" style="background:var(--red-soft)">❌</div>
+            <div class="act-text"><strong>Podcast Denemesi</strong> projesi feshedildi — ekip devam ediyor</div>
+            <div class="act-time">45 gün önce</div>
+          </div>
+          <div class="activity-item">
+            <div class="act-icon" style="background:var(--yellow-soft)">⚡</div>
+            <div class="act-text"><strong>Kısa Film Ekibi</strong> kuruldu — ilk toplantı yapıldı</div>
+            <div class="act-time">2 ay önce</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- MODALLER -->
+<div class="overlay" id="overlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <h3 id="modal-title">Başlık</h3>
+    <p id="modal-desc">Açıklama</p>
+    <div id="modal-extra"></div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeModal()">İptal</button>
+      <button class="btn btn-primary" id="modal-confirm" onclick="closeModal()">Onayla</button>
+    </div>
+  </div>
+</div>
+
+<script>
+function switchTab(name, el) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  if(el) el.classList.add('active');
+  document.getElementById('panel-' + name).classList.add('active');
+}
+
+const modals = {
+  leave: {
+    title: 'Ekipten Ayrıl',
+    desc: 'Bu ekipten ayrılmak istediğine emin misin? Ekip senin olmadan devam edecek.',
+    confirm: 'Ayrıl',
+    style: 'danger'
+  },
+  disband: {
+    title: 'Ekibi Dağıt',
+    desc: 'Tüm üyeler ekipten çıkarılacak ve ekip kalıcı olarak kapatılacak. Bu işlem geri alınamaz!',
+    confirm: 'Evet, Dağıt',
+    style: 'danger'
+  },
+  transfer: {
+    title: 'Liderliği Devret',
+    desc: 'Hangi üyeye liderliği devretmek istiyorsun?',
+    extra: `<select style="width:100%;padding:0.6rem;border-radius:8px;border:1.5px solid var(--border);font-family:inherit;font-size:0.86rem"><option>Selin Y. — Kameraman</option><option>Berk T. — Ses Tasarımcı</option><option>Ahmet K. — UI/UX Tasarımcı</option></select>`,
+    confirm: 'Devret',
+    style: 'primary'
+  },
+  newproj: {
+    title: 'Yeni Proje Aç',
+    desc: 'Bu proje ekibiniz adına açılacak. Sadece lider ve biprova yetkilileri proje açabilir.',
+    extra: `<input type="text" placeholder="Proje başlığı..." style="width:100%;padding:0.65rem 0.9rem;border-radius:8px;border:1.5px solid var(--border);font-family:inherit;font-size:0.86rem;outline:none;margin-bottom:0.6rem"><input type="text" placeholder="Şehir seç..." style="width:100%;padding:0.65rem 0.9rem;border-radius:8px;border:1.5px solid var(--border);font-family:inherit;font-size:0.86rem;outline:none">`,
+    confirm: '🚀 Proje Aç',
+    style: 'primary'
+  },
+  invite: {
+    title: 'Üye Davet Et',
+    desc: 'Davet linki oluşturulacak ve ekibinize katılmak isteyen kişiyle paylaşabilirsiniz.',
+    extra: `<div style="background:var(--bg);border:1.5px solid var(--border);border-radius:8px;padding:0.6rem 0.9rem;font-family:monospace;font-size:0.78rem;color:var(--muted)">biprova.app/join/kisa-film-ekibi-x7k2</div>`,
+    confirm: 'Linki Kopyala',
+    style: 'primary'
+  },
+  settings: {
+    title: 'Ekip Ayarları',
+    desc: 'Ekip bilgilerini düzenle.',
+    extra: `<input type="text" value="Kısa Film Ekibi" style="width:100%;padding:0.65rem 0.9rem;border-radius:8px;border:1.5px solid var(--border);font-family:inherit;font-size:0.86rem;outline:none">`,
+    confirm: 'Kaydet',
+    style: 'primary'
+  }
+};
+
+function openModal(type, name) {
+  const m = modals[type];
+  if(!m) return;
+  document.getElementById('modal-title').textContent = m.title;
+  document.getElementById('modal-desc').textContent = name ? m.desc?.replace('üye', name) : m.desc;
+  document.getElementById('modal-extra').innerHTML = m.extra || '';
+  if(type === 'biprova' && name) {
+    document.getElementById('modal-title').textContent = 'biprova Yetkisi Ver';
+    document.getElementById('modal-desc').textContent = name + "'a biprova yetkisi verince ekip adına proje açabilecek.";
+  }
+  if(type === 'kick' && name) {
+    document.getElementById('modal-title').textContent = name + "'ı Çıkar";
+    document.getElementById('modal-desc').textContent = name + ' ekipten çıkarılacak. Üye, ekipten ayrılmış sayılır.';
+  }
+  const btn = document.getElementById('modal-confirm');
+  btn.textContent = m.confirm || 'Onayla';
+  btn.className = 'btn ' + (m.style === 'danger' ? 'btn-danger' : 'btn-primary');
+  document.getElementById('overlay').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('overlay').classList.remove('open');
+}
+</script>
+</body>
+</html>

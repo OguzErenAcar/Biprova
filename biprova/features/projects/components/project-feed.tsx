@@ -1,7 +1,13 @@
+import Link from "next/link";
 import { ProjectCard } from "@/features/projects/components/project-card";
-import { getProjectFeed } from "@/features/projects/actions";
+import { getProjectFeed, type FeedFilter } from "@/features/projects/actions";
+import { createClient } from "@/lib/supabase/server";
 
-const FILTER_TABS = ["Tümü", "Şehrim", "Remote", "Takip"];
+const FILTER_TABS: { label: string; value: FeedFilter }[] = [
+  { label: "Tümü", value: "all" },
+  { label: "Şehrim", value: "sehrim" },
+  { label: "Remote", value: "remote" },
+];
 
 const POSTER_COLORS = [
   "#3b82f6", "#8b5cf6", "#22c55e", "#f59e0b",
@@ -44,28 +50,50 @@ function formatPostedAt(dateStr: string): string {
   return `${weeks} hafta önce`;
 }
 
-export async function ProjectFeed() {
-  const projects = await getProjectFeed();
+interface ProjectFeedProps {
+  filter?: string;
+}
+
+export async function ProjectFeed({ filter }: ProjectFeedProps) {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  const currentUserId = user?.id ?? null;
+
+  const activeFilter: FeedFilter =
+    filter === "sehrim" || filter === "remote" ? filter : "all";
+
+  let userCity: string | undefined;
+  if (activeFilter === "sehrim" && user) {
+    const { data } = await supabase
+      .from("users")
+      .select("city")
+      .eq("id", user.id)
+      .single();
+    userCity = data?.city ?? undefined;
+  }
+
+  const projects = await getProjectFeed(activeFilter, userCity);
 
   return (
-    <div>
+    <div id="project-feed">
       {/* Başlık + filtreler */}
       <div className="flex items-center justify-between mb-4">
         <h2 className="font-nunito font-black text-[1.1rem] text-slate-900">
           📋 Timeline
         </h2>
         <div className="hidden sm:flex gap-[0.4rem] bg-white border-[1.5px] border-slate-200 rounded-[10px] p-[0.3rem]">
-          {FILTER_TABS.map((tab, i) => (
-            <button
-              key={tab}
-              className={`text-[0.78rem] font-bold font-jakarta px-[0.8rem] py-[0.35rem] rounded-[7px] cursor-pointer transition-all duration-150 border-none ${
-                i === 0
+          {FILTER_TABS.map((tab) => (
+            <Link
+              key={tab.value}
+              href={tab.value === "all" ? "/dashboard" : `?filter=${tab.value}`}
+              className={`text-[0.78rem] font-bold font-jakarta px-[0.8rem] py-[0.35rem] rounded-[7px] transition-all duration-150 ${
+                activeFilter === tab.value
                   ? "bg-blue-600 text-white"
-                  : "bg-transparent text-slate-500 hover:text-slate-900"
+                  : "text-slate-500 hover:text-slate-900"
               }`}
             >
-              {tab}
-            </button>
+              {tab.label}
+            </Link>
           ))}
         </div>
       </div>
@@ -80,6 +108,8 @@ export async function ProjectFeed() {
           {projects.map((project) => (
             <ProjectCard
               key={project.id}
+              projectId={project.id}
+              isOwnProject={currentUserId === project.creator.id}
               city={project.city ?? "Belirtilmemiş"}
               isRemote={project.is_remote ?? false}
               status={getVisualStatus(project.roles)}
@@ -93,8 +123,10 @@ export async function ProjectFeed() {
                 color: getPosterColor(project.creator.id),
               }}
               roles={project.roles.map((r) => ({
+                id: r.id,
                 name: r.role_name,
                 filled: r.is_filled,
+                skills: r.skills,
               }))}
             />
           ))}

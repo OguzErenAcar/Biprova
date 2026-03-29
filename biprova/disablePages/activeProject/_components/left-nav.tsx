@@ -30,7 +30,7 @@ function NavItem({ icon, label, active, onClick }: NavItemProps) {
 
 export function LeftNav({ activePanel, onSwitch }: LeftNavProps) {
   return (
-    <div className="w-[200px] bg-white border-r border-slate-200 flex flex-col shrink-0 p-[0.85rem_0.75rem] max-lg:hidden">
+    <div id="active-project-left-nav" className="w-[200px] bg-white border-r border-slate-200 flex flex-col shrink-0 p-[0.85rem_0.75rem] max-lg:hidden">
       <div className="text-[0.65rem] font-bold tracking-[2px] uppercase text-slate-300 px-2 mb-[0.35rem] mt-[0.1rem]">
         Proje
       </div>

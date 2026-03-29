@@ -76,10 +76,11 @@ export function ProfileEditModal({ user }: ProfileEditModalProps) {
 
       {open && (
         <div
+          id="profile-edit-modal-overlay"
           className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm"
           onClick={(e) => { if (e.target === e.currentTarget) setOpen(false); }}
         >
-          <div className="bg-white rounded-[20px] w-full max-w-md shadow-xl p-6">
+          <div id="profile-edit-modal" className="bg-white rounded-[20px] w-full max-w-md shadow-xl p-6">
             <div className="font-nunito font-black text-[1.1rem] text-slate-900 mb-5">
               Profili Düzenle
             </div>

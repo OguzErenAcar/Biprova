@@ -31,7 +31,7 @@ export function SidebarAccountActions() {
   }
 
   return (
-    <div className="flex flex-col gap-0.5">
+    <div id="sidebar-account-actions" className="flex flex-col gap-0.5">
       {error && (
         <p className="text-[0.72rem] text-red-500 px-3 pb-1">{error}</p>
       )}

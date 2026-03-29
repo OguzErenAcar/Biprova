@@ -12,6 +12,7 @@ interface Member {
 }
 
 interface TeamPostCardProps {
+  postId?: string;
   teamEmoji: string;
   teamAvatarBg: string;
   teamName: string;
@@ -38,6 +39,7 @@ const TAG_STYLES: Record<TagType, string> = {
 };
 
 export function TeamPostCard({
+  postId,
   teamEmoji,
   teamAvatarBg,
   teamName,
@@ -56,6 +58,7 @@ export function TeamPostCard({
 }: TeamPostCardProps) {
   return (
     <div
+      id={postId ? `team-post-card-${postId}` : undefined}
       className={`border-[1.5px] rounded-2xl p-[1.4rem] hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(0,0,0,0.07)] transition-all duration-150 cursor-pointer mb-4 ${
         isOwnTeam
           ? "bg-[#f8faff] border-blue-200"

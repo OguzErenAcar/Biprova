@@ -340,3 +340,121 @@ create policy "waitlist_insert"  on waitlist for insert with check (true);
 alter table skills
     alter column slug drop not null,
     drop constraint if exists skills_slug_key;
+
+
+
+-- ============================================================
+-- 1. team_members — birden fazla ekipte olabilsin
+--    unique(user_id) kaldırılıyor
+-- ============================================================
+alter table team_members
+    drop constraint if exists team_members_user_id_key;
+
+-- ============================================================
+-- 2. team_members — has_biprova yetkisi
+-- ============================================================
+alter table team_members
+    add column if not exists has_biprova boolean default false;
+
+-- ============================================================
+-- 3. users — plan ve limit alanları (freemium)
+--    active_project_id ve team_id kaldırılıyor
+--    çünkü artık birden fazla ekip/proje olabilir
+-- ============================================================
+alter table users
+    drop constraint if exists fk_users_team,
+    drop constraint if exists fk_users_active_project,
+    drop column if exists team_id,
+    drop column if exists active_project_id;
+
+alter table users
+    add column if not exists plan         text    default 'free',
+    add column if not exists max_teams    integer default 1,
+    add column if not exists max_projects integer default 1;
+
+-- ============================================================
+-- 4. teams — status güncelleme + disbanded_at + project_id
+--    proje feshedilince ekip "no_project" olur, yaşamaya devam eder
+-- ============================================================
+alter table teams
+    add column if not exists disbanded_at timestamp,
+    add column if not exists project_id   uuid references projects(id) on delete set null;
+
+-- status değerleri: 'pending' | 'active' | 'no_project' | 'disbanded'
+
+-- ============================================================
+-- 5. projects — team_id unique constraint kaldır
+--    bir ekip birden fazla proje açabilir (biprova yetkisiyle)
+-- ============================================================
+alter table projects
+    drop constraint if exists projects_team_id_key;
+
+-- ============================================================
+-- 6. projects — status güncelleme
+--    'open' | 'full' | 'active' | 'completed' | 'cancelled'
+-- ============================================================
+-- (status zaten text, değer kontrolü uygulama katmanında)
+
+-- ============================================================
+-- 7. RLS — has_biprova yetkili kişi de proje açabilsin
+-- ============================================================
+drop policy if exists "projects_insert" on projects;
+
+create policy "projects_insert" on projects
+    for insert with check (
+        creator_id = auth.uid()
+        and (
+            -- ya proje açan kişi ekip lideridir
+            exists (
+                select 1 from teams
+                where leader_id = auth.uid()
+                and status in ('active', 'no_project')
+            )
+            or
+            -- ya da biprova yetkisi vardır
+            exists (
+                select 1 from team_members
+                where user_id = auth.uid()
+                and has_biprova = true
+            )
+        )
+    );
+
+-- ============================================================
+-- 8. RLS — team_members birden fazla ekip için güncelle
+-- ============================================================
+drop policy if exists "team_members_read" on team_members;
+drop policy if exists "team_members_manage" on team_members;
+
+create policy "team_members_read" on team_members
+    for select using (is_team_member(team_id));
+
+create policy "team_members_insert" on team_members
+    for insert with check (
+        -- lider ekibe üye ekleyebilir
+        exists (
+            select 1 from teams
+            where id = team_id and leader_id = auth.uid()
+        )
+    );
+
+create policy "team_members_delete" on team_members
+    for delete using (
+        -- kendisi ayrılabilir
+        user_id = auth.uid()
+        or
+        -- lider çıkarabilir
+        exists (
+            select 1 from teams
+            where id = team_id and leader_id = auth.uid()
+        )
+    );
+
+-- ============================================================
+-- 9. INDEX — yeni alanlara index
+-- ============================================================
+create index if not exists idx_team_members_user_id on team_members(user_id);
+create index if not exists idx_team_members_biprova on team_members(has_biprova) where has_biprova = true;
+create index if not exists idx_teams_project_id on teams(project_id);
+create index if not exists idx_teams_status on teams(status);
+create index if not exists idx_users_plan on users(plan);

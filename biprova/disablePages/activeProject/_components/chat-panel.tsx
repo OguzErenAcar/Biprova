@@ -61,7 +61,7 @@ function Message({ avatar, sender, time, text, self }: MessageProps) {
 
 export function ChatPanel() {
   return (
-    <div className="flex-1 flex flex-col overflow-hidden">
+    <div id="chat-panel" className="flex-1 flex flex-col overflow-hidden">
       <div className="flex-1 overflow-y-auto px-[1.4rem] py-[1.2rem] flex flex-col gap-[0.9rem]">
         <DateDivider label="24 Mart 2026" />
 

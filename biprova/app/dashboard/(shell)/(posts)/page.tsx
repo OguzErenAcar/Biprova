@@ -1,10 +1,15 @@
 import { Suspense } from "react";
 import { ProjectFeed } from "@/features/projects/components/project-feed";
 
-export default function DashboardHomePage() {
+export default async function DashboardHomePage({
+  searchParams,
+}: {
+  searchParams: Promise<{ filter?: string }>;
+}) {
+  const { filter } = await searchParams;
   return (
     <Suspense>
-      <ProjectFeed />
+      <ProjectFeed filter={filter} />
     </Suspense>
   );
 }

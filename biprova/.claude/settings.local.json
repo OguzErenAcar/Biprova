@@ -1,0 +1,23 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cd /Users/oguz/Documents/AI/biprova/biprova && git add . && git commit -m \"$(date '+%Y-%m-%d %H:%M')\" && git push origin \"$(git branch --show-current)\" 2>/dev/null || true",
+            "timeout": 30,
+            "statusMessage": "Committing & pushing...",
+            "async": true
+          }
+        ]
+      }
+    ]
+  },
+  "permissions": {
+    "allow": [
+      "Bash(git:*)"
+    ]
+  }
+}

@@ -47,9 +47,9 @@ function formatRelativeDate(dateStr: string): string {
   return `${weeks} hafta önce başvuruldu`;
 }
 
-function SectionCard({ title, action, children }: { title: string; action?: string; children: React.ReactNode }) {
+function SectionCard({ id, title, action, children }: { id?: string; title: string; action?: string; children: React.ReactNode }) {
   return (
-    <div className="bg-white border border-slate-200 rounded-[16px] p-[1.4rem] mb-5">
+    <div id={id} className="bg-white border border-slate-200 rounded-[16px] p-[1.4rem] mb-5">
       <div className="flex items-center justify-between mb-4">
         <div className="font-nunito font-black text-[1rem] text-slate-900">{title}</div>
         {action && (
@@ -67,7 +67,7 @@ export function ProfileSections({ skills, projects, applications }: ProfileSecti
   return (
     <>
       {/* Skills */}
-      <SectionCard title="🛠 Yetenekler" action="+ Ekle">
+      <SectionCard id="profile-skills" title="🛠 Yetenekler" action="+ Ekle">
         {skills.length === 0 ? (
           <p className="text-[0.85rem] text-slate-400">Henüz yetenek eklenmemiş.</p>
         ) : (
@@ -85,7 +85,7 @@ export function ProfileSections({ skills, projects, applications }: ProfileSecti
       </SectionCard>
 
       {/* Projects */}
-      <SectionCard title="🗂 Projelerim" action="Tümünü gör">
+      <SectionCard id="profile-projects" title="🗂 Projelerim" action="Tümünü gör">
         {projects.length === 0 ? (
           <p className="text-[0.85rem] text-slate-400">Henüz proje yok.</p>
         ) : (
@@ -123,7 +123,7 @@ export function ProfileSections({ skills, projects, applications }: ProfileSecti
       </SectionCard>
 
       {/* Applications */}
-      <SectionCard title="📨 Başvurularım" action="Tümünü gör">
+      <SectionCard id="profile-applications" title="📨 Başvurularım" action="Tümünü gör">
         {applications.length === 0 ? (
           <p className="text-[0.85rem] text-slate-400">Henüz başvuru yok.</p>
         ) : (
