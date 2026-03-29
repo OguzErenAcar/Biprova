@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 
 const TABS = [
   { href: "/dashboard", icon: "🏠", label: "Ana Sayfa", exact: true },
-  { href: "/dashboard/posts", icon: "📝", label: "Gönderiler" },
+  { href: "/dashboard/teams", icon: "👥", label: "Ekipler" },
   { href: "/dashboard/createProject", icon: "＋", label: "Proje Aç", isCreate: true },
   { href: "/dashboard/news", icon: "📰", label: "Haberler" },
   { href: "/dashboard/profile", icon: "👤", label: "Profil" },
