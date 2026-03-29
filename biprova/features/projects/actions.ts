@@ -208,23 +208,33 @@ export async function createProject(
     city: formData.get('city'),
     is_remote: formData.get('is_remote') ?? undefined,
     category_id: formData.get('category_id') ?? undefined,
-    roles: formData.get('roles'),
+    roles: formData.get('roles') ?? undefined,
+    team_id: formData.get('team_id') ?? undefined,
   });
 
   if (!parsed.success) {
     return { error: parsed.error.issues[0]?.message ?? 'Geçersiz form verisi' };
   }
 
-  let roleItems: z.infer<typeof roleItemSchema>;
-  try {
-    const raw: unknown = JSON.parse(parsed.data.roles);
-    const rolesResult = roleItemSchema.safeParse(raw);
-    if (!rolesResult.success) {
-      return { error: rolesResult.error.issues[0]?.message ?? 'Geçersiz roller' };
+  const teamId =
+    parsed.data.team_id && parsed.data.team_id !== '' ? parsed.data.team_id : null;
+
+  let roleItems: z.infer<typeof roleItemSchema> | null = null;
+
+  if (!teamId) {
+    if (!parsed.data.roles) {
+      return { error: 'En az 1 rol eklemelisin' };
     }
-    roleItems = rolesResult.data;
-  } catch {
-    return { error: 'Roller geçersiz.' };
+    try {
+      const raw: unknown = JSON.parse(parsed.data.roles);
+      const rolesResult = roleItemSchema.safeParse(raw);
+      if (!rolesResult.success) {
+        return { error: rolesResult.error.issues[0]?.message ?? 'Geçersiz roller' };
+      }
+      roleItems = rolesResult.data;
+    } catch {
+      return { error: 'Roller geçersiz.' };
+    }
   }
 
   const categoryId =
@@ -241,7 +251,8 @@ export async function createProject(
       city: parsed.data.city,
       is_remote: parsed.data.is_remote === 'on',
       category_id: categoryId,
-      status: 'open',
+      status: teamId ? 'active' : 'open',
+      ...(teamId && { team_id: teamId }),
     })
     .select('id')
     .single();
@@ -250,31 +261,37 @@ export async function createProject(
     return { error: 'Proje oluşturulamadı. Lütfen tekrar deneyin.' };
   }
 
-  for (const roleItem of roleItems) {
-    const roleRows = Array.from({ length: roleItem.count }, () => ({
-      project_id: project.id,
-      role_name: roleItem.name,
-      is_filled: false,
-    }));
+  if (teamId) {
+    await supabase.from('teams').update({ project_id: project.id }).eq('id', teamId);
+  }
 
-    const { data: insertedRoles, error: rolesError } = await supabase
-      .from('project_roles')
-      .insert(roleRows)
-      .select('id');
+  if (roleItems) {
+    for (const roleItem of roleItems) {
+      const roleRows = Array.from({ length: roleItem.count }, () => ({
+        project_id: project.id,
+        role_name: roleItem.name,
+        is_filled: false,
+      }));
 
-    if (rolesError || !insertedRoles) {
-      await supabase.from('projects').delete().eq('id', project.id);
-      return { error: 'Roller kaydedilemedi. Lütfen tekrar deneyin.' };
-    }
+      const { data: insertedRoles, error: rolesError } = await supabase
+        .from('project_roles')
+        .insert(roleRows)
+        .select('id');
 
-    if (roleItem.skillIds.length > 0) {
-      const skillRows = insertedRoles.flatMap((role) =>
-        roleItem.skillIds.map((skillId) => ({
-          role_id: role.id,
-          skill_id: skillId,
-        }))
-      );
-      await supabase.from('project_role_skills').insert(skillRows);
+      if (rolesError || !insertedRoles) {
+        await supabase.from('projects').delete().eq('id', project.id);
+        return { error: 'Roller kaydedilemedi. Lütfen tekrar deneyin.' };
+      }
+
+      if (roleItem.skillIds.length > 0) {
+        const skillRows = insertedRoles.flatMap((role) =>
+          roleItem.skillIds.map((skillId) => ({
+            role_id: role.id,
+            skill_id: skillId,
+          }))
+        );
+        await supabase.from('project_role_skills').insert(skillRows);
+      }
     }
   }
 
