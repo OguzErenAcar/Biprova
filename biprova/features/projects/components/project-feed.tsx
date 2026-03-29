@@ -51,10 +51,11 @@ function formatPostedAt(dateStr: string): string {
 }
 
 interface ProjectFeedProps {
-  filter?: string;
+  searchParams: Promise<{ filter?: string }>;
 }
 
-export async function ProjectFeed({ filter }: ProjectFeedProps) {
+export async function ProjectFeed({ searchParams }: ProjectFeedProps) {
+  const { filter } = await searchParams;
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   const currentUserId = user?.id ?? null;
