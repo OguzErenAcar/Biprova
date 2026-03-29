@@ -464,6 +464,10 @@ create index if not exists idx_users_plan on users(plan);
 -- Proje status 'full' olunca otomatik ekip kurar
 -- ============================================================
 
+-- Unique constraint: bir kullanıcı aynı ekipte 1 kez olabilsin
+alter table team_members
+  add constraint uq_team_members_team_user unique (team_id, user_id);
+
 create or replace function create_team_on_project_full()
 returns trigger language plpgsql security definer as $$
 declare
@@ -475,19 +479,18 @@ begin
     values (new.title || ' ekibi', new.creator_id, 'pending', new.id)
     returning id into new_team_id;
 
-    -- Lider (creator) takım üyesi olarak ekle
-    insert into team_members (team_id, user_id, role_id)
-    values (new_team_id, new.creator_id, null)
-    on conflict do nothing;
-
-    -- Dolu rollerdeki diğer kullanıcıları ekle
+    -- Dolu rollerdeki kullanıcıları ekle (creator dahil, rol ile)
     insert into team_members (team_id, user_id, role_id)
     select new_team_id, pr.filled_by, pr.id
     from project_roles pr
     where pr.project_id = new.id
       and pr.filled_by is not null
-      and pr.filled_by <> new.creator_id
-    on conflict do nothing;
+    on conflict (team_id, user_id) do nothing;
+
+    -- Creator hiçbir rol doldurmadıysa yine de ekip üyesi olsun
+    insert into team_members (team_id, user_id, role_id)
+    values (new_team_id, new.creator_id, null)
+    on conflict (team_id, user_id) do nothing;
   end if;
 
   return new;
