@@ -2,7 +2,7 @@
 
 import { useActionState, useState } from "react";
 import { createProject } from "@/features/projects/actions";
-import type { CategoryOption, CityOption, SkillOption } from "@/features/projects/actions";
+import type { CategoryOption, CityOption, SkillOption, UserTeamOption } from "@/features/projects/actions";
 
 interface Role {
   id: number;
@@ -10,6 +10,8 @@ interface Role {
   name: string;
   count: number;
 }
+
+type TeamMode = "existing" | "new";
 
 const DURATION_OPTIONS = [
   "Belirtilmemiş",
@@ -19,19 +21,30 @@ const DURATION_OPTIONS = [
   "Uzun vadeli",
 ];
 
+const TEAM_STATUS_LABEL: Record<string, string> = {
+  active: "Aktif",
+  pending: "Kuruldu",
+  no_project: "Projesi yok",
+};
+
 interface Props {
   categories: CategoryOption[];
   cities: CityOption[];
   skills: SkillOption[];
+  userTeams: UserTeamOption[];
 }
 
-export function CreateProjectLeftCol({ categories, cities, skills }: Props) {
+export function CreateProjectLeftCol({ categories, cities, skills, userTeams }: Props) {
   const [state, formAction] = useActionState(createProject, null);
   const [isRemote, setIsRemote] = useState(false);
   const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null);
   const [roles, setRoles] = useState<Role[]>([]);
   const [selectedSkillId, setSelectedSkillId] = useState("");
   const [nextId, setNextId] = useState(1);
+  const [teamMode, setTeamMode] = useState<TeamMode>(userTeams.length > 0 ? "existing" : "new");
+  const [selectedTeamId, setSelectedTeamId] = useState<string | null>(
+    userTeams.length > 0 ? userTeams[0].id : null
+  );
 
   function addRole() {
     if (!selectedSkillId || roles.length >= 6) return;
