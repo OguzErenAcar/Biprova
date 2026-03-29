@@ -1,8 +1,7 @@
-import { Suspense } from "react";
-import { HomeTopbar } from "@/components/shared/home-topbar";
-import { NotificationsWidget } from "@/features/notifications/components/notifications-widget";
-import { ActiveTeamWidget } from "@/features/teams/components/active-team-widget";
-
+ import { HomeTopbar } from "@/components/shared/home-topbar";
+import { ActiveTeamBanner } from "../_components/active-team-banner";
+import { TimerWarning } from "../_components/timer-warning";
+ 
 export default function ShellLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
@@ -17,27 +16,12 @@ export default function ShellLayout({ children }: { children: React.ReactNode })
 
         {/* Layer 2: Sağ panel widget'ları */}
         <div id="dashboard-right-panel" className="hidden lg:flex flex-col gap-5">
-          <Suspense fallback={<WidgetSkeleton />}>
-            <NotificationsWidget />
-          </Suspense>
-          <Suspense fallback={<WidgetSkeleton />}>
-            <ActiveTeamWidget />
-          </Suspense>
+         <ActiveTeamBanner />
+          <TimerWarning />
         </div>
       </div>
     </>
   );
 }
 
-function WidgetSkeleton() {
-  return (
-    <div className="bg-white border-[1.5px] border-slate-200 rounded-2xl p-[1.3rem] animate-pulse">
-      <div className="h-4 bg-slate-100 rounded w-1/2 mb-4" />
-      <div className="flex flex-col gap-3">
-        <div className="h-3 bg-slate-100 rounded" />
-        <div className="h-3 bg-slate-100 rounded w-4/5" />
-        <div className="h-3 bg-slate-100 rounded w-3/5" />
-      </div>
-    </div>
-  )
-}
+ 
