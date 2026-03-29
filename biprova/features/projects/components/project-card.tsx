@@ -49,9 +49,8 @@ export function ProjectCard({
   poster,
   roles,
 }: ProjectCardProps) {
-  const filledCount = roles.filter((r) => r.filled).length;
-  const filled = filledCount + 1; // +1 kurucu
-  const total = roles.length + 1; // +1 kurucu
+  const filled = roles.filter((r) => r.filled).length;
+  const total = roles.length;
 
   const openRoles = roles.filter((r) => !r.filled);
   const filledRoles = roles.filter((r) => r.filled);
