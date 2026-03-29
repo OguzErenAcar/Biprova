@@ -2,6 +2,8 @@ import { Sidebar } from "@/components/shared/sidebar";
 import { TabBar } from "@/components/shared/tab-bar";
 import { createClient } from "@/lib/supabase/server";
 
+export const dynamic = "force-dynamic";
+
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
