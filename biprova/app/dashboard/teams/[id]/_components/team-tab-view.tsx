@@ -1,0 +1,212 @@
+"use client";
+
+import { useState, useTransition } from 'react';
+import { useRouter } from 'next/navigation';
+import type { TeamDetail, TeamMemberDetail } from '@/features/teams/actions';
+import {
+  leaveTeam, disbandTeam, transferLeadership, kickMember, grantBiprova,
+} from '@/features/teams/actions';
+import { TeamTopbar } from './team-topbar';
+import { PanelGenel } from './panel-genel';
+import { PanelProjeler } from './panel-projeler';
+import { PanelAktivite } from './panel-aktivite';
+
+type Tab = 'genel' | 'projeler' | 'aktivite';
+
+type ModalType =
+  | { type: 'leave' }
+  | { type: 'disband' }
+  | { type: 'transfer' }
+  | { type: 'invite' }
+  | { type: 'settings' }
+  | { type: 'biprova'; userId: string; name: string }
+  | { type: 'kick'; userId: string; name: string }
+  | null;
+
+interface Props {
+  team: TeamDetail;
+}
+
+export function TeamTabView({ team }: Props) {
+  const router = useRouter();
+  const [activeTab, setActiveTab] = useState<Tab>('genel');
+  const [modal, setModal] = useState<ModalType>(null);
+  const [transferTarget, setTransferTarget] = useState<string>('');
+  const [isPending, startTransition] = useTransition();
+
+  const otherMembers = team.members.filter((m) => !m.is_leader);
+  const canCreateProject = team.viewer.is_leader || team.viewer.has_biprova;
+
+  function handleConfirm() {
+    if (!modal) return;
+    startTransition(async () => {
+      switch (modal.type) {
+        case 'leave':
+          await leaveTeam(team.id);
+          break;
+        case 'disband':
+          await disbandTeam(team.id);
+          break;
+        case 'transfer':
+          if (!transferTarget) return;
+          await transferLeadership(team.id, transferTarget);
+          router.refresh();
+          break;
+        case 'kick':
+          await kickMember(team.id, modal.userId);
+          router.refresh();
+          break;
+        case 'biprova':
+          await grantBiprova(team.id, modal.userId);
+          router.refresh();
+          break;
+        default:
+          break;
+      }
+      setModal(null);
+    });
+  }
+
+  const MODAL_CONFIG: Record<string, { title: string; desc: string; confirmLabel: string; danger?: boolean }> = {
+    leave:    { title: 'Ekipten Ayrıl', desc: 'Bu ekipten ayrılmak istediğine emin misin? Ekip senin olmadan devam edecek.', confirmLabel: 'Ayrıl', danger: true },
+    disband:  { title: 'Ekibi Dağıt', desc: 'Tüm üyeler ekipten çıkarılacak ve ekip kalıcı olarak kapatılacak. Bu işlem geri alınamaz!', confirmLabel: 'Evet, Dağıt', danger: true },
+    transfer: { title: 'Liderliği Devret', desc: 'Hangi üyeye liderliği devretmek istiyorsun?', confirmLabel: 'Devret' },
+    invite:   { title: 'Üye Davet Et', desc: 'Davet linki oluşturulacak ve ekibinize katılmak isteyen kişiyle paylaşabilirsiniz.', confirmLabel: 'Linki Kopyala' },
+    settings: { title: 'Ekip Ayarları', desc: 'Ekip bilgilerini düzenle.', confirmLabel: 'Kaydet' },
+    biprova:  { title: 'biprova Yetkisi Ver', desc: '', confirmLabel: 'Yetki Ver' },
+    kick:     { title: '', desc: '', confirmLabel: 'Çıkar', danger: true },
+  };
+
+  const modalConfig = modal ? MODAL_CONFIG[modal.type] : null;
+  const modalTitle = modal?.type === 'biprova' ? 'biprova Yetkisi Ver'
+    : modal?.type === 'kick' ? `${(modal as { name: string }).name}'ı Çıkar`
+    : modalConfig?.title ?? '';
+  const modalDesc = modal?.type === 'biprova' ? `${(modal as { name: string }).name}'a biprova yetkisi verince ekip adına proje açabilecek.`
+    : modal?.type === 'kick' ? `${(modal as { name: string }).name} ekipten çıkarılacak.`
+    : modalConfig?.desc ?? '';
+
+  return (
+    <>
+      {/* Topbar */}
+      <TeamTopbar
+        teamName={team.name}
+        teamStatus={team.status}
+        isLeader={team.viewer.is_leader}
+        isMember={team.viewer.is_member}
+        onLeave={() => setModal({ type: 'leave' })}
+      />
+
+      {/* Tabs */}
+      <div
+        id="team-tabs"
+        className="flex border-b border-slate-200 bg-white px-6 sticky top-[53px] z-30"
+      >
+        {(['genel', 'projeler', 'aktivite'] as Tab[]).map((tab) => {
+          const labels: Record<Tab, string> = { genel: '👥 Genel', projeler: '📌 Projeler', aktivite: '📊 Aktivite' };
+          return (
+            <button
+              key={tab}
+              onClick={() => setActiveTab(tab)}
+              className={`text-[0.82rem] font-bold px-4 py-3 cursor-pointer border-b-2 transition-all whitespace-nowrap flex items-center gap-1 bg-transparent ${
+                activeTab === tab
+                  ? 'text-blue-600 border-blue-600'
+                  : 'text-slate-400 border-transparent hover:text-slate-700'
+              }`}
+            >
+              {labels[tab]}
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Content */}
+      <div className="p-6">
+        {activeTab === 'genel' && (
+          <PanelGenel
+            team={team}
+            onNewProject={() => router.push('/dashboard/createProject')}
+            onSettings={() => setModal({ type: 'settings' })}
+            onInvite={() => setModal({ type: 'invite' })}
+            onGrantBiprova={(userId, name) => setModal({ type: 'biprova', userId, name })}
+            onKick={(userId, name) => setModal({ type: 'kick', userId, name })}
+            onTransfer={() => { setTransferTarget(otherMembers[0]?.user_id ?? ''); setModal({ type: 'transfer' }); }}
+            onDisband={() => setModal({ type: 'disband' })}
+            onViewAllProjects={() => setActiveTab('projeler')}
+          />
+        )}
+        {activeTab === 'projeler' && (
+          <PanelProjeler
+            projects={team.projects}
+            canCreateProject={canCreateProject}
+            onNewProject={() => router.push('/dashboard/createProject')}
+          />
+        )}
+        {activeTab === 'aktivite' && <PanelAktivite team={team} />}
+      </div>
+
+      {/* Modal overlay */}
+      {modal && modalConfig && (
+        <div
+          className="fixed inset-0 bg-black/35 z-[200] flex items-center justify-center p-4"
+          onClick={(e) => { if (e.target === e.currentTarget) setModal(null); }}
+        >
+          <div className="bg-white rounded-[18px] p-[1.8rem] w-full max-w-[420px] shadow-[0_20px_50px_rgba(0,0,0,0.12)]">
+            <h3 className="font-nunito font-black text-[1.1rem] mb-1">{modalTitle}</h3>
+            <p className="text-[0.84rem] text-slate-400 mb-5">{modalDesc}</p>
+
+            {/* Transfer: member select */}
+            {modal.type === 'transfer' && otherMembers.length > 0 && (
+              <select
+                className="w-full px-3 py-[0.6rem] rounded-[8px] border-[1.5px] border-slate-200 font-[inherit] text-[0.86rem] mb-4 outline-none"
+                value={transferTarget}
+                onChange={(e) => setTransferTarget(e.target.value)}
+              >
+                {otherMembers.map((m: TeamMemberDetail) => (
+                  <option key={m.user_id} value={m.user_id}>
+                    {m.name}{m.role_name ? ` — ${m.role_name}` : ''}
+                  </option>
+                ))}
+              </select>
+            )}
+
+            {/* Invite: link display */}
+            {modal.type === 'invite' && (
+              <div className="bg-slate-50 border-[1.5px] border-slate-200 rounded-[8px] px-3 py-[0.6rem] font-mono text-[0.78rem] text-slate-400 mb-4 break-all">
+                biprova.app/join/{team.id.slice(0, 8)}
+              </div>
+            )}
+
+            {/* Settings: team name input */}
+            {modal.type === 'settings' && (
+              <input
+                type="text"
+                defaultValue={team.name}
+                className="w-full px-3 py-[0.65rem] rounded-[8px] border-[1.5px] border-slate-200 font-[inherit] text-[0.86rem] outline-none mb-4 focus:border-blue-600"
+              />
+            )}
+
+            <div className="flex gap-2 mt-2">
+              <button
+                onClick={() => setModal(null)}
+                className="flex-1 bg-white text-slate-700 border-[1.5px] border-slate-200 rounded-[9px] font-nunito font-extrabold text-[0.82rem] py-[0.7rem] cursor-pointer hover:border-slate-300 transition-colors"
+              >
+                İptal
+              </button>
+              <button
+                onClick={handleConfirm}
+                disabled={isPending}
+                className={`flex-1 rounded-[9px] font-nunito font-extrabold text-[0.82rem] py-[0.7rem] cursor-pointer transition-colors disabled:opacity-50 ${
+                  modalConfig.danger
+                    ? 'bg-red-50 text-red-500 border-[1.5px] border-red-200 hover:bg-red-100'
+                    : 'bg-blue-600 text-white hover:bg-blue-700'
+                }`}
+              >
+                {isPending ? '...' : modalConfig.confirmLabel}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+  );
+}
