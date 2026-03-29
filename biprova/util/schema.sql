@@ -458,3 +458,43 @@ create index if not exists idx_team_members_biprova on team_members(has_biprova)
 create index if not exists idx_teams_project_id on teams(project_id);
 create index if not exists idx_teams_status on teams(status);
 create index if not exists idx_users_plan on users(plan);
+
+-- ============================================================
+-- AUTO TEAM CREATION TRIGGER
+-- Proje status 'full' olunca otomatik ekip kurar
+-- ============================================================
+
+create or replace function create_team_on_project_full()
+returns trigger language plpgsql security definer as $$
+declare
+  new_team_id uuid;
+begin
+  if new.status = 'full' and (old.status is null or old.status <> 'full') then
+    -- Ekibi oluştur: "{proje adı} ekibi"
+    insert into teams (name, leader_id, status, project_id)
+    values (new.title || ' ekibi', new.creator_id, 'pending', new.id)
+    returning id into new_team_id;
+
+    -- Lider (creator) takım üyesi olarak ekle
+    insert into team_members (team_id, user_id, role_id)
+    values (new_team_id, new.creator_id, null)
+    on conflict do nothing;
+
+    -- Dolu rollerdeki diğer kullanıcıları ekle
+    insert into team_members (team_id, user_id, role_id)
+    select new_team_id, pr.filled_by, pr.id
+    from project_roles pr
+    where pr.project_id = new.id
+      and pr.filled_by is not null
+      and pr.filled_by <> new.creator_id
+    on conflict do nothing;
+  end if;
+
+  return new;
+end;
+$$;
+
+create or replace trigger trg_create_team_on_project_full
+  after update on projects
+  for each row
+  execute function create_team_on_project_full();
