@@ -82,7 +82,8 @@ export function CreateProjectLeftCol({ categories, cities, skills, userTeams }: 
         </div>
       )}
       <input type="hidden" name="category_id" value={selectedCategoryId ?? ""} />
-      <input type="hidden" name="roles" value={serializedRoles} />
+      <input type="hidden" name="roles" value={teamMode === "new" ? serializedRoles : ""} />
+      <input type="hidden" name="team_id" value={teamMode === "existing" ? (selectedTeamId ?? "") : ""} />
 
       {/* TEMEL BİLGİLER */}
       <FormCard id="section-basics" title="📋 Temel Bilgiler" sub="Projenin ne olduğunu ve ne aradığını kısaca anlat.">
