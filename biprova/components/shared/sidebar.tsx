@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useState } from "react";
 import { SidebarAccountActions } from "@/components/shared/sidebar-account-actions";
 
 interface SidebarUser {
@@ -38,7 +39,7 @@ const NAV_MAIN = [
 function NavItem({
   href,
   icon,
-  label, 
+  label,
   isActive,
 }: {
   href: string;
@@ -62,10 +63,27 @@ function NavItem({
   );
 }
 
+function StatusBadge({ status }: { status: SidebarProject["status"] }) {
+  if (status === "active") {
+    return (
+      <span className="ml-auto text-[0.65rem] font-bold text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded-md flex-shrink-0">
+        Aktif
+      </span>
+    );
+  }
+  if (status === "completed") {
+    return (
+      <span className="ml-auto text-[0.65rem] font-bold text-slate-400 bg-slate-100 px-1.5 py-0.5 rounded-md flex-shrink-0">
+        Tamamlandı
+      </span>
+    );
+  }
+  return null;
+}
+
 export function Sidebar({ user, teams = [], projects = [] }: SidebarProps) {
-  const activeProjects = projects.filter((p) => p.status === "active");
-  const completedProjects = projects.filter((p) => p.status === "completed");
   const pathname = usePathname();
+  const [projectsOpen, setProjectsOpen] = useState(true);
 
   function isActive(href: string, exact?: boolean) {
     return exact ? pathname === href : pathname === href || pathname.startsWith(href + "/");
@@ -121,50 +139,47 @@ export function Sidebar({ user, teams = [], projects = [] }: SidebarProps) {
       </nav>
 
       {/* Projelerim */}
-      <div className="text-[0.68rem] font-bold tracking-[2px] uppercase text-slate-400 px-3 mt-4 mb-1.5">
-        Projelerim
-      </div>
-      <nav>
-        <div className="text-[0.68rem] font-semibold text-slate-400 px-3 mt-1 mb-0.5">Aktif</div>
-        {activeProjects.length === 0 ? (
-          <div className="px-3 py-1.5 text-[0.8rem] text-slate-400">—</div>
-        ) : (
-          activeProjects.map((project) => (
-            <Link
-              key={project.id}
-              href={`/dashboard/projects/${project.id}`}
-              className={`flex items-center gap-[0.65rem] px-3 py-[0.65rem] rounded-[10px] text-[0.9rem] font-semibold mb-0.5 transition-all duration-150 no-underline ${
-                isActive(`/dashboard/projects/${project.id}`)
-                  ? "bg-blue-50 text-blue-600"
-                  : "text-slate-500 hover:bg-slate-100 hover:text-slate-900"
-              }`}
-            >
-              <span className="text-[1.1rem] w-5 text-center">⚡</span>
-              <span className="truncate">{project.title}</span>
-            </Link>
-          ))
-        )}
+      <button
+        onClick={() => setProjectsOpen((prev) => !prev)}
+        className="flex items-center justify-between w-full px-3 mt-4 mb-1.5 group"
+      >
+        <span className="text-[0.68rem] font-bold tracking-[2px] uppercase text-slate-400">
+          Projelerim
+        </span>
+        <svg
+          className={`w-3 h-3 text-slate-400 transition-transform duration-200 ${projectsOpen ? "rotate-180" : ""}`}
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          strokeWidth={2.5}
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
 
-        <div className="text-[0.68rem] font-semibold text-slate-400 px-3 mt-2 mb-0.5">Tamamlanan</div>
-        {completedProjects.length === 0 ? (
-          <div className="px-3 py-1.5 text-[0.8rem] text-slate-400">—</div>
-        ) : (
-          completedProjects.map((project) => (
-            <Link
-              key={project.id}
-              href={`/dashboard/projects/${project.id}`}
-              className={`flex items-center gap-[0.65rem] px-3 py-[0.65rem] rounded-[10px] text-[0.9rem] font-semibold mb-0.5 transition-all duration-150 no-underline ${
-                isActive(`/dashboard/projects/${project.id}`)
-                  ? "bg-blue-50 text-blue-600"
-                  : "text-slate-500 hover:bg-slate-100 hover:text-slate-900"
-              }`}
-            >
-              <span className="text-[1.1rem] w-5 text-center">✅</span>
-              <span className="truncate">{project.title}</span>
-            </Link>
-          ))
-        )}
-      </nav>
+      {projectsOpen && (
+        <nav>
+          {projects.length === 0 ? (
+            <div className="px-3 py-2 text-[0.8rem] text-slate-400">Henüz proje yok</div>
+          ) : (
+            projects.map((project) => (
+              <Link
+                key={project.id}
+                href={`/dashboard/projects/${project.id}`}
+                className={`flex items-center gap-[0.65rem] px-3 py-[0.65rem] rounded-[10px] text-[0.9rem] font-semibold mb-0.5 transition-all duration-150 no-underline ${
+                  isActive(`/dashboard/projects/${project.id}`)
+                    ? "bg-blue-50 text-blue-600"
+                    : "text-slate-500 hover:bg-slate-100 hover:text-slate-900"
+                }`}
+              >
+                <span className="text-[1.1rem] w-5 text-center flex-shrink-0">📁</span>
+                <span className="truncate flex-1 min-w-0">{project.title}</span>
+                <StatusBadge status={project.status} />
+              </Link>
+            ))
+          )}
+        </nav>
+      )}
 
       {/* Hesap */}
       <div className="text-[0.68rem] font-bold tracking-[2px] uppercase text-slate-400 px-3 mt-4 mb-1.5">
