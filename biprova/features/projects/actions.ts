@@ -95,6 +95,7 @@ export interface UserTeamOption {
 }
 
 type TeamMemberRow = {
+  has_biprova: boolean;
   teams: {
     id: string;
     name: string | null;
@@ -110,14 +111,17 @@ export async function getUserTeams(): Promise<UserTeamOption[]> {
 
   const { data } = await supabase
     .from('team_members')
-    .select('teams!inner(id, name, status, leader_id)')
+    .select('has_biprova, teams!inner(id, name, status, leader_id)')
     .eq('user_id', user.id)
     .limit(20);
 
   if (!data) return [];
 
   return (data as unknown as TeamMemberRow[])
-    .filter((r) => ['active', 'pending', 'no_project'].includes(r.teams.status))
+    .filter((r) =>
+      ['active', 'pending', 'no_project'].includes(r.teams.status) &&
+      (r.teams.leader_id === user.id || r.has_biprova)
+    )
     .map((r) => ({
       id: r.teams.id,
       name: r.teams.name ?? 'İsimsiz Ekip',
