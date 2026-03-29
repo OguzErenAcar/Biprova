@@ -365,7 +365,7 @@ function InputWithIcon({ icon, children }: InputWithIconProps) {
 interface FormCardProps {
   id?: string;
   title: string;
-  sub: string;
+  sub: React.ReactNode;
   children: React.ReactNode;
 }
 
