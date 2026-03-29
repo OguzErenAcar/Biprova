@@ -301,3 +301,282 @@ export async function createProject(
 
   redirect('/dashboard');
 }
+
+// ─── Project Detail ────────────────────────────────────────────────────────
+
+export interface ProjectRoleDetail {
+  id: string;
+  role_name: string;
+  is_filled: boolean;
+  filled_by: string | null;
+  filled_by_name: string | null;
+  filled_by_avatar: string | null;
+}
+
+export interface ProjectMember {
+  user_id: string;
+  name: string;
+  avatar_url: string | null;
+  role_name: string | null;
+  is_leader: boolean;
+}
+
+export interface ProjectMessage {
+  id: string;
+  sender_id: string;
+  sender_name: string;
+  sender_avatar: string | null;
+  content: string;
+  created_at: string;
+}
+
+export interface ProjectPost {
+  id: string;
+  author_id: string;
+  author_name: string;
+  author_avatar: string | null;
+  content: string;
+  like_count: number;
+  created_at: string;
+}
+
+export interface ProjectDetail {
+  id: string;
+  title: string;
+  description: string | null;
+  city: string | null;
+  is_remote: boolean;
+  category: string | null;
+  status: string;
+  created_at: string;
+  creator_id: string;
+  team_id: string | null;
+  team_name: string | null;
+  team_status: string | null;
+  team_leader_id: string | null;
+  roles: ProjectRoleDetail[];
+  members: ProjectMember[];
+  messages: ProjectMessage[];
+  posts: ProjectPost[];
+  viewer: {
+    id: string;
+    name: string;
+    is_creator: boolean;
+    is_team_leader: boolean;
+    is_team_member: boolean;
+  };
+}
+
+type RawProjectDetailRow = {
+  id: string;
+  title: string;
+  description: string | null;
+  city: string | null;
+  is_remote: boolean | null;
+  status: string;
+  created_at: string;
+  creator_id: string;
+  team_id: string | null;
+  project_categories: { name: string } | null;
+};
+
+type RawRoleDetailRow = {
+  id: string;
+  role_name: string;
+  is_filled: boolean;
+  filled_by: string | null;
+  users: { name: string; avatar_url: string | null } | null;
+};
+
+type RawMemberRow = {
+  user_id: string;
+  users: { name: string; avatar_url: string | null };
+  project_roles: { role_name: string } | null;
+};
+
+type RawMessageRow = {
+  id: string;
+  sender_id: string;
+  content: string;
+  created_at: string;
+  users: { name: string; avatar_url: string | null } | null;
+};
+
+type RawPostRow = {
+  id: string;
+  author_id: string;
+  content: string;
+  like_count: number;
+  created_at: string;
+  users: { name: string; avatar_url: string | null } | null;
+};
+
+type RawTeamRow = {
+  id: string;
+  name: string | null;
+  status: string;
+  leader_id: string | null;
+};
+
+export async function getProjectDetail(id: string): Promise<ProjectDetail | null> {
+  const supabase = await createClient();
+  const { data: { user }, error: authError } = await supabase.auth.getUser();
+  if (authError || !user) return null;
+
+  const { data: rawProject, error: projectError } = await supabase
+    .from('projects')
+    .select('id, title, description, city, is_remote, status, created_at, creator_id, team_id, project_categories(name)')
+    .eq('id', id)
+    .single();
+
+  if (projectError || !rawProject) return null;
+  const project = rawProject as unknown as RawProjectDetailRow;
+
+  const { data: rawRoles } = await supabase
+    .from('project_roles')
+    .select('id, role_name, is_filled, filled_by, users!filled_by(name, avatar_url)')
+    .eq('project_id', id)
+    .limit(20);
+
+  const roles: ProjectRoleDetail[] = (rawRoles as unknown as RawRoleDetailRow[] ?? []).map((r) => ({
+    id: r.id,
+    role_name: r.role_name,
+    is_filled: r.is_filled,
+    filled_by: r.filled_by,
+    filled_by_name: r.users?.name ?? null,
+    filled_by_avatar: r.users?.avatar_url ?? null,
+  }));
+
+  let team: RawTeamRow | null = null;
+  if (project.team_id) {
+    const { data } = await supabase
+      .from('teams')
+      .select('id, name, status, leader_id')
+      .eq('id', project.team_id)
+      .single();
+    team = data as RawTeamRow | null;
+  }
+
+  let members: ProjectMember[] = [];
+  let messages: ProjectMessage[] = [];
+  let posts: ProjectPost[] = [];
+
+  if (project.team_id) {
+    const [{ data: rawMembers }, { data: rawMessages }, { data: rawPosts }] = await Promise.all([
+      supabase
+        .from('team_members')
+        .select('user_id, users!inner(name, avatar_url), project_roles!role_id(role_name)')
+        .eq('team_id', project.team_id)
+        .limit(20),
+      supabase
+        .from('messages')
+        .select('id, sender_id, content, created_at, users!sender_id(name, avatar_url)')
+        .eq('team_id', project.team_id)
+        .order('created_at', { ascending: true })
+        .limit(50),
+      supabase
+        .from('team_posts')
+        .select('id, author_id, content, like_count, created_at, users!author_id(name, avatar_url)')
+        .eq('team_id', project.team_id)
+        .order('created_at', { ascending: false })
+        .limit(20),
+    ]);
+
+    members = (rawMembers as unknown as RawMemberRow[] ?? []).map((m) => ({
+      user_id: m.user_id,
+      name: m.users.name,
+      avatar_url: m.users.avatar_url,
+      role_name: m.project_roles?.role_name ?? null,
+      is_leader: m.user_id === team?.leader_id,
+    }));
+
+    messages = (rawMessages as unknown as RawMessageRow[] ?? []).map((m) => ({
+      id: m.id,
+      sender_id: m.sender_id,
+      sender_name: m.users?.name ?? '?',
+      sender_avatar: m.users?.avatar_url ?? null,
+      content: m.content,
+      created_at: m.created_at,
+    }));
+
+    posts = (rawPosts as unknown as RawPostRow[] ?? []).map((p) => ({
+      id: p.id,
+      author_id: p.author_id,
+      author_name: p.users?.name ?? '?',
+      author_avatar: p.users?.avatar_url ?? null,
+      content: p.content,
+      like_count: p.like_count ?? 0,
+      created_at: p.created_at,
+    }));
+  }
+
+  let isTeamMember = false;
+  if (project.team_id) {
+    const { data: memberRow } = await supabase
+      .from('team_members')
+      .select('user_id')
+      .eq('team_id', project.team_id)
+      .eq('user_id', user.id)
+      .maybeSingle();
+    isTeamMember = memberRow !== null;
+  }
+
+  const { data: viewerUser } = await supabase
+    .from('users')
+    .select('name')
+    .eq('id', user.id)
+    .single();
+
+  return {
+    id: project.id,
+    title: project.title,
+    description: project.description,
+    city: project.city,
+    is_remote: project.is_remote ?? false,
+    category: project.project_categories?.name ?? null,
+    status: project.status,
+    created_at: project.created_at,
+    creator_id: project.creator_id,
+    team_id: project.team_id,
+    team_name: team?.name ?? null,
+    team_status: team?.status ?? null,
+    team_leader_id: team?.leader_id ?? null,
+    roles,
+    members,
+    messages,
+    posts,
+    viewer: {
+      id: user.id,
+      name: (viewerUser as { name: string } | null)?.name ?? 'Sen',
+      is_creator: project.creator_id === user.id,
+      is_team_leader: team?.leader_id === user.id,
+      is_team_member: isTeamMember,
+    },
+  };
+}
+
+export async function sendProjectMessage(teamId: string, content: string): Promise<void> {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return;
+  const trimmed = content.trim();
+  if (!trimmed) return;
+  await supabase.from('messages').insert({
+    team_id: teamId,
+    sender_id: user.id,
+    content: trimmed,
+  });
+}
+
+export async function createProjectPost(teamId: string, content: string): Promise<void> {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return;
+  const trimmed = content.trim();
+  if (!trimmed) return;
+  await supabase.from('team_posts').insert({
+    team_id: teamId,
+    author_id: user.id,
+    content: trimmed,
+  });
+}
