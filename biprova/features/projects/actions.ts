@@ -185,7 +185,8 @@ const createProjectSchema = z.object({
   city: z.string().min(1, 'Şehir zorunludur'),
   is_remote: z.string().optional(),
   category_id: z.string().optional(),
-  roles: z.string().min(1, 'En az 1 rol eklemelisin'),
+  roles: z.string().optional(),
+  team_id: z.string().optional(),
 });
 
 export interface CreateProjectState {
