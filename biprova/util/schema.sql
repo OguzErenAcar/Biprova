@@ -501,3 +501,37 @@ create or replace trigger trg_create_team_on_project_full
   after update on projects
   for each row
   execute function create_team_on_project_full();
+
+-- ============================================================
+-- FIX: projects_insert RLS
+-- Eski policy ekip bağımsız kontrol yapıyordu.
+-- Yeni policy:
+--   1. team_id IS NULL → sıfırdan, herkes proje açabilir
+--   2. team_id set → sadece O ekibin lideri veya biprova üyesi
+-- ============================================================
+drop policy if exists "projects_insert" on projects;
+
+create policy "projects_insert" on projects
+    for insert with check (
+        creator_id = auth.uid()
+        and (
+            -- Sıfırdan: herhangi bir kullanıcı proje açabilir
+            team_id is null
+            or
+            -- Mevcut ekiple: o ekibin lideri olmalı
+            exists (
+                select 1 from teams t
+                where t.id = team_id
+                  and t.leader_id = auth.uid()
+                  and t.status in ('active', 'no_project', 'pending')
+            )
+            or
+            -- Mevcut ekiple: o ekipte biprova yetkisi olmalı
+            exists (
+                select 1 from team_members tm
+                where tm.team_id = team_id
+                  and tm.user_id = auth.uid()
+                  and tm.has_biprova = true
+            )
+        )
+    );
