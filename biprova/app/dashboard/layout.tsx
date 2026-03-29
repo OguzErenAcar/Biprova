@@ -9,7 +9,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         <SidebarLoader />
       </Suspense>
       <div id="dashboard-content" className="lg:ml-60 flex-1 flex flex-col min-h-screen">
-        {children}
+        <Suspense>
+          {children}
+        </Suspense>
       </div>
       <Suspense>
         <TabBar />
