@@ -12,7 +12,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       <div id="dashboard-content" className="lg:ml-60 flex-1 flex flex-col min-h-screen">
         {children}
       </div>
-      <TabBar />
+      <Suspense>
+        <TabBar />
+      </Suspense>
     </div>
   );
 }
