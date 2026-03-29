@@ -14,7 +14,7 @@ export async function SidebarLoader() {
         .from("team_members")
         .select("teams(id, name)")
         .eq("user_id", user.id)
-        .in("teams.status", ["active", "no_project"])
+        .in("teams.status", ["pending", "active", "no_project"])
         .limit(10),
       supabase
         .from("projects")
