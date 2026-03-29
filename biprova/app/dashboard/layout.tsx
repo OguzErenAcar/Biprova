@@ -1,5 +1,4 @@
 import { Suspense } from "react";
-import { Sidebar } from "@/components/shared/sidebar";
 import { SidebarLoader } from "@/components/shared/sidebar-loader";
 import { TabBar } from "@/components/shared/tab-bar";
 
