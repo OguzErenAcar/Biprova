@@ -43,6 +43,11 @@ begin
         insert into team_members (team_id, user_id, role_id)
         values (new_team_id, new.creator_id, null)
         on conflict (team_id, user_id) do nothing;
+
+        -- Projeyi yeni ekibe bağla
+        update projects
+        set team_id = new_team_id
+        where id = new.id;
     end if;
 
     return new;

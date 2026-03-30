@@ -108,7 +108,8 @@ export function TeamTabView({ team }: Props) {
         className="flex border-b border-slate-200 bg-white px-6 sticky top-[53px] z-30"
       >
         {(['genel', 'projeler', 'aktivite'] as Tab[]).map((tab) => {
-          const labels: Record<Tab, string> = { genel: '👥 Genel', projeler: '📌 Projeler', aktivite: '📊 Aktivite' };
+          const labels: Record<Tab, string> = 
+          { genel: '👥 Genel', projeler: '📌 Projeler', aktivite: '📊 Aktivite' };
           return (
             <button
               key={tab}
