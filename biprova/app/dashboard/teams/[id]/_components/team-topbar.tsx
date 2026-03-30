@@ -18,7 +18,7 @@ const STATUS_LABEL: Record<string, { label: string; className: string }> = {
   disbanded:  { label: '● Dağıtıldı',   className: 'bg-red-50 text-red-600 border-red-200' },
 };
 
-export function TeamTopbar({ teamName, teamStatus, isLeader, isMember, onLeave }: Props) {
+export function TeamTopbar({ teamName, teamStatus, projectCount, isLeader, isMember, onLeave }: Props) {
   const router = useRouter();
   const status = STATUS_LABEL[teamStatus] ?? STATUS_LABEL.pending;
 
