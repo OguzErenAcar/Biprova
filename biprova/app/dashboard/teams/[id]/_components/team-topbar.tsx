@@ -40,6 +40,12 @@ export function TeamTopbar({ teamName, teamStatus, projectCount, isLeader, isMem
         {status.label}
       </span>
 
+      {projectCount > 0 && (
+        <span className="text-[0.7rem] font-bold px-2.5 py-[0.2rem] rounded-full border-[1.5px] bg-slate-50 text-slate-500 border-slate-200">
+          📌 {projectCount} Proje
+        </span>
+      )}
+
       <div className="ml-auto flex items-center gap-2">
         {isMember && !isLeader && (
           <button
