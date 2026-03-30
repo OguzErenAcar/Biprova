@@ -60,6 +60,19 @@ type MembershipRow = {
   } | null;
 };
 
+type FilledRoleRow = {
+  role_name: string;
+  projects: {
+    id: string;
+    title: string;
+    city: string | null;
+    is_remote: boolean | null;
+    category: string | null;
+    status: string;
+    creator_id: string;
+  } | null;
+};
+
 export async function getCurrentUserProfile(): Promise<UserProfile> {
   const supabase = await createClient();
 
