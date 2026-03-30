@@ -146,25 +146,27 @@ export function Sidebar({ user, teams = [], projects = [] }: SidebarProps) {
             d="M19 9l-7 7-7-7"
           />
         </svg>
-        {TeamsOpen && (
-          <nav>
-            {teams.length === 0 ? (
-              <div className="px-3 py-2 text-[0.8rem] text-slate-400">
-                Henüz ekip yok
-              </div>
-            ) : (
-              teams.map((team) => (
-                <Link
-                  key={team.id}
-                  href={`/dashboard/teams/${team.id}`}
-                  className={`flex items-center gap-[0.65rem] px-3 py-[0.65rem] rounded-[10px] text-[0.9rem] font-semibold mb-0.5 transition-all duration-150 no-underline ${
-                    isActive(`/dashboard/teams/${team.id}`)
-                      ? "bg-blue-50 text-blue-600"
-                      : "text-slate-500 hover:bg-slate-100 hover:text-slate-900"
-                  }`}
-                >
-                  <span className="text-[1.1rem] w-5 text-center">👥</span>
-                  <span className="truncate">{team.name}</span>
+      </button>
+
+      {TeamsOpen && (
+        <nav>
+          {teams.length === 0 ? (
+            <div className="px-3 py-2 text-[0.8rem] text-slate-400">
+              Henüz ekip yok
+            </div>
+          ) : (
+            teams.map((team) => (
+              <Link
+                key={team.id}
+                href={`/dashboard/teams/${team.id}`}
+                className={`flex items-center gap-[0.65rem] px-3 py-[0.65rem] rounded-[10px] text-[0.9rem] font-semibold mb-0.5 transition-all duration-150 no-underline ${
+                  isActive(`/dashboard/teams/${team.id}`)
+                    ? "bg-blue-50 text-blue-600"
+                    : "text-slate-500 hover:bg-slate-100 hover:text-slate-900"
+                }`}
+              >
+                <span className="text-[1.1rem] w-5 text-center">👥</span>
+                <span className="truncate">{team.name}</span>
                 </Link>
               ))
             )}
