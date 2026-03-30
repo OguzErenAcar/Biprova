@@ -2,6 +2,7 @@ import type { TeamDetail } from '@/features/teams/actions';
 
 interface Props {
   team: TeamDetail;
+  isLeader: boolean;
   onNewProject: () => void;
   onSettings: () => void;
 }
