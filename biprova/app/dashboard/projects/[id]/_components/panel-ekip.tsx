@@ -45,6 +45,7 @@ export function PanelEkip({ project }: Props) {
           projectId={project.id}
           teamId={project.team_id}
           members={project.members}
+          roles={project.roles}
           viewerId={viewer.id}
         />
       )}
