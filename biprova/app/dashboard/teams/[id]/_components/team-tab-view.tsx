@@ -185,7 +185,8 @@ export function TeamTabView({ team }: Props) {
             {modal.type === 'settings' && (
               <input
                 type="text"
-                defaultValue={team.name}
+                value={newTeamName}
+                onChange={(e) => setNewTeamName(e.target.value)}
                 className="w-full px-3 py-[0.65rem] rounded-[8px] border-[1.5px] border-slate-200 font-[inherit] text-[0.86rem] outline-none mb-4 focus:border-blue-600"
               />
             )}
