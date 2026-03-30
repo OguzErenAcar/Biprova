@@ -61,6 +61,10 @@ export function TeamTabView({ team }: Props) {
           await grantBiprova(team.id, modal.userId);
           router.refresh();
           break;
+        case 'settings':
+          await renameTeam(team.id, newTeamName);
+          router.refresh();
+          break;
         default:
           break;
       }
