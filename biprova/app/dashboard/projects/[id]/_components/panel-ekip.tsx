@@ -235,24 +235,32 @@ function MemberManagementSection({ projectId, teamId, members, roles, viewerId }
   );
 }
 
-function InviteRow({ projectId }: { projectId: string }) {
+function InviteRow({
+  projectId,
+  openRoles,
+}: {
+  projectId: string;
+  openRoles: ProjectDetail['roles'];
+}) {
   const [email, setEmail] = useState('');
+  const [roleId, setRoleId] = useState('');
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
   function handleInvite() {
     const trimmed = email.trim();
-    if (!trimmed) return;
+    if (!trimmed || !roleId) return;
     setError('');
     setSuccess('');
     startTransition(async () => {
-      const result = await inviteToProject(projectId, trimmed);
+      const result = await inviteToProject(projectId, trimmed, roleId);
       if (result.error) {
         setError(result.error);
       } else {
         setSuccess('Kullanıcı projeye eklendi.');
         setEmail('');
+        setRoleId('');
       }
     });
   }
@@ -260,23 +268,38 @@ function InviteRow({ projectId }: { projectId: string }) {
   return (
     <div className="px-[1.4rem] py-[1rem]">
       <p className="text-[0.8rem] font-semibold text-slate-700 mb-2">Kişi Davet Et</p>
-      <div className="flex gap-2">
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          onKeyDown={(e) => e.key === 'Enter' && handleInvite()}
-          placeholder="e-posta adresi"
-          className="flex-1 text-[0.82rem] px-3 py-2 rounded-lg border-[1.5px] border-slate-200 outline-none focus:border-blue-500 transition-colors placeholder:text-slate-400"
-        />
-        <button
-          disabled={isPending || !email.trim()}
-          onClick={handleInvite}
-          className="text-[0.78rem] font-bold px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer shrink-0"
+      <div className="flex flex-col gap-2">
+        <select
+          value={roleId}
+          onChange={(e) => setRoleId(e.target.value)}
+          className="text-[0.82rem] px-3 py-2 rounded-lg border-[1.5px] border-slate-200 outline-none focus:border-blue-500 transition-colors text-slate-700 bg-white cursor-pointer"
         >
-          {isPending ? '…' : 'Davet Et'}
-        </button>
+          <option value="">— Rol seç —</option>
+          {openRoles.map((r) => (
+            <option key={r.id} value={r.id}>{r.role_name}</option>
+          ))}
+        </select>
+        <div className="flex gap-2">
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            onKeyDown={(e) => e.key === 'Enter' && handleInvite()}
+            placeholder="e-posta adresi"
+            className="flex-1 text-[0.82rem] px-3 py-2 rounded-lg border-[1.5px] border-slate-200 outline-none focus:border-blue-500 transition-colors placeholder:text-slate-400"
+          />
+          <button
+            disabled={isPending || !email.trim() || !roleId}
+            onClick={handleInvite}
+            className="text-[0.78rem] font-bold px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer shrink-0"
+          >
+            {isPending ? '…' : 'Davet Et'}
+          </button>
+        </div>
       </div>
+      {openRoles.length === 0 && (
+        <p className="text-[0.75rem] text-slate-400 mt-1.5">Tüm roller dolu, davet gönderilemiyor.</p>
+      )}
       {error && <p className="text-[0.72rem] text-red-500 mt-1.5">{error}</p>}
       {success && <p className="text-[0.72rem] text-green-600 mt-1.5">{success}</p>}
     </div>
