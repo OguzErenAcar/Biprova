@@ -180,54 +180,6 @@ export function PanelGenel({ project, onGoToChat, onGoToTasks, onGoToFiles }: Pr
           {/* Project info card */}
           <ProjectInfoCard project={project} />
 
-          {/* Roles / Phases card */}
-          <div id="phases-card" className="bg-white border-[1.5px] border-slate-200 rounded-2xl overflow-hidden">
-            <div className="flex items-center justify-between px-[1.2rem] py-[1rem] border-b border-slate-200">
-              <span className="font-nunito text-[0.9rem] font-black">🎭 Roller</span>
-              <span className="text-[0.72rem] text-slate-400">
-                {filledCount}/{totalCount} dolu
-              </span>
-            </div>
-            {totalCount === 0 ? (
-              <div className="px-[1.2rem] py-[1rem] text-[0.82rem] text-slate-400">
-                Rol bulunamadı.
-              </div>
-            ) : (
-              <div className="flex overflow-x-auto">
-                {project.roles.map((role, i) => (
-                  <div
-                    key={role.id}
-                    className={`flex-1 min-w-[80px] px-[0.8rem] py-[0.9rem] text-center border-r border-slate-200 last:border-r-0 ${
-                      role.is_filled ? 'bg-green-50' : ''
-                    }`}
-                  >
-                    <div
-                      className={`w-7 h-7 rounded-full mx-auto mb-1 flex items-center justify-center text-[0.75rem] font-extrabold border-2 ${
-                        role.is_filled
-                          ? 'bg-green-500 border-green-500 text-white'
-                          : 'bg-white border-slate-200 text-slate-400'
-                      }`}
-                    >
-                      {role.is_filled ? '✓' : i + 1}
-                    </div>
-                    <div
-                      className={`text-[0.72rem] font-bold truncate ${
-                        role.is_filled ? 'text-green-700' : 'text-slate-400'
-                      }`}
-                    >
-                      {role.role_name}
-                    </div>
-                    {role.filled_by_name && (
-                      <div className="text-[0.64rem] text-slate-400 mt-0.5 truncate">
-                        {role.filled_by_name}
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-
           {/* Active Tasks card */}
           <div
             id="active-tasks-card"
