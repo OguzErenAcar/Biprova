@@ -155,22 +155,6 @@ export function ProjectCard({
         <TeamBar filled={filled} total={total} />
       </div>
 
-      {/* Aksiyon butonları */}
-      <div className="flex gap-[0.6rem] items-start">
-        {isOwnProject ? (
-          <span className="text-[0.84rem] font-nunito font-bold text-slate-400 px-5 py-[0.55rem] border-[1.5px] border-slate-200 rounded-lg">
-            Senin projen
-          </span>
-        ) : (
-          <ApplyButton
-            projectId={projectId}
-            openRoles={openRoles.map((r) => ({ id: r.id, name: r.name, skills: r.skills }))}
-          />
-        )}
-        <button className="bg-transparent text-slate-500 border-[1.5px] border-slate-200 rounded-lg font-nunito font-bold text-[0.84rem] px-4 py-[0.55rem] cursor-pointer hover:border-blue-600 hover:text-blue-600 transition-all duration-150">
-          🔖 Kaydet
-        </button>
-      </div>
     </div>
   );
 }
