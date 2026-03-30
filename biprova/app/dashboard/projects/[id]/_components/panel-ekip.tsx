@@ -5,7 +5,8 @@ import { useRouter } from 'next/navigation';
 import type { ProjectDetail } from '@/features/projects/actions';
 import { deleteProject } from '@/features/projects/actions';
 import { reviewApplication } from '@/features/applications/actions';
-import { kickMember, grantBiprova, revokeBiprova, inviteMemberByEmail } from '@/features/teams/actions';
+import { kickMember, grantBiprova, revokeBiprova } from '@/features/teams/actions';
+import { inviteToProject, removeFromProject } from '@/features/projects/actions';
 
 function getInitials(name: string) {
   return name
