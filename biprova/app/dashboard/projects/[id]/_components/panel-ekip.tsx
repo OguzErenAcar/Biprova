@@ -40,8 +40,9 @@ export function PanelEkip({ project }: Props) {
         </>
       )}
 
-      {(viewer.is_creator || viewer.is_team_leader) && project.team_id && (
-        <TeamManagementSection
+      {(viewer.is_creator || viewer.is_team_leader) && (
+        <MemberManagementSection
+          projectId={project.id}
           teamId={project.team_id}
           members={project.members}
           viewerId={viewer.id}
