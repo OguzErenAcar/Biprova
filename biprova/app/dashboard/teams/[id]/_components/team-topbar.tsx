@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 interface Props {
   teamName: string;
   teamStatus: string;
+  projectCount: number;
   isLeader: boolean;
   isMember: boolean;
   onLeave: () => void;
