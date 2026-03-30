@@ -377,6 +377,7 @@ export interface ProjectDetail {
     is_team_leader: boolean;
     is_team_member: boolean;
   };
+  applications: ProjectApplication[];
 }
 
 type RawProjectDetailRow = {
