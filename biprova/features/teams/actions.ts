@@ -174,8 +174,62 @@ export async function kickMember(teamId: string, userId: string): Promise<{ erro
 
 export async function grantBiprova(teamId: string, userId: string): Promise<{ error?: string }> {
   const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return { error: 'Oturum açmanız gerekiyor.' };
+
+  const { data: team } = await supabase.from('teams').select('leader_id').eq('id', teamId).single();
+  if (team?.leader_id !== user.id) return { error: 'Sadece lider yetki verebilir.' };
+
   const { error } = await supabase.from('team_members').update({ has_biprova: true }).eq('team_id', teamId).eq('user_id', userId);
   if (error) return { error: 'Yetki verilemedi.' };
+  return {};
+}
+
+export async function revokeBiprova(teamId: string, userId: string): Promise<{ error?: string }> {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return { error: 'Oturum açmanız gerekiyor.' };
+
+  const { data: team } = await supabase.from('teams').select('leader_id').eq('id', teamId).single();
+  if (team?.leader_id !== user.id) return { error: 'Sadece lider yetki kaldırabilir.' };
+
+  const { error } = await supabase.from('team_members').update({ has_biprova: false }).eq('team_id', teamId).eq('user_id', userId);
+  if (error) return { error: 'Yetki kaldırılamadı.' };
+  return {};
+}
+
+export async function inviteMemberByEmail(teamId: string, email: string): Promise<{ error?: string }> {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return { error: 'Oturum açmanız gerekiyor.' };
+
+  const { data: team } = await supabase.from('teams').select('leader_id').eq('id', teamId).single();
+  if (team?.leader_id !== user.id) return { error: 'Sadece lider davet gönderebilir.' };
+
+  const { data: targetUser } = await supabase
+    .from('users')
+    .select('id, name')
+    .eq('email', email.trim().toLowerCase())
+    .maybeSingle();
+
+  if (!targetUser) return { error: 'Bu e-posta ile kayıtlı kullanıcı bulunamadı.' };
+
+  const { data: existing } = await supabase
+    .from('team_members')
+    .select('user_id')
+    .eq('team_id', teamId)
+    .eq('user_id', targetUser.id)
+    .maybeSingle();
+
+  if (existing) return { error: 'Bu kullanıcı zaten ekip üyesi.' };
+
+  const { error } = await supabase.from('team_members').insert({
+    team_id: teamId,
+    user_id: targetUser.id,
+    has_biprova: false,
+  });
+
+  if (error) return { error: 'Davet gönderilemedi.' };
   return {};
 }
 
