@@ -37,7 +37,7 @@ export function RoleJoinButton({ projectId, roleId }: RoleJoinButtonProps) {
         }
         className="bg-blue-600 text-white rounded-lg font-nunito font-extrabold text-[0.75rem] px-3 py-1.5 cursor-pointer hover:bg-blue-700 transition-colors duration-150 whitespace-nowrap disabled:opacity-60 disabled:cursor-not-allowed"
       >
-        {isPending ? "…" : "Katıl →"}
+        {isPending ? "…" : "Başvur →"}
       </button>
       {error && (
         <span className="text-[0.68rem] text-red-500 font-semibold text-right">{error}</span>

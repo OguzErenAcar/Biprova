@@ -340,6 +340,18 @@ export interface ProjectPost {
   created_at: string;
 }
 
+export interface ProjectApplication {
+  id: string;
+  user_id: string;
+  user_name: string;
+  user_avatar: string | null;
+  role_id: string;
+  role_name: string;
+  note: string | null;
+  status: 'pending' | 'accepted' | 'rejected';
+  created_at: string;
+}
+
 export interface ProjectDetail {
   id: string;
   title: string;
