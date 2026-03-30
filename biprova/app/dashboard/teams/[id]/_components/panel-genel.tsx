@@ -22,7 +22,7 @@ export function PanelGenel({
   team, onNewProject, onSettings, onInvite,
   onGrantBiprova, onKick, onTransfer, onDisband, onViewAllProjects,
 }: Props) {
-  const latestProject = team.projects[0] ?? null;
+  const recentProjects = team.projects.slice(0, 3);
   const canCreateProject = team.viewer.is_leader || team.viewer.has_biprova;
 
   return (
