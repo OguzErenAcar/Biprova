@@ -32,6 +32,7 @@ export function TeamTabView({ team }: Props) {
   const [activeTab, setActiveTab] = useState<Tab>('genel');
   const [modal, setModal] = useState<ModalType>(null);
   const [transferTarget, setTransferTarget] = useState<string>('');
+  const [newTeamName, setNewTeamName] = useState<string>(team.name);
   const [isPending, startTransition] = useTransition();
 
   const otherMembers = team.members.filter((m) => !m.is_leader);
