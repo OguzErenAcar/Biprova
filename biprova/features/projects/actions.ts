@@ -362,6 +362,8 @@ export interface ProjectDetail {
   status: string;
   created_at: string;
   creator_id: string;
+  creator_name: string;
+  creator_avatar: string | null;
   team_id: string | null;
   team_name: string | null;
   team_status: string | null;
