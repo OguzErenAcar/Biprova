@@ -124,6 +124,31 @@ export function PanelGenel({ project, onGoToChat, onGoToTasks, onGoToFiles }: Pr
     .filter(Boolean)
     .join(' · ');
 
+  // Üye listesi: ekip varsa team_members, yoksa creator + dolu roller
+  const memberSlots: MemberSlot[] = project.team_id
+    ? project.members.map((m) => ({
+        id: m.user_id,
+        name: m.name,
+        avatar_url: m.avatar_url,
+        is_leader: m.is_leader,
+      }))
+    : [
+        {
+          id: project.creator_id,
+          name: project.creator_name,
+          avatar_url: project.creator_avatar,
+          is_leader: true,
+        },
+        ...project.roles
+          .filter((r) => r.is_filled && r.filled_by && r.filled_by !== project.creator_id)
+          .map((r) => ({
+            id: r.filled_by!,
+            name: r.filled_by_name ?? '?',
+            avatar_url: r.filled_by_avatar,
+            is_leader: false,
+          })),
+      ];
+
   return (
     <div id="panel-genel">
       {/* Project Header */}
@@ -135,7 +160,8 @@ export function PanelGenel({ project, onGoToChat, onGoToTasks, onGoToFiles }: Pr
           <h2 className="font-nunito font-black text-[1.2rem] text-white mb-1">{project.title}</h2>
           {meta && <p className="text-[0.82rem] text-white/70">{meta}</p>}
         </div>
-        <div className="flex gap-2 items-center">
+        <div className="flex gap-3 items-center ml-auto">
+          <MemberStrip members={memberSlots} />
           {project.team_id && (
             <button
               onClick={onGoToChat}
