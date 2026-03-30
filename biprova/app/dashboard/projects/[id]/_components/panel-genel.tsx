@@ -115,9 +115,6 @@ interface Props {
 }
 
 export function PanelGenel({ project, onGoToChat, onGoToTasks, onGoToFiles }: Props) {
-  const filledCount = project.roles.filter((r) => r.is_filled).length;
-  const totalCount = project.roles.length;
-
   const meta = [
     project.city && `📍 ${project.city}`,
     project.is_remote && '🌐 Remote',
