@@ -554,15 +554,22 @@ export async function getProjectDetail(id: string): Promise<ProjectDetail | null
       .eq('project_id', id)
       .limit(20);
 
-    members = (rawProjMembers as unknown as RawProjectMemberRow[] ?? []).map((m) => ({
-      user_id: m.user_id,
-      name: m.users.name,
-      avatar_url: m.users.avatar_url,
-      role_name: m.role === 'creator' ? 'Kurucu' : 'Üye',
-      is_leader: false,
-      has_biprova: false,
-      is_creator: m.role === 'creator',
-    }));
+    const seenIds = new Set<string>();
+    members = (rawProjMembers as unknown as RawProjectMemberRow[] ?? [])
+      .filter((m) => {
+        if (seenIds.has(m.user_id)) return false;
+        seenIds.add(m.user_id);
+        return true;
+      })
+      .map((m) => ({
+        user_id: m.user_id,
+        name: m.users.name,
+        avatar_url: m.users.avatar_url,
+        role_name: m.role === 'creator' ? 'Kurucu' : 'Üye',
+        is_leader: false,
+        has_biprova: false,
+        is_creator: m.role === 'creator',
+      }));
   }
 
   let applications: ProjectApplication[] = [];

@@ -120,3 +120,5 @@ create or replace trigger trg_reset_role_on_team_member_removed
     after delete on team_members
     for each row
     execute function reset_role_on_team_member_removed();
+
+
