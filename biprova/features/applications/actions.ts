@@ -89,6 +89,8 @@ export async function reviewApplication(
         .update({ status: 'full' })
         .eq('id', app.project_id);
     }
+
+    revalidatePath('/dashboard/profile');
   }
 
   return { success: true };
