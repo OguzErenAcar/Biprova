@@ -59,6 +59,54 @@ function getInitials(name: string) {
     .toUpperCase();
 }
 
+interface MemberSlot {
+  id: string;
+  name: string;
+  avatar_url: string | null;
+  is_leader: boolean;
+}
+
+function MemberStrip({ members }: { members: MemberSlot[] }) {
+  if (members.length === 0) return null;
+  const MAX = 6;
+  const visible = members.slice(0, MAX);
+  const overflow = members.length - MAX;
+
+  return (
+    <div className="flex items-center gap-1.5">
+      {visible.map((m) => (
+        <div
+          key={m.id}
+          title={`${m.name}${m.is_leader ? ' (Lider)' : ''}`}
+          className={`relative w-8 h-8 rounded-full flex items-center justify-center text-[0.7rem] font-extrabold shrink-0 ${
+            m.is_leader
+              ? 'bg-orange-400 ring-2 ring-white'
+              : 'bg-white/20 ring-1 ring-white/40'
+          } text-white`}
+        >
+          {m.avatar_url ? (
+            <img
+              src={m.avatar_url}
+              alt={m.name}
+              className="w-full h-full rounded-full object-cover"
+            />
+          ) : (
+            getInitials(m.name)
+          )}
+          {m.is_leader && (
+            <span className="absolute -top-1 -right-0.5 text-[0.55rem] leading-none">⚡</span>
+          )}
+        </div>
+      ))}
+      {overflow > 0 && (
+        <div className="w-8 h-8 rounded-full bg-white/20 ring-1 ring-white/30 flex items-center justify-center text-[0.65rem] font-bold text-white shrink-0">
+          +{overflow}
+        </div>
+      )}
+    </div>
+  );
+}
+
 interface Props {
   project: ProjectDetail;
   onGoToChat: () => void;
