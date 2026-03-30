@@ -534,6 +534,28 @@ export async function getProjectDetail(id: string): Promise<ProjectDetail | null
     }));
   }
 
+  let applications: ProjectApplication[] = [];
+  if (project.creator_id === user.id) {
+    const { data: rawApps } = await supabase
+      .from('applications')
+      .select('id, user_id, role_id, note, status, created_at, users!user_id(name, avatar_url), project_roles!role_id(role_name)')
+      .eq('project_id', id)
+      .order('created_at', { ascending: false })
+      .limit(50);
+
+    applications = (rawApps as unknown as RawApplicationRow[] ?? []).map((a) => ({
+      id: a.id,
+      user_id: a.user_id,
+      user_name: a.users?.name ?? 'Bilinmiyor',
+      user_avatar: a.users?.avatar_url ?? null,
+      role_id: a.role_id,
+      role_name: a.project_roles?.role_name ?? '',
+      note: a.note,
+      status: a.status as 'pending' | 'accepted' | 'rejected',
+      created_at: a.created_at,
+    }));
+  }
+
   let isTeamMember = false;
   if (project.team_id) {
     const { data: memberRow } = await supabase
