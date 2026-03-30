@@ -165,6 +165,24 @@ export async function transferLeadership(teamId: string, newLeaderId: string): P
   return {};
 }
 
+export async function renameTeam(teamId: string, name: string): Promise<{ error?: string }> {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return { error: 'Oturum açmanız gerekiyor.' };
+
+  const trimmed = name.trim();
+  if (!trimmed) return { error: 'Ekip adı boş olamaz.' };
+
+  const { error } = await supabase
+    .from('teams')
+    .update({ name: trimmed })
+    .eq('id', teamId)
+    .eq('leader_id', user.id);
+
+  if (error) return { error: 'Ekip adı güncellenemedi.' };
+  return {};
+}
+
 export async function kickMember(teamId: string, userId: string): Promise<{ error?: string }> {
   const supabase = await createClient();
   const { error } = await supabase.from('team_members').delete().eq('team_id', teamId).eq('user_id', userId);
