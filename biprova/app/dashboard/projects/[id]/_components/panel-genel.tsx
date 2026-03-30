@@ -1,5 +1,55 @@
 import type { ProjectDetail } from '@/features/projects/actions';
 
+function formatDate(iso: string) {
+  return new Date(iso).toLocaleDateString('tr-TR', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  });
+}
+
+function ProjectInfoCard({ project }: { project: ProjectDetail }) {
+  const meta: { icon: string; label: string; value: string }[] = [
+    project.city
+      ? { icon: '📍', label: 'Şehir', value: project.city }
+      : null,
+    project.is_remote
+      ? { icon: '🌐', label: 'Çalışma Şekli', value: 'Remote uyumlu' }
+      : { icon: '🏢', label: 'Çalışma Şekli', value: 'Yüz yüze' },
+    project.category
+      ? { icon: '📂', label: 'Kategori', value: project.category }
+      : null,
+    { icon: '📅', label: 'Oluşturulma', value: formatDate(project.created_at) },
+  ].filter(Boolean) as { icon: string; label: string; value: string }[];
+
+  return (
+    <div className="bg-white border-[1.5px] border-slate-200 rounded-2xl overflow-hidden">
+      <div className="px-[1.2rem] py-[1rem] border-b border-slate-200">
+        <span className="font-nunito text-[0.9rem] font-black">📄 Proje Hakkında</span>
+      </div>
+
+      <div className="px-[1.2rem] py-[1rem] flex flex-col gap-4">
+        {project.description && (
+          <p className="text-[0.85rem] text-slate-600 leading-[1.65] whitespace-pre-wrap">
+            {project.description}
+          </p>
+        )}
+
+        <div className="grid grid-cols-2 gap-x-4 gap-y-3">
+          {meta.map((item) => (
+            <div key={item.label}>
+              <div className="text-[0.68rem] font-bold text-slate-400 uppercase tracking-wider mb-0.5">
+                {item.icon} {item.label}
+              </div>
+              <div className="text-[0.82rem] font-semibold text-slate-800">{item.value}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function getInitials(name: string) {
   return name
     .split(' ')
