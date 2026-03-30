@@ -431,6 +431,17 @@ type RawTeamRow = {
   leader_id: string | null;
 };
 
+type RawApplicationRow = {
+  id: string;
+  user_id: string;
+  role_id: string;
+  note: string | null;
+  status: string;
+  created_at: string;
+  users: { name: string; avatar_url: string | null } | null;
+  project_roles: { role_name: string } | null;
+};
+
 export async function getProjectDetail(id: string): Promise<ProjectDetail | null> {
   const supabase = await createClient();
   const { data: { user }, error: authError } = await supabase.auth.getUser();
