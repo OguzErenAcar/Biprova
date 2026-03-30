@@ -167,12 +167,11 @@ export function Sidebar({ user, teams = [], projects = [] }: SidebarProps) {
               >
                 <span className="text-[1.1rem] w-5 text-center">👥</span>
                 <span className="truncate">{team.name}</span>
-                </Link>
-              ))
-            )}
-          </nav>
-        )}
-      </button>
+              </Link>
+            ))
+          )}
+        </nav>
+      )}
 
       {/* Projelerim */}
       <button
