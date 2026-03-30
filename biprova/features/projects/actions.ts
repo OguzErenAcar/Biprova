@@ -319,6 +319,7 @@ export interface ProjectMember {
   avatar_url: string | null;
   role_name: string | null;
   is_leader: boolean;
+  has_biprova: boolean;
 }
 
 export interface ProjectMessage {
