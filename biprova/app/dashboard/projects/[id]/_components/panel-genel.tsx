@@ -56,6 +56,9 @@ export function PanelGenel({ project, onGoToChat, onGoToTasks, onGoToFiles }: Pr
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-[1.2rem] items-start">
         {/* Left column */}
         <div className="flex flex-col gap-[1.2rem]">
+          {/* Project info card */}
+          <ProjectInfoCard project={project} />
+
           {/* Roles / Phases card */}
           <div id="phases-card" className="bg-white border-[1.5px] border-slate-200 rounded-2xl overflow-hidden">
             <div className="flex items-center justify-between px-[1.2rem] py-[1rem] border-b border-slate-200">
