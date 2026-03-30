@@ -43,3 +43,52 @@ export async function applyToProject(projectId: string, roleId: string): Promise
 
   return { success: true };
 }
+
+export async function reviewApplication(
+  applicationId: string,
+  decision: 'accepted' | 'rejected',
+): Promise<ApplyResult> {
+  const supabase = await createClient();
+
+  const { data: { user }, error: authError } = await supabase.auth.getUser();
+  if (authError || !user) return { error: 'Oturum açmanız gerekiyor.' };
+
+  const { data: app } = await supabase
+    .from('applications')
+    .select('id, user_id, role_id, project_id, status')
+    .eq('id', applicationId)
+    .single();
+
+  if (!app) return { error: 'Başvuru bulunamadı.' };
+
+  const { error: updateError } = await supabase
+    .from('applications')
+    .update({ status: decision })
+    .eq('id', applicationId);
+
+  if (updateError) return { error: updateError.message };
+
+  if (decision === 'accepted') {
+    const { error: roleError } = await supabase
+      .from('project_roles')
+      .update({ is_filled: true, filled_by: app.user_id })
+      .eq('id', app.role_id);
+
+    if (roleError) return { error: roleError.message };
+
+    const { data: roles } = await supabase
+      .from('project_roles')
+      .select('is_filled')
+      .eq('project_id', app.project_id);
+
+    const allFilled = roles && roles.length > 0 && roles.every((r) => r.is_filled);
+    if (allFilled) {
+      await supabase
+        .from('projects')
+        .update({ status: 'full' })
+        .eq('id', app.project_id);
+    }
+  }
+
+  return { success: true };
+}
