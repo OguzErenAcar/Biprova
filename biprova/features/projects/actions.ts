@@ -610,6 +610,74 @@ export async function getProjectDetail(id: string): Promise<ProjectDetail | null
   };
 }
 
+export async function inviteToProject(projectId: string, email: string): Promise<{ error?: string }> {
+  const supabase = await createClient();
+  const { data: { user }, error: authError } = await supabase.auth.getUser();
+  if (authError || !user) return { error: 'Oturum açmanız gerekiyor.' };
+
+  const { data: project } = await supabase
+    .from('projects')
+    .select('creator_id')
+    .eq('id', projectId)
+    .single();
+
+  if (project?.creator_id !== user.id) return { error: 'Sadece proje sahibi davet edebilir.' };
+
+  const { data: targetUser } = await supabase
+    .from('users')
+    .select('id, name')
+    .eq('email', email.trim().toLowerCase())
+    .maybeSingle();
+
+  if (!targetUser) return { error: 'Bu e-posta ile kayıtlı kullanıcı bulunamadı.' };
+  if (targetUser.id === user.id) return { error: 'Kendinizi davet edemezsiniz.' };
+
+  const { data: existing } = await supabase
+    .from('project_members')
+    .select('user_id')
+    .eq('project_id', projectId)
+    .eq('user_id', targetUser.id)
+    .maybeSingle();
+
+  if (existing) return { error: 'Bu kullanıcı zaten projede.' };
+
+  const { createAdminClient } = await import('@/lib/supabase/admin');
+  const admin = createAdminClient();
+  const { error } = await admin.from('project_members').insert({
+    project_id: projectId,
+    user_id: targetUser.id,
+    role: 'member',
+  });
+
+  if (error) return { error: 'Davet gönderilemedi.' };
+  return {};
+}
+
+export async function removeFromProject(projectId: string, userId: string): Promise<{ error?: string }> {
+  const supabase = await createClient();
+  const { data: { user }, error: authError } = await supabase.auth.getUser();
+  if (authError || !user) return { error: 'Oturum açmanız gerekiyor.' };
+
+  const { data: project } = await supabase
+    .from('projects')
+    .select('creator_id')
+    .eq('id', projectId)
+    .single();
+
+  if (project?.creator_id !== user.id) return { error: 'Sadece proje sahibi üye çıkarabilir.' };
+  if (userId === user.id) return { error: 'Kendinizi çıkaramazsınız.' };
+
+  const { createAdminClient } = await import('@/lib/supabase/admin');
+  const admin = createAdminClient();
+  const { error } = await admin.from('project_members')
+    .delete()
+    .eq('project_id', projectId)
+    .eq('user_id', userId);
+
+  if (error) return { error: 'Üye çıkarılamadı.' };
+  return {};
+}
+
 export async function deleteProject(projectId: string): Promise<{ error?: string }> {
   const supabase = await createClient();
   const { data: { user }, error: authError } = await supabase.auth.getUser();
