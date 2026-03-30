@@ -413,6 +413,12 @@ type RawMemberRow = {
   project_roles: { role_name: string } | null;
 };
 
+type RawProjectMemberRow = {
+  user_id: string;
+  role: string;
+  users: { name: string; avatar_url: string | null };
+};
+
 type RawMessageRow = {
   id: string;
   sender_id: string;
