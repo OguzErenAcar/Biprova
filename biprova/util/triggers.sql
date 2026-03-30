@@ -1,4 +1,23 @@
 -- ============================================================
+-- TRIGGER: Ekip silinince bağlı projeyi de sil
+-- ============================================================
+
+create or replace function delete_project_on_team_deleted()
+returns trigger language plpgsql security definer as $$
+begin
+    if old.project_id is not null then
+        delete from projects where id = old.project_id;
+    end if;
+    return old;
+end;
+$$;
+
+create or replace trigger trg_delete_project_on_team_deleted
+    before delete on teams
+    for each row
+    execute function delete_project_on_team_deleted();
+
+-- ============================================================
 -- TRIGGER: Proje status 'full' olunca otomatik ekip kurar
 -- ============================================================
 
