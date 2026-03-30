@@ -536,4 +536,79 @@ create policy "projects_insert" on projects
         )
     );
 
-    
+-- ============================================================
+-- PROJECT MEMBERS — M2M: kullanıcı-proje sahipliği
+-- Bir projenin birden çok üyesi, bir kullanıcının birden çok
+-- projesi olabilir. Creator + kabul edilen başvurular buraya düşer.
+-- ============================================================
+
+create table if not exists project_members (
+    project_id uuid references projects(id) on delete cascade,
+    user_id    uuid references users(id)    on delete cascade,
+    role       text not null default 'member', -- 'creator' | 'member'
+    joined_at  timestamp default now(),
+    primary key (project_id, user_id)
+);
+
+alter table project_members enable row level security;
+
+create policy "pm_read"   on project_members for select using (true);
+create policy "pm_manage" on project_members for all    using (is_admin());
+
+create index if not exists idx_project_members_user_id    on project_members(user_id);
+create index if not exists idx_project_members_project_id on project_members(project_id);
+
+-- ============================================================
+-- TRIGGER: Proje kurulunca creator'ı project_members'a ekle
+-- ============================================================
+create or replace function pm_on_project_created()
+returns trigger language plpgsql security definer as $$
+begin
+    insert into project_members(project_id, user_id, role)
+    values (new.id, new.creator_id, 'creator')
+    on conflict do nothing;
+    return new;
+end;
+$$;
+
+create or replace trigger trg_pm_project_created
+    after insert on projects
+    for each row
+    execute function pm_on_project_created();
+
+-- ============================================================
+-- TRIGGER: Başvuru kabul edilince üyeyi project_members'a ekle
+-- ============================================================
+create or replace function pm_on_application_accepted()
+returns trigger language plpgsql security definer as $$
+begin
+    if new.status = 'accepted' and (old.status is null or old.status <> 'accepted') then
+        insert into project_members(project_id, user_id, role)
+        values (new.project_id, new.user_id, 'member')
+        on conflict do nothing;
+    end if;
+    return new;
+end;
+$$;
+
+create or replace trigger trg_pm_application_accepted
+    after update on applications
+    for each row
+    execute function pm_on_application_accepted();
+
+-- ============================================================
+-- BACKFILL: Mevcut verileri project_members'a aktar
+-- ============================================================
+
+-- Mevcut creator'lar
+insert into project_members(project_id, user_id, role)
+select id, creator_id, 'creator'
+from projects
+on conflict do nothing;
+
+-- Mevcut kabul edilmiş başvurular
+insert into project_members(project_id, user_id, role)
+select project_id, user_id, 'member'
+from applications
+where status = 'accepted'
+on conflict do nothing;
