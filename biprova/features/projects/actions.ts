@@ -591,6 +591,7 @@ export async function getProjectDetail(id: string): Promise<ProjectDetail | null
     members,
     messages,
     posts,
+    applications,
     viewer: {
       id: user.id,
       name: (viewerUser as { name: string } | null)?.name ?? 'Sen',
@@ -599,6 +600,21 @@ export async function getProjectDetail(id: string): Promise<ProjectDetail | null
       is_team_member: isTeamMember,
     },
   };
+}
+
+export async function deleteProject(projectId: string): Promise<{ error?: string }> {
+  const supabase = await createClient();
+  const { data: { user }, error: authError } = await supabase.auth.getUser();
+  if (authError || !user) return { error: 'Oturum açmanız gerekiyor.' };
+
+  const { error } = await supabase
+    .from('projects')
+    .delete()
+    .eq('id', projectId)
+    .eq('creator_id', user.id);
+
+  if (error) return { error: error.message };
+  return {};
 }
 
 export async function sendProjectMessage(teamId: string, content: string): Promise<void> {
