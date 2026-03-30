@@ -262,7 +262,7 @@ export async function createProject(
     .single();
 
   if (projectError || !project) {
-    return { error: 'Proje oluşturulamadı. Lütfen tekrar deneyin.' };
+    return { error: projectError?.message ?? 'Proje oluşturulamadı.' };
   }
 
   if (teamId) {
