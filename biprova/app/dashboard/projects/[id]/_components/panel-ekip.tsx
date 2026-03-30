@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import type { ProjectDetail } from '@/features/projects/actions';
 import { deleteProject } from '@/features/projects/actions';
 import { reviewApplication } from '@/features/applications/actions';
+import { kickMember, grantBiprova, revokeBiprova, inviteMemberByEmail } from '@/features/teams/actions';
 
 function getInitials(name: string) {
   return name
@@ -38,9 +39,17 @@ export function PanelEkip({ project }: Props) {
         </>
       )}
 
-      {!viewer.is_creator && (
+      {viewer.is_team_leader && project.team_id && (
+        <TeamManagementSection
+          teamId={project.team_id}
+          members={project.members}
+          viewerId={viewer.id}
+        />
+      )}
+
+      {!viewer.is_creator && !viewer.is_team_leader && (
         <div className="bg-white border-[1.5px] border-slate-200 rounded-2xl px-[1.8rem] py-[3rem] text-center text-[0.84rem] text-slate-400">
-          Bu bölüm sadece proje sahibine görünür.
+          Bu bölüm sadece proje sahibine ve ekip liderine görünür.
         </div>
       )}
     </div>
@@ -174,6 +183,219 @@ function ApplicationRow({
           </button>
         </div>
       )}
+    </div>
+  );
+}
+
+/* ─── Ekip Yönetimi (Lider) ──────────────────────────────────── */
+
+interface TeamManagementSectionProps {
+  teamId: string;
+  members: ProjectDetail['members'];
+  viewerId: string;
+}
+
+function TeamManagementSection({ teamId, members, viewerId }: TeamManagementSectionProps) {
+  return (
+    <div className="bg-white border-[1.5px] border-slate-200 rounded-2xl overflow-hidden">
+      <div className="px-[1.4rem] py-[1rem] border-b border-slate-200">
+        <span className="font-nunito text-[0.9rem] font-black">👥 Ekip Yönetimi</span>
+      </div>
+
+      <div className="flex flex-col gap-0 divide-y divide-slate-100">
+        {/* Davet et */}
+        <InviteMemberRow teamId={teamId} />
+
+        {/* Mevcut üyeler */}
+        {members.length > 0 && (
+          <div>
+            <div className="px-[1.4rem] py-[0.5rem] bg-slate-50">
+              <span className="text-[0.68rem] font-bold text-slate-400 uppercase tracking-wider">
+                Mevcut Üyeler
+              </span>
+            </div>
+            {members.map((member) => (
+              <TeamMemberRow
+                key={member.user_id}
+                teamId={teamId}
+                member={member}
+                isSelf={member.user_id === viewerId}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function InviteMemberRow({ teamId }: { teamId: string }) {
+  const [email, setEmail] = useState('');
+  const [isPending, startTransition] = useTransition();
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+
+  function handleInvite() {
+    const trimmed = email.trim();
+    if (!trimmed) return;
+    setError('');
+    setSuccess('');
+
+    startTransition(async () => {
+      const result = await inviteMemberByEmail(teamId, trimmed);
+      if (result.error) {
+        setError(result.error);
+      } else {
+        setSuccess('Kullanıcı ekibe eklendi.');
+        setEmail('');
+      }
+    });
+  }
+
+  return (
+    <div className="px-[1.4rem] py-[1rem]">
+      <p className="text-[0.8rem] font-semibold text-slate-700 mb-2">Kişi Davet Et</p>
+      <div className="flex gap-2">
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          onKeyDown={(e) => e.key === 'Enter' && handleInvite()}
+          placeholder="e-posta adresi"
+          className="flex-1 text-[0.82rem] px-3 py-2 rounded-lg border-[1.5px] border-slate-200 outline-none focus:border-blue-500 transition-colors placeholder:text-slate-400"
+        />
+        <button
+          disabled={isPending || !email.trim()}
+          onClick={handleInvite}
+          className="text-[0.78rem] font-bold px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer shrink-0"
+        >
+          {isPending ? '…' : 'Davet Et'}
+        </button>
+      </div>
+      {error && <p className="text-[0.72rem] text-red-500 mt-1.5">{error}</p>}
+      {success && <p className="text-[0.72rem] text-green-600 mt-1.5">{success}</p>}
+    </div>
+  );
+}
+
+function TeamMemberRow({
+  teamId,
+  member,
+  isSelf,
+}: {
+  teamId: string;
+  member: ProjectDetail['members'][number];
+  isSelf: boolean;
+}) {
+  const [isPending, startTransition] = useTransition();
+  const [localHasBiprova, setLocalHasBiprova] = useState(member.has_biprova);
+  const [kicked, setKicked] = useState(false);
+  const [confirmKick, setConfirmKick] = useState(false);
+  const [error, setError] = useState('');
+
+  function handleKick() {
+    startTransition(async () => {
+      const result = await kickMember(teamId, member.user_id);
+      if (result.error) {
+        setError(result.error);
+        setConfirmKick(false);
+      } else {
+        setKicked(true);
+      }
+    });
+  }
+
+  function handleToggleBiprova() {
+    startTransition(async () => {
+      const result = localHasBiprova
+        ? await revokeBiprova(teamId, member.user_id)
+        : await grantBiprova(teamId, member.user_id);
+
+      if (result.error) {
+        setError(result.error);
+      } else {
+        setLocalHasBiprova((prev) => !prev);
+      }
+    });
+  }
+
+  if (kicked) return null;
+
+  return (
+    <div className="px-[1.4rem] py-[0.9rem]">
+      <div className="flex items-center gap-3">
+        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-slate-400 to-slate-600 flex items-center justify-center font-nunito font-black text-[0.72rem] text-white shrink-0">
+          {getInitials(member.name)}
+        </div>
+
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-1.5 flex-wrap">
+            <span className="text-[0.84rem] font-bold text-slate-900">{member.name}</span>
+            {member.is_leader && (
+              <span className="text-[0.65rem] font-bold text-amber-600 bg-amber-50 border border-amber-200 rounded-full px-1.5 py-0.5">
+                Lider
+              </span>
+            )}
+            {localHasBiprova && (
+              <span className="text-[0.65rem] font-bold text-purple-600 bg-purple-50 border border-purple-200 rounded-full px-1.5 py-0.5">
+                Yetkili
+              </span>
+            )}
+          </div>
+          {member.role_name && (
+            <span className="text-[0.74rem] text-slate-400">{member.role_name}</span>
+          )}
+        </div>
+
+        {!isSelf && !member.is_leader && (
+          <div className="flex items-center gap-1.5 shrink-0">
+            {/* Yetki toggle */}
+            <button
+              disabled={isPending}
+              onClick={handleToggleBiprova}
+              title={localHasBiprova ? 'Yetkiyi Kaldır' : 'Yetki Ver'}
+              className={`text-[0.72rem] font-bold px-2.5 py-1.5 rounded-lg border-[1.5px] transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer ${
+                localHasBiprova
+                  ? 'border-purple-300 text-purple-600 bg-purple-50 hover:bg-purple-100'
+                  : 'border-slate-200 text-slate-500 hover:border-purple-300 hover:text-purple-600'
+              }`}
+            >
+              {localHasBiprova ? '★ Yetkili' : '☆ Yetki Ver'}
+            </button>
+
+            {/* Çıkar */}
+            {!confirmKick ? (
+              <button
+                disabled={isPending}
+                onClick={() => setConfirmKick(true)}
+                title="Ekipten Çıkar"
+                className="text-[0.72rem] font-bold px-2.5 py-1.5 rounded-lg border-[1.5px] border-slate-200 text-slate-400 hover:border-red-300 hover:text-red-500 transition-colors disabled:opacity-40 cursor-pointer"
+              >
+                Çıkar
+              </button>
+            ) : (
+              <div className="flex gap-1">
+                <button
+                  disabled={isPending}
+                  onClick={handleKick}
+                  className="text-[0.72rem] font-bold px-2.5 py-1.5 rounded-lg bg-red-600 text-white hover:bg-red-700 transition-colors disabled:opacity-50 cursor-pointer"
+                >
+                  {isPending ? '…' : 'Evet'}
+                </button>
+                <button
+                  disabled={isPending}
+                  onClick={() => setConfirmKick(false)}
+                  className="text-[0.72rem] font-bold px-2.5 py-1.5 rounded-lg border-[1.5px] border-slate-200 text-slate-500 hover:border-slate-400 transition-colors cursor-pointer"
+                >
+                  İptal
+                </button>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+
+      {error && <p className="text-[0.72rem] text-red-500 mt-1.5 ml-11">{error}</p>}
     </div>
   );
 }
