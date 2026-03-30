@@ -525,6 +525,7 @@ export async function getProjectDetail(id: string): Promise<ProjectDetail | null
       role_name: m.project_roles?.role_name ?? null,
       is_leader: m.user_id === team?.leader_id,
       has_biprova: m.has_biprova,
+      is_creator: m.user_id === project.creator_id,
     }));
 
     messages = (rawMessages as unknown as RawMessageRow[] ?? []).map((m) => ({
@@ -544,6 +545,23 @@ export async function getProjectDetail(id: string): Promise<ProjectDetail | null
       content: p.content,
       like_count: p.like_count ?? 0,
       created_at: p.created_at,
+    }));
+  } else {
+    // Ekip kurulmadan önce project_members tablosundan üyeleri çek
+    const { data: rawProjMembers } = await supabase
+      .from('project_members')
+      .select('user_id, role, users!inner(name, avatar_url)')
+      .eq('project_id', id)
+      .limit(20);
+
+    members = (rawProjMembers as unknown as RawProjectMemberRow[] ?? []).map((m) => ({
+      user_id: m.user_id,
+      name: m.users.name,
+      avatar_url: m.users.avatar_url,
+      role_name: m.role === 'creator' ? 'Kurucu' : 'Üye',
+      is_leader: false,
+      has_biprova: false,
+      is_creator: m.role === 'creator',
     }));
   }
 
