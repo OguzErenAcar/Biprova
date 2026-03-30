@@ -196,10 +196,13 @@ interface MemberManagementSectionProps {
   projectId: string;
   teamId: string | null;
   members: ProjectDetail['members'];
+  roles: ProjectDetail['roles'];
   viewerId: string;
 }
 
-function MemberManagementSection({ projectId, teamId, members, viewerId }: MemberManagementSectionProps) {
+function MemberManagementSection({ projectId, teamId, members, roles, viewerId }: MemberManagementSectionProps) {
+  const openRoles = roles.filter((r) => !r.is_filled);
+
   return (
     <div className="bg-white border-[1.5px] border-slate-200 rounded-2xl overflow-hidden">
       <div className="px-[1.4rem] py-[1rem] border-b border-slate-200">
@@ -207,7 +210,7 @@ function MemberManagementSection({ projectId, teamId, members, viewerId }: Membe
       </div>
 
       <div className="divide-y divide-slate-100">
-        <InviteRow projectId={projectId} />
+        <InviteRow projectId={projectId} openRoles={openRoles} />
 
         {members.length > 0 && (
           <>
