@@ -63,12 +63,14 @@ export function TeamHero({ team, isLeader, onNewProject, onSettings }: Props) {
           </div>
 
           <div className="flex gap-2 flex-wrap">
-            <button
-              onClick={onSettings}
-              className="bg-white text-slate-700 border-[1.5px] border-slate-200 rounded-[9px] font-nunito font-extrabold text-[0.82rem] px-[1.1rem] py-2 cursor-pointer transition-all hover:border-blue-600 hover:text-blue-600"
-            >
-              ⚙️ Ekip Ayarları
-            </button>
+            {isLeader && (
+              <button
+                onClick={onSettings}
+                className="bg-white text-slate-700 border-[1.5px] border-slate-200 rounded-[9px] font-nunito font-extrabold text-[0.82rem] px-[1.1rem] py-2 cursor-pointer transition-all hover:border-blue-600 hover:text-blue-600"
+              >
+                ⚙️ Ekip Ayarları
+              </button>
+            )}
             <button
               onClick={onNewProject}
               className="bg-blue-600 text-white rounded-[9px] font-nunito font-extrabold text-[0.82rem] px-[1.1rem] py-2 cursor-pointer transition-all hover:bg-blue-700 shadow-[0_3px_10px_rgba(37,99,235,0.25)]"
