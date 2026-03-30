@@ -21,7 +21,6 @@ export async function SidebarLoader() {
         .select("projects!inner(id, title, status, created_at)")
         .eq("user_id", user.id)
         .in("projects.status", ["open", "full", "active", "completed"])
-        .order("projects(created_at)", { ascending: false })
         .limit(10),
     ]);
 
