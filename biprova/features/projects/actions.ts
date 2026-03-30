@@ -452,7 +452,7 @@ export async function getProjectDetail(id: string): Promise<ProjectDetail | null
 
   const { data: rawProject, error: projectError } = await supabase
     .from('projects')
-    .select('id, title, description, city, is_remote, status, created_at, creator_id, team_id, project_categories(name)')
+    .select('id, title, description, city, is_remote, status, created_at, creator_id, team_id, project_categories(name), users!creator_id(name, avatar_url)')
     .eq('id', id)
     .single();
 
