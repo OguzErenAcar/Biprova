@@ -586,6 +586,8 @@ export async function getProjectDetail(id: string): Promise<ProjectDetail | null
     status: project.status,
     created_at: project.created_at,
     creator_id: project.creator_id,
+    creator_name: project.users?.name ?? '',
+    creator_avatar: project.users?.avatar_url ?? null,
     team_id: project.team_id,
     team_name: team?.name ?? null,
     team_status: team?.status ?? null,
