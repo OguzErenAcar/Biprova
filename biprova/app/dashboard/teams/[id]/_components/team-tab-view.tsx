@@ -96,6 +96,7 @@ export function TeamTabView({ team }: Props) {
       <TeamTopbar
         teamName={team.name}
         teamStatus={team.status}
+        projectCount={team.projects.length}
         isLeader={team.viewer.is_leader}
         isMember={team.viewer.is_member}
         onLeave={() => setModal({ type: 'leave' })}
