@@ -320,6 +320,7 @@ export interface ProjectMember {
   role_name: string | null;
   is_leader: boolean;
   has_biprova: boolean;
+  is_creator: boolean;
 }
 
 export interface ProjectMessage {
