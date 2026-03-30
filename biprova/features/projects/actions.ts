@@ -393,6 +393,7 @@ type RawProjectDetailRow = {
   creator_id: string;
   team_id: string | null;
   project_categories: { name: string } | null;
+  users: { name: string; avatar_url: string | null } | null;
 };
 
 type RawRoleDetailRow = {
