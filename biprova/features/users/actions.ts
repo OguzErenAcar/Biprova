@@ -163,7 +163,7 @@ export async function getUserProjects(userId: string): Promise<UserProjectEntry[
     userRole: null,
   }));
 
-  // Ekip üyesi olduğu projeler (lider değil)
+  // Ekip üyesi olduğu projeler (ekip kurulmuş, lider değil)
   const { data: membershipRaw } = await supabase
     .from('team_members')
     .select('role_id, project_roles(role_name), teams(projects(id, title, city, is_remote, category, status, creator_id))')
@@ -189,7 +189,35 @@ export async function getUserProjects(userId: string): Promise<UserProjectEntry[
       };
     });
 
-  return [...owned, ...member];
+  // Rolü doldurulmuş ama ekip henüz kurulmamış projeler (başvurusu kabul edilmiş)
+  const { data: filledRaw } = await supabase
+    .from('project_roles')
+    .select('role_name, projects!inner(id, title, city, is_remote, category, status, creator_id)')
+    .eq('filled_by', userId)
+    .limit(10);
+
+  const seenIds = new Set([...owned.map((p) => p.id), ...member.map((p) => p.id)]);
+
+  const accepted: UserProjectEntry[] = ((filledRaw ?? []) as unknown as FilledRoleRow[])
+    .filter((row) => {
+      const p = row.projects;
+      return p && p.creator_id !== userId && !seenIds.has(p.id);
+    })
+    .map((row) => {
+      const p = row.projects!;
+      return {
+        id: p.id,
+        title: p.title,
+        city: p.city,
+        is_remote: p.is_remote,
+        category: p.category,
+        status: (p.status as ProjectStatus) ?? 'active',
+        isLeader: false,
+        userRole: row.role_name,
+      };
+    });
+
+  return [...owned, ...member, ...accepted];
 }
 
 export interface UserStats {
