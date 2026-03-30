@@ -1,5 +1,5 @@
 import { TeamBar } from "@/components/shared/team-bar";
-import { ApplyButton } from "@/features/applications/components/apply-button";
+import { RoleJoinButton } from "@/features/applications/components/apply-button";
 
 type ProjectStatus = "open" | "almost" | "full";
 
