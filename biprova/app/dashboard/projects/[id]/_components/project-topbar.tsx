@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 
 const STATUS_LABEL: Record<string, { label: string; className: string }> = {
   open:      { label: '● Rol Aranıyor', className: 'bg-blue-50 text-blue-700 border-blue-200' },
-  full:      { label: '● Ekip Doluyor', className: 'bg-yellow-50 text-yellow-700 border-yellow-200' },
+  full:      { label: '● Ekip Tam',     className: 'bg-yellow-50 text-yellow-700 border-yellow-200' },
   active:    { label: '✓ Aktif',        className: 'bg-green-50 text-green-700 border-green-200' },
   completed: { label: '● Tamamlandı',   className: 'bg-slate-50 text-slate-500 border-slate-200' },
   cancelled: { label: '● İptal',        className: 'bg-red-50 text-red-500 border-red-200' },
