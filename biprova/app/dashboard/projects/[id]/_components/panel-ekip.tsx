@@ -189,49 +189,49 @@ function ApplicationRow({
   );
 }
 
-/* ─── Ekip Yönetimi (Lider) ──────────────────────────────────── */
+/* ─── Üye Yönetimi (Creator / Lider) ────────────────────────── */
 
-interface TeamManagementSectionProps {
-  teamId: string;
+interface MemberManagementSectionProps {
+  projectId: string;
+  teamId: string | null;
   members: ProjectDetail['members'];
   viewerId: string;
 }
 
-function TeamManagementSection({ teamId, members, viewerId }: TeamManagementSectionProps) {
+function MemberManagementSection({ projectId, teamId, members, viewerId }: MemberManagementSectionProps) {
   return (
     <div className="bg-white border-[1.5px] border-slate-200 rounded-2xl overflow-hidden">
       <div className="px-[1.4rem] py-[1rem] border-b border-slate-200">
-        <span className="font-nunito text-[0.9rem] font-black">👥 Ekip Yönetimi</span>
+        <span className="font-nunito text-[0.9rem] font-black">👥 Üye Yönetimi</span>
       </div>
 
-      <div className="flex flex-col gap-0 divide-y divide-slate-100">
-        {/* Davet et */}
-        <InviteMemberRow teamId={teamId} />
+      <div className="divide-y divide-slate-100">
+        <InviteRow projectId={projectId} />
 
-        {/* Mevcut üyeler */}
         {members.length > 0 && (
-          <div>
+          <>
             <div className="px-[1.4rem] py-[0.5rem] bg-slate-50">
               <span className="text-[0.68rem] font-bold text-slate-400 uppercase tracking-wider">
                 Mevcut Üyeler
               </span>
             </div>
             {members.map((member) => (
-              <TeamMemberRow
+              <MemberRow
                 key={member.user_id}
+                projectId={projectId}
                 teamId={teamId}
                 member={member}
                 isSelf={member.user_id === viewerId}
               />
             ))}
-          </div>
+          </>
         )}
       </div>
     </div>
   );
 }
 
-function InviteMemberRow({ teamId }: { teamId: string }) {
+function InviteRow({ projectId }: { projectId: string }) {
   const [email, setEmail] = useState('');
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState('');
@@ -242,13 +242,12 @@ function InviteMemberRow({ teamId }: { teamId: string }) {
     if (!trimmed) return;
     setError('');
     setSuccess('');
-
     startTransition(async () => {
-      const result = await inviteMemberByEmail(teamId, trimmed);
+      const result = await inviteToProject(projectId, trimmed);
       if (result.error) {
         setError(result.error);
       } else {
-        setSuccess('Kullanıcı ekibe eklendi.');
+        setSuccess('Kullanıcı projeye eklendi.');
         setEmail('');
       }
     });
@@ -280,39 +279,44 @@ function InviteMemberRow({ teamId }: { teamId: string }) {
   );
 }
 
-function TeamMemberRow({
+function MemberRow({
+  projectId,
   teamId,
   member,
   isSelf,
 }: {
-  teamId: string;
+  projectId: string;
+  teamId: string | null;
   member: ProjectDetail['members'][number];
   isSelf: boolean;
 }) {
   const [isPending, startTransition] = useTransition();
   const [localHasBiprova, setLocalHasBiprova] = useState(member.has_biprova);
-  const [kicked, setKicked] = useState(false);
-  const [confirmKick, setConfirmKick] = useState(false);
+  const [removed, setRemoved] = useState(false);
+  const [confirmRemove, setConfirmRemove] = useState(false);
   const [error, setError] = useState('');
 
-  function handleKick() {
+  function handleRemove() {
     startTransition(async () => {
-      const result = await kickMember(teamId, member.user_id);
+      // Ekip kurulduysa ekipten çıkar, kurulmadıysa project_members'dan çıkar
+      const result = teamId
+        ? await kickMember(teamId, member.user_id)
+        : await removeFromProject(projectId, member.user_id);
       if (result.error) {
         setError(result.error);
-        setConfirmKick(false);
+        setConfirmRemove(false);
       } else {
-        setKicked(true);
+        setRemoved(true);
       }
     });
   }
 
   function handleToggleBiprova() {
+    if (!teamId) return;
     startTransition(async () => {
       const result = localHasBiprova
         ? await revokeBiprova(teamId, member.user_id)
         : await grantBiprova(teamId, member.user_id);
-
       if (result.error) {
         setError(result.error);
       } else {
@@ -321,7 +325,9 @@ function TeamMemberRow({
     });
   }
 
-  if (kicked) return null;
+  if (removed) return null;
+
+  const canManage = !isSelf && !member.is_creator;
 
   return (
     <div className="px-[1.4rem] py-[0.9rem]">
@@ -333,7 +339,12 @@ function TeamMemberRow({
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-1.5 flex-wrap">
             <span className="text-[0.84rem] font-bold text-slate-900">{member.name}</span>
-            {member.is_leader && (
+            {member.is_creator && (
+              <span className="text-[0.65rem] font-bold text-blue-600 bg-blue-50 border border-blue-200 rounded-full px-1.5 py-0.5">
+                Kurucu
+              </span>
+            )}
+            {member.is_leader && !member.is_creator && (
               <span className="text-[0.65rem] font-bold text-amber-600 bg-amber-50 border border-amber-200 rounded-full px-1.5 py-0.5">
                 Lider
               </span>
@@ -349,28 +360,29 @@ function TeamMemberRow({
           )}
         </div>
 
-        {!isSelf && !member.is_leader && (
+        {canManage && (
           <div className="flex items-center gap-1.5 shrink-0">
-            {/* Yetki toggle */}
-            <button
-              disabled={isPending}
-              onClick={handleToggleBiprova}
-              title={localHasBiprova ? 'Yetkiyi Kaldır' : 'Yetki Ver'}
-              className={`text-[0.72rem] font-bold px-2.5 py-1.5 rounded-lg border-[1.5px] transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer ${
-                localHasBiprova
-                  ? 'border-purple-300 text-purple-600 bg-purple-50 hover:bg-purple-100'
-                  : 'border-slate-200 text-slate-500 hover:border-purple-300 hover:text-purple-600'
-              }`}
-            >
-              {localHasBiprova ? '★ Yetkili' : '☆ Yetki Ver'}
-            </button>
-
-            {/* Çıkar */}
-            {!confirmKick ? (
+            {/* Yetki toggle — sadece ekip kurulduysa */}
+            {teamId && (
               <button
                 disabled={isPending}
-                onClick={() => setConfirmKick(true)}
-                title="Ekipten Çıkar"
+                onClick={handleToggleBiprova}
+                title={localHasBiprova ? 'Yetkiyi Kaldır' : 'Yetki Ver'}
+                className={`text-[0.72rem] font-bold px-2.5 py-1.5 rounded-lg border-[1.5px] transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer ${
+                  localHasBiprova
+                    ? 'border-purple-300 text-purple-600 bg-purple-50 hover:bg-purple-100'
+                    : 'border-slate-200 text-slate-500 hover:border-purple-300 hover:text-purple-600'
+                }`}
+              >
+                {localHasBiprova ? '★ Yetkili' : '☆ Yetki Ver'}
+              </button>
+            )}
+
+            {/* Çıkar */}
+            {!confirmRemove ? (
+              <button
+                disabled={isPending}
+                onClick={() => setConfirmRemove(true)}
                 className="text-[0.72rem] font-bold px-2.5 py-1.5 rounded-lg border-[1.5px] border-slate-200 text-slate-400 hover:border-red-300 hover:text-red-500 transition-colors disabled:opacity-40 cursor-pointer"
               >
                 Çıkar
@@ -379,14 +391,14 @@ function TeamMemberRow({
               <div className="flex gap-1">
                 <button
                   disabled={isPending}
-                  onClick={handleKick}
+                  onClick={handleRemove}
                   className="text-[0.72rem] font-bold px-2.5 py-1.5 rounded-lg bg-red-600 text-white hover:bg-red-700 transition-colors disabled:opacity-50 cursor-pointer"
                 >
                   {isPending ? '…' : 'Evet'}
                 </button>
                 <button
                   disabled={isPending}
-                  onClick={() => setConfirmKick(false)}
+                  onClick={() => setConfirmRemove(false)}
                   className="text-[0.72rem] font-bold px-2.5 py-1.5 rounded-lg border-[1.5px] border-slate-200 text-slate-500 hover:border-slate-400 transition-colors cursor-pointer"
                 >
                   İptal
