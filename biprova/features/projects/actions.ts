@@ -494,7 +494,7 @@ export async function getProjectDetail(id: string): Promise<ProjectDetail | null
     const [{ data: rawMembers }, { data: rawMessages }, { data: rawPosts }] = await Promise.all([
       supabase
         .from('team_members')
-        .select('user_id, users!inner(name, avatar_url), project_roles!role_id(role_name)')
+        .select('user_id, has_biprova, users!inner(name, avatar_url), project_roles!role_id(role_name)')
         .eq('team_id', project.team_id)
         .limit(20),
       supabase
