@@ -17,11 +17,11 @@ export async function SidebarLoader() {
         .in("teams.status", ["pending", "active", "no_project"])
         .limit(10),
       supabase
-        .from("projects")
-        .select("id, title, status")
-        .eq("creator_id", user.id)
-        .in("status", ["open", "full", "active", "completed"])
-        .order("created_at", { ascending: false })
+        .from("project_members")
+        .select("projects!inner(id, title, status, created_at)")
+        .eq("user_id", user.id)
+        .in("projects.status", ["open", "full", "active", "completed"])
+        .order("projects(created_at)", { ascending: false })
         .limit(10),
     ]);
 
