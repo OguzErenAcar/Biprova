@@ -22,7 +22,7 @@ export function PanelGenel({
   team, onNewProject, onSettings, onInvite,
   onGrantBiprova, onKick, onTransfer, onDisband, onViewAllProjects,
 }: Props) {
-  const hasActiveProject = team.projects.some((p) => ['active', 'open'].includes(p.status));
+  const hasActiveProject = team.projects.some((p) => ['active', 'open', 'full'].includes(p.status));
   const latestProject = team.projects[0] ?? null;
   const canCreateProject = team.viewer.is_leader || team.viewer.has_biprova;
 
