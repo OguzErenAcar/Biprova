@@ -74,3 +74,49 @@ create or replace trigger trg_pm_application_accepted
     after update on applications
     for each row
     execute function pm_on_application_accepted();
+
+-- ============================================================
+-- TRIGGER: Ekipten ayrılınca project_roles'u sıfırla
+-- ============================================================
+
+create or replace function reset_role_on_team_member_removed()
+returns trigger language plpgsql security definer as $$
+declare
+    v_project_id uuid;
+begin
+    -- Bu ekibin bağlı olduğu projeyi bul
+    select project_id into v_project_id
+    from teams
+    where id = old.team_id;
+
+    if v_project_id is null then
+        return old;
+    end if;
+
+    -- Kullanıcının doldurduğu rolü sıfırla
+    update project_roles
+    set is_filled = false,
+        filled_by = null
+    where project_id = v_project_id
+      and filled_by = old.user_id;
+
+    -- project_members'dan çıkar (creator değilse)
+    delete from project_members
+    where project_id = v_project_id
+      and user_id = old.user_id
+      and role <> 'creator';
+
+    -- Proje 'full' durumundaysa 'open'a geri döndür
+    update projects
+    set status = 'open'
+    where id = v_project_id
+      and status = 'full';
+
+    return old;
+end;
+$$;
+
+create or replace trigger trg_reset_role_on_team_member_removed
+    after delete on team_members
+    for each row
+    execute function reset_role_on_team_member_removed();
