@@ -645,7 +645,7 @@ export async function getProjectDetail(id: string): Promise<ProjectDetail | null
 export async function inviteToProject(
   projectId: string,
   email: string,
-  roleId: string,
+  skillName: string,
 ): Promise<{ error?: string }> {
   const supabase = await createClient();
   const { data: { user }, error: authError } = await supabase.auth.getUser();
@@ -658,16 +658,6 @@ export async function inviteToProject(
     .single();
 
   if (project?.creator_id !== user.id) return { error: 'Sadece proje sahibi davet edebilir.' };
-
-  const { data: role } = await supabase
-    .from('project_roles')
-    .select('id, is_filled')
-    .eq('id', roleId)
-    .eq('project_id', projectId)
-    .single();
-
-  if (!role) return { error: 'Geçersiz rol.' };
-  if (role.is_filled) return { error: 'Bu rol zaten dolu.' };
 
   const { data: targetUser } = await supabase
     .from('users')
@@ -693,14 +683,9 @@ export async function inviteToProject(
   const { error: memberError } = await admin.from('project_members').insert({
     project_id: projectId,
     user_id: targetUser.id,
-    role: 'member',
+    role: skillName,
   });
   if (memberError) return { error: 'Davet gönderilemedi.' };
-
-  await admin.from('project_roles').update({
-    is_filled: true,
-    filled_by: targetUser.id,
-  }).eq('id', roleId);
 
   return {};
 }
