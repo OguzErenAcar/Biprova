@@ -106,23 +106,28 @@ export function ProjectCard({
             {openRoles.map((role, i) => (
               <div
                 key={i}
-                className="rounded-xl border-[1.5px] border-amber-100 bg-amber-50/50 px-3 py-2.5"
+                className="rounded-xl border-[1.5px] border-amber-100 bg-amber-50/50 px-3 py-2.5 flex items-center gap-3"
               >
-                <div className="flex items-center gap-2 mb-1.5">
-                  <span className="w-2 h-2 rounded-full bg-amber-400 flex-shrink-0" />
-                  <span className="text-[0.82rem] font-bold text-slate-700">{role.name}</span>
-                </div>
-                {role.skills.length > 0 && (
-                  <div className="flex flex-wrap gap-1.5">
-                    {role.skills.map((skill) => (
-                      <span
-                        key={skill}
-                        className="text-[0.68rem] font-semibold px-2 py-0.5 rounded-full bg-white text-blue-600 border border-blue-100"
-                      >
-                        {skill}
-                      </span>
-                    ))}
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 mb-1.5">
+                    <span className="w-2 h-2 rounded-full bg-amber-400 flex-shrink-0" />
+                    <span className="text-[0.82rem] font-bold text-slate-700">{role.name}</span>
                   </div>
+                  {role.skills.length > 0 && (
+                    <div className="flex flex-wrap gap-1.5">
+                      {role.skills.map((skill) => (
+                        <span
+                          key={skill}
+                          className="text-[0.68rem] font-semibold px-2 py-0.5 rounded-full bg-white text-blue-600 border border-blue-100"
+                        >
+                          {skill}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+                {!isOwnProject && (
+                  <RoleJoinButton projectId={projectId} roleId={role.id} />
                 )}
               </div>
             ))}
