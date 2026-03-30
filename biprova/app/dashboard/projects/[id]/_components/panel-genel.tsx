@@ -125,29 +125,37 @@ export function PanelGenel({ project, onGoToChat, onGoToTasks, onGoToFiles }: Pr
     .join(' · ');
 
   // Üye listesi: ekip varsa team_members, yoksa creator + dolu roller
-  const memberSlots: MemberSlot[] = project.team_id
-    ? project.members.map((m) => ({
-        id: m.user_id,
-        name: m.name,
-        avatar_url: m.avatar_url,
-        is_leader: m.is_leader,
-      }))
-    : [
-        {
-          id: project.creator_id,
-          name: project.creator_name,
-          avatar_url: project.creator_avatar,
-          is_leader: true,
-        },
-        ...project.roles
-          .filter((r) => r.is_filled && r.filled_by && r.filled_by !== project.creator_id)
-          .map((r) => ({
-            id: r.filled_by!,
-            name: r.filled_by_name ?? '?',
-            avatar_url: r.filled_by_avatar,
-            is_leader: false,
-          })),
-      ];
+  const memberSlots: MemberSlot[] = (() => {
+    const raw: MemberSlot[] = project.team_id
+      ? project.members.map((m) => ({
+          id: m.user_id,
+          name: m.name,
+          avatar_url: m.avatar_url,
+          is_leader: m.is_leader,
+        }))
+      : [
+          {
+            id: project.creator_id,
+            name: project.creator_name,
+            avatar_url: project.creator_avatar,
+            is_leader: true,
+          },
+          ...project.roles
+            .filter((r) => r.is_filled && r.filled_by && r.filled_by !== project.creator_id)
+            .map((r) => ({
+              id: r.filled_by!,
+              name: r.filled_by_name ?? '?',
+              avatar_url: r.filled_by_avatar,
+              is_leader: false,
+            })),
+        ];
+    const seen = new Set<string>();
+    return raw.filter((m) => {
+      if (seen.has(m.id)) return false;
+      seen.add(m.id);
+      return true;
+    });
+  })();
 
   return (
     <div id="panel-genel">
