@@ -4,7 +4,7 @@ import { useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import type { TeamDetail, TeamMemberDetail } from '@/features/teams/actions';
 import {
-  leaveTeam, disbandTeam, transferLeadership, kickMember, grantBiprova,
+  leaveTeam, disbandTeam, transferLeadership, kickMember, grantBiprova, renameTeam,
 } from '@/features/teams/actions';
 import { TeamTopbar } from './team-topbar';
 import { PanelGenel } from './panel-genel';
