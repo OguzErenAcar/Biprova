@@ -35,7 +35,10 @@ export async function SidebarLoader() {
     }
 
     if (projectsResult.data) {
-      projects = projectsResult.data as typeof projects;
+      type ProjectRow = { id: string; title: string; status: "open" | "full" | "active" | "completed" | "cancelled" };
+      projects = (projectsResult.data as unknown as { projects: ProjectRow }[])
+        .map((row) => row.projects)
+        .filter((p): p is ProjectRow => !!p);
     }
   }
 
