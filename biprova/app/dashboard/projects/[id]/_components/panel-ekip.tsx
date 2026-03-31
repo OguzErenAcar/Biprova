@@ -471,8 +471,7 @@ function ProjectManagementSection({ projectId }: { projectId: string }) {
           </div>
         </button>
 
-        {!hasTeam && (
-          <div>
+        <div>
             {!confirmDelete ? (
               <button
                 onClick={() => setConfirmDelete(true)}
