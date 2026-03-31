@@ -4,7 +4,6 @@ import { TeamStats } from './team-stats';
 import { TeamMembersCard } from './team-members-card';
 import { TeamDangerZone } from './team-danger-zone';
 import { TeamLatestProject } from './team-latest-project';
-import { TeamQuickActions } from './team-quick-actions';
 
 interface Props {
   team: TeamDetail;
