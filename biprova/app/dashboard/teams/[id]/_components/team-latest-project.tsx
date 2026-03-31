@@ -46,7 +46,7 @@ export function TeamLatestProject({ projects, onViewAll }: Props) {
       <div className="p-4 flex flex-col gap-2">
         {projects.length > 0 ? (
           projects.map((project) => (
-            <div key={project.id} className="bg-slate-50 rounded-[12px] p-4 border-[1.5px] border-slate-200">
+            <Link key={project.id} href={`/dashboard/projects/${project.id}`} className="block bg-slate-50 rounded-[12px] p-4 border-[1.5px] border-slate-200 hover:border-blue-300 hover:bg-blue-50/40 transition-colors">
               <div className="flex items-center gap-2 mb-2">
                 <span className="text-base">📁</span>
                 <span className="font-nunito font-extrabold text-[0.9rem] text-slate-900 truncate">{project.title}</span>
