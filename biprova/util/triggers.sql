@@ -130,12 +130,6 @@ begin
       and user_id = old.user_id
       and role <> 'creator';
 
-    -- Proje 'full' durumundaysa 'open'a geri döndür
-    update projects
-    set status = 'open'
-    where id = v_project_id
-      and status = 'full';
-
     return old;
 end;
 $$;
