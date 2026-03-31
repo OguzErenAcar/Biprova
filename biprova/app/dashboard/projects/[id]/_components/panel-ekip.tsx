@@ -3,7 +3,7 @@
 import { useState, useTransition, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import type { ProjectDetail, SkillOption } from '@/features/projects/actions';
-import { deleteProject, getSkills } from '@/features/projects/actions';
+import { deleteProject, getSkills, leaveProject } from '@/features/projects/actions';
 import { reviewApplication } from '@/features/applications/actions';
 import { kickMember, grantBiprova, revokeBiprova } from '@/features/teams/actions';
 import { inviteToProject, removeFromProject } from '@/features/projects/actions';
