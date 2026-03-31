@@ -57,7 +57,7 @@ export function TeamLatestProject({ projects, onViewAll }: Props) {
               <span className={`text-[0.68rem] font-extrabold px-2 py-0.5 rounded-full ${STATUS_STYLE[project.status] ?? STATUS_STYLE.open}`}>
                 {STATUS_TEXT[project.status] ?? project.status}
               </span>
-            </div>
+            </Link>
           ))
         ) : (
           <div className="text-center py-4 text-[0.82rem] text-slate-400">
