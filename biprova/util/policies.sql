@@ -125,6 +125,7 @@ create policy "applications_update"   on applications for update using (is_proje
 -- project_members
 create policy "pm_read"   on project_members for select using (true);
 create policy "pm_manage" on project_members for all    using (is_admin());
+create policy "pm_leave"  on project_members for delete using (user_id = auth.uid() and role <> 'creator');
 
 -- team_members
 create policy "team_members_read"   on team_members for select using (auth.uid() is not null);
