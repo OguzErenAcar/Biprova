@@ -103,9 +103,6 @@ create policy "user_skills_manage" on user_skills for all    using (user_id = au
 create policy "project_roles_read"   on project_roles for select using (true);
 create policy "project_roles_manage" on project_roles for all
     using (is_project_creator(project_id));
-create policy "project_roles_unfill" on project_roles for update
-    using (filled_by = auth.uid())
-    with check (filled_by is null);
 
 -- project_role_skills
 create policy "role_skills_read"   on project_role_skills for select using (true);
