@@ -715,6 +715,39 @@ export async function removeFromProject(projectId: string, userId: string): Prom
   return {};
 }
 
+export async function leaveProject(projectId: string): Promise<{ error?: string }> {
+  const supabase = await createClient();
+  const { data: { user }, error: authError } = await supabase.auth.getUser();
+  if (authError || !user) return { error: 'Oturum açmanız gerekiyor.' };
+
+  const { data: project } = await supabase
+    .from('projects')
+    .select('creator_id, team_id')
+    .eq('id', projectId)
+    .single();
+
+  if (!project) return { error: 'Proje bulunamadı.' };
+  if (project.creator_id === user.id) return { error: 'Proje sahibi projeden ayrılamaz.' };
+
+  if (project.team_id) {
+    const { error } = await supabase
+      .from('team_members')
+      .delete()
+      .eq('team_id', project.team_id)
+      .eq('user_id', user.id);
+    if (error) return { error: 'Ekipten ayrılınamadı.' };
+  } else {
+    const { error } = await supabase
+      .from('project_members')
+      .delete()
+      .eq('project_id', projectId)
+      .eq('user_id', user.id);
+    if (error) return { error: 'Projeden ayrılınamadı.' };
+  }
+
+  redirect('/dashboard');
+}
+
 export async function deleteProject(projectId: string): Promise<{ error?: string }> {
   const supabase = await createClient();
   const { data: { user }, error: authError } = await supabase.auth.getUser();
