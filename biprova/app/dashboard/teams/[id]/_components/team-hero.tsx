@@ -3,7 +3,9 @@ import type { TeamDetail } from '@/features/teams/actions';
 interface Props {
   team: TeamDetail;
   isLeader: boolean;
+  isMember: boolean;
   onSettings: () => void;
+  onLeave: () => void;
 }
 
 function getInitials(name: string): string {
