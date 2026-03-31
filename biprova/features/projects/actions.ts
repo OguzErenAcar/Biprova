@@ -729,23 +729,15 @@ export async function leaveProject(projectId: string): Promise<{ error?: string 
   if (!project) return { error: 'Proje bulunamadı.' };
   if (project.creator_id === user.id) return { error: 'Proje sahibi projeden ayrılamaz.' };
 
-  if (project.team_id) {
-    // Leaving a project does NOT remove the user from the team.
-    // Only unfill their role so the slot becomes available again.
-    const { error } = await supabase
-      .from('project_roles')
-      .update({ is_filled: false, filled_by: null })
-      .eq('project_id', projectId)
-      .eq('filled_by', user.id);
-    if (error) return { error: 'Projeden ayrılınamadı.' };
-  } else {
-    const { error } = await supabase
-      .from('project_members')
-      .delete()
-      .eq('project_id', projectId)
-      .eq('user_id', user.id);
-    if (error) return { error: 'Projeden ayrılınamadı.' };
-  }
+  // Remove from project_members only.
+  // For team projects: role slot stays filled (project doesn't re-open), team membership untouched.
+  // For non-team projects: removes from project_members.
+  const { error } = await supabase
+    .from('project_members')
+    .delete()
+    .eq('project_id', projectId)
+    .eq('user_id', user.id);
+  if (error) return { error: 'Projeden ayrılınamadı.' };
 
   redirect('/dashboard');
 }
