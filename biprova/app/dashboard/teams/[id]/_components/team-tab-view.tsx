@@ -131,7 +131,6 @@ export function TeamTabView({ team }: Props) {
         {activeTab === 'genel' && (
           <PanelGenel
             team={team}
-            onNewProject={() => router.push('/dashboard/createProject')}
             onSettings={() => setModal({ type: 'settings' })}
             onInvite={() => setModal({ type: 'invite' })}
             onGrantBiprova={(userId, name) => setModal({ type: 'biprova', userId, name })}
@@ -142,11 +141,7 @@ export function TeamTabView({ team }: Props) {
           />
         )}
         {activeTab === 'projeler' && (
-          <PanelProjeler
-            projects={team.projects}
-            canCreateProject={canCreateProject}
-            onNewProject={() => router.push('/dashboard/createProject')}
-          />
+          <PanelProjeler projects={team.projects} />
         )}
         {activeTab === 'aktivite' && <PanelAktivite team={team} />}
       </div>
