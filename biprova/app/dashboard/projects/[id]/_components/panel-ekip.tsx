@@ -509,14 +509,7 @@ function ProjectManagementSection({ projectId }: { projectId: string }) {
                 </div>
               </div>
             )}
-          </div>
-        )}
-
-        {hasTeam && (
-          <div className="px-4 py-3 rounded-xl bg-slate-50 border-[1.5px] border-slate-200 text-[0.78rem] text-slate-400">
-            Ekip kuruldu — proje silinemez.
-          </div>
-        )}
+        </div>
       </div>
     </div>
   );
