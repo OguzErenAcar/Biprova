@@ -23,7 +23,7 @@ const STATUS_LABEL: Record<string, string> = {
   active: '● Aktif', pending: '● Kuruldu', no_project: '⚠ Projesi Yok', disbanded: '● Dağıtıldı',
 };
 
-export function TeamHero({ team, isLeader, onSettings }: Props) {
+export function TeamHero({ team, isLeader, isMember, onSettings, onLeave }: Props) {
   const initials = getInitials(team.name);
   const completedCount = team.projects.filter((p) => p.status === 'completed').length;
   const activeDays = Math.floor((Date.now() - new Date(team.formed_at).getTime()) / 86_400_000);
