@@ -58,9 +58,10 @@ export function PanelProjeler({ projects, canCreateProject, onNewProject }: Prop
             <div className="py-8 text-center text-[0.84rem] text-slate-400">Henüz proje yok</div>
           )}
           {projects.map((project) => (
-            <div
+            <Link
               key={project.id}
-              className="flex items-center gap-3 py-[0.7rem] px-2 rounded-[10px] cursor-pointer transition-colors hover:bg-slate-50 border-b border-slate-100 last:border-0"
+              href={`/dashboard/projects/${project.id}`}
+              className="flex items-center gap-3 py-[0.7rem] px-2 rounded-[10px] transition-colors hover:bg-slate-50 border-b border-slate-100 last:border-0"
             >
               <div className={`w-9 h-9 rounded-[9px] flex items-center justify-center text-base shrink-0 ${ICON_BG[project.status] ?? 'bg-slate-50'}`}>
                 📁
