@@ -36,7 +36,7 @@ export function PanelEkip({ project }: Props) {
             pending={pending}
             reviewed={reviewed}
           />
-          <ProjectManagementSection projectId={project.id} hasTeam={!!project.team_id} />
+          <ProjectManagementSection projectId={project.id} />
         </>
       )}
 
