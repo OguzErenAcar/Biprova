@@ -36,7 +36,7 @@ function relativeTime(dateStr: string): string {
   return `${Math.floor(days / 30)} ay önce`;
 }
 
-export function PanelProjeler({ projects, canCreateProject, onNewProject }: Props) {
+export function PanelProjeler({ projects }: Props) {
   return (
     <div id="panel-projeler">
       <div className="bg-white border-[1.5px] border-slate-200 rounded-2xl overflow-hidden">
