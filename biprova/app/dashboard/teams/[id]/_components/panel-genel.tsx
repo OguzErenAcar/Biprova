@@ -51,7 +51,6 @@ export function PanelGenel({
         {/* Right */}
         <div>
           <TeamLatestProject projects={recentProjects} onViewAll={onViewAllProjects} />
-          <TeamQuickActions canCreateProject={canCreateProject} onNewProject={onNewProject} />
         </div>
       </div>
     </div>
