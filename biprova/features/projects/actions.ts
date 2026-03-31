@@ -498,11 +498,16 @@ export async function getProjectDetail(id: string): Promise<ProjectDetail | null
   let posts: ProjectPost[] = [];
 
   if (project.team_id) {
-    const [{ data: rawMembers }, { data: rawMessages }, { data: rawPosts }] = await Promise.all([
+    const [{ data: rawMembers }, { data: rawProjectMembers }, { data: rawMessages }, { data: rawPosts }] = await Promise.all([
       supabase
         .from('team_members')
         .select('user_id, has_biprova, users!inner(name, avatar_url), project_roles!role_id(role_name)')
         .eq('team_id', project.team_id)
+        .limit(20),
+      supabase
+        .from('project_members')
+        .select('user_id')
+        .eq('project_id', id)
         .limit(20),
       supabase
         .from('messages')
@@ -518,7 +523,11 @@ export async function getProjectDetail(id: string): Promise<ProjectDetail | null
         .limit(20),
     ]);
 
-    members = (rawMembers as unknown as RawMemberRow[] ?? []).map((m) => ({
+    const activeProjectMemberIds = new Set((rawProjectMembers ?? []).map((m) => m.user_id));
+
+    members = (rawMembers as unknown as RawMemberRow[] ?? [])
+      .filter((m) => activeProjectMemberIds.has(m.user_id))
+      .map((m) => ({
       user_id: m.user_id,
       name: m.users.name,
       avatar_url: m.users.avatar_url,
