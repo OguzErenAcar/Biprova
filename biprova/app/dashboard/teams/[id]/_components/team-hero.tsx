@@ -70,12 +70,6 @@ export function TeamHero({ team, isLeader, onSettings }: Props) {
                 ⚙️ Ekip Ayarları
               </button>
             )}
-            <button
-              onClick={onNewProject}
-              className="bg-blue-600 text-white rounded-[9px] font-nunito font-extrabold text-[0.82rem] px-[1.1rem] py-2 cursor-pointer transition-all hover:bg-blue-700 shadow-[0_3px_10px_rgba(37,99,235,0.25)]"
-            >
-              + Yeni Proje Aç
-            </button>
           </div>
         </div>
       </div>
