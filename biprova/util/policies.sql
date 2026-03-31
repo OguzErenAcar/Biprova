@@ -127,7 +127,7 @@ create policy "pm_read"   on project_members for select using (true);
 create policy "pm_manage" on project_members for all    using (is_admin());
 
 -- team_members
-create policy "team_members_read"   on team_members for select using (is_team_member(team_id));
+create policy "team_members_read"   on team_members for select using (auth.uid() is not null);
 create policy "team_members_insert" on team_members for insert with check (
     exists (select 1 from teams where id = team_id and leader_id = auth.uid())
 );
