@@ -3,8 +3,6 @@ import type { TeamProjectItem } from '@/features/teams/actions';
 
 interface Props {
   projects: TeamProjectItem[];
-  canCreateProject: boolean;
-  onNewProject: () => void;
 }
 
 const STATUS_STYLE: Record<string, string> = {
