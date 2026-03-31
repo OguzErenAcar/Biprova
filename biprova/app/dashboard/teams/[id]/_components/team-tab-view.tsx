@@ -36,7 +36,6 @@ export function TeamTabView({ team }: Props) {
   const [isPending, startTransition] = useTransition();
 
   const otherMembers = team.members.filter((m) => !m.is_leader);
-  const canCreateProject = team.viewer.is_leader || team.viewer.has_biprova;
 
   function handleConfirm() {
     if (!modal) return;
