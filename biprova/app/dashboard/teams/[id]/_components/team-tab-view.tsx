@@ -132,6 +132,7 @@ export function TeamTabView({ team }: Props) {
             team={team}
             onSettings={() => setModal({ type: 'settings' })}
             onInvite={() => setModal({ type: 'invite' })}
+            onLeave={() => setModal({ type: 'leave' })}
             onGrantBiprova={(userId, name) => setModal({ type: 'biprova', userId, name })}
             onKick={(userId, name) => setModal({ type: 'kick', userId, name })}
             onTransfer={() => { setTransferTarget(otherMembers[0]?.user_id ?? ''); setModal({ type: 'transfer' }); }}
