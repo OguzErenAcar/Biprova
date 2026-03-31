@@ -50,9 +50,7 @@ export function PanelEkip({ project }: Props) {
       )}
 
       {!viewer.is_creator && !viewer.is_team_leader && (
-        <div className="bg-white border-[1.5px] border-slate-200 rounded-2xl px-[1.8rem] py-[3rem] text-center text-[0.84rem] text-slate-400">
-          Bu bölüm sadece proje sahibine ve ekip liderine görünür.
-        </div>
+        <LeaveProjectSection projectId={project.id} />
       )}
     </div>
   );
