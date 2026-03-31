@@ -435,13 +435,7 @@ function MemberRow({
 
 /* ─── Proje Yönetimi ─────────────────────────────────────────── */
 
-function ProjectManagementSection({
-  projectId,
-  hasTeam,
-}: {
-  projectId: string;
-  hasTeam: boolean;
-}) {
+function ProjectManagementSection({ projectId }: { projectId: string }) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [confirmDelete, setConfirmDelete] = useState(false);
