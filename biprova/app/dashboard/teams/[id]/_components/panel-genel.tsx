@@ -9,6 +9,7 @@ interface Props {
   team: TeamDetail;
   onSettings: () => void;
   onInvite: () => void;
+  onLeave: () => void;
   onGrantBiprova: (userId: string, name: string) => void;
   onKick: (userId: string, name: string) => void;
   onTransfer: () => void;
@@ -17,7 +18,7 @@ interface Props {
 }
 
 export function PanelGenel({
-  team, onSettings, onInvite,
+  team, onSettings, onInvite, onLeave,
   onGrantBiprova, onKick, onTransfer, onDisband, onViewAllProjects,
 }: Props) {
   const recentProjects = team.projects.slice(0, 3);
