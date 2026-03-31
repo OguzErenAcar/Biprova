@@ -42,14 +42,6 @@ export function PanelProjeler({ projects }: Props) {
       <div className="bg-white border-[1.5px] border-slate-200 rounded-2xl overflow-hidden">
         <div className="flex items-center justify-between px-5 py-4 border-b border-slate-200">
           <span className="font-nunito font-black text-[0.9rem]">📌 Tüm Projeler</span>
-          {canCreateProject && (
-            <button
-              onClick={onNewProject}
-              className="bg-blue-600 text-white rounded-[9px] font-nunito font-extrabold text-[0.78rem] px-[0.9rem] py-[0.4rem] cursor-pointer transition-all hover:bg-blue-700"
-            >
-              + Yeni Proje
-            </button>
-          )}
         </div>
         <div className="px-5 py-1">
           {projects.length === 0 && (
