@@ -431,6 +431,69 @@ function MemberRow({
   );
 }
 
+/* ─── Projeden Ayrıl ─────────────────────────────────────────── */
+
+function LeaveProjectSection({ projectId }: { projectId: string }) {
+  const [isPending, startTransition] = useTransition();
+  const [confirm, setConfirm] = useState(false);
+  const [error, setError] = useState('');
+
+  function handleLeave() {
+    startTransition(async () => {
+      const result = await leaveProject(projectId);
+      if (result?.error) {
+        setError(result.error);
+        setConfirm(false);
+      }
+    });
+  }
+
+  return (
+    <div className="bg-white border-[1.5px] border-slate-200 rounded-2xl overflow-hidden">
+      <div className="px-[1.4rem] py-[1rem] border-b border-slate-200">
+        <span className="font-nunito text-[0.9rem] font-black">🚪 Projeden Ayrıl</span>
+      </div>
+      <div className="px-[1.4rem] py-[1.2rem]">
+        {!confirm ? (
+          <button
+            onClick={() => setConfirm(true)}
+            className="flex items-center gap-3 px-4 py-3 rounded-xl border-[1.5px] border-red-200 text-left w-full hover:bg-red-50 transition-colors cursor-pointer"
+          >
+            <span className="text-base">🚪</span>
+            <div>
+              <div className="text-[0.84rem] font-bold text-red-600">Projeden Ayrıl</div>
+              <div className="text-[0.72rem] text-slate-400">Ekipten çıkarsın, geri dönmek için tekrar başvurman gerekir</div>
+            </div>
+          </button>
+        ) : (
+          <div className="px-4 py-3 rounded-xl border-[1.5px] border-red-300 bg-red-50">
+            <p className="text-[0.82rem] font-semibold text-red-700 mb-3">
+              Projeden ayrılmak istediğine emin misin?
+            </p>
+            {error && <p className="text-[0.75rem] text-red-500 mb-2">{error}</p>}
+            <div className="flex gap-2">
+              <button
+                disabled={isPending}
+                onClick={handleLeave}
+                className="text-[0.78rem] font-bold px-3 py-1.5 rounded-lg bg-red-600 text-white hover:bg-red-700 transition-colors disabled:opacity-50 cursor-pointer"
+              >
+                {isPending ? 'Ayrılıyor…' : 'Evet, Ayrıl'}
+              </button>
+              <button
+                disabled={isPending}
+                onClick={() => setConfirm(false)}
+                className="text-[0.78rem] font-bold px-3 py-1.5 rounded-lg border-[1.5px] border-slate-200 text-slate-500 hover:border-slate-400 transition-colors cursor-pointer"
+              >
+                İptal
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 /* ─── Proje Yönetimi ─────────────────────────────────────────── */
 
 function ProjectManagementSection({ projectId }: { projectId: string }) {
