@@ -25,7 +25,7 @@ export function PanelGenel({
 
   return (
     <div id="panel-genel">
-      <TeamHero team={team} isLeader={team.viewer.is_leader} onSettings={onSettings} />
+      <TeamHero team={team} isLeader={team.viewer.is_leader} isMember={team.viewer.is_member} onSettings={onSettings} onLeave={onLeave} />
       <TeamStats team={team} />
 
       {/* 2-col grid */}
