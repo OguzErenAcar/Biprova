@@ -8,7 +8,6 @@ import { TeamQuickActions } from './team-quick-actions';
 
 interface Props {
   team: TeamDetail;
-  onNewProject: () => void;
   onSettings: () => void;
   onInvite: () => void;
   onGrantBiprova: (userId: string, name: string) => void;
@@ -19,15 +18,14 @@ interface Props {
 }
 
 export function PanelGenel({
-  team, onNewProject, onSettings, onInvite,
+  team, onSettings, onInvite,
   onGrantBiprova, onKick, onTransfer, onDisband, onViewAllProjects,
 }: Props) {
   const recentProjects = team.projects.slice(0, 3);
-  const canCreateProject = team.viewer.is_leader || team.viewer.has_biprova;
 
   return (
     <div id="panel-genel">
-      <TeamHero team={team} isLeader={team.viewer.is_leader} onNewProject={onNewProject} onSettings={onSettings} />
+      <TeamHero team={team} isLeader={team.viewer.is_leader} onSettings={onSettings} />
       <TeamStats team={team} />
 
       {/* 2-col grid */}
