@@ -124,11 +124,10 @@ begin
     where project_id = v_project_id
       and filled_by = old.user_id;
 
-    -- project_members'dan çıkar (creator değilse)
+    -- project_members'dan çıkar (creator dahil herkesi)
     delete from project_members
     where project_id = v_project_id
-      and user_id = old.user_id
-      and role <> 'creator';
+      and user_id = old.user_id;
 
     return old;
 end;
@@ -138,5 +137,26 @@ create or replace trigger trg_reset_role_on_team_member_removed
     after delete on team_members
     for each row
     execute function reset_role_on_team_member_removed();
+
+-- ============================================================
+-- TRIGGER: project_members boşalınca projeyi sil
+-- ============================================================
+
+create or replace function delete_project_on_empty_members()
+returns trigger language plpgsql security definer as $$
+begin
+    if not exists (
+        select 1 from project_members where project_id = old.project_id
+    ) then
+        delete from projects where id = old.project_id;
+    end if;
+    return old;
+end;
+$$;
+
+create or replace trigger trg_delete_project_on_empty_members
+    after delete on project_members
+    for each row
+    execute function delete_project_on_empty_members();
 
 
