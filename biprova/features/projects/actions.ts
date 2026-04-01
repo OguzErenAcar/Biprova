@@ -267,6 +267,10 @@ export async function createProject(
 
   if (teamId) {
     await supabase.from('teams').update({ project_id: project.id }).eq('id', teamId);
+    await supabase.from('team_members').upsert(
+      { team_id: teamId, user_id: user.id, role_id: null },
+      { onConflict: 'team_id,user_id' }
+    );
   }
 
   if (roleItems) {
