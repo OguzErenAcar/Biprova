@@ -16,6 +16,161 @@
 begin;
 
 -- ============================================================
+-- AUTH KULLANICILARI (auth.users + auth.identities)
+-- Şifre: test1234
+-- Temiz çalıştırmak için:
+--   delete from auth.identities where user_id like 'a0000000%';
+--   delete from auth.users where id like 'a0000000%';
+-- ============================================================
+
+insert into auth.users (
+    id, instance_id, aud, role,
+    email, encrypted_password, email_confirmed_at,
+    raw_app_meta_data, raw_user_meta_data,
+    created_at, updated_at
+) values
+    (
+        'a0000000-0000-0000-0000-000000000001',
+        '00000000-0000-0000-0000-000000000000',
+        'authenticated', 'authenticated',
+        'ahmet.yilmaz@example.com',
+        crypt('test1234', gen_salt('bf')),
+        now(),
+        '{"provider":"email","providers":["email"]}', '{"name":"Ahmet Yılmaz"}',
+        now(), now()
+    ),
+    (
+        'a0000000-0000-0000-0000-000000000002',
+        '00000000-0000-0000-0000-000000000000',
+        'authenticated', 'authenticated',
+        'ayse.kaya@example.com',
+        crypt('test1234', gen_salt('bf')),
+        now(),
+        '{"provider":"email","providers":["email"]}', '{"name":"Ayşe Kaya"}',
+        now(), now()
+    ),
+    (
+        'a0000000-0000-0000-0000-000000000003',
+        '00000000-0000-0000-0000-000000000000',
+        'authenticated', 'authenticated',
+        'mehmet.demir@example.com',
+        crypt('test1234', gen_salt('bf')),
+        now(),
+        '{"provider":"email","providers":["email"]}', '{"name":"Mehmet Demir"}',
+        now(), now()
+    ),
+    (
+        'a0000000-0000-0000-0000-000000000004',
+        '00000000-0000-0000-0000-000000000000',
+        'authenticated', 'authenticated',
+        'zeynep.celik@example.com',
+        crypt('test1234', gen_salt('bf')),
+        now(),
+        '{"provider":"email","providers":["email"]}', '{"name":"Zeynep Çelik"}',
+        now(), now()
+    ),
+    (
+        'a0000000-0000-0000-0000-000000000005',
+        '00000000-0000-0000-0000-000000000000',
+        'authenticated', 'authenticated',
+        'can.ozturk@example.com',
+        crypt('test1234', gen_salt('bf')),
+        now(),
+        '{"provider":"email","providers":["email"]}', '{"name":"Can Öztürk"}',
+        now(), now()
+    ),
+    (
+        'a0000000-0000-0000-0000-000000000006',
+        '00000000-0000-0000-0000-000000000000',
+        'authenticated', 'authenticated',
+        'selin.arslan@example.com',
+        crypt('test1234', gen_salt('bf')),
+        now(),
+        '{"provider":"email","providers":["email"]}', '{"name":"Selin Arslan"}',
+        now(), now()
+    ),
+    (
+        'a0000000-0000-0000-0000-000000000007',
+        '00000000-0000-0000-0000-000000000000',
+        'authenticated', 'authenticated',
+        'burak.sahin@example.com',
+        crypt('test1234', gen_salt('bf')),
+        now(),
+        '{"provider":"email","providers":["email"]}', '{"name":"Burak Şahin"}',
+        now(), now()
+    ),
+    (
+        'a0000000-0000-0000-0000-000000000008',
+        '00000000-0000-0000-0000-000000000000',
+        'authenticated', 'authenticated',
+        'nur.yildiz@example.com',
+        crypt('test1234', gen_salt('bf')),
+        now(),
+        '{"provider":"email","providers":["email"]}', '{"name":"Nur Yıldız"}',
+        now(), now()
+    );
+
+insert into auth.identities (
+    id, user_id, provider, identity_data, created_at, updated_at, last_sign_in_at
+) values
+    (
+        'a0000000-0000-0000-0000-000000000001',
+        'a0000000-0000-0000-0000-000000000001',
+        'email',
+        '{"sub":"a0000000-0000-0000-0000-000000000001","email":"ahmet.yilmaz@example.com"}',
+        now(), now(), now()
+    ),
+    (
+        'a0000000-0000-0000-0000-000000000002',
+        'a0000000-0000-0000-0000-000000000002',
+        'email',
+        '{"sub":"a0000000-0000-0000-0000-000000000002","email":"ayse.kaya@example.com"}',
+        now(), now(), now()
+    ),
+    (
+        'a0000000-0000-0000-0000-000000000003',
+        'a0000000-0000-0000-0000-000000000003',
+        'email',
+        '{"sub":"a0000000-0000-0000-0000-000000000003","email":"mehmet.demir@example.com"}',
+        now(), now(), now()
+    ),
+    (
+        'a0000000-0000-0000-0000-000000000004',
+        'a0000000-0000-0000-0000-000000000004',
+        'email',
+        '{"sub":"a0000000-0000-0000-0000-000000000004","email":"zeynep.celik@example.com"}',
+        now(), now(), now()
+    ),
+    (
+        'a0000000-0000-0000-0000-000000000005',
+        'a0000000-0000-0000-0000-000000000005',
+        'email',
+        '{"sub":"a0000000-0000-0000-0000-000000000005","email":"can.ozturk@example.com"}',
+        now(), now(), now()
+    ),
+    (
+        'a0000000-0000-0000-0000-000000000006',
+        'a0000000-0000-0000-0000-000000000006',
+        'email',
+        '{"sub":"a0000000-0000-0000-0000-000000000006","email":"selin.arslan@example.com"}',
+        now(), now(), now()
+    ),
+    (
+        'a0000000-0000-0000-0000-000000000007',
+        'a0000000-0000-0000-0000-000000000007',
+        'email',
+        '{"sub":"a0000000-0000-0000-0000-000000000007","email":"burak.sahin@example.com"}',
+        now(), now(), now()
+    ),
+    (
+        'a0000000-0000-0000-0000-000000000008',
+        'a0000000-0000-0000-0000-000000000008',
+        'email',
+        '{"sub":"a0000000-0000-0000-0000-000000000008","email":"nur.yildiz@example.com"}',
+        now(), now(), now()
+    );
+
+-- ============================================================
 -- SKİLLS
 -- ============================================================
 
