@@ -15,78 +15,14 @@ insert into auth.users (
     email_change, phone_change, phone_change_token, reauthentication_token
 )
 values
-    (
-        'a0000000-0000-0000-0000-000000000001',
-        'ahmet.yilmaz@example.com',
-        crypt('test1234', gen_salt('bf')),
-        now(), now(), now(),
-        '{"provider":"email","providers":["email"]}',
-        '{"name":"Ahmet Yılmaz"}',
-        'authenticated', 'authenticated'
-    ),
-    (
-        'a0000000-0000-0000-0000-000000000002',
-        'ayse.kaya@example.com',
-        crypt('test1234', gen_salt('bf')),
-        now(), now(), now(),
-        '{"provider":"email","providers":["email"]}',
-        '{"name":"Ayşe Kaya"}',
-        'authenticated', 'authenticated'
-    ),
-    (
-        'a0000000-0000-0000-0000-000000000003',
-        'mehmet.demir@example.com',
-        crypt('test1234', gen_salt('bf')),
-        now(), now(), now(),
-        '{"provider":"email","providers":["email"]}',
-        '{"name":"Mehmet Demir"}',
-        'authenticated', 'authenticated'
-    ),
-    (
-        'a0000000-0000-0000-0000-000000000004',
-        'zeynep.celik@example.com',
-        crypt('test1234', gen_salt('bf')),
-        now(), now(), now(),
-        '{"provider":"email","providers":["email"]}',
-        '{"name":"Zeynep Çelik"}',
-        'authenticated', 'authenticated'
-    ),
-    (
-        'a0000000-0000-0000-0000-000000000005',
-        'can.ozturk@example.com',
-        crypt('test1234', gen_salt('bf')),
-        now(), now(), now(),
-        '{"provider":"email","providers":["email"]}',
-        '{"name":"Can Öztürk"}',
-        'authenticated', 'authenticated'
-    ),
-    (
-        'a0000000-0000-0000-0000-000000000006',
-        'selin.arslan@example.com',
-        crypt('test1234', gen_salt('bf')),
-        now(), now(), now(),
-        '{"provider":"email","providers":["email"]}',
-        '{"name":"Selin Arslan"}',
-        'authenticated', 'authenticated'
-    ),
-    (
-        'a0000000-0000-0000-0000-000000000007',
-        'burak.sahin@example.com',
-        crypt('test1234', gen_salt('bf')),
-        now(), now(), now(),
-        '{"provider":"email","providers":["email"]}',
-        '{"name":"Burak Şahin"}',
-        'authenticated', 'authenticated'
-    ),
-    (
-        'a0000000-0000-0000-0000-000000000008',
-        'nur.yildiz@example.com',
-        crypt('test1234', gen_salt('bf')),
-        now(), now(), now(),
-        '{"provider":"email","providers":["email"]}',
-        '{"name":"Nur Yıldız"}',
-        'authenticated', 'authenticated'
-    )
+    ('a0000000-0000-0000-0000-000000000001', 'ahmet.yilmaz@example.com', crypt('test1234', gen_salt('bf')), now(), now(), now(), '{"provider":"email","providers":["email"]}', '{"name":"Ahmet Yılmaz"}', 'authenticated', 'authenticated', '00000000-0000-0000-0000-000000000000', '', '', '', '', '', '', ''),
+    ('a0000000-0000-0000-0000-000000000002', 'ayse.kaya@example.com',    crypt('test1234', gen_salt('bf')), now(), now(), now(), '{"provider":"email","providers":["email"]}', '{"name":"Ayşe Kaya"}',    'authenticated', 'authenticated', '00000000-0000-0000-0000-000000000000', '', '', '', '', '', '', ''),
+    ('a0000000-0000-0000-0000-000000000003', 'mehmet.demir@example.com', crypt('test1234', gen_salt('bf')), now(), now(), now(), '{"provider":"email","providers":["email"]}', '{"name":"Mehmet Demir"}', 'authenticated', 'authenticated', '00000000-0000-0000-0000-000000000000', '', '', '', '', '', '', ''),
+    ('a0000000-0000-0000-0000-000000000004', 'zeynep.celik@example.com', crypt('test1234', gen_salt('bf')), now(), now(), now(), '{"provider":"email","providers":["email"]}', '{"name":"Zeynep Çelik"}', 'authenticated', 'authenticated', '00000000-0000-0000-0000-000000000000', '', '', '', '', '', '', ''),
+    ('a0000000-0000-0000-0000-000000000005', 'can.ozturk@example.com',   crypt('test1234', gen_salt('bf')), now(), now(), now(), '{"provider":"email","providers":["email"]}', '{"name":"Can Öztürk"}',   'authenticated', 'authenticated', '00000000-0000-0000-0000-000000000000', '', '', '', '', '', '', ''),
+    ('a0000000-0000-0000-0000-000000000006', 'selin.arslan@example.com', crypt('test1234', gen_salt('bf')), now(), now(), now(), '{"provider":"email","providers":["email"]}', '{"name":"Selin Arslan"}', 'authenticated', 'authenticated', '00000000-0000-0000-0000-000000000000', '', '', '', '', '', '', ''),
+    ('a0000000-0000-0000-0000-000000000007', 'burak.sahin@example.com',  crypt('test1234', gen_salt('bf')), now(), now(), now(), '{"provider":"email","providers":["email"]}', '{"name":"Burak Şahin"}',  'authenticated', 'authenticated', '00000000-0000-0000-0000-000000000000', '', '', '', '', '', '', ''),
+    ('a0000000-0000-0000-0000-000000000008', 'nur.yildiz@example.com',   crypt('test1234', gen_salt('bf')), now(), now(), now(), '{"provider":"email","providers":["email"]}', '{"name":"Nur Yıldız"}',   'authenticated', 'authenticated', '00000000-0000-0000-0000-000000000000', '', '', '', '', '', '', '')
 on conflict (id) do nothing;
 
 insert into auth.identities (
