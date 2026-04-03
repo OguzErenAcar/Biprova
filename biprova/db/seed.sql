@@ -427,7 +427,7 @@ insert into messages (id, team_id, sender_id, content, created_at) values
 -- Ekip gönderileri
 insert into team_posts (id, team_id, author_id, project_id, content, like_count, created_at) values
     (
-        'g0000000-0000-0000-0000-000000000001',
+        'f1000000-0000-0000-0000-000000000001',
         'e0000000-0000-0000-0000-000000000001',
         'a0000000-0000-0000-0000-000000000004',
         'b0000000-0000-0000-0000-000000000004',
