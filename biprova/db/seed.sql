@@ -451,7 +451,7 @@ insert into team_posts (id, team_id, author_id, project_id, content, like_count,
 
 insert into news (id, author_id, title, content, tags, view_count, like_count, is_published, published_at) values
     (
-        'h0000000-0000-0000-0000-000000000001',
+        'f2000000-0000-0000-0000-000000000001',
         'a0000000-0000-0000-0000-000000000002',
         'Türkiye''de Girişimcilik Ekosistemi 2025 Raporu Yayınlandı',
         'TÜSİAD ve Startup Turkey iş birliğiyle hazırlanan yıllık rapor, Türkiye''de teknoloji girişimciliğinin son 5 yılda %340 büyüdüğünü ortaya koydu. İstanbul, girişim merkezi olma özelliğini korurken Ankara ve İzmir de hızla yükseliyor.',
@@ -460,7 +460,7 @@ insert into news (id, author_id, title, content, tags, view_count, like_count, i
         now() - interval '7 days'
     ),
     (
-        'h0000000-0000-0000-0000-000000000002',
+        'f2000000-0000-0000-0000-000000000002',
         'a0000000-0000-0000-0000-000000000002',
         'Tarım Teknolojileri Yatırımları Rekora Koşuyor',
         'Agritech alanındaki küresel yatırımlar 2024''te 15 milyar doları aştı. Türkiye bu alanda önemli bir potansiyel taşıyor: tarım arazilerinin verimliliğini artıracak akıllı sulama, drone ve sensör teknolojileri giderek yaygınlaşıyor.',
