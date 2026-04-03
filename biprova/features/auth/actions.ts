@@ -120,7 +120,7 @@ export async function login(data: {
     password: data.password,
   });
 
-  if (error) return { error: 'E-posta veya şifre hatalı.' };
+  if (error) return { error: error.message };
 
   redirect('/dashboard');
 }
