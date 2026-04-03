@@ -83,7 +83,8 @@ values
         '{"provider":"email","providers":["email"]}',
         '{"name":"Nur Yıldız"}',
         'authenticated', 'authenticated'
-    );
+    )
+on conflict (id) do nothing;
 
 insert into auth.identities (
     id, user_id, provider, identity_data, created_at, updated_at, last_sign_in_at
@@ -95,4 +96,5 @@ insert into auth.identities (
     ('a0000000-0000-0000-0000-000000000005', 'a0000000-0000-0000-0000-000000000005', 'email', '{"sub":"a0000000-0000-0000-0000-000000000005","email":"can.ozturk@example.com"}',    now(), now(), now()),
     ('a0000000-0000-0000-0000-000000000006', 'a0000000-0000-0000-0000-000000000006', 'email', '{"sub":"a0000000-0000-0000-0000-000000000006","email":"selin.arslan@example.com"}',  now(), now(), now()),
     ('a0000000-0000-0000-0000-000000000007', 'a0000000-0000-0000-0000-000000000007', 'email', '{"sub":"a0000000-0000-0000-0000-000000000007","email":"burak.sahin@example.com"}',   now(), now(), now()),
-    ('a0000000-0000-0000-0000-000000000008', 'a0000000-0000-0000-0000-000000000008', 'email', '{"sub":"a0000000-0000-0000-0000-000000000008","email":"nur.yildiz@example.com"}',    now(), now(), now());
+    ('a0000000-0000-0000-0000-000000000008', 'a0000000-0000-0000-0000-000000000008', 'email', '{"sub":"a0000000-0000-0000-0000-000000000008","email":"nur.yildiz@example.com"}',    now(), now(), now())
+on conflict (id) do nothing;
