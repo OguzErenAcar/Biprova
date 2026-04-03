@@ -9,7 +9,10 @@
 insert into auth.users (
     id, email, encrypted_password,
     email_confirmed_at, created_at, updated_at,
-    raw_app_meta_data, raw_user_meta_data, aud, role
+    raw_app_meta_data, raw_user_meta_data, aud, role,
+    instance_id,
+    confirmation_token, recovery_token, email_change_token_new,
+    email_change, phone_change, phone_change_token, reauthentication_token
 )
 values
     (
