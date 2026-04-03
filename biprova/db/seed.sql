@@ -476,7 +476,7 @@ insert into news (id, author_id, title, content, tags, view_count, like_count, i
 insert into notifications (id, user_id, type, payload, is_read, created_at) values
     -- Ahmet: projesine 2 başvuru geldi
     (
-        'i0000000-0000-0000-0000-000000000001',
+        'f3000000-0000-0000-0000-000000000001',
         'a0000000-0000-0000-0000-000000000001',
         'new_application',
         jsonb_build_object(
@@ -488,7 +488,7 @@ insert into notifications (id, user_id, type, payload, is_read, created_at) valu
         false, now() - interval '2 days'
     ),
     (
-        'i0000000-0000-0000-0000-000000000002',
+        'f3000000-0000-0000-0000-000000000002',
         'a0000000-0000-0000-0000-000000000001',
         'new_application',
         jsonb_build_object(
@@ -501,7 +501,7 @@ insert into notifications (id, user_id, type, payload, is_read, created_at) valu
     ),
     -- Can: başvurusu kabul edildi (p2)
     (
-        'i0000000-0000-0000-0000-000000000003',
+        'f3000000-0000-0000-0000-000000000003',
         'a0000000-0000-0000-0000-000000000005',
         'application_accepted',
         jsonb_build_object(
@@ -513,7 +513,7 @@ insert into notifications (id, user_id, type, payload, is_read, created_at) valu
     ),
     -- Burak: başvurusu kabul edildi (p3)
     (
-        'i0000000-0000-0000-0000-000000000004',
+        'f3000000-0000-0000-0000-000000000004',
         'a0000000-0000-0000-0000-000000000007',
         'application_accepted',
         jsonb_build_object(
@@ -525,7 +525,7 @@ insert into notifications (id, user_id, type, payload, is_read, created_at) valu
     ),
     -- Mehmet: ekibi oluştu (p3)
     (
-        'i0000000-0000-0000-0000-000000000005',
+        'f3000000-0000-0000-0000-000000000005',
         'a0000000-0000-0000-0000-000000000003',
         'team_formed',
         jsonb_build_object(
