@@ -39,13 +39,13 @@ export async function proxy(request: NextRequest) {
 
   // Auth geçerli ama public.users satırı yoksa oturumu sonlandır
   if (isProtected && user) {
-    const { data: dbUser } = await supabase
+    const { data: dbUser, error: dbError } = await supabase
       .from('users')
       .select('id')
       .eq('id', user.id)
       .single()
 
-    console.log('[proxy] dbUser:', dbUser, '| dbError:', (dbError as { message?: string } | null)?.message ?? 'none')
+    console.log('[proxy] dbUser:', dbUser, '| dbError:', dbError?.message ?? 'none')
     if (!dbUser) {
       await supabase.auth.signOut()
       return NextResponse.redirect(new URL('/login', request.url))
