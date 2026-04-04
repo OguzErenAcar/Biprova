@@ -60,7 +60,7 @@ export function PanelProjeler({ projects }: Props) {
                 <div className="text-[0.86rem] font-bold text-slate-900 truncate">{project.title}</div>
                 <div className="text-[0.72rem] text-slate-400 mt-0.5">
                   {project.is_remote ? '🌐 Remote' : `📍 ${project.city ?? '—'}`}
-                  {' · '}{project.creator_name} açtı · {relativeTime(project.created_at)}
+                  {' · '}{project.leader_name} açtı · {relativeTime(project.created_at)}
                 </div>
               </div>
               <span className={`text-[0.68rem] font-extrabold px-2 py-0.5 rounded-full shrink-0 ${STATUS_STYLE[project.status] ?? STATUS_STYLE.open}`}>
