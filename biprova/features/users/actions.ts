@@ -55,7 +55,7 @@ type MembershipRow = {
       is_remote: boolean | null;
       category: string | null;
       status: string;
-      creator_id: string;
+      leader_id: string;
     } | null;
   } | null;
 };
@@ -69,7 +69,7 @@ type FilledRoleRow = {
     is_remote: boolean | null;
     category: string | null;
     status: string;
-    creator_id: string;
+    leader_id: string;
   } | null;
 };
 
