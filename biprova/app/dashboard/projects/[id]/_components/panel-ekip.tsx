@@ -530,7 +530,7 @@ function LeaveProjectSection({ projectId, isProjectLeader, members, viewerId }: 
         </div>
       </div>
 
-      {/* Transfer Creator Dialog */}
+      {/* Transfer Lider Dialog */}
       {showTransferDialog && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
           <div className="bg-white rounded-2xl shadow-xl w-full max-w-sm mx-4 overflow-hidden">
