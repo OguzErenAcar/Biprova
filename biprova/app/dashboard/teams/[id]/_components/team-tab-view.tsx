@@ -40,11 +40,14 @@ export function TeamTabView({ team }: Props) {
 
   function handleConfirm() {
     if (!modal) return;
+    setModalError('');
     startTransition(async () => {
       switch (modal.type) {
-        case 'leave':
-          await leaveTeam(team.id);
+        case 'leave': {
+          const result = await leaveTeam(team.id);
+          if (result?.error) { setModalError(result.error); return; }
           break;
+        }
         case 'disband':
           await disbandTeam(team.id);
           break;
