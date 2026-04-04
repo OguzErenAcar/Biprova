@@ -188,7 +188,7 @@ create table waitlist (
 -- INDEXES
 -- ============================================================
 
-create index on projects(creator_id);
+create index on projects(leader_id);
 create index on projects(team_id);
 create index on projects(status);
 create index on project_roles(project_id);
