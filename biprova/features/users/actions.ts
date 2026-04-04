@@ -201,7 +201,7 @@ export async function getUserProjects(userId: string): Promise<UserProjectEntry[
   const accepted: UserProjectEntry[] = ((filledRaw ?? []) as unknown as FilledRoleRow[])
     .filter((row) => {
       const p = row.projects;
-      return p && p.creator_id !== userId && !seenIds.has(p.id);
+      return p && p.leader_id !== userId && !seenIds.has(p.id);
     })
     .map((row) => {
       const p = row.projects!;
