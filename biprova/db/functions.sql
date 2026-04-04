@@ -3,6 +3,12 @@
 -- Sıra: 1-proje_fesih, 2-team_fesih, 3-proje_cikis, 4-team_cikis
 -- ============================================================
 
+
+
+
+
+
+
 -- ============================================================
 -- 1. PROJE FESİH (Lider projeyi fesheder)
 -- Akış: proje sil → cascade: project_roles, applications,
@@ -19,12 +25,6 @@ begin
     ) then
         raise exception 'Yetkisiz: sadece proje kurucusu feshedebilir';
     end if;
-
-    -- Bağlı team varsa no_project yap (proje silinince FK set null olur ama
-    -- status otomatik güncellenmez)
-    update teams
-    set status = 'no_project'
-    where project_id = p_project_id;
 
     -- Projeyi sil:
     --   cascade → project_roles, applications, project_members silinir
