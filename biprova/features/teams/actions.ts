@@ -50,7 +50,7 @@ type RawTeamMemberDetail = {
   has_biprova: boolean;
   joined_at: string;
   users: { name: string; avatar_url: string | null };
-  project_roles: { role_name: string; project_id: string } | null;
+  project_roles: { role_name: string } | null;
 };
 
 type RawTeamProjectItem = {
