@@ -174,8 +174,11 @@ export async function transferLeadership(teamId: string, newLeaderId: string): P
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return { error: 'Oturum açmanız gerekiyor.' };
 
-  const { error } = await supabase.from('teams').update({ leader_id: newLeaderId }).eq('id', teamId).eq('leader_id', user.id);
-  if (error) return { error: 'Liderlik devredilemedi.' };
+  const { error } = await supabase.rpc('fn_transfer_team_leader', {
+    p_team_id: teamId,
+    p_new_leader_id: newLeaderId,
+  });
+  if (error) return { error: error.message };
   return {};
 }
 
