@@ -539,11 +539,11 @@ function LeaveProjectSection({ projectId, isProjectLeader, members, viewerId }: 
             </div>
             <div className="px-6 py-5 flex flex-col gap-3">
               <p className="text-[0.82rem] text-slate-500">
-                Projeden ayrılmadan önce kuruculuğu devredecek bir üye seçmelisin.
+                Projeden ayrılmadan önce liderliği devredecek bir üye seçmelisin.
               </p>
               {candidates.length === 0 ? (
                 <p className="text-[0.82rem] text-amber-600 font-semibold">
-                  Projede başka üye yok. Kuruculuğu devretmek için önce projeye üye eklemen gerekiyor.
+                  Projede başka üye yok. Liderliği devretmek için önce projeye üye eklemen gerekiyor.
                 </p>
               ) : (
                 <select
