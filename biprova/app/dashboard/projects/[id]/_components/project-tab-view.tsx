@@ -40,13 +40,14 @@ export function ProjectTabView({ project }: Props) {
         className="flex border-b border-slate-200 bg-white px-6 sticky top-[53px] z-30"
       >
         {TABS.map((tab) => {
-          const disabled = tab.requiresTeam && !hasTeam;
+          const disabled = tab.comingSoon || (tab.requiresTeam && !hasTeam);
+          const title = tab.comingSoon ? 'Yakında' : disabled ? 'Ekip kurulduktan sonra aktif olur' : undefined;
           return (
             <button
               key={tab.key}
               onClick={() => !disabled && setActiveTab(tab.key)}
               disabled={disabled}
-              title={disabled ? 'Ekip kurulduktan sonra aktif olur' : undefined}
+              title={title}
               className={`text-[0.82rem] font-bold px-4 py-3 border-b-2 transition-all whitespace-nowrap flex items-center gap-1 bg-transparent ${
                 disabled
                   ? 'text-slate-300 border-transparent cursor-not-allowed'
