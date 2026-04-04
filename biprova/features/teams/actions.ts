@@ -136,26 +136,13 @@ export async function getTeamDetail(id: string): Promise<TeamDetail | null> {
 
 // ─── Mutation Actions ──────────────────────────────────────────────────────
 
-export async function leaveTeam(teamId: string): Promise<void> {
+export async function leaveTeam(teamId: string): Promise<{ error?: string }> {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return;
+  if (!user) return { error: 'Oturum açmanız gerekiyor.' };
 
-  const { data: team } = await supabase
-    .from('teams')
-    .select('project_id')
-    .eq('id', teamId)
-    .single();
-
-  await supabase.from('team_members').delete().eq('team_id', teamId).eq('user_id', user.id);
-
-  if (team?.project_id) {
-    await supabase
-      .from('project_members')
-      .delete()
-      .eq('project_id', team.project_id)
-      .eq('user_id', user.id);
-  }
+  const { error } = await supabase.rpc('fn_leave_team', { p_team_id: teamId });
+  if (error) return { error: error.message };
 
   redirect('/dashboard');
 }
