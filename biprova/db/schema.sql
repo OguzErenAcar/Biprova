@@ -208,3 +208,11 @@ create index on team_posts(team_id);
 create index on notifications(user_id, is_read);
 create index on news(is_published, published_at desc);
 create index on users(plan);
+
+-- ============================================================
+-- MIGRATIONS (mevcut veritabanı için)
+-- ============================================================
+
+alter table public.users
+    add column if not exists last_sign_in_at  timestamp,
+    add column if not exists last_sign_out_at timestamp;
