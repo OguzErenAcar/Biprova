@@ -165,7 +165,7 @@ insert into user_skills (user_id, skill_id) values
 -- Kurucu: Ahmet (u1) | Durum: open | 2 rol, 0 dolu
 -- ============================================================
 
-insert into projects (id, creator_id, title, description, city, is_remote, category_id, status)
+insert into projects (id, leader_id, title, description, city, is_remote, category_id, status)
 values (
     'b0000000-0000-0000-0000-000000000001',
     'a0000000-0000-0000-0000-000000000001',
@@ -211,7 +211,7 @@ insert into applications (id, project_id, user_id, role_id, note, status) values
 -- Kurucu: Ayşe (u2) | Durum: open | 3 rol, 1 dolu
 -- ============================================================
 
-insert into projects (id, creator_id, title, description, city, is_remote, category_id, status)
+insert into projects (id, leader_id, title, description, city, is_remote, category_id, status)
 values (
     'b0000000-0000-0000-0000-000000000002',
     'a0000000-0000-0000-0000-000000000002',
@@ -278,7 +278,7 @@ insert into applications (id, project_id, user_id, role_id, note, status) values
 -- Kurucu: Mehmet (u3) | 2 rol, ikisi de dolu
 -- ============================================================
 
-insert into projects (id, creator_id, title, description, city, is_remote, category_id, status)
+insert into projects (id, leader_id, title, description, city, is_remote, category_id, status)
 values (
     'b0000000-0000-0000-0000-000000000003',
     'a0000000-0000-0000-0000-000000000003',
@@ -340,7 +340,7 @@ update projects set status = 'full' where id = 'b0000000-0000-0000-0000-00000000
 -- Kurucu: Zeynep (u4) | Manuel kurulum (ekip zaten aktif)
 -- ============================================================
 
-insert into projects (id, creator_id, title, description, city, is_remote, category_id, status)
+insert into projects (id, leader_id, title, description, city, is_remote, category_id, status)
 values (
     'b0000000-0000-0000-0000-000000000004',
     'a0000000-0000-0000-0000-000000000004',
