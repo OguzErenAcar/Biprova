@@ -3,18 +3,18 @@
 import { useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import type { TeamMemberDetail } from '@/features/teams/actions';
-import { transferLeadership } from '@/features/teams/actions';
+import { transferLeadership, disbandTeam } from '@/features/teams/actions';
 
 interface Props {
   teamId: string;
   members: TeamMemberDetail[];
-  onDisband: () => void;
 }
 
-export function TeamDangerZone({ teamId, members, onDisband }: Props) {
+export function TeamDangerZone({ teamId, members }: Props) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string>('');
+  const [disbandConfirm, setDisbandConfirm] = useState(false);
 
   const otherMembers = members.filter((m) => !m.is_leader);
   const [target, setTarget] = useState<string>(otherMembers[0]?.user_id ?? '');
