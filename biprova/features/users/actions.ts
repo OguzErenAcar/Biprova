@@ -173,7 +173,7 @@ export async function getUserProjects(userId: string): Promise<UserProjectEntry[
   const member: UserProjectEntry[] = ((membershipRaw ?? []) as unknown as MembershipRow[])
     .filter((row) => {
       const project = row.teams?.projects;
-      return project && project.creator_id !== userId;
+      return project && project.leader_id !== userId;
     })
     .map((row) => {
       const project = row.teams!.projects!;
