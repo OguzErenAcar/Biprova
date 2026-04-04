@@ -74,10 +74,10 @@ create policy "teams_update" on teams for update using (leader_id = auth.uid());
 
 -- projects
 create policy "projects_read"   on projects for select using (true);
-create policy "projects_update" on projects for update using (creator_id = auth.uid());
-create policy "projects_delete" on projects for delete using (creator_id = auth.uid());
+create policy "projects_update" on projects for update using (leader_id = auth.uid());
+create policy "projects_delete" on projects for delete using (leader_id = auth.uid());
 create policy "projects_insert" on projects for insert with check (
-    creator_id = auth.uid()
+    leader_id = auth.uid()
     and (
         team_id is null
         or exists (
