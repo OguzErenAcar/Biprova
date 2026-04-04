@@ -51,7 +51,7 @@ export function PanelEkip({ project }: Props) {
 
       <LeaveProjectSection
         projectId={project.id}
-        isCreator={viewer.is_project_leader}
+        isProjectLeader={viewer.is_project_leader}
         members={project.members}
         viewerId={viewer.id}
       />
