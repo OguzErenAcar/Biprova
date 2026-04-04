@@ -195,7 +195,7 @@ export function TeamTabView({ team }: Props) {
 
             <div className="flex gap-2 mt-2">
               <button
-                onClick={() => setModal(null)}
+                onClick={() => { setModal(null); setModalError(''); }}
                 className="flex-1 bg-white text-slate-700 border-[1.5px] border-slate-200 rounded-[9px] font-nunito font-extrabold text-[0.82rem] py-[0.7rem] cursor-pointer hover:border-slate-300 transition-colors"
               >
                 İptal
