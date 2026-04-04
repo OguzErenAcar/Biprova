@@ -51,11 +51,13 @@ export function TeamTabView({ team }: Props) {
         case 'disband':
           await disbandTeam(team.id);
           break;
-        case 'transfer':
+        case 'transfer': {
           if (!transferTarget) return;
-          await transferLeadership(team.id, transferTarget);
-          router.refresh();
+          const transferResult = await transferLeadership(team.id, transferTarget);
+          if (transferResult?.error) { setModalError(transferResult.error); return; }
+          router.push('/dashboard');
           break;
+        }
         case 'kick':
           await kickMember(team.id, modal.userId);
           router.refresh();
