@@ -111,7 +111,7 @@ create policy "role_skills_manage" on project_role_skills for all
         exists (
             select 1 from project_roles pr
             where pr.id = role_id
-              and pr.project_id in (select id from projects where creator_id = auth.uid())
+              and pr.project_id in (select id from projects where leader_id = auth.uid())
         )
     );
 
