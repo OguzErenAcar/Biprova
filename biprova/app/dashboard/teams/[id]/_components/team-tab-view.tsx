@@ -159,6 +159,7 @@ export function TeamTabView({ team }: Props) {
           <div className="bg-white rounded-[18px] p-[1.8rem] w-full max-w-[420px] shadow-[0_20px_50px_rgba(0,0,0,0.12)]">
             <h3 className="font-nunito font-black text-[1.1rem] mb-1">{modalTitle}</h3>
             <p className="text-[0.84rem] text-slate-400 mb-5">{modalDesc}</p>
+            {modalError && <p className="text-[0.78rem] text-red-500 -mt-3 mb-4">{modalError}</p>}
 
             {/* Transfer: member select */}
             {modal.type === 'transfer' && otherMembers.length > 0 && (
