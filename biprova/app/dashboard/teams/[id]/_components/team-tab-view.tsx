@@ -15,7 +15,6 @@ type Tab = 'genel' | 'projeler' | 'aktivite';
 
 type ModalType =
   | { type: 'leave' }
-  | { type: 'disband' }
   | { type: 'invite' }
   | { type: 'settings' }
   | { type: 'biprova'; userId: string; name: string }
