@@ -124,7 +124,6 @@ export function TeamTabView({ team }: Props) {
             onLeave={() => setModal({ type: 'leave' })}
             onGrantBiprova={(userId, name) => setModal({ type: 'biprova', userId, name })}
             onKick={(userId, name) => setModal({ type: 'kick', userId, name })}
-            onDisband={() => setModal({ type: 'disband' })}
             onViewAllProjects={() => setActiveTab('projeler')}
           />
         )}
