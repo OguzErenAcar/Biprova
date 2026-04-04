@@ -17,11 +17,11 @@ export async function applyToProject(projectId: string, roleId: string): Promise
   // Kendi projesine başvuru engeli
   const { data: project } = await supabase
     .from('projects')
-    .select('creator_id')
+    .select('leader_id')
     .eq('id', projectId)
     .single();
 
-  if (project?.creator_id === user.id) {
+  if (project?.leader_id === user.id) {
     return { error: 'Kendi projenize başvuramazsınız.' };
   }
 
