@@ -190,7 +190,7 @@ function ApplicationRow({
   );
 }
 
-/* ─── Üye Yönetimi (Creator / Lider) ────────────────────────── */
+/* ─── Üye Yönetimi ───────────────────────────────────────────── */
 
 interface MemberManagementSectionProps {
   projectId: string;
