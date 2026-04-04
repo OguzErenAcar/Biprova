@@ -141,7 +141,22 @@ export async function leaveTeam(teamId: string): Promise<void> {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return;
 
+  const { data: team } = await supabase
+    .from('teams')
+    .select('project_id')
+    .eq('id', teamId)
+    .single();
+
   await supabase.from('team_members').delete().eq('team_id', teamId).eq('user_id', user.id);
+
+  if (team?.project_id) {
+    await supabase
+      .from('project_members')
+      .delete()
+      .eq('project_id', team.project_id)
+      .eq('user_id', user.id);
+  }
+
   redirect('/dashboard');
 }
 
