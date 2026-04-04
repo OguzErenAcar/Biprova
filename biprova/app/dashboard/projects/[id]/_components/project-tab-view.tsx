@@ -24,8 +24,8 @@ export function ProjectTabView({ project }: Props) {
   const TABS: { key: Tab; label: string; count?: number; requiresTeam: boolean; comingSoon?: boolean }[] = [
     { key: 'genel',      label: '📋 Genel',      requiresTeam: false },
     { key: 'ekip',       label: '👥 Ekip',        requiresTeam: false, count: project.viewer.is_project_leader ? pendingCount : undefined },
-    { key: 'gorevler',   label: '✅ Görevler',    requiresTeam: true,  comingSoon: true },
     { key: 'chat',       label: '💬 Chat',        requiresTeam: true,  count: project.messages.length },
+    { key: 'gorevler',   label: '✅ Görevler',    requiresTeam: true,  comingSoon: true },
     { key: 'dosyalar',   label: '📁 Dosyalar',    requiresTeam: true,  comingSoon: true },
     { key: 'gonderiler', label: '📢 Gönderiler',  requiresTeam: true,  comingSoon: true },
   ];
