@@ -108,15 +108,18 @@ grant execute on function fn_leave_project(uuid) to authenticated;
 -- Akış:
 --   Son kişi → team sil
 --     → trg_delete_project_on_team_deleted → bağlı projeyi siler
---   Değil  → team_members'dan sil, rolü serbest bırak
+--   Değil → rolü serbest bırak → team_members'dan sil
+--     → team'in projesi varsa project_members'dan da sil (Triangle/A)
+--       → trg_delete_project_on_empty_members son üyeyse projeyi siler
 -- Not: lider çıkamaz, fn_dissolve_team kullanmalı
 -- ============================================================
 
 create or replace function fn_leave_team(p_team_id uuid)
 returns void language plpgsql security definer as $$
 declare
-    v_uid        uuid := auth.uid();
-    v_role_id    uuid;
+    v_uid          uuid := auth.uid();
+    v_role_id      uuid;
+    v_project_id   uuid;
     v_member_count integer;
 begin
     -- Üyelik kontrolü
@@ -156,6 +159,15 @@ begin
 
         delete from team_members
         where team_id = p_team_id and user_id = v_uid;
+
+        -- Team'in projesi varsa projeden de çık (Triangle/A)
+        -- → trg_delete_project_on_empty_members son üyeyse projeyi siler
+        select project_id into v_project_id from teams where id = p_team_id;
+
+        if v_project_id is not null then
+            delete from project_members
+            where project_id = v_project_id and user_id = v_uid;
+        end if;
     end if;
 end;
 $$;
