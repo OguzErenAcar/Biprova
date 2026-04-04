@@ -204,7 +204,7 @@ export function TeamTabView({ team }: Props) {
               </button>
               <button
                 onClick={handleConfirm}
-                disabled={isPending}
+                disabled={isPending || (modal.type === 'leave' && team.viewer.is_leader)}
                 className={`flex-1 rounded-[9px] font-nunito font-extrabold text-[0.82rem] py-[0.7rem] cursor-pointer transition-colors disabled:opacity-50 ${
                   modalConfig.danger
                     ? 'bg-red-50 text-red-500 border-[1.5px] border-red-200 hover:bg-red-100'
