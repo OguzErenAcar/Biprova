@@ -444,7 +444,7 @@ function LeaveProjectSection({ projectId, isProjectLeader, members, viewerId }: 
   const [confirm, setConfirm] = useState(false);
   const [error, setError] = useState('');
 
-  // Creator transfer dialog state
+  // Lider transfer dialog state
   const [showTransferDialog, setShowTransferDialog] = useState(false);
   const [selectedId, setSelectedId] = useState('');
   const [transferError, setTransferError] = useState('');
