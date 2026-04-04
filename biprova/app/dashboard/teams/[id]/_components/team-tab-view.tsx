@@ -43,9 +43,6 @@ export function TeamTabView({ team }: Props) {
           if (result?.error) { setModalError(result.error); return; }
           break;
         }
-        case 'disband':
-          await disbandTeam(team.id);
-          break;
         case 'kick':
           await kickMember(team.id, modal.userId);
           router.refresh();
