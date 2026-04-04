@@ -49,11 +49,6 @@ export function TeamTabView({ team }: Props) {
         case 'disband':
           await disbandTeam(team.id);
           break;
-        case 'transfer':
-          if (!transferTarget) return;
-          await transferLeadership(team.id, transferTarget);
-          router.refresh();
-          break;
         case 'kick':
           await kickMember(team.id, modal.userId);
           router.refresh();
