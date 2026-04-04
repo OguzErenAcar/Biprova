@@ -118,10 +118,7 @@ export async function getUserTeams(): Promise<UserTeamOption[]> {
   if (!data) return [];
 
   return (data as unknown as TeamMemberRow[])
-    .filter((r) =>
-      ['active', 'pending', 'no_project'].includes(r.teams.status) &&
-      (r.teams.leader_id === user.id || r.has_biprova)
-    )
+    .filter((r) => ['active', 'pending', 'no_project'].includes(r.teams.status))
     .map((r) => ({
       id: r.teams.id,
       name: r.teams.name ?? 'İsimsiz Ekip',
