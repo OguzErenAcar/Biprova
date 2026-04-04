@@ -134,29 +134,29 @@ begin
     select count(*) into v_member_count
     from team_members where team_id = p_team_id;
 
-    -- Lider son kişi değilse çıkamaz
-    if v_member_count > 1 and exists (
-        select 1 from teams
-        where id = p_team_id and leader_id = v_uid
-    ) then
-        raise exception 'Takım lideri çıkamaz, takımı feshetmelisiniz';
-    end if;
-
-    -- Team'in projesine üyeyse çıkamasın, önce projeden ayrılmalı
-    select project_id into v_project_id from teams where id = p_team_id;
-
-    if v_project_id is not null and exists (
-        select 1 from project_members
-        where project_id = v_project_id and user_id = v_uid
-    ) then
-        raise exception 'Önce takımın projesinden ayrılmalısınız';
-    end if;
-
     if v_member_count = 1 then
-        -- Son kişi (lider dahil): takımı sil
+        -- Son kişi (lider dahil): direkt takımı sil
         -- → trg_delete_project_on_team_deleted bağlı projeyi siler
         delete from teams where id = p_team_id;
     else
+        -- Lider çıkamaz
+        if exists (
+            select 1 from teams
+            where id = p_team_id and leader_id = v_uid
+        ) then
+            raise exception 'Takım lideri çıkamaz, takımı feshetmelisiniz';
+        end if;
+
+        -- Team'in projesine üyeyse çıkamasın, önce projeden ayrılmalı
+        select project_id into v_project_id from teams where id = p_team_id;
+
+        if v_project_id is not null and exists (
+            select 1 from project_members
+            where project_id = v_project_id and user_id = v_uid
+        ) then
+            raise exception 'Önce takımın projesinden ayrılmalısınız';
+        end if;
+
         -- Rolü varsa project_roles'da serbest bırak
         select role_id into v_role_id
         from team_members where team_id = p_team_id and user_id = v_uid;
