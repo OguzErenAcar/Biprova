@@ -40,6 +40,7 @@ export interface TeamDetail {
     is_leader: boolean;
     has_biprova: boolean;
     is_member: boolean;
+    project_ids: string[];
   };
 }
 
