@@ -144,6 +144,14 @@ export function TeamTabView({ team }: Props) {
             <p className="text-[0.84rem] text-slate-400 mb-5">{modalDesc}</p>
             {modalError && <p className="text-[0.78rem] text-red-500 -mt-3 mb-4">{modalError}</p>}
 
+            {/* Leave: leader warning */}
+            {modal.type === 'leave' && team.viewer.is_leader && (
+              <div className="bg-amber-50 border-[1.5px] border-amber-200 rounded-[10px] px-3 py-2.5 mb-4 -mt-3">
+                <p className="text-[0.8rem] font-bold text-amber-700">Ekipten ayrılmadan önce liderliği başka bir üyeye devretmelisin.</p>
+                <p className="text-[0.75rem] text-amber-600 mt-0.5">Tehlike Zonu → Liderliği Devret</p>
+              </div>
+            )}
+
             {/* Leave: involved projects list */}
             {modal.type === 'leave' && modalError && team.projects.length > 0 && (
               <div className="mb-4">
