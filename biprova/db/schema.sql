@@ -49,12 +49,11 @@ create table teams (
     id           uuid primary key default uuid_generate_v4(),
     name         text,
     leader_id    uuid references users(id) on delete set null,
-    status       text default 'pending',      -- 'pending' | 'active' | 'no_project' | 'disbanded'
+    status       text default 'pending',      -- 'pending' | 'active' | 'no_project'
     project_id   uuid,                        -- fk eklenir aşağıda
     formed_at    timestamp default now(),
     activated_at timestamp,
-    deadline     timestamp,
-    disbanded_at timestamp
+    deadline     timestamp
 );
 
 create table projects (
