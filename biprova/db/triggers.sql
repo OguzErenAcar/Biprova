@@ -60,14 +60,14 @@ create or replace trigger trg_create_team_on_project_full
     execute function create_team_on_project_full();
 
 -- ============================================================
--- TRIGGER: Proje kurulunca creator'ı project_members'a ekle
+-- TRIGGER: Proje kurulunca lideri project_members'a ekle
 -- ============================================================
 
 create or replace function pm_on_project_created()
 returns trigger language plpgsql security definer as $$
 begin
     insert into project_members(project_id, user_id, role)
-    values (new.id, new.creator_id, 'creator')
+    values (new.id, new.leader_id, 'leader')
     on conflict do nothing;
     return new;
 end;
