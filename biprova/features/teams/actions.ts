@@ -165,8 +165,7 @@ export async function disbandTeam(teamId: string): Promise<void> {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return;
 
-  await supabase.from('team_members').delete().eq('team_id', teamId);
-  await supabase.from('teams').update({ status: 'disbanded', disbanded_at: new Date().toISOString() }).eq('id', teamId).eq('leader_id', user.id);
+  await supabase.from('teams').delete().eq('id', teamId).eq('leader_id', user.id);
   redirect('/dashboard');
 }
 
