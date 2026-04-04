@@ -87,12 +87,31 @@ export function TeamDangerZone({ teamId, members }: Props) {
             <div className="text-[0.86rem] font-bold text-slate-900 mb-0.5">Ekibi Dağıt</div>
             <div className="text-[0.76rem] text-slate-400">Tüm üyeler ayrılır, geri alınamaz</div>
           </div>
-          <button
-            onClick={onDisband}
-            className="bg-red-50 text-red-500 border-[1.5px] border-red-200 rounded-[9px] font-nunito font-extrabold text-[0.82rem] px-[1.1rem] py-2 cursor-pointer transition-all hover:bg-red-100"
-          >
-            Dağıt
-          </button>
+          {disbandConfirm ? (
+            <div className="flex gap-2">
+              <button
+                onClick={() => setDisbandConfirm(false)}
+                disabled={isPending}
+                className="bg-white text-slate-500 border-[1.5px] border-slate-200 rounded-[9px] font-nunito font-extrabold text-[0.82rem] px-3 py-2 cursor-pointer hover:border-slate-300 transition-colors disabled:opacity-50"
+              >
+                İptal
+              </button>
+              <button
+                onClick={handleDisband}
+                disabled={isPending}
+                className="bg-red-500 text-white rounded-[9px] font-nunito font-extrabold text-[0.82rem] px-3 py-2 cursor-pointer hover:bg-red-600 transition-colors disabled:opacity-50"
+              >
+                {isPending ? '...' : 'Evet, Dağıt'}
+              </button>
+            </div>
+          ) : (
+            <button
+              onClick={() => setDisbandConfirm(true)}
+              className="bg-red-50 text-red-500 border-[1.5px] border-red-200 rounded-[9px] font-nunito font-extrabold text-[0.82rem] px-[1.1rem] py-2 cursor-pointer transition-all hover:bg-red-100"
+            >
+              Dağıt
+            </button>
+          )}
         </div>
       </div>
     </div>
