@@ -33,7 +33,6 @@ export interface TeamDetail {
   status: string;
   formed_at: string;
   leader_id: string;
-  founding_project_id: string | null;
   members: TeamMemberDetail[];
   projects: TeamProjectItem[];
   viewer: {
@@ -41,7 +40,7 @@ export interface TeamDetail {
     is_leader: boolean;
     has_biprova: boolean;
     is_member: boolean;
-    in_founding_project: boolean;
+    project_ids: string[];
   };
 }
 
