@@ -12,13 +12,12 @@ interface Props {
   onLeave: () => void;
   onGrantBiprova: (userId: string, name: string) => void;
   onKick: (userId: string, name: string) => void;
-  onDisband: () => void;
   onViewAllProjects: () => void;
 }
 
 export function PanelGenel({
   team, onSettings, onInvite, onLeave,
-  onGrantBiprova, onKick, onDisband, onViewAllProjects,
+  onGrantBiprova, onKick, onViewAllProjects,
 }: Props) {
   const recentProjects = team.projects.slice(0, 3);
 
