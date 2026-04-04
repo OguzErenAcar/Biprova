@@ -126,13 +126,17 @@ export async function getTeamDetail(id: string): Promise<TeamDetail | null> {
     leader_name: p.users?.name ?? '',
   }));
 
+  const teamProjectIds = new Set(projects.map((p) => p.id));
+  const viewerProjectIds = (viewerMemberships ?? [])
+    .map((m) => m.project_id)
+    .filter((pid) => teamProjectIds.has(pid));
+
   return {
     id: team.id,
     name: team.name ?? 'İsimsiz Ekip',
     status: team.status,
     formed_at: team.formed_at,
     leader_id: team.leader_id,
-    founding_project_id: team.project_id ?? null,
     members,
     projects,
     viewer: {
@@ -140,7 +144,7 @@ export async function getTeamDetail(id: string): Promise<TeamDetail | null> {
       is_leader: team.leader_id === user.id,
       has_biprova: viewerRow?.has_biprova ?? false,
       is_member: viewerRow !== null,
-      in_founding_project: viewerInProject !== null,
+      project_ids: viewerProjectIds,
     },
   };
 }
