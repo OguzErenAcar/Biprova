@@ -89,6 +89,14 @@ begin
         raise exception 'Proje kurucusu çıkamaz, projeyi feshetmelisiniz';
     end if;
 
+    -- full/active/completed projeden çıkılamaz
+    if exists (
+        select 1 from projects
+        where id = p_project_id and status in ('full', 'active', 'completed')
+    ) then
+        raise exception 'Proje bu aşamada terk edilemez';
+    end if;
+
     -- Dolu rolü varsa serbest bırak
     update project_roles
     set filled_by = null, is_filled = false
