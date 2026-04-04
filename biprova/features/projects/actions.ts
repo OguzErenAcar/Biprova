@@ -755,6 +755,22 @@ export async function leaveProject(projectId: string): Promise<{ error?: string 
   redirect('/dashboard');
 }
 
+export async function transferProjectCreator(
+  projectId: string,
+  newCreatorId: string,
+): Promise<{ error?: string }> {
+  const supabase = await createClient();
+  const { data: { user }, error: authError } = await supabase.auth.getUser();
+  if (authError || !user) return { error: 'Oturum açmanız gerekiyor.' };
+
+  const { error } = await supabase.rpc('fn_transfer_project_creator', {
+    p_project_id: projectId,
+    p_new_creator_id: newCreatorId,
+  });
+  if (error) return { error: error.message };
+  return {};
+}
+
 export async function deleteProject(projectId: string): Promise<{ error?: string }> {
   const supabase = await createClient();
   const { data: { user }, error: authError } = await supabase.auth.getUser();
