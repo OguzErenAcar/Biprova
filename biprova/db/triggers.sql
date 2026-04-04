@@ -28,7 +28,7 @@ declare
 begin
     if new.status = 'full' and (old.status is null or old.status <> 'full') then
         insert into teams (name, leader_id, status, project_id, formed_at, deadline)
-        values (new.title || ' ekibi', new.creator_id, 'pending', new.id, now(), now() + interval '24 hours')
+        values (new.title || ' ekibi', new.leader_id, 'pending', new.id, now(), now() + interval '24 hours')
         returning id into new_team_id;
 
         -- Dolu rollerdeki kullanıcıları ekle
@@ -39,9 +39,9 @@ begin
           and pr.filled_by is not null
         on conflict (team_id, user_id) do nothing;
 
-        -- Creator hiçbir rol doldurmadıysa yine de ekip üyesi olsun
+        -- Lider hiçbir rol doldurmadıysa yine de ekip üyesi olsun
         insert into team_members (team_id, user_id, role_id)
-        values (new_team_id, new.creator_id, null)
+        values (new_team_id, new.leader_id, null)
         on conflict (team_id, user_id) do nothing;
 
         -- Projeyi yeni ekibe bağla
