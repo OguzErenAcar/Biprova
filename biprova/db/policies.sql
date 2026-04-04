@@ -16,10 +16,10 @@ returns boolean language sql security definer as $$
     );
 $$;
 
-create or replace function is_project_creator(project_uuid uuid)
+create or replace function is_project_leader(project_uuid uuid)
 returns boolean language sql security definer as $$
     select exists (
-        select 1 from projects where id = project_uuid and creator_id = auth.uid()
+        select 1 from projects where id = project_uuid and leader_id = auth.uid()
     );
 $$;
 
