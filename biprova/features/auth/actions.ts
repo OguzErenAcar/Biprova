@@ -127,6 +127,15 @@ export async function login(data: {
 
 export async function logout(): Promise<void> {
   const supabase = await createClient();
+
+  const { data: { user } } = await supabase.auth.getUser();
+  if (user) {
+    await supabase
+      .from('users')
+      .update({ last_sign_out_at: new Date().toISOString() })
+      .eq('id', user.id);
+  }
+
   await supabase.auth.signOut();
   redirect('/');
 }
