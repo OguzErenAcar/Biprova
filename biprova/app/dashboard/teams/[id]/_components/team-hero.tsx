@@ -72,7 +72,7 @@ export function TeamHero({ team, isLeader, isMember, onSettings, onLeave }: Prop
                 ⚙️ Ekip Ayarları
               </button>
             )}
-            {isMember && !isLeader && (
+            {isMember && (
               <button
                 onClick={onLeave}
                 className="bg-red-50 text-red-500 border-[1.5px] border-red-200 rounded-[9px] font-nunito font-extrabold text-[0.82rem] px-[1.1rem] py-2 cursor-pointer transition-all hover:bg-red-100"
