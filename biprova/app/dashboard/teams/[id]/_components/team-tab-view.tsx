@@ -71,7 +71,6 @@ export function TeamTabView({ team }: Props) {
   const MODAL_CONFIG: Record<string, { title: string; desc: string; confirmLabel: string; danger?: boolean }> = {
     leave:    { title: 'Ekipten Ayrıl', desc: 'Bu ekipten ayrılmak istediğine emin misin? Ekip senin olmadan devam edecek.', confirmLabel: 'Ayrıl', danger: true },
     disband:  { title: 'Ekibi Dağıt', desc: 'Tüm üyeler ekipten çıkarılacak, ekibe bağlı proje silinecek ve ekip kalıcı olarak kapatılacak. Bu işlem geri alınamaz!', confirmLabel: 'Evet, Dağıt', danger: true },
-    transfer: { title: 'Liderliği Devret', desc: 'Hangi üyeye liderliği devretmek istiyorsun?', confirmLabel: 'Devret' },
     invite:   { title: 'Üye Davet Et', desc: 'Davet linki oluşturulacak ve ekibinize katılmak isteyen kişiyle paylaşabilirsiniz.', confirmLabel: 'Linki Kopyala' },
     settings: { title: 'Ekip Ayarları', desc: 'Ekip bilgilerini düzenle.', confirmLabel: 'Kaydet' },
     biprova:  { title: 'biprova Yetkisi Ver', desc: '', confirmLabel: 'Yetki Ver' },
