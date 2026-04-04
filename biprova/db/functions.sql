@@ -138,6 +138,16 @@ begin
         raise exception 'Takım lideri çıkamaz, takımı feshetmelisiniz';
     end if;
 
+    -- Team'in projesine üyeyse çıkamasın, önce projeden ayrılmalı
+    select project_id into v_project_id from teams where id = p_team_id;
+
+    if v_project_id is not null and exists (
+        select 1 from project_members
+        where project_id = v_project_id and user_id = v_uid
+    ) then
+        raise exception 'Önce takımın projesinden ayrılmalısınız';
+    end if;
+
     -- Kalan üye sayısı
     select count(*) into v_member_count
     from team_members where team_id = p_team_id;
@@ -159,15 +169,6 @@ begin
 
         delete from team_members
         where team_id = p_team_id and user_id = v_uid;
-
-        -- Team'in projesi varsa projeden de çık (Triangle/A)
-        -- → trg_delete_project_on_empty_members son üyeyse projeyi siler
-        select project_id into v_project_id from teams where id = p_team_id;
-
-        if v_project_id is not null then
-            delete from project_members
-            where project_id = v_project_id and user_id = v_uid;
-        end if;
     end if;
 end;
 $$;
