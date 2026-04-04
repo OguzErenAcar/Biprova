@@ -215,3 +215,6 @@ create index on users(plan);
 alter table public.users
     add column if not exists last_sign_in_at  timestamp,
     add column if not exists last_sign_out_at timestamp;
+
+alter table public.teams
+    drop column if exists disbanded_at;
