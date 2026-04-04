@@ -146,13 +146,6 @@ export async function deleteAccount(): Promise<ActionResult> {
   const { data: { user }, error: userError } = await supabase.auth.getUser();
   if (userError || !user) return { error: 'Kullanıcı bulunamadı.' };
 
-  const { error: deleteRowError } = await supabase
-    .from('users')
-    .delete()
-    .eq('id', user.id);
-
-  if (deleteRowError) return { error: deleteRowError.message };
-
   const admin = getAdminClient();
   const { error: deleteAuthError } = await admin.auth.admin.deleteUser(user.id);
   if (deleteAuthError) return { error: deleteAuthError.message };
