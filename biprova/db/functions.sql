@@ -214,22 +214,18 @@ $$;
 grant execute on function fn_transfer_project_leader(uuid, uuid) to authenticated;
 
 -- ============================================================
--- 6. TEAM LİDER TRANSFER + ÇIKIŞ
--- Akış: leader_id güncelle → eski liderin rolünü serbest bırak
---       → eski lideri project_members ve team_members'dan sil
--- Not: transfer atomik olarak çıkışı da kapsar,
---      ayrıca fn_leave_team çağırmaya gerek kalmaz
+-- 6. TEAM LİDER TRANSFER
+-- Akış: leader_id güncelle
+-- Sonrasında fn_leave_team çağrılır
 -- ============================================================
 
 create or replace function fn_transfer_team_leader(
-    p_team_id       uuid,
+    p_team_id      uuid,
     p_new_leader_id uuid
 )
 returns void language plpgsql security definer as $$
 declare
-    v_uid        uuid := auth.uid();
-    v_role_id    uuid;
-    v_project_id uuid;
+    v_uid uuid := auth.uid();
 begin
     -- Sadece mevcut lider transfer edebilir
     if not exists (
@@ -247,34 +243,9 @@ begin
         raise exception 'Seçilen kişi bu takımın üyesi değil';
     end if;
 
-    -- Liderliği devret
     update teams
     set leader_id = p_new_leader_id
     where id = p_team_id;
-
-    -- Eski liderin rolünü varsa serbest bırak
-    select role_id into v_role_id
-    from team_members
-    where team_id = p_team_id and user_id = v_uid;
-
-    if v_role_id is not null then
-        update project_roles
-        set filled_by = null, is_filled = false
-        where id = v_role_id;
-    end if;
-
-    -- Takımın projesinde üyeyse project_members'dan sil
-    select project_id into v_project_id
-    from teams where id = p_team_id;
-
-    if v_project_id is not null then
-        delete from project_members
-        where project_id = v_project_id and user_id = v_uid;
-    end if;
-
-    -- Eski lideri takımdan çıkar
-    delete from team_members
-    where team_id = p_team_id and user_id = v_uid;
 end;
 $$;
 
