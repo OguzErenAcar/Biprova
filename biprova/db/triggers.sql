@@ -120,4 +120,60 @@ create or replace trigger trg_delete_project_on_empty_members
     for each row
     execute function delete_project_on_empty_members();
 
+-- ============================================================
+-- TRIGGER: Auth user oluşunca public.users'a ekle
+-- ============================================================
 
+create or replace function handle_auth_user_created()
+returns trigger language plpgsql security definer as $$
+begin
+    insert into public.users (id, email, name)
+    values (
+        new.id,
+        new.email,
+        coalesce(new.raw_user_meta_data->>'name', split_part(new.email, '@', 1))
+    )
+    on conflict (id) do nothing;
+    return new;
+end;
+$$;
+
+create or replace trigger trg_auth_user_created
+    after insert on auth.users
+    for each row execute function handle_auth_user_created();
+
+-- ============================================================
+-- TRIGGER: Auth user giriş yapınca last_sign_in_at güncelle
+-- ============================================================
+
+create or replace function handle_auth_user_login()
+returns trigger language plpgsql security definer as $$
+begin
+    if new.last_sign_in_at is distinct from old.last_sign_in_at then
+        update public.users
+        set last_sign_in_at = new.last_sign_in_at
+        where id = new.id;
+    end if;
+    return new;
+end;
+$$;
+
+create or replace trigger trg_auth_user_login
+    after update on auth.users
+    for each row execute function handle_auth_user_login();
+
+-- ============================================================
+-- TRIGGER: Auth user silinince public.users'ı da sil
+-- ============================================================
+
+create or replace function handle_auth_user_deleted()
+returns trigger language plpgsql security definer as $$
+begin
+    delete from public.users where id = old.id;
+    return old;
+end;
+$$;
+
+create or replace trigger trg_auth_user_deleted
+    before delete on auth.users
+    for each row execute function handle_auth_user_deleted();
