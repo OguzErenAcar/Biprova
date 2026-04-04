@@ -174,3 +174,89 @@ end;
 $$;
 
 grant execute on function fn_leave_team(uuid) to authenticated;
+
+-- ============================================================
+-- 5. PROJE CREATOR TRANSFER
+-- Akış: creator_id güncelle → project_members rolleri değiştir
+-- Sonrasında fn_leave_project çağrılır
+-- ============================================================
+
+create or replace function fn_transfer_project_creator(
+    p_project_id   uuid,
+    p_new_creator_id uuid
+)
+returns void language plpgsql security definer as $$
+declare
+    v_uid uuid := auth.uid();
+begin
+    -- Sadece mevcut creator transfer edebilir
+    if not exists (
+        select 1 from projects
+        where id = p_project_id and creator_id = v_uid
+    ) then
+        raise exception 'Yetkisiz: sadece proje kurucusu transfer edebilir';
+    end if;
+
+    -- Yeni creator projede üye olmalı
+    if not exists (
+        select 1 from project_members
+        where project_id = p_project_id and user_id = p_new_creator_id
+    ) then
+        raise exception 'Seçilen kişi bu projenin üyesi değil';
+    end if;
+
+    -- projects.creator_id güncelle
+    update projects
+    set creator_id = p_new_creator_id
+    where id = p_project_id;
+
+    -- Eski creator → member, yeni creator → creator
+    update project_members
+    set role = 'member'
+    where project_id = p_project_id and user_id = v_uid;
+
+    update project_members
+    set role = 'creator'
+    where project_id = p_project_id and user_id = p_new_creator_id;
+end;
+$$;
+
+grant execute on function fn_transfer_project_creator(uuid, uuid) to authenticated;
+
+-- ============================================================
+-- 6. TEAM LİDER TRANSFER
+-- Akış: leader_id güncelle
+-- Sonrasında fn_leave_team çağrılır
+-- ============================================================
+
+create or replace function fn_transfer_team_leader(
+    p_team_id      uuid,
+    p_new_leader_id uuid
+)
+returns void language plpgsql security definer as $$
+declare
+    v_uid uuid := auth.uid();
+begin
+    -- Sadece mevcut lider transfer edebilir
+    if not exists (
+        select 1 from teams
+        where id = p_team_id and leader_id = v_uid
+    ) then
+        raise exception 'Yetkisiz: sadece takım lideri transfer edebilir';
+    end if;
+
+    -- Yeni lider takımda üye olmalı
+    if not exists (
+        select 1 from team_members
+        where team_id = p_team_id and user_id = p_new_leader_id
+    ) then
+        raise exception 'Seçilen kişi bu takımın üyesi değil';
+    end if;
+
+    update teams
+    set leader_id = p_new_leader_id
+    where id = p_team_id;
+end;
+$$;
+
+grant execute on function fn_transfer_team_leader(uuid, uuid) to authenticated;
