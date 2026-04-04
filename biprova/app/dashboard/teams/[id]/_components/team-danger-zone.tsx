@@ -19,6 +19,14 @@ export function TeamDangerZone({ teamId, members }: Props) {
   const otherMembers = members.filter((m) => !m.is_leader);
   const [target, setTarget] = useState<string>(otherMembers[0]?.user_id ?? '');
 
+  function handleDisband() {
+    setError('');
+    startTransition(async () => {
+      const result = await disbandTeam(teamId);
+      if (result?.error) { setError(result.error); setDisbandConfirm(false); }
+    });
+  }
+
   function handleTransfer() {
     if (!target) return;
     setError('');
