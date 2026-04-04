@@ -218,3 +218,7 @@ alter table public.users
 
 alter table public.teams
     drop column if exists disbanded_at;
+
+-- creator → leader migration
+alter table public.projects rename column creator_id to leader_id;
+update public.project_members set role = 'leader' where role = 'creator';
