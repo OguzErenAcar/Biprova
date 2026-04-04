@@ -30,7 +30,6 @@ export function TeamTabView({ team }: Props) {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<Tab>('genel');
   const [modal, setModal] = useState<ModalType>(null);
-  const [transferTarget, setTransferTarget] = useState<string>('');
   const [newTeamName, setNewTeamName] = useState<string>(team.name);
   const [isPending, startTransition] = useTransition();
   const [modalError, setModalError] = useState<string>('');
