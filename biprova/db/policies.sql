@@ -117,10 +117,10 @@ create policy "role_skills_manage" on project_role_skills for all
 
 -- applications
 create policy "applications_own"      on applications for select using (user_id = auth.uid());
-create policy "applications_incoming" on applications for select using (is_project_creator(project_id));
+create policy "applications_incoming" on applications for select using (is_project_leader(project_id));
 create policy "applications_insert"   on applications for insert with check (user_id = auth.uid());
 create policy "applications_delete"   on applications for delete using (user_id = auth.uid() and status = 'pending');
-create policy "applications_update"   on applications for update using (is_project_creator(project_id));
+create policy "applications_update"   on applications for update using (is_project_leader(project_id));
 
 -- project_members
 create policy "pm_read"   on project_members for select using (true);
