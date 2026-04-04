@@ -498,6 +498,90 @@ function LeaveProjectSection({ projectId }: { projectId: string }) {
   );
 }
 
+/* ─── Creator Transfer ───────────────────────────────────────── */
+
+interface TransferCreatorSectionProps {
+  projectId: string;
+  members: ProjectDetail['members'];
+  viewerId: string;
+}
+
+function TransferCreatorSection({ projectId, members, viewerId }: TransferCreatorSectionProps) {
+  const candidates = members.filter((m) => m.user_id !== viewerId);
+  const [selectedId, setSelectedId] = useState('');
+  const [confirm, setConfirm] = useState(false);
+  const [isPending, startTransition] = useTransition();
+  const [error, setError] = useState('');
+
+  function handleTransfer() {
+    if (!selectedId) return;
+    startTransition(async () => {
+      const result = await transferProjectCreator(projectId, selectedId);
+      if (result.error) {
+        setError(result.error);
+        setConfirm(false);
+      }
+    });
+  }
+
+  return (
+    <div className="bg-white border-[1.5px] border-slate-200 rounded-2xl overflow-hidden">
+      <div className="px-[1.4rem] py-[1rem] border-b border-slate-200">
+        <span className="font-nunito text-[0.9rem] font-black">🔄 Kuruculuğu Devret</span>
+      </div>
+      <div className="px-[1.4rem] py-[1.2rem]">
+        {candidates.length === 0 ? (
+          <p className="text-[0.82rem] text-slate-400">Devredebileceğiniz başka üye yok.</p>
+        ) : !confirm ? (
+          <div className="flex flex-col gap-2">
+            <p className="text-[0.8rem] text-slate-500">Kuruculuğu devretmek istediğiniz üyeyi seçin:</p>
+            <select
+              value={selectedId}
+              onChange={(e) => setSelectedId(e.target.value)}
+              className="text-[0.82rem] px-3 py-2 rounded-lg border-[1.5px] border-slate-200 outline-none focus:border-blue-500 transition-colors text-slate-700 bg-white cursor-pointer"
+            >
+              <option value="">— Üye seç —</option>
+              {candidates.map((m) => (
+                <option key={m.user_id} value={m.user_id}>{m.name}</option>
+              ))}
+            </select>
+            <button
+              disabled={!selectedId}
+              onClick={() => setConfirm(true)}
+              className="text-[0.78rem] font-bold px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer self-start"
+            >
+              Devret
+            </button>
+          </div>
+        ) : (
+          <div className="px-4 py-3 rounded-xl border-[1.5px] border-amber-300 bg-amber-50">
+            <p className="text-[0.82rem] font-semibold text-amber-800 mb-3">
+              Kuruculuğu <strong>{candidates.find((m) => m.user_id === selectedId)?.name}</strong>'a devretmek istediğine emin misin?
+            </p>
+            {error && <p className="text-[0.75rem] text-red-500 mb-2">{error}</p>}
+            <div className="flex gap-2">
+              <button
+                disabled={isPending}
+                onClick={handleTransfer}
+                className="text-[0.78rem] font-bold px-3 py-1.5 rounded-lg bg-amber-600 text-white hover:bg-amber-700 transition-colors disabled:opacity-50 cursor-pointer"
+              >
+                {isPending ? 'Devrediliyor…' : 'Evet, Devret'}
+              </button>
+              <button
+                disabled={isPending}
+                onClick={() => setConfirm(false)}
+                className="text-[0.78rem] font-bold px-3 py-1.5 rounded-lg border-[1.5px] border-slate-200 text-slate-500 hover:border-slate-400 transition-colors cursor-pointer"
+              >
+                İptal
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 /* ─── Proje Yönetimi ─────────────────────────────────────────── */
 
 function ProjectManagementSection({ projectId }: { projectId: string }) {
