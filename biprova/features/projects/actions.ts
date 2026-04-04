@@ -12,7 +12,7 @@ export interface ProjectFeedItem {
   is_remote: boolean | null;
   category: string | null;
   created_at: string;
-  creator: { id: string; name: string };
+  leader: { id: string; name: string };
   roles: { id: string; role_name: string; is_filled: boolean; skills: string[] }[];
 }
 
@@ -48,7 +48,7 @@ export async function getProjectFeed(
     .select(`
       id, title, description, city, is_remote, created_at,
       project_categories(name),
-      users!creator_id(id, name),
+      users!leader_id(id, name),
       project_roles(id, role_name, is_filled, project_role_skills(skills(name)))
     `)
     .eq('status', 'open')
@@ -75,7 +75,7 @@ export async function getProjectFeed(
       is_remote: p.is_remote,
       category: p.project_categories?.name ?? null,
       created_at: p.created_at,
-      creator: p.users!,
+      leader: p.users!,
       roles: (p.project_roles ?? []).map((r) => ({
         id: r.id,
         role_name: r.role_name,
@@ -249,7 +249,7 @@ export async function createProject(
   const { data: project, error: projectError } = await supabase
     .from('projects')
     .insert({
-      creator_id: user.id,
+      leader_id: user.id,
       title: parsed.data.title,
       description: parsed.data.description,
       city: parsed.data.city,
@@ -324,7 +324,7 @@ export interface ProjectMember {
   role_name: string | null;
   is_leader: boolean;
   has_biprova: boolean;
-  is_creator: boolean;
+  is_project_leader: boolean;
 }
 
 export interface ProjectMessage {
@@ -367,9 +367,9 @@ export interface ProjectDetail {
   category: string | null;
   status: string;
   created_at: string;
-  creator_id: string;
-  creator_name: string;
-  creator_avatar: string | null;
+  leader_id: string;
+  leader_name: string;
+  leader_avatar: string | null;
   team_id: string | null;
   team_name: string | null;
   team_status: string | null;
@@ -381,7 +381,7 @@ export interface ProjectDetail {
   viewer: {
     id: string;
     name: string;
-    is_creator: boolean;
+    is_project_leader: boolean;
     is_team_leader: boolean;
     is_team_member: boolean;
   };
@@ -396,7 +396,7 @@ type RawProjectDetailRow = {
   is_remote: boolean | null;
   status: string;
   created_at: string;
-  creator_id: string;
+  leader_id: string;
   team_id: string | null;
   project_categories: { name: string } | null;
   users: { name: string; avatar_url: string | null } | null;
@@ -465,7 +465,7 @@ export async function getProjectDetail(id: string): Promise<ProjectDetail | null
 
   const { data: rawProject, error: projectError } = await supabase
     .from('projects')
-    .select('id, title, description, city, is_remote, status, created_at, creator_id, team_id, project_categories(name), users!creator_id(name, avatar_url)')
+    .select('id, title, description, city, is_remote, status, created_at, leader_id, team_id, project_categories(name), users!leader_id(name, avatar_url)')
     .eq('id', id)
     .single();
 
@@ -538,7 +538,7 @@ export async function getProjectDetail(id: string): Promise<ProjectDetail | null
       role_name: m.project_roles?.role_name ?? null,
       is_leader: m.user_id === team?.leader_id,
       has_biprova: m.has_biprova,
-      is_creator: m.user_id === project.creator_id,
+      is_project_leader: m.user_id === project.leader_id,
     }));
 
     messages = (rawMessages as unknown as RawMessageRow[] ?? []).map((m) => ({
@@ -578,15 +578,15 @@ export async function getProjectDetail(id: string): Promise<ProjectDetail | null
         user_id: m.user_id,
         name: m.users.name,
         avatar_url: m.users.avatar_url,
-        role_name: m.role === 'creator' ? 'Kurucu' : 'Üye',
+        role_name: m.role === 'leader' ? 'Lider' : 'Üye',
         is_leader: false,
         has_biprova: false,
-        is_creator: m.role === 'creator',
+        is_project_leader: m.role === 'leader',
       }));
   }
 
   let applications: ProjectApplication[] = [];
-  if (project.creator_id === user.id) {
+  if (project.leader_id === user.id) {
     const { data: rawApps } = await supabase
       .from('applications')
       .select('id, user_id, role_id, note, status, created_at, users!user_id(name, avatar_url), project_roles!role_id(role_name)')
@@ -633,9 +633,9 @@ export async function getProjectDetail(id: string): Promise<ProjectDetail | null
     category: project.project_categories?.name ?? null,
     status: project.status,
     created_at: project.created_at,
-    creator_id: project.creator_id,
-    creator_name: project.users?.name ?? '',
-    creator_avatar: project.users?.avatar_url ?? null,
+    leader_id: project.leader_id,
+    leader_name: project.users?.name ?? '',
+    leader_avatar: project.users?.avatar_url ?? null,
     team_id: project.team_id,
     team_name: team?.name ?? null,
     team_status: team?.status ?? null,
@@ -648,7 +648,7 @@ export async function getProjectDetail(id: string): Promise<ProjectDetail | null
     viewer: {
       id: user.id,
       name: (viewerUser as { name: string } | null)?.name ?? 'Sen',
-      is_creator: project.creator_id === user.id,
+      is_project_leader: project.leader_id === user.id,
       is_team_leader: team?.leader_id === user.id,
       is_team_member: isTeamMember,
     },
@@ -666,11 +666,11 @@ export async function inviteToProject(
 
   const { data: project } = await supabase
     .from('projects')
-    .select('creator_id')
+    .select('leader_id')
     .eq('id', projectId)
     .single();
 
-  if (project?.creator_id !== user.id) return { error: 'Sadece proje sahibi davet edebilir.' };
+  if (project?.leader_id !== user.id) return { error: 'Sadece proje lideri davet edebilir.' };
 
   const { data: targetUser } = await supabase
     .from('users')
@@ -710,11 +710,11 @@ export async function removeFromProject(projectId: string, userId: string): Prom
 
   const { data: project } = await supabase
     .from('projects')
-    .select('creator_id')
+    .select('leader_id')
     .eq('id', projectId)
     .single();
 
-  if (project?.creator_id !== user.id) return { error: 'Sadece proje sahibi üye çıkarabilir.' };
+  if (project?.leader_id !== user.id) return { error: 'Sadece proje lideri üye çıkarabilir.' };
   if (userId === user.id) return { error: 'Kendinizi çıkaramazsınız.' };
 
   const { createAdminClient } = await import('@/lib/supabase/admin');
@@ -735,12 +735,12 @@ export async function leaveProject(projectId: string): Promise<{ error?: string 
 
   const { data: project } = await supabase
     .from('projects')
-    .select('creator_id, team_id')
+    .select('leader_id, team_id')
     .eq('id', projectId)
     .single();
 
   if (!project) return { error: 'Proje bulunamadı.' };
-  if (project.creator_id === user.id) return { error: 'Proje sahibi projeden ayrılamaz.' };
+  if (project.leader_id === user.id) return { error: 'Proje lideri projeden ayrılamaz.' };
 
   // Remove from project_members only.
   // For team projects: role slot stays filled (project doesn't re-open), team membership untouched.
@@ -755,17 +755,17 @@ export async function leaveProject(projectId: string): Promise<{ error?: string 
   redirect('/dashboard');
 }
 
-export async function transferProjectCreator(
+export async function transferProjectLeader(
   projectId: string,
-  newCreatorId: string,
+  newLeaderId: string,
 ): Promise<{ error?: string }> {
   const supabase = await createClient();
   const { data: { user }, error: authError } = await supabase.auth.getUser();
   if (authError || !user) return { error: 'Oturum açmanız gerekiyor.' };
 
-  const { error } = await supabase.rpc('fn_transfer_project_creator', {
+  const { error } = await supabase.rpc('fn_transfer_project_leader', {
     p_project_id: projectId,
-    p_new_creator_id: newCreatorId,
+    p_new_leader_id: newLeaderId,
   });
   if (error) return { error: error.message };
   return {};
@@ -780,7 +780,7 @@ export async function deleteProject(projectId: string): Promise<{ error?: string
     .from('projects')
     .delete()
     .eq('id', projectId)
-    .eq('creator_id', user.id);
+    .eq('leader_id', user.id);
 
   if (error) return { error: error.message };
   return {};
