@@ -23,7 +23,7 @@ export interface TeamProjectItem {
   is_remote: boolean;
   status: string;
   created_at: string;
-  creator_name: string;
+  leader_name: string;
 }
 
 export interface TeamDetail {
