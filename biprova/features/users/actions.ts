@@ -234,9 +234,9 @@ export async function getUserStats(userId: string): Promise<UserStats> {
     { count: teamCount },
     { count: completedCount },
   ] = await Promise.all([
-    supabase.from('projects').select('id', { count: 'exact', head: true }).eq('creator_id', userId),
+    supabase.from('projects').select('id', { count: 'exact', head: true }).eq('leader_id', userId),
     supabase.from('teams').select('id', { count: 'exact', head: true }).eq('leader_id', userId),
-    supabase.from('projects').select('id', { count: 'exact', head: true }).eq('creator_id', userId).eq('status', 'done'),
+    supabase.from('projects').select('id', { count: 'exact', head: true }).eq('leader_id', userId).eq('status', 'done'),
   ]);
 
   return {
