@@ -154,7 +154,7 @@ export function TeamTabView({ team }: Props) {
       {modal && modalConfig && (
         <div
           className="fixed inset-0 bg-black/35 z-[200] flex items-center justify-center p-4"
-          onClick={(e) => { if (e.target === e.currentTarget) setModal(null); }}
+          onClick={(e) => { if (e.target === e.currentTarget) { setModal(null); setModalError(''); } }}
         >
           <div className="bg-white rounded-[18px] p-[1.8rem] w-full max-w-[420px] shadow-[0_20px_50px_rgba(0,0,0,0.12)]">
             <h3 className="font-nunito font-black text-[1.1rem] mb-1">{modalTitle}</h3>
