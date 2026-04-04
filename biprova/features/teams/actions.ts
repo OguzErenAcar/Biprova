@@ -150,12 +150,14 @@ export async function leaveTeam(teamId: string): Promise<{ error?: string }> {
   redirect('/dashboard');
 }
 
-export async function disbandTeam(teamId: string): Promise<void> {
+export async function disbandTeam(teamId: string): Promise<{ error?: string }> {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return;
+  if (!user) return { error: 'Oturum açmanız gerekiyor.' };
 
-  await supabase.from('teams').delete().eq('id', teamId).eq('leader_id', user.id);
+  const { error } = await supabase.rpc('fn_dissolve_team', { p_team_id: teamId });
+  if (error) return { error: error.message };
+
   redirect('/dashboard');
 }
 
