@@ -41,8 +41,8 @@ export function PanelGenel({
           />
           {team.viewer.is_leader && (
             <TeamDangerZone
+              teamId={team.id}
               members={team.members}
-              onTransfer={onTransfer}
               onDisband={onDisband}
             />
           )}
