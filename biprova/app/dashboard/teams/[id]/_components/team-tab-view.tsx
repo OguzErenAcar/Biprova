@@ -150,21 +150,6 @@ export function TeamTabView({ team }: Props) {
             <p className="text-[0.84rem] text-slate-400 mb-5">{modalDesc}</p>
             {modalError && <p className="text-[0.78rem] text-red-500 -mt-3 mb-4">{modalError}</p>}
 
-            {/* Transfer: member select */}
-            {modal.type === 'transfer' && otherMembers.length > 0 && (
-              <select
-                className="w-full px-3 py-[0.6rem] rounded-[8px] border-[1.5px] border-slate-200 font-[inherit] text-[0.86rem] mb-4 outline-none"
-                value={transferTarget}
-                onChange={(e) => setTransferTarget(e.target.value)}
-              >
-                {otherMembers.map((m: TeamMemberDetail) => (
-                  <option key={m.user_id} value={m.user_id}>
-                    {m.name}{m.role_name ? ` — ${m.role_name}` : ''}
-                  </option>
-                ))}
-              </select>
-            )}
-
             {/* Leave: involved projects list */}
             {modal.type === 'leave' && modalError && team.projects.length > 0 && (
               <div className="mb-4">
