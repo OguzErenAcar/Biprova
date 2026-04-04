@@ -78,7 +78,7 @@ export async function getTeamDetail(id: string): Promise<TeamDetail | null> {
 
   if (teamError || !team) return null;
 
-  const [{ data: rawMembers }, { data: rawProjects }, { data: viewerRow }, { data: viewerInProject }] =
+  const [{ data: rawMembers }, { data: rawProjects }, { data: viewerRow }, { data: viewerMemberships }] =
     await Promise.all([
       supabase
         .from('team_members')
