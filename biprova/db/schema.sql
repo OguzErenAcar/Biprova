@@ -107,7 +107,7 @@ create table applications (
 create table project_members (
     project_id uuid references projects(id) on delete cascade,
     user_id    uuid references users(id) on delete cascade,
-    role       text not null default 'member', -- 'creator' | 'member'
+    role       text not null default 'member', -- 'leader' | 'member'
     joined_at  timestamp default now(),
     primary key (project_id, user_id)
 );
