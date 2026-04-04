@@ -99,7 +99,9 @@ export async function getTeamDetail(id: string): Promise<TeamDetail | null> {
         .maybeSingle(),
     ]);
 
-  const members: TeamMemberDetail[] = (rawMembers as unknown as RawTeamMemberDetail[] ?? []).map((m) => ({
+  const rawMembersList = rawMembers as unknown as RawTeamMemberDetail[] ?? [];
+
+  const members: TeamMemberDetail[] = rawMembersList.map((m) => ({
     id: m.id,
     user_id: m.user_id,
     name: m.users.name,
@@ -121,6 +123,13 @@ export async function getTeamDetail(id: string): Promise<TeamDetail | null> {
     leader_name: p.users?.name ?? '',
   }));
 
+  const viewerProjectIds = new Set<string>(
+    rawMembersList
+      .filter((m) => m.user_id === user.id && m.project_roles?.project_id)
+      .map((m) => m.project_roles!.project_id),
+  );
+  projects.forEach((p) => { if (p.leader_id === user.id) viewerProjectIds.add(p.id); });
+
   return {
     id: team.id,
     name: team.name ?? 'İsimsiz Ekip',
@@ -134,6 +143,7 @@ export async function getTeamDetail(id: string): Promise<TeamDetail | null> {
       is_leader: team.leader_id === user.id,
       has_biprova: viewerRow?.has_biprova ?? false,
       is_member: viewerRow !== null,
+      project_ids: [...viewerProjectIds],
     },
   };
 }
