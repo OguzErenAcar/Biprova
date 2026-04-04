@@ -58,7 +58,7 @@ create table teams (
 
 create table projects (
     id          uuid primary key default uuid_generate_v4(),
-    creator_id  uuid references users(id) on delete cascade,
+    leader_id   uuid references users(id) on delete cascade,
     team_id     uuid references teams(id) on delete set null,
     title       text not null,
     description text,
