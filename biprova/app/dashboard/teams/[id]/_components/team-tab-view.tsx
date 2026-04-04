@@ -34,8 +34,6 @@ export function TeamTabView({ team }: Props) {
   const [isPending, startTransition] = useTransition();
   const [modalError, setModalError] = useState<string>('');
 
-  const otherMembers = team.members.filter((m) => !m.is_leader);
-
   function handleConfirm() {
     if (!modal) return;
     setModalError('');
