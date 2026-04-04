@@ -37,3 +37,9 @@ insert into auth.identities (
     ('a0000000-0000-0000-0000-000000000007', 'a0000000-0000-0000-0000-000000000007', 'email', 'burak.sahin@example.com',   '{"sub":"a0000000-0000-0000-0000-000000000007","email":"burak.sahin@example.com"}',   now(), now(), now()),
     ('a0000000-0000-0000-0000-000000000008', 'a0000000-0000-0000-0000-000000000008', 'email', 'nur.yildiz@example.com',    '{"sub":"a0000000-0000-0000-0000-000000000008","email":"nur.yildiz@example.com"}',    now(), now(), now())
 on conflict (id) do nothing;
+
+
+
+grant usage on schema public to anon, authenticated;
+grant select, insert, update, delete on all tables in schema public to anon, authenticated;
+grant usage, select on all sequences in schema public to anon, authenticated;

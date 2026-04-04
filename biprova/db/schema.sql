@@ -38,9 +38,11 @@ create table users (
     badge        text,
     role         text default 'user',         -- 'user' | 'admin'
     plan         text default 'free',         -- 'free' | 'paid'
-    max_teams    integer default 1,
-    max_projects integer default 1,
-    created_at   timestamp default now()
+    max_teams        integer default 1,
+    max_projects     integer default 1,
+    last_sign_in_at  timestamp,
+    last_sign_out_at timestamp,
+    created_at       timestamp default now()
 );
 
 create table teams (
