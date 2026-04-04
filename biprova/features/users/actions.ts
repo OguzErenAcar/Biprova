@@ -148,7 +148,7 @@ export async function getUserProjects(userId: string): Promise<UserProjectEntry[
   const { data: ownedRaw } = await supabase
     .from('projects')
     .select('id, title, city, is_remote, category, status')
-    .eq('creator_id', userId)
+    .eq('leader_id', userId)
     .order('created_at', { ascending: false })
     .limit(10);
 
