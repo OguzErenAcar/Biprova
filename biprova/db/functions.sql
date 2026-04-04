@@ -195,6 +195,11 @@ begin
     set leader_id = p_new_leader_id
     where id = p_project_id;
 
+    -- Bağlı ekip varsa teams.leader_id de güncelle
+    update teams
+    set leader_id = p_new_leader_id
+    where project_id = p_project_id;
+
     -- Eski lider → member, yeni lider → leader
     update project_members
     set role = 'member'
