@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
-import type { TeamDetail, TeamMemberDetail } from '@/features/teams/actions';
+import type { TeamDetail } from '@/features/teams/actions';
 import {
   leaveTeam, disbandTeam, kickMember, grantBiprova, renameTeam,
 } from '@/features/teams/actions';
