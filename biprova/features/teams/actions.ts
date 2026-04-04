@@ -72,7 +72,7 @@ export async function getTeamDetail(id: string): Promise<TeamDetail | null> {
 
   const { data: team, error: teamError } = await supabase
     .from('teams')
-    .select('id, name, status, formed_at, leader_id, project_id')
+    .select('id, name, status, formed_at, leader_id')
     .eq('id', id)
     .single();
 
