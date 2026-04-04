@@ -176,6 +176,32 @@ export function TeamTabView({ team }: Props) {
               </select>
             )}
 
+            {/* Leave: involved projects list */}
+            {modal.type === 'leave' && modalError && team.projects.length > 0 && (
+              <div className="mb-4">
+                <p className="text-[0.78rem] font-bold text-slate-500 mb-2">Bu ekibe bağlı projeler:</p>
+                <div className="flex flex-col gap-1.5">
+                  {team.projects.map((p) => (
+                    <button
+                      key={p.id}
+                      onClick={() => { setModal(null); setModalError(''); router.push(`/dashboard/projects/${p.id}`); }}
+                      className="flex items-center justify-between px-3 py-2 rounded-[8px] border-[1.5px] border-slate-200 hover:border-blue-300 hover:bg-blue-50 transition-colors text-left group"
+                    >
+                      <div>
+                        <span className="text-[0.83rem] font-bold text-slate-700 group-hover:text-blue-600 block">{p.title}</span>
+                        {p.leader_id === team.viewer.id && (
+                          <span className="text-[0.72rem] text-amber-500 font-semibold">Lider</span>
+                        )}
+                      </div>
+                      <svg className="w-3.5 h-3.5 text-slate-300 group-hover:text-blue-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                      </svg>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {/* Invite: link display */}
             {modal.type === 'invite' && (
               <div className="bg-slate-50 border-[1.5px] border-slate-200 rounded-[8px] px-3 py-[0.6rem] font-mono text-[0.78rem] text-slate-400 mb-4 break-all">
