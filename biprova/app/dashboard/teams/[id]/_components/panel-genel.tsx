@@ -42,7 +42,6 @@ export function PanelGenel({
             <TeamDangerZone
               teamId={team.id}
               members={team.members}
-              onDisband={onDisband}
             />
           )}
         </div>
