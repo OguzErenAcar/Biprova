@@ -110,7 +110,7 @@ export async function ProjectFeed({ searchParams }: ProjectFeedProps) {
             <ProjectCard
               key={project.id}
               projectId={project.id}
-              isOwnProject={currentUserId === project.creator.id}
+              isOwnProject={currentUserId === project.leader.id}
               city={project.city ?? "Belirtilmemiş"}
               isRemote={project.is_remote ?? false}
               status={getVisualStatus(project.roles)}
