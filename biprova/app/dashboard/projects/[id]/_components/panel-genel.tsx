@@ -135,13 +135,13 @@ export function PanelGenel({ project, onGoToChat, onGoToTasks, onGoToFiles }: Pr
         }))
       : [
           {
-            id: project.creator_id,
-            name: project.creator_name,
-            avatar_url: project.creator_avatar,
+            id: project.leader_id,
+            name: project.leader_name,
+            avatar_url: project.leader_avatar,
             is_leader: true,
           },
           ...project.roles
-            .filter((r) => r.is_filled && r.filled_by && r.filled_by !== project.creator_id)
+            .filter((r) => r.is_filled && r.filled_by && r.filled_by !== project.leader_id)
             .map((r) => ({
               id: r.filled_by!,
               name: r.filled_by_name ?? '?',

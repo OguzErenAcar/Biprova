@@ -30,7 +30,7 @@ Turkey-focused, 24h activation rule.
 
 ## Database Tables (live in Supabase)
 - `users` — id, email, name, city, is_remote, skills, avatar_url, linkedin_url, badge
-- `projects` — id, creator_id, title, description, city, is_remote, category, status
+- `projects` — id, leader_id, title, description, city, is_remote, category, status
 - `project_roles` — id, project_id, role_name, is_filled, filled_by
 - `applications` — id, project_id, user_id, role_id, note, status
 - `teams` — id, project_id, leader_id, status, formed_at, deadline, kickoff_at
