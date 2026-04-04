@@ -79,7 +79,7 @@ export async function getTeamDetail(id: string): Promise<TeamDetail | null> {
 
   if (teamError || !team) return null;
 
-  const [{ data: rawMembers }, { data: rawProjects }, { data: viewerRow }] =
+  const [{ data: rawMembers }, { data: rawProjects }, { data: viewerRow }, { data: viewerInProject }] =
     await Promise.all([
       supabase
         .from('team_members')
@@ -98,6 +98,14 @@ export async function getTeamDetail(id: string): Promise<TeamDetail | null> {
         .eq('team_id', id)
         .eq('user_id', user.id)
         .maybeSingle(),
+      team.project_id
+        ? supabase
+            .from('project_members')
+            .select('user_id')
+            .eq('project_id', team.project_id)
+            .eq('user_id', user.id)
+            .maybeSingle()
+        : Promise.resolve({ data: null }),
     ]);
 
   const members: TeamMemberDetail[] = (rawMembers as unknown as RawTeamMemberDetail[] ?? []).map((m) => ({
