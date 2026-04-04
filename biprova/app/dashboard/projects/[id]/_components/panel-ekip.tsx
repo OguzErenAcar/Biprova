@@ -29,7 +29,7 @@ export function PanelEkip({ project }: Props) {
 
   return (
     <div id="panel-ekip" className="flex flex-col gap-[1.2rem]">
-      {viewer.is_creator && (
+      {viewer.is_project_leader && (
         <>
           <ApplicationsSection
             projectId={project.id}
@@ -40,7 +40,7 @@ export function PanelEkip({ project }: Props) {
         </>
       )}
 
-      {(viewer.is_creator || viewer.is_team_leader) && (
+      {(viewer.is_project_leader || viewer.is_team_leader) && (
         <MemberManagementSection
           projectId={project.id}
           teamId={project.team_id}
@@ -51,7 +51,7 @@ export function PanelEkip({ project }: Props) {
 
       <LeaveProjectSection
         projectId={project.id}
-        isCreator={viewer.is_creator}
+        isCreator={viewer.is_project_leader}
         members={project.members}
         viewerId={viewer.id}
       />
@@ -347,7 +347,7 @@ function MemberRow({
 
   if (removed) return null;
 
-  const canManage = !isSelf && !member.is_creator;
+  const canManage = !isSelf && !member.is_project_leader;
 
   return (
     <div className="px-[1.4rem] py-[0.9rem]">
@@ -359,12 +359,12 @@ function MemberRow({
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-1.5 flex-wrap">
             <span className="text-[0.84rem] font-bold text-slate-900">{member.name}</span>
-            {member.is_creator && (
+            {member.is_project_leader && (
               <span className="text-[0.65rem] font-bold text-blue-600 bg-blue-50 border border-blue-200 rounded-full px-1.5 py-0.5">
                 Kurucu
               </span>
             )}
-            {member.is_leader && !member.is_creator && (
+            {member.is_leader && !member.is_project_leader && (
               <span className="text-[0.65rem] font-bold text-amber-600 bg-amber-50 border border-amber-200 rounded-full px-1.5 py-0.5">
                 Lider
               </span>
