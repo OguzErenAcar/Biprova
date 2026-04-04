@@ -99,9 +99,7 @@ export async function getTeamDetail(id: string): Promise<TeamDetail | null> {
         .maybeSingle(),
     ]);
 
-  const rawMembersList = rawMembers as unknown as RawTeamMemberDetail[] ?? [];
-
-  const members: TeamMemberDetail[] = rawMembersList.map((m) => ({
+  const members: TeamMemberDetail[] = (rawMembers as unknown as RawTeamMemberDetail[] ?? []).map((m) => ({
     id: m.id,
     user_id: m.user_id,
     name: m.users.name,
@@ -123,10 +121,18 @@ export async function getTeamDetail(id: string): Promise<TeamDetail | null> {
     leader_name: p.users?.name ?? '',
   }));
 
+  const teamProjectIds = projects.map((p) => p.id);
+  const { data: viewerRoles } = teamProjectIds.length > 0
+    ? await supabase
+        .from('project_roles')
+        .select('project_id')
+        .eq('filled_by', user.id)
+        .in('project_id', teamProjectIds)
+        .limit(20)
+    : { data: [] as { project_id: string }[] };
+
   const viewerProjectIds = new Set<string>(
-    rawMembersList
-      .filter((m) => m.user_id === user.id && m.project_roles?.project_id)
-      .map((m) => m.project_roles!.project_id),
+    (viewerRoles ?? []).map((r) => r.project_id),
   );
   projects.forEach((p) => { if (p.leader_id === user.id) viewerProjectIds.add(p.id); });
 
