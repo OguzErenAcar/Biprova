@@ -86,7 +86,7 @@ export async function getTeamDetail(id: string): Promise<TeamDetail | null> {
         .limit(20),
       supabase
         .from('projects')
-        .select('id, title, city, is_remote, status, created_at, users!leader_id(name)')
+        .select('id, title, city, is_remote, status, created_at, leader_id, users!leader_id(name)')
         .eq('team_id', id)
         .order('created_at', { ascending: false })
         .limit(20),
