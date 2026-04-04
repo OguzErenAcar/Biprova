@@ -102,3 +102,62 @@ end;
 $$;
 
 grant execute on function fn_leave_project(uuid) to authenticated;
+
+-- ============================================================
+-- 4. TEAM ÇIKIŞ (Üye takımdan ayrılır)
+-- Akış:
+--   Son kişi → team sil
+--     → trg_delete_project_on_team_deleted → bağlı projeyi siler
+--   Değil  → team_members'dan sil, rolü serbest bırak
+-- Not: lider çıkamaz, fn_dissolve_team kullanmalı
+-- ============================================================
+
+create or replace function fn_leave_team(p_team_id uuid)
+returns void language plpgsql security definer as $$
+declare
+    v_uid        uuid := auth.uid();
+    v_role_id    uuid;
+    v_member_count integer;
+begin
+    -- Üyelik kontrolü
+    if not exists (
+        select 1 from team_members
+        where team_id = p_team_id and user_id = v_uid
+    ) then
+        raise exception 'Bu takımda üye değilsiniz';
+    end if;
+
+    -- Lider çıkamaz
+    if exists (
+        select 1 from teams
+        where id = p_team_id and leader_id = v_uid
+    ) then
+        raise exception 'Takım lideri çıkamaz, takımı feshetmelisiniz';
+    end if;
+
+    -- Kalan üye sayısı
+    select count(*) into v_member_count
+    from team_members where team_id = p_team_id;
+
+    if v_member_count = 1 then
+        -- Son kişi: takımı sil
+        -- → trg_delete_project_on_team_deleted bağlı projeyi siler
+        delete from teams where id = p_team_id;
+    else
+        -- Rolü varsa project_roles'da serbest bırak
+        select role_id into v_role_id
+        from team_members where team_id = p_team_id and user_id = v_uid;
+
+        if v_role_id is not null then
+            update project_roles
+            set filled_by = null, is_filled = false
+            where id = v_role_id;
+        end if;
+
+        delete from team_members
+        where team_id = p_team_id and user_id = v_uid;
+    end if;
+end;
+$$;
+
+grant execute on function fn_leave_team(uuid) to authenticated;
