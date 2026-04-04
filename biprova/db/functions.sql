@@ -94,11 +94,6 @@ begin
     set filled_by = null, is_filled = false
     where project_id = p_project_id and filled_by = v_uid;
 
-    -- Rol boşaldıysa proje status'unu open'a çek
-    update projects
-    set status = 'open'
-    where id = p_project_id and status = 'full';
-
     -- project_members'dan sil
     -- → trg_delete_project_on_empty_members son kişiyse projeyi siler
     delete from project_members
