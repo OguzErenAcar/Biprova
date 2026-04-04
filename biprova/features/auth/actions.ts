@@ -38,23 +38,22 @@ export async function signup(data: {
 
   const userId = authData.user.id;
 
-  // RLS bypass için admin client ile insert
   const admin = getAdminClient();
 
-  const { error: insertError } = await admin
+  // Trigger name, linkedin_url, city, is_remote bilmez — bunları güncelliyoruz
+  const { error: updateError } = await admin
     .from('users')
-    .insert({
-      id:           userId,
-      email:        data.email,
+    .update({
       name:         data.name,
       linkedin_url: data.linkedin_url,
       city:         data.city,
       is_remote:    data.is_remote,
-    });
+    })
+    .eq('id', userId);
 
-  if (insertError) {
+  if (updateError) {
     await admin.auth.admin.deleteUser(userId);
-    return { error: insertError.message };
+    return { error: updateError.message };
   }
 
   if (data.skill_ids.length > 0) {
