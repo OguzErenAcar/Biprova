@@ -130,27 +130,13 @@ export async function getTeamDetail(id: string): Promise<TeamDetail | null> {
     leader_name: p.users?.name ?? '',
   }));
 
-  const teamProjectIds = projects.map((p) => p.id);
-  const { data: viewerRoles } = teamProjectIds.length > 0
-    ? await supabase
-        .from('project_roles')
-        .select('project_id')
-        .eq('filled_by', user.id)
-        .in('project_id', teamProjectIds)
-        .limit(20)
-    : { data: [] as { project_id: string }[] };
-
-  const viewerProjectIds = new Set<string>(
-    (viewerRoles ?? []).map((r) => r.project_id),
-  );
-  projects.forEach((p) => { if (p.leader_id === user.id) viewerProjectIds.add(p.id); });
-
   return {
     id: team.id,
     name: team.name ?? 'İsimsiz Ekip',
     status: team.status,
     formed_at: team.formed_at,
     leader_id: team.leader_id,
+    founding_project_id: team.project_id ?? null,
     members,
     projects,
     viewer: {
@@ -158,7 +144,7 @@ export async function getTeamDetail(id: string): Promise<TeamDetail | null> {
       is_leader: team.leader_id === user.id,
       has_biprova: viewerRow?.has_biprova ?? false,
       is_member: viewerRow !== null,
-      project_ids: [...viewerProjectIds],
+      in_founding_project: viewerInProject !== null,
     },
   };
 }
