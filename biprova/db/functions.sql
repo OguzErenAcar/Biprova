@@ -6,9 +6,6 @@
 
 
 
-
-
-
 -- ============================================================
 -- 1. PROJE FESİH (Lider projeyi fesheder)
 -- Akış: proje sil → cascade: project_roles, applications,
@@ -18,12 +15,12 @@
 create or replace function fn_dissolve_project(p_project_id uuid)
 returns void language plpgsql security definer as $$
 begin
-    -- Sadece proje kurucusu feshedebilir
+    -- Sadece proje lideri feshedebilir
     if not exists (
         select 1 from projects
-        where id = p_project_id and creator_id = auth.uid()
+        where id = p_project_id and leader_id = auth.uid()
     ) then
-        raise exception 'Yetkisiz: sadece proje kurucusu feshedebilir';
+        raise exception 'Yetkisiz: sadece proje lideri feshedebilir';
     end if;
 
     -- Projeyi sil:
@@ -65,7 +62,7 @@ grant execute on function fn_dissolve_team(uuid) to authenticated;
 -- 3. PROJE ÇIKIŞ (Üye projeden ayrılır)
 -- Akış: rolü varsa serbest bırak → project_members'dan sil
 --   → trg_delete_project_on_empty_members → son üyeyse projeyi siler
--- Not: creator çıkamaz, fn_dissolve_project kullanmalı
+-- Not: lider çıkamaz, fn_dissolve_project kullanmalı
 -- ============================================================
 
 create or replace function fn_leave_project(p_project_id uuid)
@@ -81,12 +78,12 @@ begin
         raise exception 'Bu projede üye değilsiniz';
     end if;
 
-    -- Creator çıkamaz
+    -- Lider çıkamaz
     if exists (
         select 1 from project_members
-        where project_id = p_project_id and user_id = v_uid and role = 'creator'
+        where project_id = p_project_id and user_id = v_uid and role = 'leader'
     ) then
-        raise exception 'Proje kurucusu çıkamaz, projeyi feshetmelisiniz';
+        raise exception 'Proje lideri çıkamaz, projeyi feshetmelisiniz';
     end if;
 
     -- Dolu rolü varsa serbest bırak
@@ -175,52 +172,52 @@ $$;
 grant execute on function fn_leave_team(uuid) to authenticated;
 
 -- ============================================================
--- 5. PROJE CREATOR TRANSFER
--- Akış: creator_id güncelle → project_members rolleri değiştir
+-- 5. PROJE LİDER TRANSFER
+-- Akış: leader_id güncelle → project_members rolleri değiştir
 -- Sonrasında fn_leave_project çağrılır
 -- ============================================================
 
-create or replace function fn_transfer_project_creator(
-    p_project_id   uuid,
-    p_new_creator_id uuid
+create or replace function fn_transfer_project_leader(
+    p_project_id    uuid,
+    p_new_leader_id uuid
 )
 returns void language plpgsql security definer as $$
 declare
     v_uid uuid := auth.uid();
 begin
-    -- Sadece mevcut creator transfer edebilir
+    -- Sadece mevcut lider transfer edebilir
     if not exists (
         select 1 from projects
-        where id = p_project_id and creator_id = v_uid
+        where id = p_project_id and leader_id = v_uid
     ) then
-        raise exception 'Yetkisiz: sadece proje kurucusu transfer edebilir';
+        raise exception 'Yetkisiz: sadece proje lideri transfer edebilir';
     end if;
 
-    -- Yeni creator projede üye olmalı
+    -- Yeni lider projede üye olmalı
     if not exists (
         select 1 from project_members
-        where project_id = p_project_id and user_id = p_new_creator_id
+        where project_id = p_project_id and user_id = p_new_leader_id
     ) then
         raise exception 'Seçilen kişi bu projenin üyesi değil';
     end if;
 
-    -- projects.creator_id güncelle
+    -- projects.leader_id güncelle
     update projects
-    set creator_id = p_new_creator_id
+    set leader_id = p_new_leader_id
     where id = p_project_id;
 
-    -- Eski creator → member, yeni creator → creator
+    -- Eski lider → member, yeni lider → leader
     update project_members
     set role = 'member'
     where project_id = p_project_id and user_id = v_uid;
 
     update project_members
-    set role = 'creator'
-    where project_id = p_project_id and user_id = p_new_creator_id;
+    set role = 'leader'
+    where project_id = p_project_id and user_id = p_new_leader_id;
 end;
 $$;
 
-grant execute on function fn_transfer_project_creator(uuid, uuid) to authenticated;
+grant execute on function fn_transfer_project_leader(uuid, uuid) to authenticated;
 
 -- ============================================================
 -- 6. TEAM LİDER TRANSFER
