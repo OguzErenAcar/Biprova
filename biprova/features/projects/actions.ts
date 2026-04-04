@@ -579,9 +579,9 @@ export async function getProjectDetail(id: string): Promise<ProjectDetail | null
         name: m.users.name,
         avatar_url: m.users.avatar_url,
         role_name: m.role === 'leader' ? 'Lider' : 'Üye',
-        is_leader: false,
+        is_leader: m.user_id === project.leader_id,
         has_biprova: false,
-        is_project_leader: m.role === 'leader',
+        is_project_leader: m.user_id === project.leader_id,
       }));
   }
 
