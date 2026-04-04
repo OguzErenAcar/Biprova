@@ -477,7 +477,7 @@ function LeaveProjectSection({ projectId, isCreator, members, viewerId }: LeaveP
   function handleTransfer() {
     if (!selectedId) return;
     startTransition(async () => {
-      const result = await transferProjectCreator(projectId, selectedId);
+      const result = await transferProjectLeader(projectId, selectedId);
       if (result.error) {
         setTransferError(result.error);
       } else {
