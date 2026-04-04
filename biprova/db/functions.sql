@@ -130,8 +130,12 @@ begin
         raise exception 'Bu takımda üye değilsiniz';
     end if;
 
-    -- Lider çıkamaz
-    if exists (
+    -- Kalan üye sayısı
+    select count(*) into v_member_count
+    from team_members where team_id = p_team_id;
+
+    -- Lider son kişi değilse çıkamaz
+    if v_member_count > 1 and exists (
         select 1 from teams
         where id = p_team_id and leader_id = v_uid
     ) then
@@ -148,12 +152,8 @@ begin
         raise exception 'Önce takımın projesinden ayrılmalısınız';
     end if;
 
-    -- Kalan üye sayısı
-    select count(*) into v_member_count
-    from team_members where team_id = p_team_id;
-
     if v_member_count = 1 then
-        -- Son kişi: takımı sil
+        -- Son kişi (lider dahil): takımı sil
         -- → trg_delete_project_on_team_deleted bağlı projeyi siler
         delete from teams where id = p_team_id;
     else
