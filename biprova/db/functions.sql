@@ -12,7 +12,7 @@
 -- ============================================================
 -- 1. PROJE FESİH (Lider projeyi fesheder)
 -- Akış: proje sil → cascade: project_roles, applications,
---       project_members silinir; bağlı team varsa no_project olur
+--       project_members silinir; teams.project_id → null (FK set null)
 -- ============================================================
 
 create or replace function fn_dissolve_project(p_project_id uuid)
