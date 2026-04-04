@@ -116,6 +116,7 @@ export async function getTeamDetail(id: string): Promise<TeamDetail | null> {
     is_remote: p.is_remote,
     status: p.status,
     created_at: p.created_at,
+    leader_id: p.leader_id,
     leader_name: p.users?.name ?? '',
   }));
 
