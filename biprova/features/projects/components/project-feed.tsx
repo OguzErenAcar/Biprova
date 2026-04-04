@@ -119,9 +119,9 @@ export async function ProjectFeed({ searchParams }: ProjectFeedProps) {
               title={project.title}
               description={project.description}
               poster={{
-                name: project.creator.name,
-                initials: getInitials(project.creator.name),
-                color: getPosterColor(project.creator.id),
+                name: project.leader.name,
+                initials: getInitials(project.leader.name),
+                color: getPosterColor(project.leader.id),
               }}
               roles={project.roles.map((r) => ({
                 id: r.id,
