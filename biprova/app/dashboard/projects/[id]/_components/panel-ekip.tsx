@@ -361,11 +361,6 @@ function MemberRow({
             <span className="text-[0.84rem] font-bold text-slate-900">{member.name}</span>
             {member.is_project_leader && (
               <span className="text-[0.65rem] font-bold text-blue-600 bg-blue-50 border border-blue-200 rounded-full px-1.5 py-0.5">
-                Kurucu
-              </span>
-            )}
-            {member.is_leader && !member.is_project_leader && (
-              <span className="text-[0.65rem] font-bold text-amber-600 bg-amber-50 border border-amber-200 rounded-full px-1.5 py-0.5">
                 Lider
               </span>
             )}
