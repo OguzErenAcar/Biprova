@@ -97,14 +97,11 @@ export async function getTeamDetail(id: string): Promise<TeamDetail | null> {
         .eq('team_id', id)
         .eq('user_id', user.id)
         .maybeSingle(),
-      team.project_id
-        ? supabase
-            .from('project_members')
-            .select('user_id')
-            .eq('project_id', team.project_id)
-            .eq('user_id', user.id)
-            .maybeSingle()
-        : Promise.resolve({ data: null }),
+      supabase
+        .from('project_members')
+        .select('project_id')
+        .eq('user_id', user.id)
+        .limit(20),
     ]);
 
   const members: TeamMemberDetail[] = (rawMembers as unknown as RawTeamMemberDetail[] ?? []).map((m) => ({
