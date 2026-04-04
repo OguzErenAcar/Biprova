@@ -535,7 +535,7 @@ function LeaveProjectSection({ projectId, isProjectLeader, members, viewerId }: 
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
           <div className="bg-white rounded-2xl shadow-xl w-full max-w-sm mx-4 overflow-hidden">
             <div className="px-6 py-4 border-b border-slate-200">
-              <h2 className="font-nunito text-[1rem] font-black">Kurucu Seç</h2>
+              <h2 className="font-nunito text-[1rem] font-black">Lider Seç</h2>
             </div>
             <div className="px-6 py-5 flex flex-col gap-3">
               <p className="text-[0.82rem] text-slate-500">
