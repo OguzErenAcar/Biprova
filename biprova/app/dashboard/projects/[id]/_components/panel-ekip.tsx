@@ -506,9 +506,7 @@ function LeaveProjectSection({ projectId, isCreator, members, viewerId }: LeaveP
               <div>
                 <div className="text-[0.84rem] font-bold text-red-600">Projeden Ayrıl</div>
                 <div className="text-[0.72rem] text-slate-400">
-                  {isCreator
-                    ? 'Ayrılmadan önce kuruculuğu devretmen gerekiyor'
-                    : 'Ekipten çıkarsın, geri dönmek için tekrar başvurman gerekir'}
+                  Ekipten çıkarsın, geri dönmek için tekrar başvurman gerekir
                 </div>
               </div>
             </button>
