@@ -108,10 +108,9 @@ grant execute on function fn_leave_project(uuid) to authenticated;
 -- Akış:
 --   Son kişi → team sil
 --     → trg_delete_project_on_team_deleted → bağlı projeyi siler
---   Değil → rolü serbest bırak → team_members'dan sil
---     → team'in projesi varsa project_members'dan da sil (Triangle/A)
---       → trg_delete_project_on_empty_members son üyeyse projeyi siler
--- Not: lider çıkamaz, fn_dissolve_team kullanmalı
+--   Değil → lider kontrolü → projede üyeyse hata (önce fn_leave_project)
+--        → rolü serbest bırak → team_members'dan sil
+-- Not: lider son kişi değilse çıkamaz, fn_dissolve_team kullanmalı
 -- ============================================================
 
 create or replace function fn_leave_team(p_team_id uuid)
