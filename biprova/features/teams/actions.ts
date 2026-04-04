@@ -59,6 +59,7 @@ type RawTeamProjectItem = {
   is_remote: boolean;
   status: string;
   created_at: string;
+  leader_id: string;
   users: { name: string } | null;
 };
 
