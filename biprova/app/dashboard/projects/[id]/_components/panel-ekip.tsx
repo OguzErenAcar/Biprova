@@ -49,14 +49,12 @@ export function PanelEkip({ project }: Props) {
         />
       )}
 
-      {(!viewer.is_team_leader || viewer.is_creator) && (
-        <LeaveProjectSection
-          projectId={project.id}
-          isCreator={viewer.is_creator}
-          members={project.members}
-          viewerId={viewer.id}
-        />
-      )}
+      <LeaveProjectSection
+        projectId={project.id}
+        isCreator={viewer.is_creator}
+        members={project.members}
+        viewerId={viewer.id}
+      />
     </div>
   );
 }
