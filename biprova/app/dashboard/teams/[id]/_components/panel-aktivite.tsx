@@ -69,7 +69,7 @@ function deriveActivity(team: TeamDetail): ActivityItem[] {
         id: `proj-open-${project.id}`,
         icon: '📌',
         iconBg: 'bg-blue-50',
-        html: `<strong>${project.creator_name}</strong> yeni proje açtı — <em>${project.title}</em>`,
+        html: `<strong>${project.leader_name}</strong> yeni proje açtı — <em>${project.title}</em>`,
         time: project.created_at,
       });
     }
