@@ -153,11 +153,11 @@ export function TeamTabView({ team }: Props) {
             )}
 
             {/* Leave: involved projects list */}
-            {modal.type === 'leave' && modalError && team.projects.length > 0 && (
+            {modal.type === 'leave' && modalError && team.viewer.project_ids.length > 0 && (
               <div className="mb-4">
-                <p className="text-[0.78rem] font-bold text-slate-500 mb-2">Bu ekibe bağlı projeler:</p>
+                <p className="text-[0.78rem] font-bold text-slate-500 mb-2">Dahil olduğun projeler:</p>
                 <div className="flex flex-col gap-1.5">
-                  {team.projects.map((p) => (
+                  {team.projects.filter((p) => team.viewer.project_ids.includes(p.id)).map((p) => (
                     <button
                       key={p.id}
                       onClick={() => { setModal(null); setModalError(''); router.push(`/dashboard/projects/${p.id}`); }}
