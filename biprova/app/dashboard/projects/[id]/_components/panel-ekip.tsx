@@ -438,12 +438,12 @@ function MemberRow({
 
 interface LeaveProjectSectionProps {
   projectId: string;
-  isCreator: boolean;
+  isProjectLeader: boolean;
   members: ProjectDetail['members'];
   viewerId: string;
 }
 
-function LeaveProjectSection({ projectId, isCreator, members, viewerId }: LeaveProjectSectionProps) {
+function LeaveProjectSection({ projectId, isProjectLeader, members, viewerId }: LeaveProjectSectionProps) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [confirm, setConfirm] = useState(false);
@@ -457,7 +457,7 @@ function LeaveProjectSection({ projectId, isCreator, members, viewerId }: LeaveP
   const candidates = members.filter((m) => m.user_id !== viewerId);
 
   function handleLeaveClick() {
-    if (isCreator) {
+    if (isProjectLeader) {
       setShowTransferDialog(true);
     } else {
       setConfirm(true);
