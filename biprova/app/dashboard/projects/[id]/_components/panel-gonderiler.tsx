@@ -4,7 +4,7 @@ import { useRef, useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 import type { ProjectPost } from '@/features/projects/actions';
-import { createProjectPost } from '@/features/projects/actions';
+import { createProjectPost, deleteProjectPost } from '@/features/projects/actions';
 
 function getInitials(name: string) {
   return name
