@@ -9,8 +9,9 @@ import { PanelChat } from './panel-chat';
 import { PanelDosyalar } from './panel-dosyalar';
 import { PanelGonderiler } from './panel-gonderiler';
 import { PanelEkip } from './panel-ekip';
+import { PanelAdmin } from './panel-admin';
 
-type Tab = 'genel' | 'ekip' | 'gorevler' | 'chat' | 'dosyalar' | 'gonderiler';
+type Tab = 'genel' | 'admin' | 'ekip' | 'gorevler' | 'chat' | 'dosyalar' | 'gonderiler';
 
 interface Props {
   project: ProjectDetail;
@@ -19,16 +20,27 @@ interface Props {
 export function ProjectTabView({ project }: Props) {
   const [activeTab, setActiveTab] = useState<Tab>('genel');
   const hasTeam = !!project.team_id;
+  const isLeader = project.viewer.is_project_leader;
   const pendingCount = project.applications.filter((a) => a.status === 'pending').length;
 
-  const TABS: { key: Tab; label: string; count?: number; requiresTeam: boolean; comingSoon?: boolean }[] = [
+  const TABS: {
+    key: Tab;
+    label: string;
+    count?: number;
+    requiresTeam: boolean;
+    comingSoon?: boolean;
+    leaderOnly?: boolean;
+  }[] = [
     { key: 'genel',      label: '📋 Genel',      requiresTeam: false },
-    { key: 'ekip',       label: '👥 Ekip',        requiresTeam: false, count: project.viewer.is_project_leader ? pendingCount : undefined },
+    { key: 'admin',      label: '🛡️ Admin',       requiresTeam: false, leaderOnly: true, count: isLeader ? pendingCount : undefined },
+    { key: 'ekip',       label: '👥 Ekip',        requiresTeam: false },
     { key: 'chat',       label: '💬 Chat',        requiresTeam: true,  count: project.messages.length },
     { key: 'gorevler',   label: '✅ Görevler',    requiresTeam: true,  comingSoon: true },
     { key: 'dosyalar',   label: '📁 Dosyalar',    requiresTeam: true,  comingSoon: true },
     { key: 'gonderiler', label: '📢 Gönderiler',  requiresTeam: true,  comingSoon: true },
   ];
+
+  const visibleTabs = TABS.filter((tab) => !tab.leaderOnly || isLeader);
 
   return (
     <>
@@ -39,7 +51,7 @@ export function ProjectTabView({ project }: Props) {
         id="project-tabs"
         className="flex border-b border-slate-200 bg-white px-6 sticky top-[53px] z-30"
       >
-        {TABS.map((tab) => {
+        {visibleTabs.map((tab) => {
           const disabled = tab.comingSoon || (tab.requiresTeam && !hasTeam);
           const title = tab.comingSoon ? 'Yakında' : disabled ? 'Ekip kurulduktan sonra aktif olur' : undefined;
           return (
@@ -52,7 +64,9 @@ export function ProjectTabView({ project }: Props) {
                 disabled
                   ? 'text-slate-300 border-transparent cursor-not-allowed'
                   : activeTab === tab.key
-                  ? 'text-blue-600 border-blue-600 cursor-pointer'
+                  ? tab.key === 'admin'
+                    ? 'text-indigo-600 border-indigo-600 cursor-pointer'
+                    : 'text-blue-600 border-blue-600 cursor-pointer'
                   : 'text-slate-400 border-transparent hover:text-slate-700 cursor-pointer'
               }`}
             >
@@ -77,6 +91,8 @@ export function ProjectTabView({ project }: Props) {
             onGoToFiles={() => setActiveTab('dosyalar')}
           />
         )}
+
+        {activeTab === 'admin' && isLeader && <PanelAdmin project={project} />}
 
         {activeTab === 'ekip' && <PanelEkip project={project} />}
 
