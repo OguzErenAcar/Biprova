@@ -50,7 +50,7 @@ export function ProfileHero({ user, isOwner = false }: ProfileHeroProps) {
 
       <div className="px-6 pb-6 relative">
         {/* Avatar */}
-        <div className="absolute -top-10 left-6 w-20 h-20 rounded-full border-4 border-white shadow-[0_4px_16px_rgba(37,99,235,0.25)] overflow-hidden relative">
+        <div className="absolute -top-[60px] left-6 w-[120px] h-[120px] rounded-full border-4 border-white shadow-[0_4px_16px_rgba(37,99,235,0.25)] overflow-hidden relative">
           {user.avatar_url ? (
             <img
               src={user.avatar_url}
