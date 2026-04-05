@@ -158,7 +158,7 @@ export function PanelGonderiler({ teamId, teamName, posts, viewerId, viewerName,
             {isPending ? 'Paylaşılıyor…' : 'Paylaş →'}
           </button>
         </div>
-      </div>
+      </div>}
 
       {/* Posts list */}
       {posts.map((post) => (
