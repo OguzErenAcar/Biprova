@@ -83,93 +83,98 @@ function SectionCard({ id, title, action, children }: {
 export function ProfileSections({ projects, applications, teams, projectsPublic, teamsPublic, applicationsPublic, isOwner = false }: ProfileSectionsProps) {
   return (
     <>
-      {(isOwner || projectsPublic) && <SectionCard
-        id="profile-projects"
-        title="🗂 Projelerim"
-        action={isOwner ? <VisibilityToggle section="projects" initialValue={projectsPublic} /> : undefined}
-      >
-        {projects.length === 0 ? (
-          <p className="text-[0.85rem] text-slate-400">Henüz proje yok.</p>
-        ) : (
-          projects.map((p, i) => {
-            const bg = PROJECT_BG_COLORS[i % PROJECT_BG_COLORS.length];
-            const meta: string[] = [];
-            if (p.city) meta.push(`📍 ${p.city}`);
-            else if (p.is_remote) meta.push('🌐 Remote');
-            meta.push(p.isLeader ? 'Lider: Sen' : p.userRole ? `${p.userRole} rolünde` : 'Üye');
+      {(isOwner || projectsPublic) && (
+        <SectionCard
+          id="profile-projects"
+          title="🗂 Projelerim"
+          action={isOwner ? <VisibilityToggle section="projects" initialValue={projectsPublic} /> : undefined}
+        >
+          {projects.length === 0 ? (
+            <p className="text-[0.85rem] text-slate-400">Henüz proje yok.</p>
+          ) : (
+            projects.map((p, i) => {
+              const bg = PROJECT_BG_COLORS[i % PROJECT_BG_COLORS.length];
+              const meta: string[] = [];
+              if (p.city) meta.push(`📍 ${p.city}`);
+              else if (p.is_remote) meta.push('🌐 Remote');
+              meta.push(p.isLeader ? 'Lider: Sen' : p.userRole ? `${p.userRole} rolünde` : 'Üye');
 
-            return (
-              <div
-                key={p.id}
-                className={`flex gap-4 items-start py-3.5 ${i < projects.length - 1 ? "border-b border-slate-100" : ""} ${i === 0 ? "pt-0" : ""}`}
-              >
+              return (
                 <div
-                  className="w-10 h-10 rounded-[11px] flex items-center justify-center text-[1.15rem] flex-shrink-0"
-                  style={{ background: bg }}
+                  key={p.id}
+                  className={`flex gap-4 items-start py-3.5 ${i < projects.length - 1 ? "border-b border-slate-100" : ""} ${i === 0 ? "pt-0" : ""}`}
                 >
-                  📁
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="text-[0.9rem] font-bold text-slate-900 mb-1">{p.title}</div>
-                  <div className="flex flex-wrap gap-2.5 text-[0.77rem] text-slate-500">
-                    {meta.map((m) => <span key={m}>{m}</span>)}
+                  <div
+                    className="w-10 h-10 rounded-[11px] flex items-center justify-center text-[1.15rem] flex-shrink-0"
+                    style={{ background: bg }}
+                  >
+                    📁
                   </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="text-[0.9rem] font-bold text-slate-900 mb-1">{p.title}</div>
+                    <div className="flex flex-wrap gap-2.5 text-[0.77rem] text-slate-500">
+                      {meta.map((m) => <span key={m}>{m}</span>)}
+                    </div>
+                  </div>
+                  <span className={`text-[0.72rem] font-bold px-2.5 py-1 rounded-[6px] whitespace-nowrap self-start mt-0.5 ${PROJECT_STATUS_STYLES[p.status as ProjectStatus] ?? PROJECT_STATUS_STYLES.active}`}>
+                    {PROJECT_STATUS_LABELS[p.status as ProjectStatus] ?? p.status}
+                  </span>
                 </div>
-                <span className={`text-[0.72rem] font-bold px-2.5 py-1 rounded-[6px] whitespace-nowrap self-start mt-0.5 ${PROJECT_STATUS_STYLES[p.status as ProjectStatus] ?? PROJECT_STATUS_STYLES.active}`}>
-                  {PROJECT_STATUS_LABELS[p.status as ProjectStatus] ?? p.status}
-                </span>
-              </div>
-            );
-          })
-        )}
-      </SectionCard>
+              );
+            })
+          )}
+        </SectionCard>
+      )}
 
-      <SectionCard
-        id="profile-teams"
-        title="👥 Ekiplerim"
-        action={isOwner ? <VisibilityToggle section="teams" initialValue={teamsPublic} /> : undefined}
-      >
-        {teams.length === 0 ? (
-          <p className="text-[0.85rem] text-slate-400">Henüz ekip yok.</p>
-        ) : (
-          teams.map((t, i) => {
-            const meta: string[] = [];
-            if (t.projectTitle) meta.push(`📁 ${t.projectTitle}`);
-            meta.push(t.isLeader ? 'Lider: Sen' : 'Üye');
+      {(isOwner || teamsPublic) && (
+        <SectionCard
+          id="profile-teams"
+          title="👥 Ekiplerim"
+          action={isOwner ? <VisibilityToggle section="teams" initialValue={teamsPublic} /> : undefined}
+        >
+          {teams.length === 0 ? (
+            <p className="text-[0.85rem] text-slate-400">Henüz ekip yok.</p>
+          ) : (
+            teams.map((t, i) => {
+              const meta: string[] = [];
+              if (t.projectTitle) meta.push(`📁 ${t.projectTitle}`);
+              meta.push(t.isLeader ? 'Lider: Sen' : 'Üye');
 
-            return (
-              <div
-                key={t.id}
-                className={`flex gap-4 items-start py-3.5 ${i < teams.length - 1 ? "border-b border-slate-100" : ""} ${i === 0 ? "pt-0" : ""}`}
-              >
+              return (
                 <div
-                  className="w-10 h-10 rounded-[11px] flex items-center justify-center text-[1.15rem] flex-shrink-0"
-                  style={{ background: TEAM_BG_COLORS[i % TEAM_BG_COLORS.length] }}
+                  key={t.id}
+                  className={`flex gap-4 items-start py-3.5 ${i < teams.length - 1 ? "border-b border-slate-100" : ""} ${i === 0 ? "pt-0" : ""}`}
                 >
-                  👥
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="text-[0.9rem] font-bold text-slate-900 mb-1">
-                    {t.name ?? t.projectTitle ?? 'Ekip'}
+                  <div
+                    className="w-10 h-10 rounded-[11px] flex items-center justify-center text-[1.15rem] flex-shrink-0"
+                    style={{ background: TEAM_BG_COLORS[i % TEAM_BG_COLORS.length] }}
+                  >
+                    👥
                   </div>
-                  <div className="flex flex-wrap gap-2.5 text-[0.77rem] text-slate-500">
-                    {meta.map((m) => <span key={m}>{m}</span>)}
+                  <div className="flex-1 min-w-0">
+                    <div className="text-[0.9rem] font-bold text-slate-900 mb-1">
+                      {t.name ?? t.projectTitle ?? 'Ekip'}
+                    </div>
+                    <div className="flex flex-wrap gap-2.5 text-[0.77rem] text-slate-500">
+                      {meta.map((m) => <span key={m}>{m}</span>)}
+                    </div>
                   </div>
+                  <span className={`text-[0.72rem] font-bold px-2.5 py-1 rounded-[6px] whitespace-nowrap self-start mt-0.5 ${TEAM_STATUS_STYLES[t.status]}`}>
+                    {TEAM_STATUS_LABELS[t.status]}
+                  </span>
                 </div>
-                <span className={`text-[0.72rem] font-bold px-2.5 py-1 rounded-[6px] whitespace-nowrap self-start mt-0.5 ${TEAM_STATUS_STYLES[t.status]}`}>
-                  {TEAM_STATUS_LABELS[t.status]}
-                </span>
-              </div>
-            );
-          })
-        )}
-      </SectionCard>
+              );
+            })
+          )}
+        </SectionCard>
+      )}
 
-      <SectionCard
-        id="profile-applications"
-        title="📨 Başvurularım"
-        action={isOwner ? <VisibilityToggle section="applications" initialValue={applicationsPublic} /> : undefined}
-      >
+      {(isOwner || applicationsPublic) && (
+        <SectionCard
+          id="profile-applications"
+          title="📨 Başvurularım"
+          action={isOwner ? <VisibilityToggle section="applications" initialValue={applicationsPublic} /> : undefined}
+        >
         {applications.length === 0 ? (
           <p className="text-[0.85rem] text-slate-400">Henüz başvuru yok.</p>
         ) : (
