@@ -72,6 +72,53 @@ using (
 );
 
 -- ============================================================
+-- CV POLICIES (private bucket — signed URL ile erişilir)
+-- Path: cvs/{user_id}/cv.pdf
+-- ============================================================
+
+-- Kendi CV'sini görebilir
+create policy "cvs_owner_read"
+on storage.objects for select
+using (
+    bucket_id = 'cvs'
+    and auth.uid()::text = (storage.foldername(name))[1]
+);
+
+-- Başvuru aldığı projenin lideri de görebilir
+create policy "cvs_project_leader_read"
+on storage.objects for select
+using (
+    bucket_id = 'cvs'
+    and exists (
+        select 1 from applications a
+        join projects p on p.id = a.project_id
+        where a.user_id = (storage.foldername(name))[1]::uuid
+          and p.leader_id = auth.uid()
+    )
+);
+
+create policy "cvs_owner_upload"
+on storage.objects for insert
+with check (
+    bucket_id = 'cvs'
+    and auth.uid()::text = (storage.foldername(name))[1]
+);
+
+create policy "cvs_owner_update"
+on storage.objects for update
+using (
+    bucket_id = 'cvs'
+    and auth.uid()::text = (storage.foldername(name))[1]
+);
+
+create policy "cvs_owner_delete"
+on storage.objects for delete
+using (
+    bucket_id = 'cvs'
+    and auth.uid()::text = (storage.foldername(name))[1]
+);
+
+-- ============================================================
 -- NEWS IMAGE POLICIES (sadece admin yükler)
 -- Path: news-images/{news_id}/{filename}
 -- ============================================================
