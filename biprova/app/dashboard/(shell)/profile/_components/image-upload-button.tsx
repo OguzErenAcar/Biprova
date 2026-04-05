@@ -48,7 +48,7 @@ async function getCroppedBlob(imageSrc: string, croppedAreaPixels: Area): Promis
   });
 }
 
-export function ImageUploadButton({ type, userId, children }: ImageUploadButtonProps) {
+export function ImageUploadButton({ type, userId, currentUrl, children }: ImageUploadButtonProps) {
   const [open, setOpen] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [uploading, setUploading] = useState(false);
