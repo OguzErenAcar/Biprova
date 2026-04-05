@@ -16,13 +16,7 @@ async function ProfileContent() {
     <div className="">
       <ProfileHero user={user} isOwner />
       <ProfileStats stats={stats} />
-      <ProfileSections
-        projects={projects}
-        applications={applications}
-        projectsPublic={user.projects_public}
-        applicationsPublic={user.applications_public}
-        isOwner
-      />
+      <ProfileSections projects={projects} applications={applications} isOwner />
     </div>
   );
 }
