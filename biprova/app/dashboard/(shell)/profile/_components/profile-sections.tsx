@@ -1,10 +1,11 @@
-import { UserProjectEntry, ProjectStatus, UserApplicationEntry, ApplicationStatus } from '@/features/users/actions';
+import { UserProjectEntry, ProjectStatus, UserApplicationEntry, ApplicationStatus, UserTeamEntry, TeamStatus } from '@/features/users/actions';
 import { VisibilityToggle } from './visibility-toggle';
 import { WithdrawApplicationButton } from './withdraw-application-button';
 
 interface ProfileSectionsProps {
   projects: UserProjectEntry[];
   applications: UserApplicationEntry[];
+  teams: UserTeamEntry[];
   isOwner?: boolean;
 }
 
