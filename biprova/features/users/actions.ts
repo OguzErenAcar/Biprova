@@ -375,7 +375,7 @@ export async function getUserTeams(userId: string): Promise<UserTeamEntry[]> {
   const led: UserTeamEntry[] = (ledRaw ?? []).map((t) => ({
     id: t.id,
     name: t.name,
-    projectTitle: (t.projects as { title: string } | null)?.title ?? null,
+    projectTitle: (t.projects as unknown as { title: string } | null)?.title ?? null,
     status: (t.status as TeamStatus) ?? 'pending',
     isLeader: true,
   }));
