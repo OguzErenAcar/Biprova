@@ -1,8 +1,9 @@
 'use client';
 
-import { useState, useEffect, useTransition } from 'react';
-import { UserProfile, updateProfile } from '@/features/users/actions';
+import { useState, useEffect, useTransition, useRef, DragEvent } from 'react';
+import { UserProfile, updateProfile, saveCvUrl } from '@/features/users/actions';
 import { getCities } from '@/features/auth/actions';
+import { createClient } from '@/lib/supabase/client';
 
 interface ProfileEditModalProps {
   user: UserProfile;
