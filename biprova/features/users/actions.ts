@@ -13,6 +13,7 @@ export interface UserProfile {
   city: string | null;
   is_remote: boolean | null;
   avatar_url: string | null;
+  cover_url: string | null;
   linkedin_url: string | null;
   badge: string | null;
   cv_url: string | null;
