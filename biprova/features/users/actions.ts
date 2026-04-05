@@ -316,7 +316,7 @@ export async function saveProfileVisibility(
 
   if (error) return { success: false, error: `Ayar kaydedilemedi: ${error.message}` };
 
-  revalidatePath('/dashboard/profile');
+  revalidatePath('/dashboard/profile', 'layout');
   return { success: true };
 }
 
