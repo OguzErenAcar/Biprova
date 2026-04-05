@@ -43,7 +43,64 @@ export function ProfileEditModal({ user }: ProfileEditModalProps) {
     setIsRemote(user.is_remote ?? false);
     setBio(user.bio ?? '');
     setFormError(null);
+    setCvError(null);
+    setCvSuccess(false);
     setOpen(true);
+  }
+
+  async function handleCvFile(file: File) {
+    if (file.type !== 'application/pdf') {
+      setCvError('Sadece PDF dosyası yüklenebilir.');
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      setCvError('Dosya boyutu 5 MB\'ı geçemez.');
+      return;
+    }
+
+    setCvError(null);
+    setCvSuccess(false);
+    setCvUploading(true);
+
+    try {
+      const supabase = createClient();
+      const { data: { user: authUser } } = await supabase.auth.getUser();
+      if (!authUser) throw new Error('Oturum açmanız gerekiyor');
+
+      const path = `${authUser.id}/cv.pdf`;
+      const { error: uploadError } = await supabase.storage
+        .from('cvs')
+        .upload(path, file, { upsert: true, contentType: 'application/pdf' });
+
+      if (uploadError) throw new Error(uploadError.message);
+
+      const { data: { publicUrl } } = supabase.storage.from('cvs').getPublicUrl(path);
+
+      const result = await saveCvUrl(publicUrl);
+      if (!result.success) throw new Error(result.error);
+
+      setCvSuccess(true);
+    } catch (err: unknown) {
+      setCvError(err instanceof Error ? err.message : 'CV yüklenemedi');
+    } finally {
+      setCvUploading(false);
+    }
+  }
+
+  function handleDrop(e: DragEvent<HTMLDivElement>) {
+    e.preventDefault();
+    setIsDragging(false);
+    const file = e.dataTransfer.files[0];
+    if (file) handleCvFile(file);
+  }
+
+  function handleDragOver(e: DragEvent<HTMLDivElement>) {
+    e.preventDefault();
+    setIsDragging(true);
+  }
+
+  function handleDragLeave() {
+    setIsDragging(false);
   }
 
   function handleCitySelect(name: string) {
