@@ -80,13 +80,13 @@ function SectionCard({ id, title, action, children }: {
   );
 }
 
-export function ProfileSections({ projects, applications, teams, isOwner = false }: ProfileSectionsProps) {
+export function ProfileSections({ projects, applications, teams, projectsPublic, teamsPublic, applicationsPublic, isOwner = false }: ProfileSectionsProps) {
   return (
     <>
       <SectionCard
         id="profile-projects"
         title="🗂 Projelerim"
-        action={isOwner ? <VisibilityToggle storageKey="profile_projects_public" /> : undefined}
+        action={isOwner ? <VisibilityToggle section="projects" initialValue={projectsPublic} /> : undefined}
       >
         {projects.length === 0 ? (
           <p className="text-[0.85rem] text-slate-400">Henüz proje yok.</p>
