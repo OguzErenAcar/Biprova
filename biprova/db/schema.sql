@@ -32,6 +32,7 @@ create table users (
     name         text not null,
     avatar_url   text,
     cover_url    text,
+    cv_url       text,
     bio          text,
     city         text,
     is_remote    boolean default false,
