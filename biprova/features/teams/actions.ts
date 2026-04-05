@@ -304,7 +304,7 @@ type RawPost = {
       title: string;
       city: string | null;
       is_remote: boolean | null;
-      category: string | null;
+      project_categories: { name: string } | null;
     } | null;
     team_members: {
       user_id: string;
