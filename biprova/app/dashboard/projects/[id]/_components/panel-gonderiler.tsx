@@ -178,10 +178,10 @@ export function PanelGonderiler({ teamId, teamName, posts, viewerId, viewerName 
                 <button
                   onClick={() => startTransition(async () => { await deleteProjectPost(post.id); router.refresh(); })}
                   disabled={isPending}
-                  className="text-slate-300 hover:text-red-500 transition-colors text-[0.72rem] bg-transparent border-none cursor-pointer disabled:opacity-40"
+                  className="text-slate-400 hover:text-red-500 transition-colors text-[0.75rem] font-semibold bg-transparent border-none cursor-pointer disabled:opacity-40"
                   title="Gönderiyi sil"
                 >
-                  🗑
+                  Sil
                 </button>
               )}
             </div>
