@@ -23,8 +23,10 @@ export function ProfileEditModal({ user }: ProfileEditModalProps) {
   const [isPending, startTransition] = useTransition();
   const [isDragging, setIsDragging] = useState(false);
   const [cvUploading, setCvUploading] = useState(false);
+  const [cvRemoving, setCvRemoving] = useState(false);
   const [cvError, setCvError] = useState<string | null>(null);
   const [cvSuccess, setCvSuccess] = useState(false);
+  const [hasCv, setHasCv] = useState(!!user.cv_url);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
