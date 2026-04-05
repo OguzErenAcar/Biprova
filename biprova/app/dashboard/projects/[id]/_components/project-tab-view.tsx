@@ -117,6 +117,10 @@ export function ProjectTabView({ project }: Props) {
             teamId={project.team_id}
             teamName={project.team_name}
             posts={project.posts}
+            members={project.members}
+            category={project.category}
+            city={project.city}
+            isRemote={project.is_remote}
             viewerId={project.viewer.id}
             viewerName={project.viewer.name}
             isLeader={isLeader}
