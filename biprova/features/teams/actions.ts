@@ -416,7 +416,7 @@ export async function getTeamPostFeed(): Promise<TeamPostFeedItem[]> {
       id, content, like_count, created_at,
       teams!team_id(
         id,
-        projects!project_id(title, city, is_remote, category),
+        projects!project_id(title, city, is_remote, project_categories(name)),
         team_members(user_id, users(id, name))
       ),
       team_post_likes(user_id)
