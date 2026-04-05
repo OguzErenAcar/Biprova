@@ -41,7 +41,7 @@ interface Props {
   isLeader: boolean;
 }
 
-export function PanelGonderiler({ teamId, teamName, posts, viewerId, viewerName }: Props) {
+export function PanelGonderiler({ teamId, teamName, posts, viewerId, viewerName, isLeader }: Props) {
   const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [text, setText] = useState('');
