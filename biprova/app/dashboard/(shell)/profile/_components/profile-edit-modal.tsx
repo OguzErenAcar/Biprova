@@ -268,31 +268,56 @@ export function ProfileEditModal({ user }: ProfileEditModalProps) {
               {/* CV Upload */}
               <div>
                 <label className="text-[0.78rem] font-bold text-slate-500 mb-1 block">CV (PDF)</label>
-                <div
-                  onDrop={handleDrop}
-                  onDragOver={handleDragOver}
-                  onDragLeave={handleDragLeave}
-                  onClick={() => fileInputRef.current?.click()}
-                  className={`w-full border-2 border-dashed rounded-[10px] px-4 py-5 flex flex-col items-center justify-center gap-1.5 cursor-pointer transition-colors ${
-                    isDragging
-                      ? 'border-blue-400 bg-blue-50'
-                      : 'border-slate-200 hover:border-slate-300 bg-slate-50'
-                  }`}
-                >
-                  {cvUploading ? (
-                    <span className="text-[0.82rem] text-slate-500">Yükleniyor...</span>
-                  ) : cvSuccess ? (
-                    <span className="text-[0.82rem] text-green-600 font-semibold">✓ CV başarıyla yüklendi</span>
-                  ) : (
-                    <>
-                      <span className="text-[1.4rem]">📄</span>
-                      <span className="text-[0.82rem] text-slate-500 text-center">
-                        PDF sürükleyin veya tıklayın
-                      </span>
-                      <span className="text-[0.72rem] text-slate-400">Maks. 5 MB</span>
-                    </>
-                  )}
-                </div>
+                {hasCv && !cvSuccess ? (
+                  <div className="flex items-center justify-between bg-slate-50 rounded-[10px] px-3.5 py-3 border border-slate-200">
+                    <span className="text-[0.82rem] text-slate-700 font-medium">📄 CV yüklü</span>
+                    <div className="flex items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={() => fileInputRef.current?.click()}
+                        disabled={cvUploading || cvRemoving}
+                        className="text-[0.75rem] text-blue-600 font-semibold hover:underline disabled:opacity-50"
+                      >
+                        Değiştir
+                      </button>
+                      <span className="text-slate-300">|</span>
+                      <button
+                        type="button"
+                        onClick={handleRemoveCv}
+                        disabled={cvUploading || cvRemoving}
+                        className="text-[0.75rem] text-red-500 font-semibold hover:underline disabled:opacity-50"
+                      >
+                        {cvRemoving ? 'Kaldırılıyor...' : 'Kaldır'}
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <div
+                    onDrop={handleDrop}
+                    onDragOver={handleDragOver}
+                    onDragLeave={handleDragLeave}
+                    onClick={() => fileInputRef.current?.click()}
+                    className={`w-full border-2 border-dashed rounded-[10px] px-4 py-5 flex flex-col items-center justify-center gap-1.5 cursor-pointer transition-colors ${
+                      isDragging
+                        ? 'border-blue-400 bg-blue-50'
+                        : 'border-slate-200 hover:border-slate-300 bg-slate-50'
+                    }`}
+                  >
+                    {cvUploading ? (
+                      <span className="text-[0.82rem] text-slate-500">Yükleniyor...</span>
+                    ) : cvSuccess ? (
+                      <span className="text-[0.82rem] text-green-600 font-semibold">✓ CV başarıyla yüklendi</span>
+                    ) : (
+                      <>
+                        <span className="text-[1.4rem]">📄</span>
+                        <span className="text-[0.82rem] text-slate-500 text-center">
+                          PDF sürükleyin veya tıklayın
+                        </span>
+                        <span className="text-[0.72rem] text-slate-400">Maks. 5 MB</span>
+                      </>
+                    )}
+                  </div>
+                )}
                 <input
                   ref={fileInputRef}
                   type="file"
