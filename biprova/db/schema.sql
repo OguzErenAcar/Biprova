@@ -156,6 +156,7 @@ create table news (
     title        text not null,
     content      text not null,
     image_url    text,
+    cover_url    text,
     tags         text[],
     view_count   integer default 0,
     like_count   integer default 0,
