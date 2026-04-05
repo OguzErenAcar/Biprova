@@ -35,9 +35,9 @@ export function ProjectTabView({ project }: Props) {
     { key: 'admin',      label: '🛡️ Admin',       requiresTeam: false, leaderOnly: true, count: isLeader ? pendingCount : undefined },
     { key: 'ekip',       label: '👥 Ekip',        requiresTeam: false },
     { key: 'chat',       label: '💬 Chat',        requiresTeam: true,  count: project.messages.length },
-    { key: 'gorevler',   label: '✅ Görevler',    requiresTeam: true,  comingSoon: true },
+    { key: 'gonderiler', label: '📢 Gönderiler',  requiresTeam: false },
     { key: 'dosyalar',   label: '📁 Dosyalar',    requiresTeam: true,  comingSoon: true },
-    { key: 'gonderiler', label: '📢 Gönderiler',  requiresTeam: true,  comingSoon: true },
+    { key: 'gorevler',   label: '✅ Görevler',    requiresTeam: true,  comingSoon: true },
   ];
 
   const visibleTabs = TABS.filter((tab) => !tab.leaderOnly || isLeader);
