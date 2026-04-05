@@ -98,7 +98,8 @@ export async function getCurrentUserProfile(): Promise<UserProfile> {
     .from('users')
     .select('projects_public, applications_public')
     .eq('id', user.id)
-    .single();
+    .single()
+    .then((res) => (res.error ? { data: null } : res));
 
   const { data: skillsData } = await supabase
     .from('user_skills')
