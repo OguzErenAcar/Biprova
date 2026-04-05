@@ -246,6 +246,50 @@ export function ProfileEditModal({ user }: ProfileEditModalProps) {
                 </div>
               </div>
 
+              {/* CV Upload */}
+              <div>
+                <label className="text-[0.78rem] font-bold text-slate-500 mb-1 block">CV (PDF)</label>
+                <div
+                  onDrop={handleDrop}
+                  onDragOver={handleDragOver}
+                  onDragLeave={handleDragLeave}
+                  onClick={() => fileInputRef.current?.click()}
+                  className={`w-full border-2 border-dashed rounded-[10px] px-4 py-5 flex flex-col items-center justify-center gap-1.5 cursor-pointer transition-colors ${
+                    isDragging
+                      ? 'border-blue-400 bg-blue-50'
+                      : 'border-slate-200 hover:border-slate-300 bg-slate-50'
+                  }`}
+                >
+                  {cvUploading ? (
+                    <span className="text-[0.82rem] text-slate-500">Yükleniyor...</span>
+                  ) : cvSuccess ? (
+                    <span className="text-[0.82rem] text-green-600 font-semibold">✓ CV başarıyla yüklendi</span>
+                  ) : (
+                    <>
+                      <span className="text-[1.4rem]">📄</span>
+                      <span className="text-[0.82rem] text-slate-500 text-center">
+                        PDF sürükleyin veya tıklayın
+                      </span>
+                      <span className="text-[0.72rem] text-slate-400">Maks. 5 MB</span>
+                    </>
+                  )}
+                </div>
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="application/pdf"
+                  className="hidden"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (file) handleCvFile(file);
+                    e.target.value = '';
+                  }}
+                />
+                {cvError && (
+                  <div className="text-[0.78rem] text-red-600 mt-1">{cvError}</div>
+                )}
+              </div>
+
               {/* Error */}
               {formError && (
                 <div className="text-[0.82rem] text-red-600 bg-red-50 rounded-[8px] px-3.5 py-2">
