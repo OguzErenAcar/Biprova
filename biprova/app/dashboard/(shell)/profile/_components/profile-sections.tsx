@@ -132,9 +132,14 @@ export function ProfileSections({ projects, applications, isOwner = false }: Pro
                   {a.roleName ? `Rol: ${a.roleName} · ` : ''}{formatRelativeDate(a.createdAt)}
                 </div>
               </div>
-              <span className={`text-[0.72rem] font-bold px-2.5 py-1 rounded-[6px] whitespace-nowrap ${APP_STATUS_STYLES[a.status]}`}>
-                {APP_STATUS_LABELS[a.status]}
-              </span>
+              <div className="flex items-center gap-2 flex-shrink-0">
+                <span className={`text-[0.72rem] font-bold px-2.5 py-1 rounded-[6px] whitespace-nowrap ${APP_STATUS_STYLES[a.status]}`}>
+                  {APP_STATUS_LABELS[a.status]}
+                </span>
+                {isOwner && a.status === 'pending' && (
+                  <WithdrawApplicationButton applicationId={a.id} />
+                )}
+              </div>
             </div>
           ))
         )}
