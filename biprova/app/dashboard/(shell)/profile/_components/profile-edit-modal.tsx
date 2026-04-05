@@ -21,6 +21,11 @@ export function ProfileEditModal({ user }: ProfileEditModalProps) {
   const [bio, setBio] = useState(user.bio ?? '');
   const [formError, setFormError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
+  const [isDragging, setIsDragging] = useState(false);
+  const [cvUploading, setCvUploading] = useState(false);
+  const [cvError, setCvError] = useState<string | null>(null);
+  const [cvSuccess, setCvSuccess] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     getCities().then(setCities);
