@@ -76,6 +76,30 @@ type FilledRoleRow = {
   } | null;
 };
 
+export async function getUserProfileById(id: string): Promise<UserProfile | null> {
+  const supabase = await createClient();
+
+  const { data, error } = await supabase
+    .from('users')
+    .select('id, name, email, bio, city, is_remote, avatar_url, cover_url, linkedin_url, badge, cv_url, cv_public, projects_public, teams_public, applications_public, created_at')
+    .eq('id', id)
+    .single();
+
+  if (error || !data) return null;
+
+  const { data: skillsData } = await supabase
+    .from('user_skills')
+    .select('skills(id, name)')
+    .eq('user_id', id)
+    .limit(50);
+
+  const skills = ((skillsData ?? []) as unknown as SkillRow[])
+    .filter((s): s is { skills: { id: string; name: string } } => s.skills !== null)
+    .map((s) => s.skills);
+
+  return { ...data, skills };
+}
+
 export async function getCurrentUserProfile(): Promise<UserProfile> {
   const supabase = await createClient();
 
