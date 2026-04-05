@@ -178,6 +178,7 @@ export function TeamPostFeedClient({ posts }: Props) {
                 title={title}
                 body={body}
                 members={members}
+                imageUrls={post.imageUrls.length > 0 ? post.imageUrls : undefined}
                 likes={post.likeCount}
                 comments={0}
                 liked={post.isLiked}
