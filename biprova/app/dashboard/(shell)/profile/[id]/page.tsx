@@ -22,6 +22,8 @@ async function ProfileContent({ id }: { id: string }) {
     getUserTeams(user.id),
   ]);
 
+  console.log('visibility', { isOwner, projectsPublic: user.projects_public, teamsPublic: user.teams_public, applicationsPublic: user.applications_public });
+
   return (
     <div className="">
       <ProfileHero user={user} isOwner={isOwner} />
