@@ -189,9 +189,9 @@ export function PanelGonderiler({ teamId, teamName, posts, viewerId, viewerName 
           <div className="text-[0.88rem] leading-relaxed text-slate-900 mb-3">{post.content}</div>
 
           {post.image_urls.length > 0 && (
-            <div className={`grid gap-2 mb-3 ${post.image_urls.length === 1 ? 'grid-cols-1' : 'grid-cols-2'}`}>
+            <div className="flex flex-wrap gap-2 mb-3">
               {post.image_urls.map((url, i) => (
-                <a key={i} href={url} target="_blank" rel="noopener noreferrer">
+                <a key={i} href={url} target="_blank" rel="noopener noreferrer" className="w-1/3">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={url}
