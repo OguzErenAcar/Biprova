@@ -4,10 +4,11 @@ import { useState, useEffect } from "react";
 
 interface VisibilityToggleProps {
   storageKey: string;
+  defaultValue?: boolean;
 }
 
-export function VisibilityToggle({ storageKey }: VisibilityToggleProps) {
-  const [isPublic, setIsPublic] = useState(true);
+export function VisibilityToggle({ storageKey, defaultValue = true }: VisibilityToggleProps) {
+  const [isPublic, setIsPublic] = useState(defaultValue);
 
   useEffect(() => {
     const stored = localStorage.getItem(storageKey);
