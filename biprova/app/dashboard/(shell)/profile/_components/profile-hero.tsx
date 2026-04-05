@@ -1,5 +1,6 @@
 import { UserProfile } from '@/features/users/actions';
 import { ProfileEditModal } from './profile-edit-modal';
+import { CvViewDialog } from './cv-view-dialog';
 
 interface ProfileHeroProps {
   user: UserProfile;
