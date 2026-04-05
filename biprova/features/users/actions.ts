@@ -144,6 +144,42 @@ export async function updateProfile(
   return { success: true };
 }
 
+export async function saveAvatarUrl(
+  avatarUrl: string,
+): Promise<{ success: boolean; error?: string }> {
+  const supabase = await createClient();
+  const { data: { user }, error: authError } = await supabase.auth.getUser();
+  if (authError || !user) return { success: false, error: 'Oturum açmanız gerekiyor' };
+
+  const { error } = await supabase
+    .from('users')
+    .update({ avatar_url: avatarUrl })
+    .eq('id', user.id);
+
+  if (error) return { success: false, error: `Fotoğraf kaydedilemedi: ${error.message}` };
+
+  revalidatePath('/dashboard/profile');
+  return { success: true };
+}
+
+export async function saveCoverUrl(
+  coverUrl: string,
+): Promise<{ success: boolean; error?: string }> {
+  const supabase = await createClient();
+  const { data: { user }, error: authError } = await supabase.auth.getUser();
+  if (authError || !user) return { success: false, error: 'Oturum açmanız gerekiyor' };
+
+  const { error } = await supabase
+    .from('users')
+    .update({ cover_url: coverUrl })
+    .eq('id', user.id);
+
+  if (error) return { success: false, error: `Kapak fotoğrafı kaydedilemedi: ${error.message}` };
+
+  revalidatePath('/dashboard/profile');
+  return { success: true };
+}
+
 export async function removeCv(): Promise<{ success: boolean; error?: string }> {
   const supabase = await createClient();
   const { data: { user }, error: authError } = await supabase.auth.getUser();
