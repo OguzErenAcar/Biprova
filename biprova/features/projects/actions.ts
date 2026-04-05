@@ -799,7 +799,7 @@ export async function sendProjectMessage(teamId: string, content: string): Promi
   });
 }
 
-export async function createProjectPost(teamId: string, content: string): Promise<void> {
+export async function createProjectPost(teamId: string, content: string, imageUrls: string[] = []): Promise<void> {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return;
@@ -809,5 +809,6 @@ export async function createProjectPost(teamId: string, content: string): Promis
     team_id: teamId,
     author_id: user.id,
     content: trimmed,
+    image_urls: imageUrls,
   });
 }
