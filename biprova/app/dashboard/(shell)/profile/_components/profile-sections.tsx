@@ -122,6 +122,47 @@ export function ProfileSections({ projects, applications, teams, isOwner = false
       </SectionCard>
 
       <SectionCard
+        id="profile-teams"
+        title="👥 Ekiplerim"
+        action={isOwner ? <VisibilityToggle storageKey="profile_teams_public" /> : undefined}
+      >
+        {teams.length === 0 ? (
+          <p className="text-[0.85rem] text-slate-400">Henüz ekip yok.</p>
+        ) : (
+          teams.map((t, i) => {
+            const meta: string[] = [];
+            if (t.projectTitle) meta.push(`📁 ${t.projectTitle}`);
+            meta.push(t.isLeader ? 'Lider: Sen' : 'Üye');
+
+            return (
+              <div
+                key={t.id}
+                className={`flex gap-4 items-start py-3.5 ${i < teams.length - 1 ? "border-b border-slate-100" : ""} ${i === 0 ? "pt-0" : ""}`}
+              >
+                <div
+                  className="w-10 h-10 rounded-[11px] flex items-center justify-center text-[1.15rem] flex-shrink-0"
+                  style={{ background: TEAM_BG_COLORS[i % TEAM_BG_COLORS.length] }}
+                >
+                  👥
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="text-[0.9rem] font-bold text-slate-900 mb-1">
+                    {t.name ?? t.projectTitle ?? 'Ekip'}
+                  </div>
+                  <div className="flex flex-wrap gap-2.5 text-[0.77rem] text-slate-500">
+                    {meta.map((m) => <span key={m}>{m}</span>)}
+                  </div>
+                </div>
+                <span className={`text-[0.72rem] font-bold px-2.5 py-1 rounded-[6px] whitespace-nowrap self-start mt-0.5 ${TEAM_STATUS_STYLES[t.status]}`}>
+                  {TEAM_STATUS_LABELS[t.status]}
+                </span>
+              </div>
+            );
+          })
+        )}
+      </SectionCard>
+
+      <SectionCard
         id="profile-applications"
         title="📨 Başvurularım"
         action={isOwner ? <VisibilityToggle storageKey="profile_applications_public" defaultValue={false} /> : undefined}
