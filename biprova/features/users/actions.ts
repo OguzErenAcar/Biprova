@@ -304,11 +304,14 @@ export async function saveProfileVisibility(
   const { data: { user }, error: authError } = await supabase.auth.getUser();
   if (authError || !user) return { success: false, error: 'Oturum açmanız gerekiyor' };
 
-  const column = `${section}_public` as const;
+  const update =
+    section === 'projects'     ? { projects_public: isPublic } :
+    section === 'teams'        ? { teams_public: isPublic } :
+                                 { applications_public: isPublic };
 
   const { error } = await supabase
     .from('users')
-    .update({ [column]: isPublic })
+    .update(update)
     .eq('id', user.id);
 
   if (error) return { success: false, error: `Ayar kaydedilemedi: ${error.message}` };
