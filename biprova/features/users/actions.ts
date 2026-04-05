@@ -395,3 +395,23 @@ export async function getUserApplications(userId: string): Promise<UserApplicati
     roleName: row.project_roles?.role_name ?? null,
   }));
 }
+
+export async function withdrawApplication(
+  applicationId: string,
+): Promise<{ success: boolean; error?: string }> {
+  const supabase = await createClient();
+  const { data: { user }, error: authError } = await supabase.auth.getUser();
+  if (authError || !user) return { success: false, error: 'Oturum açmanız gerekiyor' };
+
+  const { error } = await supabase
+    .from('applications')
+    .delete()
+    .eq('id', applicationId)
+    .eq('user_id', user.id)
+    .eq('status', 'pending');
+
+  if (error) return { success: false, error: `Başvuru geri alınamadı: ${error.message}` };
+
+  revalidatePath('/dashboard/profile');
+  return { success: true };
+}
