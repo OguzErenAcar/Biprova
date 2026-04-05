@@ -27,7 +27,7 @@ export function CvViewDialog({ cvUrl }: CvViewDialogProps) {
         onClick={() => setOpen(true)}
         className="flex items-center gap-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-[0.75rem] font-bold px-2.5 py-1 rounded-[8px] transition-colors"
       >
-        📄 CV&apos;mi Görüntüle
+        📄 CV Görüntüle
       </button>
 
       {open && (
