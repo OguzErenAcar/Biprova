@@ -8,6 +8,7 @@ insert into storage.buckets (id, name, public)
 values
     ('avatars',      'avatars',      true),
     ('covers',       'covers',       true),
+    ('cvs',          'cvs',          false),   -- CV'ler private, signed URL ile açılır
     ('news-images',  'news-images',  true),
     ('post-images',  'post-images',  true)
 on conflict (id) do nothing;
