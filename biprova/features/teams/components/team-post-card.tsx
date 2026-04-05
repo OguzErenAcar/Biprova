@@ -51,6 +51,7 @@ export function TeamPostCard({
   title,
   body,
   hasImage,
+  imageUrls,
   members,
   likes,
   comments,
