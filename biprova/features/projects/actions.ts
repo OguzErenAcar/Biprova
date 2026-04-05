@@ -433,6 +433,7 @@ type RawPostRow = {
   id: string;
   author_id: string;
   content: string;
+  image_urls: string[];
   like_count: number;
   created_at: string;
   users: { name: string; avatar_url: string | null } | null;
