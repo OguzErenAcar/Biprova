@@ -42,7 +42,7 @@ export function ProfileHero({ user, isOwner = false }: ProfileHeroProps) {
           <div className="w-full h-full bg-gradient-to-br from-blue-800 via-indigo-500 to-violet-500" />
         )}
         {isOwner && (
-          <ImageUploadButton type="cover" userId={user.id}>
+          <ImageUploadButton type="cover" userId={user.id} currentUrl={user.cover_url}>
             <></>
           </ImageUploadButton>
         )}
