@@ -140,6 +140,7 @@ create table team_posts (
     content    text not null,
     image_url  text,
     cover_url  text,
+    image_urls text[] not null default '{}',
     like_count integer default 0,
     created_at timestamp default now()
 );
