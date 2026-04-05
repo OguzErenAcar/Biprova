@@ -291,7 +291,7 @@ export async function getUserProjects(userId: string): Promise<UserProjectEntry[
   // Ekip üyesi olduğu projeler (ekip kurulmuş, lider değil)
   const { data: membershipRaw } = await supabase
     .from('team_members')
-    .select('role_id, project_roles(role_name), teams(projects(id, title, city, is_remote, category, status, leader_id))')
+    .select('role_id, project_roles(role_name), teams(projects(id, title, city, is_remote, status, leader_id))')
     .eq('user_id', userId)
     .limit(10);
 
