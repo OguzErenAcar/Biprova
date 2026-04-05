@@ -297,6 +297,7 @@ export interface TeamPostFeedItem {
 type RawPost = {
   id: string;
   content: string;
+  image_urls: string[];
   like_count: number;
   created_at: string;
   teams: {
