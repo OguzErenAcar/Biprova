@@ -137,7 +137,8 @@ create table team_posts (
     author_id  uuid references users(id) on delete cascade,
     project_id uuid references projects(id) on delete set null,
     content    text not null,
-    media_urls text[],
+    image_url  text,
+    cover_url  text,
     like_count integer default 0,
     created_at timestamp default now()
 );
