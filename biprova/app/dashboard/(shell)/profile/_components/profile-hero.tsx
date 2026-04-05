@@ -50,23 +50,25 @@ export function ProfileHero({ user, isOwner = false }: ProfileHeroProps) {
 
       <div className="px-6 pb-6 relative">
         {/* Avatar */}
-        <div className="absolute -top-[60px] left-6 w-[120px] h-[120px] rounded-full border-4 border-white shadow-[0_4px_16px_rgba(37,99,235,0.25)] overflow-hidden relative">
-          {user.avatar_url ? (
-            <img
-              src={user.avatar_url}
-              alt={user.name}
-              className="w-full h-full object-cover"
-            />
-          ) : (
-            <div className="w-full h-full bg-gradient-to-br from-blue-600 to-indigo-500 flex items-center justify-center font-nunito font-black text-[1.8rem] text-white">
-              {initials}
-            </div>
-          )}
-          {isOwner && (
-            <ImageUploadButton type="avatar" userId={user.id}>
-              <></>
-            </ImageUploadButton>
-          )}
+        <div className="absolute -top-[60px] left-6 w-[120px] h-[120px] rounded-full border-4 border-white shadow-[0_4px_16px_rgba(37,99,235,0.25)] overflow-hidden">
+          <div className="relative w-full h-full">
+            {user.avatar_url ? (
+              <img
+                src={user.avatar_url}
+                alt={user.name}
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <div className="w-full h-full bg-gradient-to-br from-blue-600 to-indigo-500 flex items-center justify-center font-nunito font-black text-[1.8rem] text-white">
+                {initials}
+              </div>
+            )}
+            {isOwner && (
+              <ImageUploadButton type="avatar" userId={user.id}>
+                <></>
+              </ImageUploadButton>
+            )}
+          </div>
         </div>
 
         {/* Name + Badges row */}
