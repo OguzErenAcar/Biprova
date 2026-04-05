@@ -49,6 +49,7 @@ export function ProfileEditModal({ user }: ProfileEditModalProps) {
     setCvError(null);
     setCvSuccess(false);
     setHasCv(!!user.cv_url);
+    setCvPublic(user.cv_public);
     setOpen(true);
   }
 
