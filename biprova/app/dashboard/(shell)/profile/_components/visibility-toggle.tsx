@@ -1,33 +1,30 @@
 "use client";
 
-import { useTransition } from "react";
-import { saveProjectsPublic, saveApplicationsPublic } from "@/features/users/actions";
+import { useState, useEffect } from "react";
 
 interface VisibilityToggleProps {
-  isPublic: boolean;
-  section: "projects" | "applications";
+  storageKey: string;
 }
 
-export function VisibilityToggle({ isPublic, section }: VisibilityToggleProps) {
-  const [isPending, startTransition] = useTransition();
+export function VisibilityToggle({ storageKey }: VisibilityToggleProps) {
+  const [isPublic, setIsPublic] = useState(true);
+
+  useEffect(() => {
+    const stored = localStorage.getItem(storageKey);
+    if (stored !== null) setIsPublic(stored === "true");
+  }, [storageKey]);
 
   function handleToggle() {
-    const newValue = !isPublic;
-    startTransition(async () => {
-      if (section === "projects") {
-        await saveProjectsPublic(newValue);
-      } else {
-        await saveApplicationsPublic(newValue);
-      }
-    });
+    const next = !isPublic;
+    setIsPublic(next);
+    localStorage.setItem(storageKey, String(next));
   }
 
   return (
     <button
       onClick={handleToggle}
-      disabled={isPending}
-      title={isPublic ? "Herkese açık — gizlemek için tıkla" : "Gizli — herkese açmak için tıkla"}
-      className={`flex items-center gap-1.5 text-[0.75rem] font-semibold px-2.5 py-1 rounded-[8px] border transition-colors disabled:opacity-50 ${
+      title={isPublic ? "Herkese açık" : "Gizli"}
+      className={`flex items-center gap-1.5 text-[0.75rem] font-semibold px-2.5 py-1 rounded-[8px] border transition-colors ${
         isPublic
           ? "bg-green-50 text-green-700 border-green-200 hover:bg-green-100"
           : "bg-slate-100 text-slate-500 border-slate-200 hover:bg-slate-200"
@@ -36,8 +33,7 @@ export function VisibilityToggle({ isPublic, section }: VisibilityToggleProps) {
       {isPublic ? (
         <>
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-            <circle cx="12" cy="12" r="3" />
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" /><circle cx="12" cy="12" r="3" />
           </svg>
           Herkese açık
         </>
