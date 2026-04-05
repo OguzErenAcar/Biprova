@@ -3,7 +3,7 @@
 import { useState } from 'react';
 
 interface CvViewDialogProps {
-  cvUrl: string;
+  cvUrl: string | null;
 }
 
 export function CvViewDialog({ cvUrl }: CvViewDialogProps) {
