@@ -39,6 +39,12 @@ export function PanelAdmin({ project }: Props) {
         members={project.members}
         viewerId={project.viewer.id}
       />
+      {project.team_id && (
+        <TeamNameSection
+          teamId={project.team_id}
+          currentName={project.team_name ?? ''}
+        />
+      )}
       <ProjectManagementSection projectId={project.id} />
     </div>
   );
