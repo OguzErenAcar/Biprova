@@ -168,7 +168,7 @@ export function ProfileSections({ projects, applications, teams, projectsPublic,
       <SectionCard
         id="profile-applications"
         title="📨 Başvurularım"
-        action={isOwner ? <VisibilityToggle storageKey="profile_applications_public" defaultValue={false} /> : undefined}
+        action={isOwner ? <VisibilityToggle section="applications" initialValue={applicationsPublic} /> : undefined}
       >
         {applications.length === 0 ? (
           <p className="text-[0.85rem] text-slate-400">Henüz başvuru yok.</p>
