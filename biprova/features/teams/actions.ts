@@ -438,6 +438,7 @@ export async function getTeamPostFeed(): Promise<TeamPostFeedItem[]> {
       return {
         id: p.id,
         content: p.content,
+        imageUrls: p.image_urls ?? [],
         likeCount: p.like_count,
         createdAt: p.created_at,
         isLiked: p.team_post_likes.some((l) => l.user_id === user.id),
