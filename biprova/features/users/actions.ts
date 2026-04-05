@@ -343,6 +343,64 @@ export async function getUserProjects(userId: string): Promise<UserProjectEntry[
   return [...owned, ...member, ...accepted];
 }
 
+export type TeamStatus = 'pending' | 'active' | 'no_project';
+
+export interface UserTeamEntry {
+  id: string;
+  name: string | null;
+  projectTitle: string | null;
+  status: TeamStatus;
+  isLeader: boolean;
+}
+
+type TeamMemberRow = {
+  teams: {
+    id: string;
+    name: string | null;
+    status: string;
+    leader_id: string | null;
+    projects: { title: string } | null;
+  } | null;
+};
+
+export async function getUserTeams(userId: string): Promise<UserTeamEntry[]> {
+  const supabase = await createClient();
+
+  const { data: ledRaw } = await supabase
+    .from('teams')
+    .select('id, name, status, projects(title)')
+    .eq('leader_id', userId)
+    .limit(10);
+
+  const led: UserTeamEntry[] = (ledRaw ?? []).map((t) => ({
+    id: t.id,
+    name: t.name,
+    projectTitle: (t.projects as { title: string } | null)?.title ?? null,
+    status: (t.status as TeamStatus) ?? 'pending',
+    isLeader: true,
+  }));
+
+  const { data: memberRaw } = await supabase
+    .from('team_members')
+    .select('teams(id, name, status, leader_id, projects(title))')
+    .eq('user_id', userId)
+    .limit(10);
+
+  const seenIds = new Set(led.map((t) => t.id));
+
+  const member: UserTeamEntry[] = ((memberRaw ?? []) as unknown as TeamMemberRow[])
+    .filter((row) => row.teams && row.teams.leader_id !== userId && !seenIds.has(row.teams.id))
+    .map((row) => ({
+      id: row.teams!.id,
+      name: row.teams!.name,
+      projectTitle: row.teams!.projects?.title ?? null,
+      status: (row.teams!.status as TeamStatus) ?? 'pending',
+      isLeader: false,
+    }));
+
+  return [...led, ...member];
+}
+
 export interface UserStats {
   projectCount: number;
   teamCount: number;
