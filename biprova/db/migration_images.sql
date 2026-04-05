@@ -6,6 +6,9 @@
 -- users: cover image (profil kapak fotoğrafı)
 alter table users add column if not exists cover_url text;
 
+-- users: cv (PDF)
+alter table users add column if not exists cv_url text;
+
 -- news: ikinci resim alanı
 alter table news add column if not exists cover_url text;
 
