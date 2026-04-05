@@ -316,7 +316,7 @@ export async function getUserProjects(userId: string): Promise<UserProjectEntry[
   // Rolü doldurulmuş ama ekip henüz kurulmamış projeler (başvurusu kabul edilmiş)
   const { data: filledRaw } = await supabase
     .from('project_roles')
-    .select('role_name, projects!inner(id, title, city, is_remote, category, status, leader_id)')
+    .select('role_name, projects!inner(id, title, city, is_remote, status, leader_id)')
     .eq('filled_by', userId)
     .limit(10);
 
