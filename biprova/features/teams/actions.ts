@@ -415,7 +415,7 @@ export async function getTeamPostFeed(): Promise<TeamPostFeedItem[]> {
   const { data, error } = await supabase
     .from('team_posts')
     .select(`
-      id, content, like_count, created_at,
+      id, content, image_urls, like_count, created_at,
       teams!team_id(
         id,
         projects!project_id(title, city, is_remote, project_categories(name)),
