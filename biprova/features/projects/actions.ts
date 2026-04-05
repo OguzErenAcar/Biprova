@@ -437,6 +437,7 @@ type RawPostRow = {
   like_count: number;
   created_at: string;
   users: { name: string; avatar_url: string | null } | null;
+  team_post_likes: { user_id: string }[];
 };
 
 type RawTeamRow = {
