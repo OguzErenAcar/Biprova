@@ -1,6 +1,7 @@
 import { UserProfile } from '@/features/users/actions';
 import { ProfileEditModal } from './profile-edit-modal';
 import { CvViewDialog } from './cv-view-dialog';
+import { ImageUploadButton } from './image-upload-button';
 
 interface ProfileHeroProps {
   user: UserProfile;
@@ -28,12 +29,42 @@ export function ProfileHero({ user, isOwner = false }: ProfileHeroProps) {
   return (
     <div id="profile-hero" className="bg-white border border-slate-200 rounded-[16px] overflow-hidden mb-5">
       {/* Cover */}
-      <div className="h-[100px] bg-gradient-to-br from-blue-800 via-indigo-500 to-violet-500" />
+      <div className="relative h-[100px]">
+        {user.cover_url ? (
+          <img
+            src={user.cover_url}
+            alt="Kapak fotoğrafı"
+            className="w-full h-full object-cover"
+          />
+        ) : (
+          <div className="w-full h-full bg-gradient-to-br from-blue-800 via-indigo-500 to-violet-500" />
+        )}
+        {isOwner && (
+          <ImageUploadButton type="cover" userId={user.id}>
+            <></>
+          </ImageUploadButton>
+        )}
+      </div>
 
       <div className="px-6 pb-6 relative">
         {/* Avatar */}
-        <div className="absolute -top-10 left-6 w-20 h-20 rounded-full bg-gradient-to-br from-blue-600 to-indigo-500 flex items-center justify-center font-nunito font-black text-[1.8rem] text-white border-4 border-white shadow-[0_4px_16px_rgba(37,99,235,0.25)]">
-          {initials}
+        <div className="absolute -top-10 left-6 w-20 h-20 rounded-full border-4 border-white shadow-[0_4px_16px_rgba(37,99,235,0.25)] overflow-hidden relative">
+          {user.avatar_url ? (
+            <img
+              src={user.avatar_url}
+              alt={user.name}
+              className="w-full h-full object-cover"
+            />
+          ) : (
+            <div className="w-full h-full bg-gradient-to-br from-blue-600 to-indigo-500 flex items-center justify-center font-nunito font-black text-[1.8rem] text-white">
+              {initials}
+            </div>
+          )}
+          {isOwner && (
+            <ImageUploadButton type="avatar" userId={user.id}>
+              <></>
+            </ImageUploadButton>
+          )}
         </div>
 
         {/* Badges row */}
