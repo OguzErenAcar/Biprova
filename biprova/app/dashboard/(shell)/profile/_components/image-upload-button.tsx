@@ -133,6 +133,21 @@ export function ImageUploadButton({ type, userId, currentUrl, children }: ImageU
     }
   }
 
+  async function handleRemove() {
+    setError(null);
+    setUploading(true);
+    try {
+      const result = type === 'avatar' ? await removeAvatarUrl() : await removeCoverUrl();
+      if (!result.success) throw new Error(result.error);
+      setSuccess(true);
+      setTimeout(() => handleClose(), 800);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Kaldırılamadı');
+    } finally {
+      setUploading(false);
+    }
+  }
+
   function handleDrop(e: DragEvent<HTMLDivElement>) {
     e.preventDefault();
     setIsDragging(false);
