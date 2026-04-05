@@ -31,7 +31,6 @@ export interface UserProjectEntry {
   title: string;
   city: string | null;
   is_remote: boolean | null;
-  category: string | null;
   status: ProjectStatus;
   isLeader: boolean;
   userRole: string | null;
