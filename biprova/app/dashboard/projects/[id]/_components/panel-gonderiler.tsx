@@ -172,9 +172,19 @@ export function PanelGonderiler({ teamId, teamName, posts, viewerId, viewerName 
             <div>
               <div className="font-nunito font-black text-[0.9rem]">{teamName ?? 'Ekip'}</div>
             </div>
-            <span className="ml-auto text-[0.72rem] text-slate-400">
-              {formatRelTime(post.created_at)}
-            </span>
+            <div className="ml-auto flex items-center gap-2">
+              <span className="text-[0.72rem] text-slate-400">{formatRelTime(post.created_at)}</span>
+              {post.author_id === viewerId && (
+                <button
+                  onClick={() => startTransition(async () => { await deleteProjectPost(post.id); router.refresh(); })}
+                  disabled={isPending}
+                  className="text-slate-300 hover:text-red-500 transition-colors text-[0.72rem] bg-transparent border-none cursor-pointer disabled:opacity-40"
+                  title="Gönderiyi sil"
+                >
+                  🗑
+                </button>
+              )}
+            </div>
           </div>
           <div className="text-[0.88rem] leading-relaxed text-slate-900 mb-3">{post.content}</div>
 
