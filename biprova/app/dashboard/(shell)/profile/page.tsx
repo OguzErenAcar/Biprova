@@ -6,17 +6,18 @@ import { ProfileSections } from './_components/profile-sections';
 
 async function ProfileContent() {
   const user = await getCurrentUserProfile();
-  const [projects, applications, stats] = await Promise.all([
+  const [projects, applications, stats, teams] = await Promise.all([
     getUserProjects(user.id),
     getUserApplications(user.id),
     getUserStats(user.id),
+    getUserTeams(user.id),
   ]);
 
   return (
     <div className="">
       <ProfileHero user={user} isOwner />
       <ProfileStats stats={stats} />
-      <ProfileSections projects={projects} applications={applications} isOwner />
+      <ProfileSections projects={projects} applications={applications} teams={teams} isOwner />
     </div>
   );
 }
