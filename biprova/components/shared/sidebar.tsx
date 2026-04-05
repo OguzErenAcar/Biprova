@@ -83,7 +83,6 @@ export function Sidebar({ user, projects = [] }: SidebarProps) {
   const pathname = usePathname();
   const [projectsOpen, setProjectsOpen] = useState(true);
   const [savedOpen, setSavedOpen] = useState(true);
-  // savedOpen kullanımı aşağıda
 
 
   function isActive(href: string, exact?: boolean) {
