@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-import { getCurrentUserProfile, getUserProjects, getUserApplications, getUserStats } from '@/features/users/actions';
+import { getCurrentUserProfile, getUserProjects, getUserApplications, getUserStats, getUserTeams } from '@/features/users/actions';
 import { ProfileHero } from './_components/profile-hero';
 import { ProfileStats } from './_components/profile-stats';
 import { ProfileSections } from './_components/profile-sections';
