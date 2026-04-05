@@ -15,6 +15,7 @@ export interface UserProfile {
   avatar_url: string | null;
   linkedin_url: string | null;
   badge: string | null;
+  cv_url: string | null;
   created_at: string;
   skills: { id: string; name: string }[];
 }
