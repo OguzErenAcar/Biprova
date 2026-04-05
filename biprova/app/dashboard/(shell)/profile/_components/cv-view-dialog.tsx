@@ -34,12 +34,19 @@ export function CvViewDialog({ cvUrl }: CvViewDialogProps) {
                 ✕
               </button>
             </div>
-            <div className="flex-1 overflow-hidden">
-              <iframe
-                src={`${cvUrl}#toolbar=1`}
-                className="w-full h-full border-0"
-                title="CV"
-              />
+            <div className="flex-1 overflow-hidden flex items-center justify-center">
+              {cvUrl ? (
+                <iframe
+                  src={`${cvUrl}#toolbar=1`}
+                  className="w-full h-full border-0"
+                  title="CV"
+                />
+              ) : (
+                <div className="text-center text-slate-400">
+                  <div className="text-[2.5rem] mb-3">📄</div>
+                  <p className="text-[0.88rem] font-medium">Henüz CV yüklenmemiş.</p>
+                </div>
+              )}
             </div>
           </div>
         </div>
