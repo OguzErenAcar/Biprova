@@ -18,6 +18,8 @@ export interface UserProfile {
   badge: string | null;
   cv_url: string | null;
   cv_public: boolean;
+  projects_public: boolean;
+  applications_public: boolean;
   created_at: string;
   skills: { id: string; name: string }[];
 }
