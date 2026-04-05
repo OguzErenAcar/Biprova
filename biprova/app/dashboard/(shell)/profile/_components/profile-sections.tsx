@@ -35,6 +35,19 @@ const APP_STATUS_LABELS: Record<ApplicationStatus, string> = {
 
 const PROJECT_BG_COLORS = ["#eff6ff", "#dcfce7", "#fef3c7", "#f1f5f9", "#ede9fe", "#fee2e2"];
 const APP_BG_COLORS     = ["#ede9fe", "#dcfce7", "#fef3c7", "#eff6ff", "#fee2e2", "#f1f5f9"];
+const TEAM_BG_COLORS    = ["#fef3c7", "#eff6ff", "#dcfce7", "#fee2e2", "#f1f5f9", "#ede9fe"];
+
+const TEAM_STATUS_STYLES: Record<TeamStatus, string> = {
+  pending:    "bg-amber-50 text-amber-800",
+  active:     "bg-green-50 text-green-700",
+  no_project: "bg-slate-100 text-slate-500",
+};
+
+const TEAM_STATUS_LABELS: Record<TeamStatus, string> = {
+  pending:    "Kuruluyor",
+  active:     "Aktif",
+  no_project: "Projesiz",
+};
 
 function formatRelativeDate(dateStr: string): string {
   const diff = Date.now() - new Date(dateStr).getTime();
