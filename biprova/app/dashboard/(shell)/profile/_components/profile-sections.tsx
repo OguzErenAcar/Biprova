@@ -4,11 +4,8 @@ import { VisibilityToggle } from './visibility-toggle';
 interface ProfileSectionsProps {
   projects: UserProjectEntry[];
   applications: UserApplicationEntry[];
-  projectsPublic: boolean;
-  applicationsPublic: boolean;
   isOwner?: boolean;
 }
-
 
 const PROJECT_STATUS_STYLES: Record<ProjectStatus, string> = {
   active:    "bg-green-50 text-green-700",
@@ -34,10 +31,8 @@ const APP_STATUS_LABELS: Record<ApplicationStatus, string> = {
   rejected: "Reddedildi",
 };
 
-
 const PROJECT_BG_COLORS = ["#eff6ff", "#dcfce7", "#fef3c7", "#f1f5f9", "#ede9fe", "#fee2e2"];
-
-const APP_BG_COLORS = ["#ede9fe", "#dcfce7", "#fef3c7", "#eff6ff", "#fee2e2", "#f1f5f9"];
+const APP_BG_COLORS     = ["#ede9fe", "#dcfce7", "#fef3c7", "#eff6ff", "#fee2e2", "#f1f5f9"];
 
 function formatRelativeDate(dateStr: string): string {
   const diff = Date.now() - new Date(dateStr).getTime();
@@ -50,7 +45,12 @@ function formatRelativeDate(dateStr: string): string {
   return `${weeks} hafta önce başvuruldu`;
 }
 
-function SectionCard({ id, title, action, children }: { id?: string; title: string; action?: React.ReactNode; children: React.ReactNode }) {
+function SectionCard({ id, title, action, children }: {
+  id?: string;
+  title: string;
+  action?: React.ReactNode;
+  children: React.ReactNode;
+}) {
   return (
     <div id={id} className="bg-white border border-slate-200 rounded-[16px] p-[1.4rem] mb-5">
       <div className="flex items-center justify-between mb-4">
@@ -62,14 +62,13 @@ function SectionCard({ id, title, action, children }: { id?: string; title: stri
   );
 }
 
-export function ProfileSections({ projects, applications, projectsPublic, applicationsPublic, isOwner = false }: ProfileSectionsProps) {
+export function ProfileSections({ projects, applications, isOwner = false }: ProfileSectionsProps) {
   return (
     <>
-      {/* Projects */}
       <SectionCard
         id="profile-projects"
         title="🗂 Projelerim"
-        action={isOwner ? <VisibilityToggle isPublic={projectsPublic} section="projects" /> : undefined}
+        action={isOwner ? <VisibilityToggle storageKey="profile_projects_public" /> : undefined}
       >
         {projects.length === 0 ? (
           <p className="text-[0.85rem] text-slate-400">Henüz proje yok.</p>
@@ -107,11 +106,10 @@ export function ProfileSections({ projects, applications, projectsPublic, applic
         )}
       </SectionCard>
 
-      {/* Applications */}
       <SectionCard
         id="profile-applications"
         title="📨 Başvurularım"
-        action={isOwner ? <VisibilityToggle isPublic={applicationsPublic} section="applications" /> : undefined}
+        action={isOwner ? <VisibilityToggle storageKey="profile_applications_public" /> : undefined}
       >
         {applications.length === 0 ? (
           <p className="text-[0.85rem] text-slate-400">Henüz başvuru yok.</p>
