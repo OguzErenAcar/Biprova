@@ -164,7 +164,7 @@ export function PanelGonderiler({ teamId, teamName, posts, viewerId, viewerName,
       {posts.map((post) => (
         <div
           key={post.id}
-          className="bg-white border-[1.5px] border-slate-200 rounded-[14px] p-[1.2rem] mb-4"
+          className="bg-white border-[1.5px] border-slate-200 rounded-[14px] p-[1.2rem] mb-4 w-1/2"
         >
           <div className="flex items-center gap-3 mb-3">
             <div className="w-[34px] h-[34px] rounded-full bg-indigo-500 flex items-center justify-center font-nunito font-black text-[0.72rem] text-white shrink-0">
