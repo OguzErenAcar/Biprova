@@ -280,6 +280,7 @@ export interface TeamPostMember {
 export interface TeamPostFeedItem {
   id: string;
   content: string;
+  imageUrls: string[];
   likeCount: number;
   createdAt: string;
   isLiked: boolean;
