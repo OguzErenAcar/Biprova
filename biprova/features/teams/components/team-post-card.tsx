@@ -23,6 +23,7 @@ interface TeamPostCardProps {
   title: string;
   body: string;
   hasImage?: boolean;
+  imageUrls?: string[];
   members: Member[];
   likes: number;
   comments: number;
