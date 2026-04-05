@@ -19,9 +19,6 @@ export function CreateProjectTopbar() {
       </span>
 
       <div className="ml-auto flex items-center gap-2.5">
-        <button className="bg-white text-slate-400 border-[1.5px] border-slate-200 rounded-[10px] font-nunito font-extrabold text-[0.86rem] px-4 py-[0.55rem] cursor-pointer transition-all hover:border-blue-600 hover:text-blue-600">
-          Taslak Kaydet
-        </button>
         <button
           type="submit"
           form="create-project-form"
