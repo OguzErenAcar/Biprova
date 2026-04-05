@@ -101,8 +101,8 @@ export function PanelGonderiler({ teamId, teamName, posts, viewerId, viewerName,
 
   return (
     <div id="panel-gonderiler">
-      {/* New post area */}
-      <div className="bg-white border-[1.5px] border-slate-200 rounded-[14px] p-4 mb-4">
+      {/* New post area — sadece lider */}
+      {isLeader && <div className="bg-white border-[1.5px] border-slate-200 rounded-[14px] p-4 mb-4 w-1/2">
         <div className="flex items-center gap-3 mb-3">
           <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center font-nunito font-black text-[0.75rem] text-white shrink-0">
             {getInitials(viewerName)}
