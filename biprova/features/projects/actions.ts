@@ -555,6 +555,7 @@ export async function getProjectDetail(id: string): Promise<ProjectDetail | null
       author_name: p.users?.name ?? '?',
       author_avatar: p.users?.avatar_url ?? null,
       content: p.content,
+      image_urls: p.image_urls ?? [],
       like_count: p.like_count ?? 0,
       created_at: p.created_at,
     }));
