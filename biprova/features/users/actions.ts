@@ -180,6 +180,42 @@ export async function saveCoverUrl(
   return { success: true };
 }
 
+export async function removeAvatarUrl(): Promise<{ success: boolean; error?: string }> {
+  const supabase = await createClient();
+  const { data: { user }, error: authError } = await supabase.auth.getUser();
+  if (authError || !user) return { success: false, error: 'Oturum açmanız gerekiyor' };
+
+  await supabase.storage.from('avatars').remove([`${user.id}/avatar.jpg`]);
+
+  const { error } = await supabase
+    .from('users')
+    .update({ avatar_url: null })
+    .eq('id', user.id);
+
+  if (error) return { success: false, error: `Profil fotoğrafı kaldırılamadı: ${error.message}` };
+
+  revalidatePath('/dashboard/profile');
+  return { success: true };
+}
+
+export async function removeCoverUrl(): Promise<{ success: boolean; error?: string }> {
+  const supabase = await createClient();
+  const { data: { user }, error: authError } = await supabase.auth.getUser();
+  if (authError || !user) return { success: false, error: 'Oturum açmanız gerekiyor' };
+
+  await supabase.storage.from('covers').remove([`${user.id}/cover.jpg`]);
+
+  const { error } = await supabase
+    .from('users')
+    .update({ cover_url: null })
+    .eq('id', user.id);
+
+  if (error) return { success: false, error: `Kapak fotoğrafı kaldırılamadı: ${error.message}` };
+
+  revalidatePath('/dashboard/profile');
+  return { success: true };
+}
+
 export async function removeCv(): Promise<{ success: boolean; error?: string }> {
   const supabase = await createClient();
   const { data: { user }, error: authError } = await supabase.auth.getUser();

@@ -71,16 +71,20 @@ export function ProfileHero({ user, isOwner = false }: ProfileHeroProps) {
           </div>
         </div>
         {/* Name + Badges row */}
-        <div className="flex items-center justify-between pt-3 mb-2">
-          <div className="font-nunito font-black text-[1.4rem] text-slate-900">
-            {user.name}
-          </div>
-          <div className="flex items-center gap-2">
-            {user.badge && (
+        <div className='absolute right-5 my-3 mx-2'>
+            
+             {user.badge && (
               <span className="flex items-center gap-1.5 bg-amber-50 text-amber-800 text-[0.75rem] font-bold px-2.5 py-1 rounded-[8px]">
                 🏅 {user.badge}
               </span>
             )}
+        </div>
+        <div className="flex items-center justify-between pt-20 mb-2">
+          <div className="font-nunito font-black text-[1.4rem] text-slate-900">
+            {user.name}
+          </div>
+          <div className="flex items-center gap-2">
+         
             {user.linkedin_url && (
               <a
                 href={user.linkedin_url}
