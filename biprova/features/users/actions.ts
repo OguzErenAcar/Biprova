@@ -142,6 +142,24 @@ export async function updateProfile(
   return { success: true };
 }
 
+export async function removeCv(): Promise<{ success: boolean; error?: string }> {
+  const supabase = await createClient();
+  const { data: { user }, error: authError } = await supabase.auth.getUser();
+  if (authError || !user) return { success: false, error: 'Oturum açmanız gerekiyor' };
+
+  await supabase.storage.from('cvs').remove([`${user.id}/cv.pdf`]);
+
+  const { error } = await supabase
+    .from('users')
+    .update({ cv_url: null })
+    .eq('id', user.id);
+
+  if (error) return { success: false, error: `CV kaldırılamadı: ${error.message}` };
+
+  revalidatePath('/dashboard/profile');
+  return { success: true };
+}
+
 export async function saveCvUrl(
   cvUrl: string,
 ): Promise<{ success: boolean; error?: string }> {
