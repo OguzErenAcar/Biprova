@@ -205,6 +205,17 @@ export function ImageUploadButton({ type, userId, currentUrl, children }: ImageU
                     e.target.value = '';
                   }}
                 />
+
+                {currentUrl && (
+                  <button
+                    type="button"
+                    onClick={handleRemove}
+                    disabled={uploading}
+                    className="mt-3 w-full border border-red-200 hover:bg-red-50 disabled:opacity-60 text-red-600 font-bold text-[0.88rem] py-2.5 rounded-[10px] transition-colors"
+                  >
+                    {uploading ? 'Kaldırılıyor...' : `🗑️ ${label} Kaldır`}
+                  </button>
+                )}
               </>
             ) : (
               <>
