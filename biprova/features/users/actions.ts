@@ -86,13 +86,19 @@ export async function getCurrentUserProfile(): Promise<UserProfile> {
 
   const { data, error } = await supabase
     .from('users')
-    .select('id, name, email, bio, city, is_remote, avatar_url, cover_url, linkedin_url, badge, cv_url, cv_public, projects_public, applications_public, created_at')
+    .select('id, name, email, bio, city, is_remote, avatar_url, cover_url, linkedin_url, badge, cv_url, cv_public, created_at')
     .eq('id', user.id)
     .single();
 
   if (error || !data) {
     throw new Error(`Profil yüklenemedi: ${error?.message ?? 'kullanıcı bulunamadı'}`);
   }
+
+  const { data: visibilityData } = await supabase
+    .from('users')
+    .select('projects_public, applications_public')
+    .eq('id', user.id)
+    .single();
 
   const { data: skillsData } = await supabase
     .from('user_skills')
@@ -104,7 +110,12 @@ export async function getCurrentUserProfile(): Promise<UserProfile> {
     .filter((s): s is { skills: { id: string; name: string } } => s.skills !== null)
     .map((s) => s.skills);
 
-  return { ...data, skills };
+  return {
+    ...data,
+    projects_public: visibilityData?.projects_public ?? true,
+    applications_public: visibilityData?.applications_public ?? true,
+    skills,
+  };
 }
 
 const updateProfileSchema = z.object({
