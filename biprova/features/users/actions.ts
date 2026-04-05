@@ -92,13 +92,6 @@ export async function getCurrentUserProfile(): Promise<UserProfile> {
     throw new Error(`Profil yüklenemedi: ${error?.message ?? 'kullanıcı bulunamadı'}`);
   }
 
-  const { data: visibilityData } = await supabase
-    .from('users')
-    .select('projects_public, applications_public')
-    .eq('id', user.id)
-    .single()
-    .then((res) => (res.error ? { data: null } : res));
-
   const { data: skillsData } = await supabase
     .from('user_skills')
     .select('skills(id, name)')
@@ -109,12 +102,7 @@ export async function getCurrentUserProfile(): Promise<UserProfile> {
     .filter((s): s is { skills: { id: string; name: string } } => s.skills !== null)
     .map((s) => s.skills);
 
-  return {
-    ...data,
-    projects_public: visibilityData?.projects_public ?? true,
-    applications_public: visibilityData?.applications_public ?? true,
-    skills,
-  };
+  return { ...data, skills };
 }
 
 const updateProfileSchema = z.object({
