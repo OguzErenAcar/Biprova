@@ -22,6 +22,14 @@ alter table team_posts add column if not exists cover_url text;
 -- alter table team_posts drop column media_urls;
 
 -- ============================================================
+-- TEAM POST IMAGES MIGRATION
+-- Çalıştır: Supabase Dashboard → SQL Editor
+-- ============================================================
+
+-- team_posts: birden fazla resim desteği (sıralı array)
+alter table team_posts add column if not exists image_urls text[] not null default '{}';
+
+-- ============================================================
 -- PROFILE VISIBILITY MIGRATION
 -- Çalıştır: Supabase Dashboard → SQL Editor
 -- ============================================================
