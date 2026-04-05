@@ -64,7 +64,7 @@ export function ProfileHero({ user, isOwner = false }: ProfileHeroProps) {
               </div>
             )}
             {isOwner && (
-              <ImageUploadButton type="avatar" userId={user.id}>
+              <ImageUploadButton type="avatar" userId={user.id} currentUrl={user.avatar_url}>
                 <></>
               </ImageUploadButton>
             )}
