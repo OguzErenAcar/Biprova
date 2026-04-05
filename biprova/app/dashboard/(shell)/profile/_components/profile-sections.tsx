@@ -1,9 +1,12 @@
 import { UserProjectEntry, ProjectStatus, UserApplicationEntry, ApplicationStatus } from '@/features/users/actions';
+import { VisibilityToggle } from './visibility-toggle';
 
 interface ProfileSectionsProps {
-  skills: { id: string; name: string }[];
   projects: UserProjectEntry[];
   applications: UserApplicationEntry[];
+  projectsPublic: boolean;
+  applicationsPublic: boolean;
+  isOwner?: boolean;
 }
 
 
@@ -47,45 +50,27 @@ function formatRelativeDate(dateStr: string): string {
   return `${weeks} hafta önce başvuruldu`;
 }
 
-function SectionCard({ id, title, action, children }: { id?: string; title: string; action?: string; children: React.ReactNode }) {
+function SectionCard({ id, title, action, children }: { id?: string; title: string; action?: React.ReactNode; children: React.ReactNode }) {
   return (
     <div id={id} className="bg-white border border-slate-200 rounded-[16px] p-[1.4rem] mb-5">
       <div className="flex items-center justify-between mb-4">
         <div className="font-nunito font-black text-[1rem] text-slate-900">{title}</div>
-        {action && (
-          <span className="text-[0.8rem] text-blue-600 font-semibold cursor-pointer hover:underline">
-            {action}
-          </span>
-        )}
+        {action}
       </div>
       {children}
     </div>
   );
 }
 
-export function ProfileSections({ skills, projects, applications }: ProfileSectionsProps) {
+export function ProfileSections({ projects, applications, projectsPublic, applicationsPublic, isOwner = false }: ProfileSectionsProps) {
   return (
     <>
-      {/* Skills */}
-      <SectionCard id="profile-skills" title="🛠 Yetenekler" action="+ Ekle">
-        {skills.length === 0 ? (
-          <p className="text-[0.85rem] text-slate-400">Henüz yetenek eklenmemiş.</p>
-        ) : (
-          <div className="flex flex-wrap gap-2">
-            {skills.map((skill) => (
-              <span
-                key={skill.id}
-                className="bg-blue-50 text-blue-600 text-[0.8rem] font-bold px-3 py-1.5 rounded-[8px] font-nunito"
-              >
-                {skill.name}
-              </span>
-            ))}
-          </div>
-        )}
-      </SectionCard>
-
       {/* Projects */}
-      <SectionCard id="profile-projects" title="🗂 Projelerim" action="Tümünü gör">
+      <SectionCard
+        id="profile-projects"
+        title="🗂 Projelerim"
+        action={isOwner ? <VisibilityToggle isPublic={projectsPublic} section="projects" /> : undefined}
+      >
         {projects.length === 0 ? (
           <p className="text-[0.85rem] text-slate-400">Henüz proje yok.</p>
         ) : (
@@ -123,7 +108,11 @@ export function ProfileSections({ skills, projects, applications }: ProfileSecti
       </SectionCard>
 
       {/* Applications */}
-      <SectionCard id="profile-applications" title="📨 Başvurularım" action="Tümünü gör">
+      <SectionCard
+        id="profile-applications"
+        title="📨 Başvurularım"
+        action={isOwner ? <VisibilityToggle isPublic={applicationsPublic} section="applications" /> : undefined}
+      >
         {applications.length === 0 ? (
           <p className="text-[0.85rem] text-slate-400">Henüz başvuru yok.</p>
         ) : (
