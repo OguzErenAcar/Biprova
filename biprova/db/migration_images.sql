@@ -9,6 +9,9 @@ alter table users add column if not exists cover_url text;
 -- users: cv (PDF)
 alter table users add column if not exists cv_url text;
 
+-- users: cv görünürlük ayarı
+alter table users add column if not exists cv_public boolean not null default false;
+
 -- news: ikinci resim alanı
 alter table news add column if not exists cover_url text;
 
