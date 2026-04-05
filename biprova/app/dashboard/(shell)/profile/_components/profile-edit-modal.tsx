@@ -83,10 +83,26 @@ export function ProfileEditModal({ user }: ProfileEditModalProps) {
       if (!result.success) throw new Error(result.error);
 
       setCvSuccess(true);
+      setHasCv(true);
     } catch (err: unknown) {
       setCvError(err instanceof Error ? err.message : 'CV yüklenemedi');
     } finally {
       setCvUploading(false);
+    }
+  }
+
+  async function handleRemoveCv() {
+    setCvError(null);
+    setCvRemoving(true);
+    try {
+      const result = await removeCv();
+      if (!result.success) throw new Error(result.error);
+      setHasCv(false);
+      setCvSuccess(false);
+    } catch (err: unknown) {
+      setCvError(err instanceof Error ? err.message : 'CV kaldırılamadı');
+    } finally {
+      setCvRemoving(false);
     }
   }
 
