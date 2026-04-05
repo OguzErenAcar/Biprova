@@ -522,7 +522,7 @@ export async function getProjectDetail(id: string): Promise<ProjectDetail | null
         .limit(50),
       supabase
         .from('team_posts')
-        .select('id, author_id, content, image_urls, like_count, created_at, users!author_id(name, avatar_url)')
+        .select('id, author_id, content, image_urls, like_count, created_at, users!author_id(name, avatar_url), team_post_likes(user_id)')
         .eq('team_id', project.team_id)
         .order('created_at', { ascending: false })
         .limit(20),
