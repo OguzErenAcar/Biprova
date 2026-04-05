@@ -38,6 +38,7 @@ interface Props {
   posts: ProjectPost[];
   viewerId: string;
   viewerName: string;
+  isLeader: boolean;
 }
 
 export function PanelGonderiler({ teamId, teamName, posts, viewerId, viewerName }: Props) {
