@@ -144,7 +144,8 @@ create policy "messages_insert" on messages for insert with check (
 );
 
 -- team_posts
-create policy "team_posts_read"   on team_posts for select using (is_team_member(team_id));
+-- Gönderiler herkese açık; sadece yazma/silme üyelikle kısıtlı
+create policy "team_posts_read"   on team_posts for select using (true);
 create policy "team_posts_insert" on team_posts for insert with check (
     author_id = auth.uid() and is_team_member(team_id)
 );
