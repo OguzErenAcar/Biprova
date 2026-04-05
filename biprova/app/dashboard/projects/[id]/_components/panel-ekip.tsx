@@ -1,12 +1,9 @@
 "use client";
 
-import { useState, useTransition, useEffect } from 'react';
+import { useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
-import type { ProjectDetail, SkillOption } from '@/features/projects/actions';
-import { deleteProject, getSkills, leaveProject, transferProjectLeader } from '@/features/projects/actions';
-import { reviewApplication } from '@/features/applications/actions';
-import { kickMember, grantBiprova, revokeBiprova } from '@/features/teams/actions';
-import { inviteToProject, removeFromProject } from '@/features/projects/actions';
+import type { ProjectDetail } from '@/features/projects/actions';
+import { leaveProject, transferProjectLeader } from '@/features/projects/actions';
 
 function getInitials(name: string) {
   return name
@@ -22,409 +19,152 @@ interface Props {
 }
 
 export function PanelEkip({ project }: Props) {
-  const { viewer, applications } = project;
-
-  const pending = applications.filter((a) => a.status === 'pending');
-  const reviewed = applications.filter((a) => a.status !== 'pending');
-
   return (
     <div id="panel-ekip" className="flex flex-col gap-[1.2rem]">
-      {viewer.is_project_leader && (
-        <>
-          <ApplicationsSection
-            projectId={project.id}
-            pending={pending}
-            reviewed={reviewed}
-          />
-          <ProjectManagementSection projectId={project.id} />
-        </>
-      )}
-
-      {(viewer.is_project_leader || viewer.is_team_leader) && (
-        <MemberManagementSection
-          projectId={project.id}
-          teamId={project.team_id}
-          members={project.members}
-          viewerId={viewer.id}
-        />
-      )}
-
+      <MembersSection members={project.members} />
+      <AktivitelerSection />
       <LeaveProjectSection
         projectId={project.id}
-        isProjectLeader={viewer.is_project_leader}
+        isProjectLeader={project.viewer.is_project_leader}
         members={project.members}
-        viewerId={viewer.id}
+        viewerId={project.viewer.id}
       />
     </div>
   );
 }
 
-/* ─── Başvurular ─────────────────────────────────────────────── */
+/* ─── Üyeler (read-only) ─────────────────────────────────────── */
 
-interface ApplicationsSectionProps {
-  projectId: string;
-  pending: ProjectDetail['applications'];
-  reviewed: ProjectDetail['applications'];
-}
-
-function ApplicationsSection({ projectId: _projectId, pending, reviewed }: ApplicationsSectionProps) {
-  return (
-    <div className="bg-white border-[1.5px] border-slate-200 rounded-2xl overflow-hidden">
-      <div className="flex items-center justify-between px-[1.4rem] py-[1rem] border-b border-slate-200">
-        <span className="font-nunito text-[0.9rem] font-black">📬 Başvurular</span>
-        {pending.length > 0 && (
-          <span className="text-[0.68rem] font-extrabold bg-blue-600 text-white rounded-full px-2 py-0.5">
-            {pending.length} bekliyor
-          </span>
-        )}
-      </div>
-
-      <div className="divide-y divide-slate-100">
-        {pending.length === 0 && reviewed.length === 0 && (
-          <div className="px-[1.4rem] py-[1.2rem] text-[0.82rem] text-slate-400">
-            Henüz başvuru yok.
-          </div>
-        )}
-
-        {pending.map((app) => (
-          <ApplicationRow key={app.id} app={app} isPending />
-        ))}
-
-        {reviewed.length > 0 && (
-          <>
-            {pending.length > 0 && (
-              <div className="px-[1.4rem] py-[0.5rem] bg-slate-50">
-                <span className="text-[0.68rem] font-bold text-slate-400 uppercase tracking-wider">
-                  Değerlendirilenler
-                </span>
-              </div>
-            )}
-            {reviewed.map((app) => (
-              <ApplicationRow key={app.id} app={app} isPending={false} />
-            ))}
-          </>
-        )}
-      </div>
-    </div>
-  );
-}
-
-function ApplicationRow({
-  app,
-  isPending,
-}: {
-  app: ProjectDetail['applications'][number];
-  isPending: boolean;
-}) {
-  const [isPendingTransition, startTransition] = useTransition();
-  const [localStatus, setLocalStatus] = useState(app.status);
-  const [error, setError] = useState('');
-
-  function handle(decision: 'accepted' | 'rejected') {
-    startTransition(async () => {
-      const result = await reviewApplication(app.id, decision);
-      if (result.error) {
-        setError(result.error);
-      } else {
-        setLocalStatus(decision);
-      }
-    });
-  }
-
-  const statusBadge = {
-    pending: null,
-    accepted: (
-      <span className="text-[0.72rem] font-bold text-green-600 bg-green-50 border border-green-200 rounded-full px-2 py-0.5">
-        ✓ Kabul edildi
-      </span>
-    ),
-    rejected: (
-      <span className="text-[0.72rem] font-bold text-red-500 bg-red-50 border border-red-200 rounded-full px-2 py-0.5">
-        ✕ Reddedildi
-      </span>
-    ),
-  }[localStatus];
-
-  return (
-    <div className="flex items-start gap-3 px-[1.4rem] py-[1rem]">
-      <div className="w-9 h-9 rounded-full bg-gradient-to-br from-blue-500 to-indigo-400 flex items-center justify-center font-nunito font-black text-[0.75rem] text-white shrink-0">
-        {getInitials(app.user_name)}
-      </div>
-
-      <div className="flex-1 min-w-0">
-        <div className="flex items-center gap-2 flex-wrap mb-0.5">
-          <span className="text-[0.86rem] font-bold text-slate-900">{app.user_name}</span>
-          <span className="text-[0.72rem] text-slate-400">→</span>
-          <span className="text-[0.75rem] font-semibold text-blue-600 bg-blue-50 rounded-full px-2 py-0.5">
-            {app.role_name}
-          </span>
-          {statusBadge}
-        </div>
-        {app.note && (
-          <p className="text-[0.78rem] text-slate-500 leading-relaxed">{app.note}</p>
-        )}
-        {error && (
-          <p className="text-[0.72rem] text-red-500 mt-1">{error}</p>
-        )}
-      </div>
-
-      {isPending && localStatus === 'pending' && (
-        <div className="flex gap-2 shrink-0">
-          <button
-            disabled={isPendingTransition}
-            onClick={() => handle('accepted')}
-            className="text-[0.75rem] font-bold px-3 py-1.5 rounded-lg bg-green-600 text-white hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
-          >
-            {isPendingTransition ? '…' : 'Kabul'}
-          </button>
-          <button
-            disabled={isPendingTransition}
-            onClick={() => handle('rejected')}
-            className="text-[0.75rem] font-bold px-3 py-1.5 rounded-lg bg-white border-[1.5px] border-slate-200 text-slate-500 hover:border-red-400 hover:text-red-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
-          >
-            Red
-          </button>
-        </div>
-      )}
-    </div>
-  );
-}
-
-/* ─── Üye Yönetimi ───────────────────────────────────────────── */
-
-interface MemberManagementSectionProps {
-  projectId: string;
-  teamId: string | null;
-  members: ProjectDetail['members'];
-  viewerId: string;
-}
-
-function MemberManagementSection({ projectId, teamId, members, viewerId }: MemberManagementSectionProps) {
+function MembersSection({ members }: { members: ProjectDetail['members'] }) {
   return (
     <div className="bg-white border-[1.5px] border-slate-200 rounded-2xl overflow-hidden">
       <div className="px-[1.4rem] py-[1rem] border-b border-slate-200">
-        <span className="font-nunito text-[0.9rem] font-black">👥 Üye Yönetimi</span>
+        <span className="font-nunito text-[0.9rem] font-black">👥 Ekip Üyeleri</span>
+        <span className="ml-2 text-[0.72rem] font-bold text-slate-400 bg-slate-100 rounded-full px-2 py-0.5">
+          {members.length}
+        </span>
       </div>
 
       <div className="divide-y divide-slate-100">
-        <InviteRow projectId={projectId} />
-
-        {members.length > 0 && (
-          <>
-            <div className="px-[1.4rem] py-[0.5rem] bg-slate-50">
-              <span className="text-[0.68rem] font-bold text-slate-400 uppercase tracking-wider">
-                Mevcut Üyeler
-              </span>
-            </div>
-            {members.map((member) => (
-              <MemberRow
-                key={member.user_id}
-                projectId={projectId}
-                teamId={teamId}
-                member={member}
-                isSelf={member.user_id === viewerId}
-              />
-            ))}
-          </>
-        )}
-      </div>
-    </div>
-  );
-}
-
-function InviteRow({ projectId }: { projectId: string }) {
-  const [email, setEmail] = useState('');
-  const [skillName, setSkillName] = useState('');
-  const [skills, setSkills] = useState<SkillOption[]>([]);
-  const [isPending, startTransition] = useTransition();
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
-
-  useEffect(() => {
-    getSkills().then(setSkills);
-  }, []);
-
-  function handleInvite() {
-    const trimmed = email.trim();
-    if (!trimmed || !skillName) return;
-    setError('');
-    setSuccess('');
-    startTransition(async () => {
-      const result = await inviteToProject(projectId, trimmed, skillName);
-      if (result.error) {
-        setError(result.error);
-      } else {
-        setSuccess('Kullanıcı projeye eklendi.');
-        setEmail('');
-        setSkillName('');
-      }
-    });
-  }
-
-  return (
-    <div className="px-[1.4rem] py-[1rem]">
-      <p className="text-[0.8rem] font-semibold text-slate-700 mb-2">Kişi Davet Et</p>
-      <div className="flex flex-col gap-2">
-        <select
-          value={skillName}
-          onChange={(e) => setSkillName(e.target.value)}
-          className="text-[0.82rem] px-3 py-2 rounded-lg border-[1.5px] border-slate-200 outline-none focus:border-blue-500 transition-colors text-slate-700 bg-white cursor-pointer"
-        >
-          <option value="">— Meslek / Alan seç —</option>
-          {skills.map((s) => (
-            <option key={s.id} value={s.name}>{s.name}</option>
-          ))}
-        </select>
-        <div className="flex gap-2">
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && handleInvite()}
-            placeholder="e-posta adresi"
-            className="flex-1 text-[0.82rem] px-3 py-2 rounded-lg border-[1.5px] border-slate-200 outline-none focus:border-blue-500 transition-colors placeholder:text-slate-400"
-          />
-          <button
-            disabled={isPending || !email.trim() || !skillName}
-            onClick={handleInvite}
-            className="text-[0.78rem] font-bold px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer shrink-0"
-          >
-            {isPending ? '…' : 'Davet Et'}
-          </button>
-        </div>
-      </div>
-      {error && <p className="text-[0.72rem] text-red-500 mt-1.5">{error}</p>}
-      {success && <p className="text-[0.72rem] text-green-600 mt-1.5">{success}</p>}
-    </div>
-  );
-}
-
-function MemberRow({
-  projectId,
-  teamId,
-  member,
-  isSelf,
-}: {
-  projectId: string;
-  teamId: string | null;
-  member: ProjectDetail['members'][number];
-  isSelf: boolean;
-}) {
-  const [isPending, startTransition] = useTransition();
-  const [localHasBiprova, setLocalHasBiprova] = useState(member.has_biprova);
-  const [removed, setRemoved] = useState(false);
-  const [confirmRemove, setConfirmRemove] = useState(false);
-  const [error, setError] = useState('');
-
-  function handleRemove() {
-    startTransition(async () => {
-      // Ekip kurulduysa ekipten çıkar, kurulmadıysa project_members'dan çıkar
-      const result = teamId
-        ? await kickMember(teamId, member.user_id)
-        : await removeFromProject(projectId, member.user_id);
-      if (result.error) {
-        setError(result.error);
-        setConfirmRemove(false);
-      } else {
-        setRemoved(true);
-      }
-    });
-  }
-
-  function handleToggleBiprova() {
-    if (!teamId) return;
-    startTransition(async () => {
-      const result = localHasBiprova
-        ? await revokeBiprova(teamId, member.user_id)
-        : await grantBiprova(teamId, member.user_id);
-      if (result.error) {
-        setError(result.error);
-      } else {
-        setLocalHasBiprova((prev) => !prev);
-      }
-    });
-  }
-
-  if (removed) return null;
-
-  const canManage = !isSelf && !member.is_project_leader;
-
-  return (
-    <div className="px-[1.4rem] py-[0.9rem]">
-      <div className="flex items-center gap-3">
-        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-slate-400 to-slate-600 flex items-center justify-center font-nunito font-black text-[0.72rem] text-white shrink-0">
-          {getInitials(member.name)}
-        </div>
-
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-1.5 flex-wrap">
-            <span className="text-[0.84rem] font-bold text-slate-900">{member.name}</span>
-            {member.is_project_leader && (
-              <span className="text-[0.65rem] font-bold text-blue-600 bg-blue-50 border border-blue-200 rounded-full px-1.5 py-0.5">
-                Lider
-              </span>
-            )}
-            {localHasBiprova && (
-              <span className="text-[0.65rem] font-bold text-purple-600 bg-purple-50 border border-purple-200 rounded-full px-1.5 py-0.5">
-                Yetkili
-              </span>
-            )}
+        {members.length === 0 ? (
+          <div className="px-[1.4rem] py-[1.2rem] text-[0.82rem] text-slate-400">
+            Henüz üye yok.
           </div>
-          {member.role_name && (
-            <span className="text-[0.74rem] text-slate-400">{member.role_name}</span>
-          )}
-        </div>
-
-        {canManage && (
-          <div className="flex items-center gap-1.5 shrink-0">
-            {/* Yetki toggle — sadece ekip kurulduysa */}
-            {teamId && (
-              <button
-                disabled={isPending}
-                onClick={handleToggleBiprova}
-                title={localHasBiprova ? 'Yetkiyi Kaldır' : 'Yetki Ver'}
-                className={`text-[0.72rem] font-bold px-2.5 py-1.5 rounded-lg border-[1.5px] transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer ${
-                  localHasBiprova
-                    ? 'border-purple-300 text-purple-600 bg-purple-50 hover:bg-purple-100'
-                    : 'border-slate-200 text-slate-500 hover:border-purple-300 hover:text-purple-600'
-                }`}
-              >
-                {localHasBiprova ? '★ Yetkili' : '☆ Yetki Ver'}
-              </button>
-            )}
-
-            {/* Çıkar */}
-            {!confirmRemove ? (
-              <button
-                disabled={isPending}
-                onClick={() => setConfirmRemove(true)}
-                className="text-[0.72rem] font-bold px-2.5 py-1.5 rounded-lg border-[1.5px] border-slate-200 text-slate-400 hover:border-red-300 hover:text-red-500 transition-colors disabled:opacity-40 cursor-pointer"
-              >
-                Çıkar
-              </button>
-            ) : (
-              <div className="flex gap-1">
-                <button
-                  disabled={isPending}
-                  onClick={handleRemove}
-                  className="text-[0.72rem] font-bold px-2.5 py-1.5 rounded-lg bg-red-600 text-white hover:bg-red-700 transition-colors disabled:opacity-50 cursor-pointer"
-                >
-                  {isPending ? '…' : 'Evet'}
-                </button>
-                <button
-                  disabled={isPending}
-                  onClick={() => setConfirmRemove(false)}
-                  className="text-[0.72rem] font-bold px-2.5 py-1.5 rounded-lg border-[1.5px] border-slate-200 text-slate-500 hover:border-slate-400 transition-colors cursor-pointer"
-                >
-                  İptal
-                </button>
+        ) : (
+          members.map((member) => (
+            <div key={member.user_id} className="flex items-center gap-3 px-[1.4rem] py-[0.9rem]">
+              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-400 to-indigo-500 flex items-center justify-center font-nunito font-black text-[0.72rem] text-white shrink-0">
+                {getInitials(member.name)}
               </div>
-            )}
-          </div>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-1.5 flex-wrap">
+                  <span className="text-[0.84rem] font-bold text-slate-900">{member.name}</span>
+                  {member.is_project_leader && (
+                    <span className="text-[0.65rem] font-bold text-blue-600 bg-blue-50 border border-blue-200 rounded-full px-1.5 py-0.5">
+                      Lider
+                    </span>
+                  )}
+                  {member.has_biprova && (
+                    <span className="text-[0.65rem] font-bold text-purple-600 bg-purple-50 border border-purple-200 rounded-full px-1.5 py-0.5">
+                      Yetkili
+                    </span>
+                  )}
+                </div>
+                {member.role_name && (
+                  <span className="text-[0.74rem] text-slate-400">{member.role_name}</span>
+                )}
+              </div>
+            </div>
+          ))
         )}
       </div>
+    </div>
+  );
+}
 
-      {error && <p className="text-[0.72rem] text-red-500 mt-1.5 ml-11">{error}</p>}
+/* ─── Aktiviteler ────────────────────────────────────────────── */
+
+const MOCK_ACTIVITIES = [
+  {
+    id: '1',
+    type: 'join',
+    user: 'Ahmet Yılmaz',
+    text: 'projeye katıldı',
+    role: 'Frontend Developer',
+    time: '2 saat önce',
+  },
+  {
+    id: '2',
+    type: 'apply',
+    user: 'Selin Kaya',
+    text: 'Backend Developer rolüne başvurdu',
+    role: null,
+    time: '5 saat önce',
+  },
+  {
+    id: '3',
+    type: 'team',
+    user: null,
+    text: 'Ekip kuruldu 🎉',
+    role: null,
+    time: '1 gün önce',
+  },
+  {
+    id: '4',
+    type: 'join',
+    user: 'Mert Demir',
+    text: 'projeye katıldı',
+    role: 'UI/UX Tasarımcı',
+    time: '2 gün önce',
+  },
+  {
+    id: '5',
+    type: 'create',
+    user: null,
+    text: 'Proje oluşturuldu',
+    role: null,
+    time: '3 gün önce',
+  },
+];
+
+const ACTIVITY_ICONS: Record<string, string> = {
+  join: '👤',
+  apply: '📬',
+  team: '🚀',
+  create: '✨',
+};
+
+function AktivitelerSection() {
+  return (
+    <div className="bg-white border-[1.5px] border-slate-200 rounded-2xl overflow-hidden">
+      <div className="px-[1.4rem] py-[1rem] border-b border-slate-200 flex items-center justify-between">
+        <span className="font-nunito text-[0.9rem] font-black">⚡ Aktiviteler</span>
+        <span className="text-[0.7rem] text-slate-400 font-semibold">Son 7 gün</span>
+      </div>
+
+      <div className="divide-y divide-slate-100">
+        {MOCK_ACTIVITIES.map((activity) => (
+          <div key={activity.id} className="flex items-start gap-3 px-[1.4rem] py-[0.9rem]">
+            <div className="w-7 h-7 rounded-full bg-slate-100 flex items-center justify-center text-[0.8rem] shrink-0 mt-0.5">
+              {ACTIVITY_ICONS[activity.type] ?? '•'}
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-[0.82rem] text-slate-700 leading-snug">
+                {activity.user && (
+                  <span className="font-bold text-slate-900">{activity.user} </span>
+                )}
+                {activity.text}
+                {activity.role && (
+                  <span className="ml-1 text-[0.72rem] font-semibold text-blue-600 bg-blue-50 rounded-full px-1.5 py-0.5">
+                    {activity.role}
+                  </span>
+                )}
+              </p>
+              <span className="text-[0.72rem] text-slate-400">{activity.time}</span>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
@@ -444,7 +184,6 @@ function LeaveProjectSection({ projectId, isProjectLeader, members, viewerId }: 
   const [confirm, setConfirm] = useState(false);
   const [error, setError] = useState('');
 
-  // Lider transfer dialog state
   const [showTransferDialog, setShowTransferDialog] = useState(false);
   const [selectedId, setSelectedId] = useState('');
   const [transferError, setTransferError] = useState('');
@@ -530,7 +269,6 @@ function LeaveProjectSection({ projectId, isProjectLeader, members, viewerId }: 
         </div>
       </div>
 
-      {/* Transfer Lider Dialog */}
       {showTransferDialog && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
           <div className="bg-white rounded-2xl shadow-xl w-full max-w-sm mx-4 overflow-hidden">
@@ -581,87 +319,5 @@ function LeaveProjectSection({ projectId, isProjectLeader, members, viewerId }: 
         </div>
       )}
     </>
-  );
-}
-
-/* ─── Proje Yönetimi ─────────────────────────────────────────── */
-
-function ProjectManagementSection({ projectId }: { projectId: string }) {
-  const router = useRouter();
-  const [isPending, startTransition] = useTransition();
-  const [confirmDelete, setConfirmDelete] = useState(false);
-  const [error, setError] = useState('');
-
-  function handleDelete() {
-    startTransition(async () => {
-      const result = await deleteProject(projectId);
-      if (result.error) {
-        setError(result.error);
-        setConfirmDelete(false);
-      } else {
-        router.push('/dashboard');
-      }
-    });
-  }
-
-  return (
-    <div className="bg-white border-[1.5px] border-slate-200 rounded-2xl overflow-hidden">
-      <div className="px-[1.4rem] py-[1rem] border-b border-slate-200">
-        <span className="font-nunito text-[0.9rem] font-black">⚙️ Proje Yönetimi</span>
-      </div>
-
-      <div className="px-[1.4rem] py-[1.2rem] flex flex-col gap-3">
-        <button
-          disabled
-          className="flex items-center gap-3 px-4 py-3 rounded-xl border-[1.5px] border-slate-200 text-left opacity-40 cursor-not-allowed"
-        >
-          <span className="text-base">✏️</span>
-          <div>
-            <div className="text-[0.84rem] font-bold text-slate-900">Projeyi Düzenle</div>
-            <div className="text-[0.72rem] text-slate-400">Yakında geliyor</div>
-          </div>
-        </button>
-
-        <div>
-            {!confirmDelete ? (
-              <button
-                onClick={() => setConfirmDelete(true)}
-                className="flex items-center gap-3 px-4 py-3 rounded-xl border-[1.5px] border-red-200 text-left w-full hover:bg-red-50 transition-colors cursor-pointer group"
-              >
-                <span className="text-base">🗑️</span>
-                <div>
-                  <div className="text-[0.84rem] font-bold text-red-600">Projeyi Sil</div>
-                  <div className="text-[0.72rem] text-slate-400">Bu işlem geri alınamaz</div>
-                </div>
-              </button>
-            ) : (
-              <div className="px-4 py-3 rounded-xl border-[1.5px] border-red-300 bg-red-50">
-                <p className="text-[0.82rem] font-semibold text-red-700 mb-3">
-                  Projeyi silmek istediğine emin misin? Tüm başvurular da silinecek.
-                </p>
-                {error && (
-                  <p className="text-[0.75rem] text-red-500 mb-2">{error}</p>
-                )}
-                <div className="flex gap-2">
-                  <button
-                    disabled={isPending}
-                    onClick={handleDelete}
-                    className="text-[0.78rem] font-bold px-3 py-1.5 rounded-lg bg-red-600 text-white hover:bg-red-700 transition-colors disabled:opacity-50 cursor-pointer"
-                  >
-                    {isPending ? 'Siliniyor…' : 'Evet, Sil'}
-                  </button>
-                  <button
-                    disabled={isPending}
-                    onClick={() => setConfirmDelete(false)}
-                    className="text-[0.78rem] font-bold px-3 py-1.5 rounded-lg border-[1.5px] border-slate-200 text-slate-500 hover:border-slate-400 transition-colors cursor-pointer"
-                  >
-                    İptal
-                  </button>
-                </div>
-              </div>
-            )}
-        </div>
-      </div>
-    </div>
   );
 }
