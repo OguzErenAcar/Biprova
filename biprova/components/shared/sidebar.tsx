@@ -11,11 +11,6 @@ interface SidebarUser {
   initials: string;
 }
 
-interface SidebarTeam {
-  id: string;
-  name: string;
-}
-
 interface SidebarProject {
   id: string;
   title: string;
