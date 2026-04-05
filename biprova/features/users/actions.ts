@@ -368,7 +368,7 @@ export async function getUserTeams(userId: string): Promise<UserTeamEntry[]> {
 
   const { data: ledRaw } = await supabase
     .from('teams')
-    .select('id, name, status, projects(title)')
+    .select('id, name, status, projects!fk_teams_project(title)')
     .eq('leader_id', userId)
     .limit(10);
 
@@ -382,7 +382,7 @@ export async function getUserTeams(userId: string): Promise<UserTeamEntry[]> {
 
   const { data: memberRaw } = await supabase
     .from('team_members')
-    .select('teams(id, name, status, leader_id, projects(title))')
+    .select('teams(id, name, status, leader_id, projects!fk_teams_project(title))')
     .eq('user_id', userId)
     .limit(10);
 
