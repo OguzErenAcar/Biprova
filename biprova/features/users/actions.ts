@@ -270,42 +270,6 @@ export async function saveCvPublic(
   return { success: true };
 }
 
-export async function saveProjectsPublic(
-  projectsPublic: boolean,
-): Promise<{ success: boolean; error?: string }> {
-  const supabase = await createClient();
-  const { data: { user }, error: authError } = await supabase.auth.getUser();
-  if (authError || !user) return { success: false, error: 'Oturum açmanız gerekiyor' };
-
-  const { error } = await supabase
-    .from('users')
-    .update({ projects_public: projectsPublic })
-    .eq('id', user.id);
-
-  if (error) return { success: false, error: `Ayar kaydedilemedi: ${error.message}` };
-
-  revalidatePath('/dashboard/profile');
-  return { success: true };
-}
-
-export async function saveApplicationsPublic(
-  applicationsPublic: boolean,
-): Promise<{ success: boolean; error?: string }> {
-  const supabase = await createClient();
-  const { data: { user }, error: authError } = await supabase.auth.getUser();
-  if (authError || !user) return { success: false, error: 'Oturum açmanız gerekiyor' };
-
-  const { error } = await supabase
-    .from('users')
-    .update({ applications_public: applicationsPublic })
-    .eq('id', user.id);
-
-  if (error) return { success: false, error: `Ayar kaydedilemedi: ${error.message}` };
-
-  revalidatePath('/dashboard/profile');
-  return { success: true };
-}
-
 export async function getUserProjects(userId: string): Promise<UserProjectEntry[]> {
   const supabase = await createClient();
 
