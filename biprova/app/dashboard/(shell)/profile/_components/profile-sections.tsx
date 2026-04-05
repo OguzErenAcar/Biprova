@@ -127,7 +127,7 @@ export function ProfileSections({ projects, applications, teams, projectsPublic,
       <SectionCard
         id="profile-teams"
         title="👥 Ekiplerim"
-        action={isOwner ? <VisibilityToggle storageKey="profile_teams_public" /> : undefined}
+        action={isOwner ? <VisibilityToggle section="teams" initialValue={teamsPublic} /> : undefined}
       >
         {teams.length === 0 ? (
           <p className="text-[0.85rem] text-slate-400">Henüz ekip yok.</p>
