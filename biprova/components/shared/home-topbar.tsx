@@ -3,9 +3,12 @@ import { NotificationBell } from "@/components/shared/notification-bell";
 
 export function HomeTopbar() {
   return (
-    <div id="dashboard-topbar" className="sticky top-0 z-40 bg-slate-100/90 backdrop-blur-md border-b border-slate-200 px-4 sm:px-6 lg:px-8 py-[0.9rem] flex items-center gap-4">
-      {/* Arama kutusu - ortalanmış */}
-      <div className="absolute left-1/2 -translate-x-1/2 w-full max-w-[400px] relative">
+    <div id="dashboard-topbar" className="sticky top-0 z-40 bg-slate-100/90 backdrop-blur-md border-b border-slate-200 px-4 sm:px-6 lg:px-8 py-[0.9rem] relative flex items-center justify-between">
+      {/* Sol boşluk dengesi */}
+      <div className="w-[80px]" />
+
+      {/* Arama kutusu - orta */}
+      <div className="w-full max-w-[400px] relative">
         <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-[0.9rem] pointer-events-none">
           🔍
         </span>
@@ -16,7 +19,8 @@ export function HomeTopbar() {
         />
       </div>
 
-      <div className="ml-auto flex items-center gap-[0.6rem]">
+      {/* Sağ ikonlar */}
+      <div className="flex items-center gap-[0.6rem]">
         {/* Ayarlar */}
         <Link
           href="/dashboard/settings"
