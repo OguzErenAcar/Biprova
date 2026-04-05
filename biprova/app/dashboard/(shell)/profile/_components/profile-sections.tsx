@@ -206,7 +206,8 @@ export function ProfileSections({ projects, applications, teams, projectsPublic,
             </div>
           ))
         )}
-      </SectionCard>
+        </SectionCard>
+      )}
     </>
   );
 }
