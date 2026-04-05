@@ -1,7 +1,12 @@
 import { UserProfile } from '@/features/users/actions';
 import { ProfileEditModal } from './profile-edit-modal';
 import { CvViewDialog } from './cv-view-dialog';
-import { ImageUploadButton } from './image-upload-button';
+import dynamic from 'next/dynamic';
+
+const ImageUploadButton = dynamic(
+  () => import('./image-upload-button').then((m) => m.ImageUploadButton),
+  { ssr: false },
+);
 
 interface ProfileHeroProps {
   user: UserProfile;
