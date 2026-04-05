@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useTransition, useRef, DragEvent } from 'react';
-import { UserProfile, updateProfile, saveCvUrl, removeCv } from '@/features/users/actions';
+import { UserProfile, updateProfile, saveCvUrl, saveCvPublic, removeCv } from '@/features/users/actions';
 import { getCities } from '@/features/auth/actions';
 import { createClient } from '@/lib/supabase/client';
 
