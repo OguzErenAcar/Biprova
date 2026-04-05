@@ -1,31 +1,31 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useTransition } from "react";
+import { saveProfileVisibility, VisibilitySection } from "@/features/users/actions";
 
 interface VisibilityToggleProps {
-  storageKey: string;
-  defaultValue?: boolean;
+  section: VisibilitySection;
+  initialValue: boolean;
 }
 
-export function VisibilityToggle({ storageKey, defaultValue = true }: VisibilityToggleProps) {
-  const [isPublic, setIsPublic] = useState(defaultValue);
-
-  useEffect(() => {
-    const stored = localStorage.getItem(storageKey);
-    if (stored !== null) setIsPublic(stored === "true");
-  }, [storageKey]);
+export function VisibilityToggle({ section, initialValue }: VisibilityToggleProps) {
+  const [isPublic, setIsPublic] = useState(initialValue);
+  const [isPending, startTransition] = useTransition();
 
   function handleToggle() {
     const next = !isPublic;
     setIsPublic(next);
-    localStorage.setItem(storageKey, String(next));
+    startTransition(async () => {
+      await saveProfileVisibility(section, next);
+    });
   }
 
   return (
     <button
       onClick={handleToggle}
+      disabled={isPending}
       title={isPublic ? "Herkese açık" : "Gizli"}
-      className={`flex items-center gap-1.5 text-[0.75rem] font-semibold px-2.5 py-1 rounded-[8px] border transition-colors ${
+      className={`flex items-center gap-1.5 text-[0.75rem] font-semibold px-2.5 py-1 rounded-[8px] border transition-colors disabled:opacity-50 ${
         isPublic
           ? "bg-green-50 text-green-700 border-green-200 hover:bg-green-100"
           : "bg-slate-100 text-slate-500 border-slate-200 hover:bg-slate-200"
