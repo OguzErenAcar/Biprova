@@ -444,7 +444,7 @@ export async function getTeamPostFeed(): Promise<TeamPostFeedItem[]> {
           projectTitle: p.teams!.projects!.title,
           city: p.teams!.projects!.city,
           isRemote: p.teams!.projects!.is_remote,
-          category: p.teams!.projects!.category,
+          category: p.teams!.projects!.project_categories?.name ?? null,
           members,
         },
       };
