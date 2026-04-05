@@ -1,12 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog';
 
 interface CvViewDialogProps {
   cvUrl: string;
@@ -24,22 +18,32 @@ export function CvViewDialog({ cvUrl }: CvViewDialogProps) {
         📄 CV&apos;mi Görüntüle
       </button>
 
-      <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="max-w-3xl h-[85vh] flex flex-col p-0">
-          <DialogHeader className="px-6 pt-5 pb-4 border-b border-slate-200 shrink-0">
-            <DialogTitle className="text-[1rem] font-bold text-slate-900">
-              CV
-            </DialogTitle>
-          </DialogHeader>
-          <div className="flex-1 overflow-hidden">
-            <iframe
-              src={`${cvUrl}#toolbar=1`}
-              className="w-full h-full border-0"
-              title="CV"
-            />
+      {open && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm"
+          onClick={(e) => { if (e.target === e.currentTarget) setOpen(false); }}
+        >
+          <div className="bg-white rounded-[20px] w-full max-w-3xl h-[85vh] shadow-xl flex flex-col overflow-hidden">
+            <div className="flex items-center justify-between px-6 py-4 border-b border-slate-200 shrink-0">
+              <span className="font-nunito font-black text-[1rem] text-slate-900">CV</span>
+              <button
+                onClick={() => setOpen(false)}
+                className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-100 text-slate-500 text-[1.1rem] transition-colors"
+                aria-label="Kapat"
+              >
+                ✕
+              </button>
+            </div>
+            <div className="flex-1 overflow-hidden">
+              <iframe
+                src={`${cvUrl}#toolbar=1`}
+                className="w-full h-full border-0"
+                title="CV"
+              />
+            </div>
           </div>
-        </DialogContent>
-      </Dialog>
+        </div>
+      )}
     </>
   );
 }
