@@ -559,6 +559,7 @@ export async function getProjectDetail(id: string): Promise<ProjectDetail | null
       content: p.content,
       image_urls: p.image_urls ?? [],
       like_count: p.like_count ?? 0,
+      is_liked: (p.team_post_likes ?? []).some((l) => l.user_id === user.id),
       created_at: p.created_at,
     }));
   } else {
