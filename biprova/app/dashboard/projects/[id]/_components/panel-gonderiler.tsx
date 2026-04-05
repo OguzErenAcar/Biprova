@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useTransition } from 'react';
+import { useRef, useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
+import { createClient } from '@/lib/supabase/client';
 import type { ProjectPost } from '@/features/projects/actions';
 import { createProjectPost } from '@/features/projects/actions';
 
@@ -26,6 +27,11 @@ function formatRelTime(dateStr: string) {
   return new Date(dateStr).toLocaleDateString('tr-TR');
 }
 
+interface ImagePreview {
+  file: File;
+  previewUrl: string;
+}
+
 interface Props {
   teamId: string;
   teamName: string | null;
@@ -36,15 +42,58 @@ interface Props {
 
 export function PanelGonderiler({ teamId, teamName, posts, viewerId, viewerName }: Props) {
   const router = useRouter();
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [text, setText] = useState('');
+  const [previews, setPreviews] = useState<ImagePreview[]>([]);
   const [isPending, startTransition] = useTransition();
 
+  function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const files = Array.from(e.target.files ?? []);
+    const next = files.map((file) => ({
+      file,
+      previewUrl: URL.createObjectURL(file),
+    }));
+    setPreviews((prev) => [...prev, ...next].slice(0, 5));
+    e.target.value = '';
+  }
+
+  function removeImage(index: number) {
+    setPreviews((prev) => {
+      URL.revokeObjectURL(prev[index].previewUrl);
+      return prev.filter((_, i) => i !== index);
+    });
+  }
+
+  async function uploadImages(): Promise<string[]> {
+    if (previews.length === 0) return [];
+    const supabase = createClient();
+    const uploaded: string[] = [];
+    const batchId = crypto.randomUUID();
+
+    for (const { file } of previews) {
+      const ext = file.name.split('.').pop() ?? 'jpg';
+      const path = `${teamId}/${batchId}/${crypto.randomUUID()}.${ext}`;
+      const { error } = await supabase.storage
+        .from('post-images')
+        .upload(path, file, { upsert: false });
+      if (error) continue;
+      const { data } = supabase.storage.from('post-images').getPublicUrl(path);
+      uploaded.push(data.publicUrl);
+    }
+
+    return uploaded;
+  }
+
   function handlePost() {
-    if (!text.trim() || isPending) return;
+    if ((!text.trim() && previews.length === 0) || isPending) return;
     const content = text.trim();
     setText('');
+    const currentPreviews = previews;
+    setPreviews([]);
     startTransition(async () => {
-      await createProjectPost(teamId, content);
+      const imageUrls = await uploadImages();
+      currentPreviews.forEach((p) => URL.revokeObjectURL(p.previewUrl));
+      await createProjectPost(teamId, content || '📸', imageUrls);
       router.refresh();
     });
   }
@@ -65,13 +114,47 @@ export function PanelGonderiler({ teamId, teamName, posts, viewerId, viewerName 
           value={text}
           onChange={(e) => setText(e.target.value)}
         />
-        <div className="flex justify-end mt-2 border-t border-slate-200 pt-2">
+
+        {/* Image previews */}
+        {previews.length > 0 && (
+          <div className="flex gap-2 flex-wrap mt-2 mb-3">
+            {previews.map((p, i) => (
+              <div key={i} className="relative w-20 h-20 rounded-[8px] overflow-hidden border border-slate-200">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={p.previewUrl} alt="" className="w-full h-full object-cover" />
+                <button
+                  onClick={() => removeImage(i)}
+                  className="absolute top-0.5 right-0.5 w-5 h-5 bg-black/60 rounded-full text-white text-[0.65rem] flex items-center justify-center leading-none"
+                >
+                  ✕
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
+
+        <div className="flex items-center justify-between mt-2 border-t border-slate-200 pt-2">
+          <button
+            onClick={() => fileInputRef.current?.click()}
+            disabled={isPending || previews.length >= 5}
+            className="text-slate-400 hover:text-blue-600 transition-colors text-[0.82rem] font-semibold flex items-center gap-1 disabled:opacity-40 bg-transparent border-none cursor-pointer"
+          >
+            📷 Fotoğraf {previews.length > 0 && <span className="text-[0.72rem]">({previews.length}/5)</span>}
+          </button>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            multiple
+            className="hidden"
+            onChange={handleFileChange}
+          />
           <button
             onClick={handlePost}
-            disabled={isPending || !text.trim()}
+            disabled={isPending || (!text.trim() && previews.length === 0)}
             className="bg-blue-600 text-white border-none rounded-[8px] font-nunito font-extrabold text-[0.84rem] px-5 py-[0.5rem] cursor-pointer disabled:opacity-50"
           >
-            Paylaş →
+            {isPending ? 'Paylaşılıyor…' : 'Paylaş →'}
           </button>
         </div>
       </div>
@@ -94,6 +177,22 @@ export function PanelGonderiler({ teamId, teamName, posts, viewerId, viewerName 
             </span>
           </div>
           <div className="text-[0.88rem] leading-relaxed text-slate-900 mb-3">{post.content}</div>
+
+          {post.image_urls.length > 0 && (
+            <div className={`grid gap-2 mb-3 ${post.image_urls.length === 1 ? 'grid-cols-1' : 'grid-cols-2'}`}>
+              {post.image_urls.map((url, i) => (
+                <a key={i} href={url} target="_blank" rel="noopener noreferrer">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={url}
+                    alt=""
+                    className="w-full rounded-[8px] object-cover max-h-64"
+                  />
+                </a>
+              ))}
+            </div>
+          )}
+
           <div className="flex gap-4">
             <span className="text-[0.78rem] font-bold text-slate-400 cursor-pointer hover:text-blue-600 transition-colors flex items-center gap-1">
               👏 {post.like_count} beğeni
