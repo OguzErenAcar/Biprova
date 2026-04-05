@@ -196,7 +196,7 @@ export function PanelGonderiler({ teamId, teamName, posts, viewerId, viewerName 
                   <img
                     src={url}
                     alt=""
-                    className="w-full rounded-[8px] object-cover max-h-64"
+                    className="w-full h-auto rounded-[8px]"
                   />
                 </a>
               ))}
