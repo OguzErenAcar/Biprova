@@ -36,6 +36,10 @@ interface Props {
   teamId: string;
   teamName: string | null;
   posts: ProjectPost[];
+  members: ProjectMember[];
+  category: string | null;
+  city: string | null;
+  isRemote: boolean;
   viewerId: string;
   viewerName: string;
   isLeader: boolean;
