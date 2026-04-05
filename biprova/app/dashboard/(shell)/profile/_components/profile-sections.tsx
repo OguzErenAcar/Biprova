@@ -77,7 +77,7 @@ function SectionCard({ id, title, action, children }: {
   );
 }
 
-export function ProfileSections({ projects, applications, isOwner = false }: ProfileSectionsProps) {
+export function ProfileSections({ projects, applications, teams, isOwner = false }: ProfileSectionsProps) {
   return (
     <>
       <SectionCard
