@@ -4,7 +4,7 @@ import { useState, useRef, DragEvent, useCallback } from 'react';
 import Cropper from 'react-easy-crop';
 import type { Area } from 'react-easy-crop';
 import { createClient } from '@/lib/supabase/client';
-import { saveAvatarUrl, saveCoverUrl } from '@/features/users/actions';
+import { saveAvatarUrl, saveCoverUrl, removeAvatarUrl, removeCoverUrl } from '@/features/users/actions';
 
 interface ImageUploadButtonProps {
   type: 'avatar' | 'cover';
