@@ -812,3 +812,14 @@ export async function createProjectPost(teamId: string, content: string, imageUr
     image_urls: imageUrls,
   });
 }
+
+export async function deleteProjectPost(postId: string): Promise<void> {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return;
+  await supabase
+    .from('team_posts')
+    .delete()
+    .eq('id', postId)
+    .eq('author_id', user.id);
+}
