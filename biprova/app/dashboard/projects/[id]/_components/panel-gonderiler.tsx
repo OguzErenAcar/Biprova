@@ -102,7 +102,7 @@ export function PanelGonderiler({ teamId, teamName, posts, viewerId, viewerName,
   return (
     <div id="panel-gonderiler">
       {/* New post area — sadece lider */}
-      {isLeader && <div className="bg-white border-[1.5px] border-slate-200 rounded-[14px] p-4 mb-4 w-1/2">
+      {isLeader && <div className="bg-white border-[1.5px] border-slate-200 rounded-[14px] p-4 mb-4 w-1/2 mx-auto">
         <div className="flex items-center gap-3 mb-3">
           <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center font-nunito font-black text-[0.75rem] text-white shrink-0">
             {getInitials(viewerName)}
@@ -164,7 +164,7 @@ export function PanelGonderiler({ teamId, teamName, posts, viewerId, viewerName,
       {posts.map((post) => (
         <div
           key={post.id}
-          className="bg-white border-[1.5px] border-slate-200 rounded-[14px] p-[1.2rem] mb-4 w-1/2"
+          className="bg-white border-[1.5px] border-slate-200 rounded-[14px] p-[1.2rem] mb-4 w-1/2 mx-auto"
         >
           <div className="flex items-center gap-3 mb-3">
             <div className="w-[34px] h-[34px] rounded-full bg-indigo-500 flex items-center justify-center font-nunito font-black text-[0.72rem] text-white shrink-0">
