@@ -27,6 +27,7 @@ export function ProfileEditModal({ user }: ProfileEditModalProps) {
   const [cvError, setCvError] = useState<string | null>(null);
   const [cvSuccess, setCvSuccess] = useState(false);
   const [hasCv, setHasCv] = useState(!!user.cv_url);
+  const [cvPublic, setCvPublic] = useState(user.cv_public);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
