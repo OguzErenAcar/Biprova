@@ -83,7 +83,7 @@ function SectionCard({ id, title, action, children }: {
 export function ProfileSections({ projects, applications, teams, projectsPublic, teamsPublic, applicationsPublic, isOwner = false }: ProfileSectionsProps) {
   return (
     <>
-      <SectionCard
+      {(isOwner || projectsPublic) && <SectionCard
         id="profile-projects"
         title="🗂 Projelerim"
         action={isOwner ? <VisibilityToggle section="projects" initialValue={projectsPublic} /> : undefined}
