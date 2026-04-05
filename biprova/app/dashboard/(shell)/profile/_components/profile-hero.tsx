@@ -70,7 +70,7 @@ export function ProfileHero({ user, isOwner = false }: ProfileHeroProps) {
         </div>
 
         {/* Name + Badges row */}
-        <div className="flex items-center justify-between pt-2.5 mb-2">
+        <div className="flex items-center justify-between pt-[70px] mb-2">
           <div className="font-nunito font-black text-[1.4rem] text-slate-900">
             {user.name}
           </div>
