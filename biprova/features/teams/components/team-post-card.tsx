@@ -119,10 +119,20 @@ export function TeamPostCard({
         <span className="text-blue-600 font-semibold cursor-pointer">Devamını oku</span>
       </div>
 
-      {/* Görsel placeholder */}
-      {hasImage && (
+      {/* Görseller */}
+      {imageUrls && imageUrls.length > 0 && (
+        <div className="flex flex-wrap gap-2 mb-4">
+          {imageUrls.map((url, i) => (
+            <a key={i} href={url} target="_blank" rel="noopener noreferrer" className="w-1/3">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={url} alt="" className="w-full h-auto rounded-[8px]" />
+            </a>
+          ))}
+        </div>
+      )}
+      {!imageUrls && hasImage && (
         <div className="w-full h-[180px] rounded-xl bg-gradient-to-br from-indigo-100 to-blue-100 flex items-center justify-center text-[2.5rem] mb-4">
-          🐕 📸
+          📸
         </div>
       )}
 
