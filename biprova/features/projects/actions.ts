@@ -341,6 +341,7 @@ export interface ProjectPost {
   content: string;
   image_urls: string[];
   like_count: number;
+  is_liked: boolean;
   created_at: string;
 }
 
