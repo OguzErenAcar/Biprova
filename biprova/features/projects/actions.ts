@@ -339,6 +339,7 @@ export interface ProjectPost {
   author_name: string;
   author_avatar: string | null;
   content: string;
+  image_urls: string[];
   like_count: number;
   created_at: string;
 }
