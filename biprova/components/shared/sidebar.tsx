@@ -19,7 +19,6 @@ interface SidebarProject {
 
 interface SidebarProps {
   user?: SidebarUser;
-  teams?: SidebarTeam[];
   projects?: SidebarProject[];
 }
 
