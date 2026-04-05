@@ -26,21 +26,48 @@ export function CvViewDialog({ cvUrl }: CvViewDialogProps) {
           <div className="bg-white rounded-[20px] w-full max-w-3xl h-[85vh] shadow-xl flex flex-col overflow-hidden">
             <div className="flex items-center justify-between px-6 py-4 border-b border-slate-200 shrink-0">
               <span className="font-nunito font-black text-[1rem] text-slate-900">CV</span>
-              <button
-                onClick={() => setOpen(false)}
-                className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-100 text-slate-500 text-[1.1rem] transition-colors"
-                aria-label="Kapat"
-              >
-                ✕
-              </button>
+              <div className="flex items-center gap-2">
+                {cvUrl && (
+                  <a
+                    href={cvUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[0.75rem] text-blue-600 font-semibold hover:underline"
+                  >
+                    Yeni sekmede aç ↗
+                  </a>
+                )}
+                <button
+                  onClick={() => setOpen(false)}
+                  className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-100 text-slate-500 text-[1.1rem] transition-colors"
+                  aria-label="Kapat"
+                >
+                  ✕
+                </button>
+              </div>
             </div>
             <div className="flex-1 overflow-hidden flex items-center justify-center">
               {cvUrl ? (
-                <iframe
-                  src={`${cvUrl}#toolbar=1`}
+                <object
+                  data={cvUrl}
+                  type="application/pdf"
                   className="w-full h-full border-0"
-                  title="CV"
-                />
+                >
+                  <div className="text-center text-slate-400 p-8">
+                    <div className="text-[2.5rem] mb-3">📄</div>
+                    <p className="text-[0.88rem] font-medium mb-4">
+                      Tarayıcınız PDF&apos;i görüntüleyemiyor.
+                    </p>
+                    <a
+                      href={cvUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[0.85rem] text-blue-600 font-semibold hover:underline"
+                    >
+                      PDF&apos;i İndir / Aç ↗
+                    </a>
+                  </div>
+                </object>
               ) : (
                 <div className="text-center text-slate-400">
                   <div className="text-[2.5rem] mb-3">📄</div>
