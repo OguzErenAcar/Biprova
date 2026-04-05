@@ -55,7 +55,6 @@ type MembershipRow = {
       title: string;
       city: string | null;
       is_remote: boolean | null;
-      category: string | null;
       status: string;
       leader_id: string;
     } | null;
@@ -69,7 +68,6 @@ type FilledRoleRow = {
     title: string;
     city: string | null;
     is_remote: boolean | null;
-    category: string | null;
     status: string;
     leader_id: string;
   } | null;
