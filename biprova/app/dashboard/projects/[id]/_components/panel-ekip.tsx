@@ -142,7 +142,7 @@ function AktivitelerSection() {
         <span className="text-[0.7rem] text-slate-400 font-semibold">Son 7 gün</span>
       </div>
 
-      <div className="divide-y divide-slate-100">
+      <div className="divide-y divide-slate-100 overflow-y-auto max-h-[320px]">
         {MOCK_ACTIVITIES.map((activity) => (
           <div key={activity.id} className="flex items-start gap-3 px-[1.4rem] py-[0.9rem]">
             <div className="w-7 h-7 rounded-full bg-slate-100 flex items-center justify-center text-[0.8rem] shrink-0 mt-0.5">
