@@ -1,5 +1,6 @@
 import { UserProjectEntry, ProjectStatus, UserApplicationEntry, ApplicationStatus } from '@/features/users/actions';
 import { VisibilityToggle } from './visibility-toggle';
+import { WithdrawApplicationButton } from './withdraw-application-button';
 
 interface ProfileSectionsProps {
   projects: UserProjectEntry[];
