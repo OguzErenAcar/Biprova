@@ -9,6 +9,7 @@ import { saveAvatarUrl, saveCoverUrl, removeAvatarUrl, removeCoverUrl } from '@/
 interface ImageUploadButtonProps {
   type: 'avatar' | 'cover';
   userId: string;
+  currentUrl?: string | null;
   children: React.ReactNode;
 }
 
