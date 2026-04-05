@@ -26,12 +26,30 @@ export async function proxy(request: NextRequest) {
   )
 
   // Session'ı taze tut — getUser() her zaman sunucudan doğrular
-  const { data: { user } } = await supabase.auth.getUser()
+  const { data: { user }, error: authError } = await supabase.auth.getUser()
 
   // Korumalı route'lar: giriş yoksa /login'e yönlendir
   const isProtected = request.nextUrl.pathname.startsWith('/dashboard')
+  if (isProtected) {
+    console.log('[proxy] path:', request.nextUrl.pathname, '| user:', user?.id ?? 'null', '| authError:', authError?.message ?? 'none')
+  }
   if (isProtected && !user) {
     return NextResponse.redirect(new URL('/login', request.url))
+  }
+
+  // Auth geçerli ama public.users satırı yoksa oturumu sonlandır
+  if (isProtected && user) {
+    const { data: dbUser, error: dbError } = await supabase
+      .from('users')
+      .select('id')
+      .eq('id', user.id)
+      .single()
+
+    console.log('[proxy] dbUser:', dbUser, '| dbError:', dbError?.message ?? 'none')
+    if (!dbUser) {
+      await supabase.auth.signOut()
+      return NextResponse.redirect(new URL('/login', request.url))
+    }
   }
 
   // Giriş yapmış kullanıcı login/signup'a gelirse dashboard'a yönlendir

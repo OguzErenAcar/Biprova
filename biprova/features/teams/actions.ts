@@ -23,7 +23,8 @@ export interface TeamProjectItem {
   is_remote: boolean;
   status: string;
   created_at: string;
-  creator_name: string;
+  leader_id: string;
+  leader_name: string;
 }
 
 export interface TeamDetail {
@@ -39,6 +40,7 @@ export interface TeamDetail {
     is_leader: boolean;
     has_biprova: boolean;
     is_member: boolean;
+    project_ids: string[];
   };
 }
 
@@ -58,6 +60,7 @@ type RawTeamProjectItem = {
   is_remote: boolean;
   status: string;
   created_at: string;
+  leader_id: string;
   users: { name: string } | null;
 };
 
@@ -75,7 +78,7 @@ export async function getTeamDetail(id: string): Promise<TeamDetail | null> {
 
   if (teamError || !team) return null;
 
-  const [{ data: rawMembers }, { data: rawProjects }, { data: viewerRow }] =
+  const [{ data: rawMembers }, { data: rawProjects }, { data: viewerRow }, { data: viewerMemberships }] =
     await Promise.all([
       supabase
         .from('team_members')
@@ -84,7 +87,7 @@ export async function getTeamDetail(id: string): Promise<TeamDetail | null> {
         .limit(20),
       supabase
         .from('projects')
-        .select('id, title, city, is_remote, status, created_at, users!creator_id(name)')
+        .select('id, title, city, is_remote, status, created_at, leader_id, users!leader_id(name)')
         .eq('team_id', id)
         .order('created_at', { ascending: false })
         .limit(20),
@@ -94,6 +97,11 @@ export async function getTeamDetail(id: string): Promise<TeamDetail | null> {
         .eq('team_id', id)
         .eq('user_id', user.id)
         .maybeSingle(),
+      supabase
+        .from('project_members')
+        .select('project_id')
+        .eq('user_id', user.id)
+        .limit(20),
     ]);
 
   const members: TeamMemberDetail[] = (rawMembers as unknown as RawTeamMemberDetail[] ?? []).map((m) => ({
@@ -114,8 +122,14 @@ export async function getTeamDetail(id: string): Promise<TeamDetail | null> {
     is_remote: p.is_remote,
     status: p.status,
     created_at: p.created_at,
-    creator_name: p.users?.name ?? '',
+    leader_id: p.leader_id,
+    leader_name: p.users?.name ?? '',
   }));
+
+  const teamProjectIds = new Set(projects.map((p) => p.id));
+  const viewerProjectIds = (viewerMemberships ?? [])
+    .map((m) => m.project_id)
+    .filter((pid) => teamProjectIds.has(pid));
 
   return {
     id: team.id,
@@ -130,28 +144,32 @@ export async function getTeamDetail(id: string): Promise<TeamDetail | null> {
       is_leader: team.leader_id === user.id,
       has_biprova: viewerRow?.has_biprova ?? false,
       is_member: viewerRow !== null,
+      project_ids: viewerProjectIds,
     },
   };
 }
 
 // ─── Mutation Actions ──────────────────────────────────────────────────────
 
-export async function leaveTeam(teamId: string): Promise<void> {
+export async function leaveTeam(teamId: string): Promise<{ error?: string }> {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return;
+  if (!user) return { error: 'Oturum açmanız gerekiyor.' };
 
-  await supabase.from('team_members').delete().eq('team_id', teamId).eq('user_id', user.id);
+  const { error } = await supabase.rpc('fn_leave_team', { p_team_id: teamId });
+  if (error) return { error: error.message };
+
   redirect('/dashboard');
 }
 
-export async function disbandTeam(teamId: string): Promise<void> {
+export async function disbandTeam(teamId: string): Promise<{ error?: string }> {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return;
+  if (!user) return { error: 'Oturum açmanız gerekiyor.' };
 
-  await supabase.from('team_members').delete().eq('team_id', teamId);
-  await supabase.from('teams').update({ status: 'disbanded', disbanded_at: new Date().toISOString() }).eq('id', teamId).eq('leader_id', user.id);
+  const { error } = await supabase.rpc('fn_dissolve_team', { p_team_id: teamId });
+  if (error) return { error: error.message };
+
   redirect('/dashboard');
 }
 
@@ -160,8 +178,29 @@ export async function transferLeadership(teamId: string, newLeaderId: string): P
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return { error: 'Oturum açmanız gerekiyor.' };
 
-  const { error } = await supabase.from('teams').update({ leader_id: newLeaderId }).eq('id', teamId).eq('leader_id', user.id);
-  if (error) return { error: 'Liderlik devredilemedi.' };
+  const { error } = await supabase.rpc('fn_transfer_team_leader', {
+    p_team_id: teamId,
+    p_new_leader_id: newLeaderId,
+  });
+  if (error) return { error: error.message };
+  return {};
+}
+
+export async function renameTeam(teamId: string, name: string): Promise<{ error?: string }> {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return { error: 'Oturum açmanız gerekiyor.' };
+
+  const trimmed = name.trim();
+  if (!trimmed) return { error: 'Ekip adı boş olamaz.' };
+
+  const { error } = await supabase
+    .from('teams')
+    .update({ name: trimmed })
+    .eq('id', teamId)
+    .eq('leader_id', user.id);
+
+  if (error) return { error: 'Ekip adı güncellenemedi.' };
   return {};
 }
 
@@ -174,8 +213,62 @@ export async function kickMember(teamId: string, userId: string): Promise<{ erro
 
 export async function grantBiprova(teamId: string, userId: string): Promise<{ error?: string }> {
   const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return { error: 'Oturum açmanız gerekiyor.' };
+
+  const { data: team } = await supabase.from('teams').select('leader_id').eq('id', teamId).single();
+  if (team?.leader_id !== user.id) return { error: 'Sadece lider yetki verebilir.' };
+
   const { error } = await supabase.from('team_members').update({ has_biprova: true }).eq('team_id', teamId).eq('user_id', userId);
   if (error) return { error: 'Yetki verilemedi.' };
+  return {};
+}
+
+export async function revokeBiprova(teamId: string, userId: string): Promise<{ error?: string }> {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return { error: 'Oturum açmanız gerekiyor.' };
+
+  const { data: team } = await supabase.from('teams').select('leader_id').eq('id', teamId).single();
+  if (team?.leader_id !== user.id) return { error: 'Sadece lider yetki kaldırabilir.' };
+
+  const { error } = await supabase.from('team_members').update({ has_biprova: false }).eq('team_id', teamId).eq('user_id', userId);
+  if (error) return { error: 'Yetki kaldırılamadı.' };
+  return {};
+}
+
+export async function inviteMemberByEmail(teamId: string, email: string): Promise<{ error?: string }> {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return { error: 'Oturum açmanız gerekiyor.' };
+
+  const { data: team } = await supabase.from('teams').select('leader_id').eq('id', teamId).single();
+  if (team?.leader_id !== user.id) return { error: 'Sadece lider davet gönderebilir.' };
+
+  const { data: targetUser } = await supabase
+    .from('users')
+    .select('id, name')
+    .eq('email', email.trim().toLowerCase())
+    .maybeSingle();
+
+  if (!targetUser) return { error: 'Bu e-posta ile kayıtlı kullanıcı bulunamadı.' };
+
+  const { data: existing } = await supabase
+    .from('team_members')
+    .select('user_id')
+    .eq('team_id', teamId)
+    .eq('user_id', targetUser.id)
+    .maybeSingle();
+
+  if (existing) return { error: 'Bu kullanıcı zaten ekip üyesi.' };
+
+  const { error } = await supabase.from('team_members').insert({
+    team_id: teamId,
+    user_id: targetUser.id,
+    has_biprova: false,
+  });
+
+  if (error) return { error: 'Davet gönderilemedi.' };
   return {};
 }
 

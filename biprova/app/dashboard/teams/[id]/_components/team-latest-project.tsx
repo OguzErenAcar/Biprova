@@ -1,7 +1,8 @@
+import Link from 'next/link';
 import type { TeamProjectItem } from '@/features/teams/actions';
 
 interface Props {
-  project: TeamProjectItem | null;
+  projects: TeamProjectItem[];
   onViewAll: () => void;
 }
 
@@ -30,11 +31,11 @@ function relativeTime(dateStr: string): string {
   return `${months} ay önce`;
 }
 
-export function TeamLatestProject({ project, onViewAll }: Props) {
+export function TeamLatestProject({ projects, onViewAll }: Props) {
   return (
     <div id="team-latest-project" className="bg-white border-[1.5px] border-slate-200 rounded-2xl overflow-hidden mb-[1.2rem]">
       <div className="flex items-center justify-between px-5 py-4 border-b border-slate-200">
-        <span className="font-nunito font-black text-[0.9rem]">📌 Son Proje</span>
+        <span className="font-nunito font-black text-[0.9rem]">📌 Son Projeler</span>
         <button
           onClick={onViewAll}
           className="text-[0.75rem] font-bold text-blue-600 cursor-pointer bg-transparent border-none hover:underline"
@@ -42,20 +43,22 @@ export function TeamLatestProject({ project, onViewAll }: Props) {
           Tümü →
         </button>
       </div>
-      <div className="p-4">
-        {project ? (
-          <div className="bg-slate-50 rounded-[12px] p-4 border-[1.5px] border-slate-200">
-            <div className="flex items-center gap-2 mb-2">
-              <span className="text-base">📁</span>
-              <span className="font-nunito font-extrabold text-[0.9rem] text-slate-900 truncate">{project.title}</span>
-            </div>
-            <div className="text-[0.76rem] text-slate-400 mb-3">
-              {project.is_remote ? '🌐 Remote' : `📍 ${project.city ?? 'Belirtilmemiş'}`} · {relativeTime(project.created_at)}
-            </div>
-            <span className={`text-[0.68rem] font-extrabold px-2 py-0.5 rounded-full ${STATUS_STYLE[project.status] ?? STATUS_STYLE.open}`}>
-              {STATUS_TEXT[project.status] ?? project.status}
-            </span>
-          </div>
+      <div className="p-4 flex flex-col gap-2">
+        {projects.length > 0 ? (
+          projects.map((project) => (
+            <Link key={project.id} href={`/dashboard/projects/${project.id}`} className="block bg-slate-50 rounded-[12px] p-4 border-[1.5px] border-slate-200 hover:border-blue-300 hover:bg-blue-50/40 transition-colors">
+              <div className="flex items-center gap-2 mb-2">
+                <span className="text-base">📁</span>
+                <span className="font-nunito font-extrabold text-[0.9rem] text-slate-900 truncate">{project.title}</span>
+              </div>
+              <div className="text-[0.76rem] text-slate-400 mb-3">
+                {project.is_remote ? '🌐 Remote' : `📍 ${project.city ?? 'Belirtilmemiş'}`} · {relativeTime(project.created_at)}
+              </div>
+              <span className={`text-[0.68rem] font-extrabold px-2 py-0.5 rounded-full ${STATUS_STYLE[project.status] ?? STATUS_STYLE.open}`}>
+                {STATUS_TEXT[project.status] ?? project.status}
+              </span>
+            </Link>
+          ))
         ) : (
           <div className="text-center py-4 text-[0.82rem] text-slate-400">
             Henüz proje yok

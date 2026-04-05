@@ -1,5 +1,55 @@
 import type { ProjectDetail } from '@/features/projects/actions';
 
+function formatDate(iso: string) {
+  return new Date(iso).toLocaleDateString('tr-TR', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  });
+}
+
+function ProjectInfoCard({ project }: { project: ProjectDetail }) {
+  const meta: { icon: string; label: string; value: string }[] = [
+    project.city
+      ? { icon: '📍', label: 'Şehir', value: project.city }
+      : null,
+    project.is_remote
+      ? { icon: '🌐', label: 'Çalışma Şekli', value: 'Remote uyumlu' }
+      : { icon: '🏢', label: 'Çalışma Şekli', value: 'Yüz yüze' },
+    project.category
+      ? { icon: '📂', label: 'Kategori', value: project.category }
+      : null,
+    { icon: '📅', label: 'Oluşturulma', value: formatDate(project.created_at) },
+  ].filter(Boolean) as { icon: string; label: string; value: string }[];
+
+  return (
+    <div className="bg-white border-[1.5px] border-slate-200 rounded-2xl overflow-hidden">
+      <div className="px-[1.2rem] py-[1rem] border-b border-slate-200">
+        <span className="font-nunito text-[0.9rem] font-black">📄 Proje Hakkında</span>
+      </div>
+
+      <div className="px-[1.2rem] py-[1rem] flex flex-col gap-4">
+        {project.description && (
+          <p className="text-[0.85rem] text-slate-600 leading-[1.65] whitespace-pre-wrap">
+            {project.description}
+          </p>
+        )}
+
+        <div className="grid grid-cols-2 gap-x-4 gap-y-3">
+          {meta.map((item) => (
+            <div key={item.label}>
+              <div className="text-[0.68rem] font-bold text-slate-400 uppercase tracking-wider mb-0.5">
+                {item.icon} {item.label}
+              </div>
+              <div className="text-[0.82rem] font-semibold text-slate-800">{item.value}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function getInitials(name: string) {
   return name
     .split(' ')
@@ -7,6 +57,54 @@ function getInitials(name: string) {
     .slice(0, 2)
     .join('')
     .toUpperCase();
+}
+
+interface MemberSlot {
+  id: string;
+  name: string;
+  avatar_url: string | null;
+  is_leader: boolean;
+}
+
+function MemberStrip({ members }: { members: MemberSlot[] }) {
+  if (members.length === 0) return null;
+  const MAX = 6;
+  const visible = members.slice(0, MAX);
+  const overflow = members.length - MAX;
+
+  return (
+    <div className="flex items-center gap-1.5">
+      {visible.map((m) => (
+        <div
+          key={m.id}
+          title={`${m.name}${m.is_leader ? ' (Lider)' : ''}`}
+          className={`relative w-8 h-8 rounded-full flex items-center justify-center text-[0.7rem] font-extrabold shrink-0 ${
+            m.is_leader
+              ? 'bg-orange-400 ring-2 ring-white'
+              : 'bg-white/20 ring-1 ring-white/40'
+          } text-white`}
+        >
+          {m.avatar_url ? (
+            <img
+              src={m.avatar_url}
+              alt={m.name}
+              className="w-full h-full rounded-full object-cover"
+            />
+          ) : (
+            getInitials(m.name)
+          )}
+          {m.is_leader && (
+            <span className="absolute -top-1 -right-0.5 text-[0.55rem] leading-none">⚡</span>
+          )}
+        </div>
+      ))}
+      {overflow > 0 && (
+        <div className="w-8 h-8 rounded-full bg-white/20 ring-1 ring-white/30 flex items-center justify-center text-[0.65rem] font-bold text-white shrink-0">
+          +{overflow}
+        </div>
+      )}
+    </div>
+  );
 }
 
 interface Props {
@@ -17,9 +115,6 @@ interface Props {
 }
 
 export function PanelGenel({ project, onGoToChat, onGoToTasks, onGoToFiles }: Props) {
-  const filledCount = project.roles.filter((r) => r.is_filled).length;
-  const totalCount = project.roles.length;
-
   const meta = [
     project.city && `📍 ${project.city}`,
     project.is_remote && '🌐 Remote',
@@ -28,6 +123,39 @@ export function PanelGenel({ project, onGoToChat, onGoToTasks, onGoToFiles }: Pr
   ]
     .filter(Boolean)
     .join(' · ');
+
+  // Üye listesi: ekip varsa team_members, yoksa creator + dolu roller
+  const memberSlots: MemberSlot[] = (() => {
+    const raw: MemberSlot[] = project.team_id
+      ? project.members.map((m) => ({
+          id: m.user_id,
+          name: m.name,
+          avatar_url: m.avatar_url,
+          is_leader: m.is_leader,
+        }))
+      : [
+          {
+            id: project.leader_id,
+            name: project.leader_name,
+            avatar_url: project.leader_avatar,
+            is_leader: true,
+          },
+          ...project.roles
+            .filter((r) => r.is_filled && r.filled_by && r.filled_by !== project.leader_id)
+            .map((r) => ({
+              id: r.filled_by!,
+              name: r.filled_by_name ?? '?',
+              avatar_url: r.filled_by_avatar,
+              is_leader: false,
+            })),
+        ];
+    const seen = new Set<string>();
+    return raw.filter((m) => {
+      if (seen.has(m.id)) return false;
+      seen.add(m.id);
+      return true;
+    });
+  })();
 
   return (
     <div id="panel-genel">
@@ -40,7 +168,8 @@ export function PanelGenel({ project, onGoToChat, onGoToTasks, onGoToFiles }: Pr
           <h2 className="font-nunito font-black text-[1.2rem] text-white mb-1">{project.title}</h2>
           {meta && <p className="text-[0.82rem] text-white/70">{meta}</p>}
         </div>
-        <div className="flex gap-2 items-center">
+        <div className="flex gap-3 items-center ml-auto">
+          <MemberStrip members={memberSlots} />
           {project.team_id && (
             <button
               onClick={onGoToChat}
@@ -56,53 +185,8 @@ export function PanelGenel({ project, onGoToChat, onGoToTasks, onGoToFiles }: Pr
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-[1.2rem] items-start">
         {/* Left column */}
         <div className="flex flex-col gap-[1.2rem]">
-          {/* Roles / Phases card */}
-          <div id="phases-card" className="bg-white border-[1.5px] border-slate-200 rounded-2xl overflow-hidden">
-            <div className="flex items-center justify-between px-[1.2rem] py-[1rem] border-b border-slate-200">
-              <span className="font-nunito text-[0.9rem] font-black">🎭 Roller</span>
-              <span className="text-[0.72rem] text-slate-400">
-                {filledCount}/{totalCount} dolu
-              </span>
-            </div>
-            {totalCount === 0 ? (
-              <div className="px-[1.2rem] py-[1rem] text-[0.82rem] text-slate-400">
-                Rol bulunamadı.
-              </div>
-            ) : (
-              <div className="flex overflow-x-auto">
-                {project.roles.map((role, i) => (
-                  <div
-                    key={role.id}
-                    className={`flex-1 min-w-[80px] px-[0.8rem] py-[0.9rem] text-center border-r border-slate-200 last:border-r-0 ${
-                      role.is_filled ? 'bg-green-50' : ''
-                    }`}
-                  >
-                    <div
-                      className={`w-7 h-7 rounded-full mx-auto mb-1 flex items-center justify-center text-[0.75rem] font-extrabold border-2 ${
-                        role.is_filled
-                          ? 'bg-green-500 border-green-500 text-white'
-                          : 'bg-white border-slate-200 text-slate-400'
-                      }`}
-                    >
-                      {role.is_filled ? '✓' : i + 1}
-                    </div>
-                    <div
-                      className={`text-[0.72rem] font-bold truncate ${
-                        role.is_filled ? 'text-green-700' : 'text-slate-400'
-                      }`}
-                    >
-                      {role.role_name}
-                    </div>
-                    {role.filled_by_name && (
-                      <div className="text-[0.64rem] text-slate-400 mt-0.5 truncate">
-                        {role.filled_by_name}
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
+          {/* Project info card */}
+          <ProjectInfoCard project={project} />
 
           {/* Active Tasks card */}
           <div

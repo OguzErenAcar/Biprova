@@ -6,20 +6,18 @@
 ## Project Overview
 Biprova ("bir projem var" = "I have a project") — a platform where people find teammates for their projects.
 Users share needs (not ideas), others apply for specific roles, and when all roles are filled the team forms automatically.
-Turkey-focused, LinkedIn-only authentication, 24h activation rule.
+Turkey-focused, 24h activation rule.
 
 ## Stack
 - **Framework:** Next.js 15 (App Router)
 - **Database/Auth:** Supabase (PostgreSQL + Auth + Realtime)
 - **Styling:** Tailwind CSS + shadcn/ui (Radix UI)
 - **Language:** TypeScript
-- **Auth Provider:** LinkedIn OAuth (OpenID Connect) — no email/password
 - **Email:** Resend
 - **Deploy:** Vercel
 - **Mobile:** Capacitor (web-first, mobile build via Capacitor)
 
 ## Critical Business Rules
-- **LinkedIn OAuth only** — no other auth method, prevents fake accounts
 - **Idea privacy** — only needs are shown publicly; idea details shared privately after team forms
 - **24h rule** — once all roles are filled, leader has 24h to start or the team dissolves
 - **Team bar** — progress bar fills as each role is taken; completes → team auto-created
@@ -32,7 +30,7 @@ Turkey-focused, LinkedIn-only authentication, 24h activation rule.
 
 ## Database Tables (live in Supabase)
 - `users` — id, email, name, city, is_remote, skills, avatar_url, linkedin_url, badge
-- `projects` — id, creator_id, title, description, city, is_remote, category, status
+- `projects` — id, leader_id, title, description, city, is_remote, category, status
 - `project_roles` — id, project_id, role_name, is_filled, filled_by
 - `applications` — id, project_id, user_id, role_id, note, status
 - `teams` — id, project_id, leader_id, status, formed_at, deadline, kickoff_at
@@ -69,7 +67,6 @@ Turkey-focused, LinkedIn-only authentication, 24h activation rule.
 ## Project Structure
 ```
 app/
-  (auth)/           ← login (LinkedIn OAuth only)
   (marketing)/      ← landing, intro, waitlist
   dashboard/        ← protected area
     projects/       ← project feed, project detail
@@ -115,7 +112,5 @@ NEXT_PUBLIC_SUPABASE_URL=
 NEXT_PUBLIC_SUPABASE_ANON_KEY=
 SUPABASE_SERVICE_ROLE_KEY=        # server-side only, never expose to client
 NEXT_PUBLIC_APP_URL=http://localhost:3000
-LINKEDIN_CLIENT_ID=
-LINKEDIN_CLIENT_SECRET=
 RESEND_API_KEY=
 ```

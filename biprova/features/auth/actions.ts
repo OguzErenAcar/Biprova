@@ -38,23 +38,22 @@ export async function signup(data: {
 
   const userId = authData.user.id;
 
-  // RLS bypass için admin client ile insert
   const admin = getAdminClient();
 
-  const { error: insertError } = await admin
+  // Trigger name, linkedin_url, city, is_remote bilmez — bunları güncelliyoruz
+  const { error: updateError } = await admin
     .from('users')
-    .insert({
-      id:           userId,
-      email:        data.email,
+    .update({
       name:         data.name,
       linkedin_url: data.linkedin_url,
       city:         data.city,
       is_remote:    data.is_remote,
-    });
+    })
+    .eq('id', userId);
 
-  if (insertError) {
+  if (updateError) {
     await admin.auth.admin.deleteUser(userId);
-    return { error: insertError.message };
+    return { error: updateError.message };
   }
 
   if (data.skill_ids.length > 0) {
@@ -120,13 +119,22 @@ export async function login(data: {
     password: data.password,
   });
 
-  if (error) return { error: 'E-posta veya şifre hatalı.' };
+  if (error) return { error: error.message };
 
   redirect('/dashboard');
 }
 
 export async function logout(): Promise<void> {
   const supabase = await createClient();
+
+  const { data: { user } } = await supabase.auth.getUser();
+  if (user) {
+    await supabase
+      .from('users')
+      .update({ last_sign_out_at: new Date().toISOString() })
+      .eq('id', user.id);
+  }
+
   await supabase.auth.signOut();
   redirect('/');
 }
@@ -136,13 +144,6 @@ export async function deleteAccount(): Promise<ActionResult> {
 
   const { data: { user }, error: userError } = await supabase.auth.getUser();
   if (userError || !user) return { error: 'Kullanıcı bulunamadı.' };
-
-  const { error: deleteRowError } = await supabase
-    .from('users')
-    .delete()
-    .eq('id', user.id);
-
-  if (deleteRowError) return { error: deleteRowError.message };
 
   const admin = getAdminClient();
   const { error: deleteAuthError } = await admin.auth.admin.deleteUser(user.id);

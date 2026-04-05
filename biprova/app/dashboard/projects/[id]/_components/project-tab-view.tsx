@@ -8,8 +8,10 @@ import { PanelGorevler } from './panel-gorevler';
 import { PanelChat } from './panel-chat';
 import { PanelDosyalar } from './panel-dosyalar';
 import { PanelGonderiler } from './panel-gonderiler';
+import { PanelEkip } from './panel-ekip';
+import { PanelAdmin } from './panel-admin';
 
-type Tab = 'genel' | 'gorevler' | 'chat' | 'dosyalar' | 'gonderiler';
+type Tab = 'genel' | 'admin' | 'ekip' | 'gorevler' | 'chat' | 'dosyalar' | 'gonderiler';
 
 interface Props {
   project: ProjectDetail;
@@ -17,42 +19,66 @@ interface Props {
 
 export function ProjectTabView({ project }: Props) {
   const [activeTab, setActiveTab] = useState<Tab>('genel');
+  const hasTeam = !!project.team_id;
+  const isLeader = project.viewer.is_project_leader;
+  const pendingCount = project.applications.filter((a) => a.status === 'pending').length;
 
-  const TABS: { key: Tab; label: string; count?: number }[] = [
-    { key: 'genel',      label: '📋 Genel' },
-    { key: 'gorevler',   label: '✅ Görevler' },
-    { key: 'chat',       label: '💬 Chat',      count: project.messages.length },
-    { key: 'dosyalar',   label: '📁 Dosyalar' },
-    { key: 'gonderiler', label: '📢 Gönderiler' },
+  const TABS: {
+    key: Tab;
+    label: string;
+    count?: number;
+    requiresTeam: boolean;
+    comingSoon?: boolean;
+    leaderOnly?: boolean;
+  }[] = [
+    { key: 'genel',      label: '📋 Genel',      requiresTeam: false },
+    { key: 'admin',      label: '🛡️ Admin',       requiresTeam: false, leaderOnly: true, count: isLeader ? pendingCount : undefined },
+    { key: 'ekip',       label: '👥 Ekip',        requiresTeam: false },
+    { key: 'chat',       label: '💬 Chat',        requiresTeam: true,  count: project.messages.length },
+    { key: 'gorevler',   label: '✅ Görevler',    requiresTeam: true,  comingSoon: true },
+    { key: 'dosyalar',   label: '📁 Dosyalar',    requiresTeam: true,  comingSoon: true },
+    { key: 'gonderiler', label: '📢 Gönderiler',  requiresTeam: true,  comingSoon: true },
   ];
+
+  const visibleTabs = TABS.filter((tab) => !tab.leaderOnly || isLeader);
 
   return (
     <>
-      <ProjectTopbar title={project.title} status={project.status} />
+      <ProjectTopbar title={project.title} status={project.status} hasTeam={hasTeam} />
 
       {/* Tabs */}
       <div
         id="project-tabs"
         className="flex border-b border-slate-200 bg-white px-6 sticky top-[53px] z-30"
       >
-        {TABS.map((tab) => (
-          <button
-            key={tab.key}
-            onClick={() => setActiveTab(tab.key)}
-            className={`text-[0.82rem] font-bold px-4 py-3 cursor-pointer border-b-2 transition-all whitespace-nowrap flex items-center gap-1 bg-transparent ${
-              activeTab === tab.key
-                ? 'text-blue-600 border-blue-600'
-                : 'text-slate-400 border-transparent hover:text-slate-700'
-            }`}
-          >
-            {tab.label}
-            {tab.count !== undefined && tab.count > 0 && (
-              <span className="bg-slate-100 rounded-full text-[0.65rem] px-[0.4rem] py-[0.1rem] font-extrabold">
-                {tab.count}
-              </span>
-            )}
-          </button>
-        ))}
+        {visibleTabs.map((tab) => {
+          const disabled = tab.comingSoon || (tab.requiresTeam && !hasTeam);
+          const title = tab.comingSoon ? 'Yakında' : disabled ? 'Ekip kurulduktan sonra aktif olur' : undefined;
+          return (
+            <button
+              key={tab.key}
+              onClick={() => !disabled && setActiveTab(tab.key)}
+              disabled={disabled}
+              title={title}
+              className={`text-[0.82rem] font-bold px-4 py-3 border-b-2 transition-all whitespace-nowrap flex items-center gap-1 bg-transparent ${
+                disabled
+                  ? 'text-slate-300 border-transparent cursor-not-allowed'
+                  : activeTab === tab.key
+                  ? tab.key === 'admin'
+                    ? 'text-indigo-600 border-indigo-600 cursor-pointer'
+                    : 'text-blue-600 border-blue-600 cursor-pointer'
+                  : 'text-slate-400 border-transparent hover:text-slate-700 cursor-pointer'
+              }`}
+            >
+              {tab.label}
+              {tab.count !== undefined && tab.count > 0 && (
+                <span className="bg-blue-600 text-white rounded-full text-[0.6rem] px-[0.4rem] py-[0.1rem] font-extrabold">
+                  {tab.count}
+                </span>
+              )}
+            </button>
+          );
+        })}
       </div>
 
       {/* Content */}
@@ -65,6 +91,10 @@ export function ProjectTabView({ project }: Props) {
             onGoToFiles={() => setActiveTab('dosyalar')}
           />
         )}
+
+        {activeTab === 'admin' && isLeader && <PanelAdmin project={project} />}
+
+        {activeTab === 'ekip' && <PanelEkip project={project} />}
 
         {activeTab === 'gorevler' && <PanelGorevler />}
 

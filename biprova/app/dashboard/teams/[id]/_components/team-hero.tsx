@@ -2,8 +2,10 @@ import type { TeamDetail } from '@/features/teams/actions';
 
 interface Props {
   team: TeamDetail;
-  onNewProject: () => void;
+  isLeader: boolean;
+  isMember: boolean;
   onSettings: () => void;
+  onLeave: () => void;
 }
 
 function getInitials(name: string): string {
@@ -21,7 +23,7 @@ const STATUS_LABEL: Record<string, string> = {
   active: '● Aktif', pending: '● Kuruldu', no_project: '⚠ Projesi Yok', disbanded: '● Dağıtıldı',
 };
 
-export function TeamHero({ team, onNewProject, onSettings }: Props) {
+export function TeamHero({ team, isLeader, isMember, onSettings, onLeave }: Props) {
   const initials = getInitials(team.name);
   const completedCount = team.projects.filter((p) => p.status === 'completed').length;
   const activeDays = Math.floor((Date.now() - new Date(team.formed_at).getTime()) / 86_400_000);
@@ -62,18 +64,22 @@ export function TeamHero({ team, onNewProject, onSettings }: Props) {
           </div>
 
           <div className="flex gap-2 flex-wrap">
-            <button
-              onClick={onSettings}
-              className="bg-white text-slate-700 border-[1.5px] border-slate-200 rounded-[9px] font-nunito font-extrabold text-[0.82rem] px-[1.1rem] py-2 cursor-pointer transition-all hover:border-blue-600 hover:text-blue-600"
-            >
-              ⚙️ Ekip Ayarları
-            </button>
-            <button
-              onClick={onNewProject}
-              className="bg-blue-600 text-white rounded-[9px] font-nunito font-extrabold text-[0.82rem] px-[1.1rem] py-2 cursor-pointer transition-all hover:bg-blue-700 shadow-[0_3px_10px_rgba(37,99,235,0.25)]"
-            >
-              + Yeni Proje Aç
-            </button>
+            {isLeader && (
+              <button
+                onClick={onSettings}
+                className="bg-white text-slate-700 border-[1.5px] border-slate-200 rounded-[9px] font-nunito font-extrabold text-[0.82rem] px-[1.1rem] py-2 cursor-pointer transition-all hover:border-blue-600 hover:text-blue-600"
+              >
+                ⚙️ Ekip Ayarları
+              </button>
+            )}
+            {isMember && (
+              <button
+                onClick={onLeave}
+                className="bg-red-50 text-red-500 border-[1.5px] border-red-200 rounded-[9px] font-nunito font-extrabold text-[0.82rem] px-[1.1rem] py-2 cursor-pointer transition-all hover:bg-red-100"
+              >
+                Ekipten Ayrıl
+              </button>
+            )}
           </div>
         </div>
       </div>

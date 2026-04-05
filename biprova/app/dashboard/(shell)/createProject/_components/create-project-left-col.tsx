@@ -188,7 +188,7 @@ export function CreateProjectLeftCol({ categories, cities, skills, userTeams }: 
                   : "text-slate-400 hover:text-slate-600"
               }`}
             >
-              🤝 Mevcut Ekibimden
+              🤝 Mevcut Ekiplerimden
             </button>
             <button
               type="button"

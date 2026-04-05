@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 interface Props {
   teamName: string;
   teamStatus: string;
+  projectCount: number;
   isLeader: boolean;
   isMember: boolean;
   onLeave: () => void;
@@ -17,7 +18,7 @@ const STATUS_LABEL: Record<string, { label: string; className: string }> = {
   disbanded:  { label: '● Dağıtıldı',   className: 'bg-red-50 text-red-600 border-red-200' },
 };
 
-export function TeamTopbar({ teamName, teamStatus, isLeader, isMember, onLeave }: Props) {
+export function TeamTopbar({ teamName, teamStatus, projectCount, isLeader, isMember, onLeave }: Props) {
   const router = useRouter();
   const status = STATUS_LABEL[teamStatus] ?? STATUS_LABEL.pending;
 
@@ -38,6 +39,12 @@ export function TeamTopbar({ teamName, teamStatus, isLeader, isMember, onLeave }
       <span className={`text-[0.7rem] font-bold px-2.5 py-[0.2rem] rounded-full border-[1.5px] ${status.className}`}>
         {status.label}
       </span>
+
+      {projectCount > 0 && (
+        <span className="text-[0.7rem] font-bold px-2.5 py-[0.2rem] rounded-full border-[1.5px] bg-slate-50 text-slate-500 border-slate-200">
+          📌 {projectCount} Proje
+        </span>
+      )}
 
       <div className="ml-auto flex items-center gap-2">
         {isMember && !isLeader && (

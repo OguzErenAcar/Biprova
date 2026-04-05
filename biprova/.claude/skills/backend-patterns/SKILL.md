@@ -137,17 +137,17 @@ const { data } = await supabase
 // ❌ BAD: N+1 query problem
 const markets = await getMarkets()
 for (const market of markets) {
-  market.creator = await getUser(market.creator_id)  // N queries
+  market.leader = await getUser(market.leader_id)  // N queries
 }
 
 // ✅ GOOD: Batch fetch
 const markets = await getMarkets()
-const creatorIds = markets.map(m => m.creator_id)
-const creators = await getUsers(creatorIds)  // 1 query
-const creatorMap = new Map(creators.map(c => [c.id, c]))
+const leaderIds = markets.map(m => m.leader_id)
+const leaders = await getUsers(leaderIds)  // 1 query
+const leaderMap = new Map(leaders.map(c => [c.id, c]))
 
 markets.forEach(market => {
-  market.creator = creatorMap.get(market.creator_id)
+  market.leader = leaderMap.get(market.leader_id)
 })
 ```
 

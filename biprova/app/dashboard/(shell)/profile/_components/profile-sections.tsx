@@ -1,11 +1,16 @@
-import { UserProjectEntry, ProjectStatus, UserApplicationEntry, ApplicationStatus } from '@/features/users/actions';
+import { UserProjectEntry, ProjectStatus, UserApplicationEntry, ApplicationStatus, UserTeamEntry, TeamStatus } from '@/features/users/actions';
+import { VisibilityToggle } from './visibility-toggle';
+import { WithdrawApplicationButton } from './withdraw-application-button';
 
 interface ProfileSectionsProps {
-  skills: { id: string; name: string }[];
   projects: UserProjectEntry[];
   applications: UserApplicationEntry[];
+  teams: UserTeamEntry[];
+  projectsPublic: boolean;
+  teamsPublic: boolean;
+  applicationsPublic: boolean;
+  isOwner?: boolean;
 }
-
 
 const PROJECT_STATUS_STYLES: Record<ProjectStatus, string> = {
   active:    "bg-green-50 text-green-700",
@@ -31,10 +36,21 @@ const APP_STATUS_LABELS: Record<ApplicationStatus, string> = {
   rejected: "Reddedildi",
 };
 
-
 const PROJECT_BG_COLORS = ["#eff6ff", "#dcfce7", "#fef3c7", "#f1f5f9", "#ede9fe", "#fee2e2"];
+const APP_BG_COLORS     = ["#ede9fe", "#dcfce7", "#fef3c7", "#eff6ff", "#fee2e2", "#f1f5f9"];
+const TEAM_BG_COLORS    = ["#fef3c7", "#eff6ff", "#dcfce7", "#fee2e2", "#f1f5f9", "#ede9fe"];
 
-const APP_BG_COLORS = ["#ede9fe", "#dcfce7", "#fef3c7", "#eff6ff", "#fee2e2", "#f1f5f9"];
+const TEAM_STATUS_STYLES: Record<TeamStatus, string> = {
+  pending:    "bg-amber-50 text-amber-800",
+  active:     "bg-green-50 text-green-700",
+  no_project: "bg-slate-100 text-slate-500",
+};
+
+const TEAM_STATUS_LABELS: Record<TeamStatus, string> = {
+  pending:    "Kuruluyor",
+  active:     "Aktif",
+  no_project: "Projesiz",
+};
 
 function formatRelativeDate(dateStr: string): string {
   const diff = Date.now() - new Date(dateStr).getTime();
@@ -47,83 +63,118 @@ function formatRelativeDate(dateStr: string): string {
   return `${weeks} hafta önce başvuruldu`;
 }
 
-function SectionCard({ id, title, action, children }: { id?: string; title: string; action?: string; children: React.ReactNode }) {
+function SectionCard({ id, title, action, children }: {
+  id?: string;
+  title: string;
+  action?: React.ReactNode;
+  children: React.ReactNode;
+}) {
   return (
     <div id={id} className="bg-white border border-slate-200 rounded-[16px] p-[1.4rem] mb-5">
       <div className="flex items-center justify-between mb-4">
         <div className="font-nunito font-black text-[1rem] text-slate-900">{title}</div>
-        {action && (
-          <span className="text-[0.8rem] text-blue-600 font-semibold cursor-pointer hover:underline">
-            {action}
-          </span>
-        )}
+        {action}
       </div>
       {children}
     </div>
   );
 }
 
-export function ProfileSections({ skills, projects, applications }: ProfileSectionsProps) {
+export function ProfileSections({ projects, applications, teams, projectsPublic, teamsPublic, applicationsPublic, isOwner = false }: ProfileSectionsProps) {
   return (
     <>
-      {/* Skills */}
-      <SectionCard id="profile-skills" title="🛠 Yetenekler" action="+ Ekle">
-        {skills.length === 0 ? (
-          <p className="text-[0.85rem] text-slate-400">Henüz yetenek eklenmemiş.</p>
-        ) : (
-          <div className="flex flex-wrap gap-2">
-            {skills.map((skill) => (
-              <span
-                key={skill.id}
-                className="bg-blue-50 text-blue-600 text-[0.8rem] font-bold px-3 py-1.5 rounded-[8px] font-nunito"
-              >
-                {skill.name}
-              </span>
-            ))}
-          </div>
-        )}
-      </SectionCard>
+      {(isOwner || projectsPublic) && (
+        <SectionCard
+          id="profile-projects"
+          title="🗂 Projelerim"
+          action={isOwner ? <VisibilityToggle section="projects" initialValue={projectsPublic} /> : undefined}
+        >
+          {projects.length === 0 ? (
+            <p className="text-[0.85rem] text-slate-400">Henüz proje yok.</p>
+          ) : (
+            projects.map((p, i) => {
+              const bg = PROJECT_BG_COLORS[i % PROJECT_BG_COLORS.length];
+              const meta: string[] = [];
+              if (p.city) meta.push(`📍 ${p.city}`);
+              else if (p.is_remote) meta.push('🌐 Remote');
+              meta.push(p.isLeader ? 'Lider: Sen' : p.userRole ? `${p.userRole} rolünde` : 'Üye');
 
-      {/* Projects */}
-      <SectionCard id="profile-projects" title="🗂 Projelerim" action="Tümünü gör">
-        {projects.length === 0 ? (
-          <p className="text-[0.85rem] text-slate-400">Henüz proje yok.</p>
-        ) : (
-          projects.map((p, i) => {
-            const bg = PROJECT_BG_COLORS[i % PROJECT_BG_COLORS.length];
-            const meta: string[] = [];
-            if (p.city) meta.push(`📍 ${p.city}`);
-            else if (p.is_remote) meta.push('🌐 Remote');
-            meta.push(p.isLeader ? 'Lider: Sen' : p.userRole ? `${p.userRole} rolünde` : 'Üye');
-
-            return (
-              <div
-                key={p.id}
-                className={`flex gap-4 items-start py-3.5 ${i < projects.length - 1 ? "border-b border-slate-100" : ""} ${i === 0 ? "pt-0" : ""}`}
-              >
+              return (
                 <div
-                  className="w-10 h-10 rounded-[11px] flex items-center justify-center text-[1.15rem] flex-shrink-0"
-                  style={{ background: bg }}
+                  key={p.id}
+                  className={`flex gap-4 items-start py-3.5 ${i < projects.length - 1 ? "border-b border-slate-100" : ""} ${i === 0 ? "pt-0" : ""}`}
                 >
-                  📁
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="text-[0.9rem] font-bold text-slate-900 mb-1">{p.title}</div>
-                  <div className="flex flex-wrap gap-2.5 text-[0.77rem] text-slate-500">
-                    {meta.map((m) => <span key={m}>{m}</span>)}
+                  <div
+                    className="w-10 h-10 rounded-[11px] flex items-center justify-center text-[1.15rem] flex-shrink-0"
+                    style={{ background: bg }}
+                  >
+                    📁
                   </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="text-[0.9rem] font-bold text-slate-900 mb-1">{p.title}</div>
+                    <div className="flex flex-wrap gap-2.5 text-[0.77rem] text-slate-500">
+                      {meta.map((m) => <span key={m}>{m}</span>)}
+                    </div>
+                  </div>
+                  <span className={`text-[0.72rem] font-bold px-2.5 py-1 rounded-[6px] whitespace-nowrap self-start mt-0.5 ${PROJECT_STATUS_STYLES[p.status as ProjectStatus] ?? PROJECT_STATUS_STYLES.active}`}>
+                    {PROJECT_STATUS_LABELS[p.status as ProjectStatus] ?? p.status}
+                  </span>
                 </div>
-                <span className={`text-[0.72rem] font-bold px-2.5 py-1 rounded-[6px] whitespace-nowrap self-start mt-0.5 ${PROJECT_STATUS_STYLES[p.status as ProjectStatus] ?? PROJECT_STATUS_STYLES.active}`}>
-                  {PROJECT_STATUS_LABELS[p.status as ProjectStatus] ?? p.status}
-                </span>
-              </div>
-            );
-          })
-        )}
-      </SectionCard>
+              );
+            })
+          )}
+        </SectionCard>
+      )}
 
-      {/* Applications */}
-      <SectionCard id="profile-applications" title="📨 Başvurularım" action="Tümünü gör">
+      {(isOwner || teamsPublic) && (
+        <SectionCard
+          id="profile-teams"
+          title="👥 Ekiplerim"
+          action={isOwner ? <VisibilityToggle section="teams" initialValue={teamsPublic} /> : undefined}
+        >
+          {teams.length === 0 ? (
+            <p className="text-[0.85rem] text-slate-400">Henüz ekip yok.</p>
+          ) : (
+            teams.map((t, i) => {
+              const meta: string[] = [];
+              if (t.projectTitle) meta.push(`📁 ${t.projectTitle}`);
+              meta.push(t.isLeader ? 'Lider: Sen' : 'Üye');
+
+              return (
+                <div
+                  key={t.id}
+                  className={`flex gap-4 items-start py-3.5 ${i < teams.length - 1 ? "border-b border-slate-100" : ""} ${i === 0 ? "pt-0" : ""}`}
+                >
+                  <div
+                    className="w-10 h-10 rounded-[11px] flex items-center justify-center text-[1.15rem] flex-shrink-0"
+                    style={{ background: TEAM_BG_COLORS[i % TEAM_BG_COLORS.length] }}
+                  >
+                    👥
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="text-[0.9rem] font-bold text-slate-900 mb-1">
+                      {t.name ?? t.projectTitle ?? 'Ekip'}
+                    </div>
+                    <div className="flex flex-wrap gap-2.5 text-[0.77rem] text-slate-500">
+                      {meta.map((m) => <span key={m}>{m}</span>)}
+                    </div>
+                  </div>
+                  <span className={`text-[0.72rem] font-bold px-2.5 py-1 rounded-[6px] whitespace-nowrap self-start mt-0.5 ${TEAM_STATUS_STYLES[t.status]}`}>
+                    {TEAM_STATUS_LABELS[t.status]}
+                  </span>
+                </div>
+              );
+            })
+          )}
+        </SectionCard>
+      )}
+
+      {(isOwner || applicationsPublic) && (
+        <SectionCard
+          id="profile-applications"
+          title="📨 Başvurularım"
+          action={isOwner ? <VisibilityToggle section="applications" initialValue={applicationsPublic} /> : undefined}
+        >
         {applications.length === 0 ? (
           <p className="text-[0.85rem] text-slate-400">Henüz başvuru yok.</p>
         ) : (
@@ -144,13 +195,19 @@ export function ProfileSections({ skills, projects, applications }: ProfileSecti
                   {a.roleName ? `Rol: ${a.roleName} · ` : ''}{formatRelativeDate(a.createdAt)}
                 </div>
               </div>
-              <span className={`text-[0.72rem] font-bold px-2.5 py-1 rounded-[6px] whitespace-nowrap ${APP_STATUS_STYLES[a.status]}`}>
-                {APP_STATUS_LABELS[a.status]}
-              </span>
+              <div className="flex items-center gap-2 flex-shrink-0">
+                <span className={`text-[0.72rem] font-bold px-2.5 py-1 rounded-[6px] whitespace-nowrap ${APP_STATUS_STYLES[a.status]}`}>
+                  {APP_STATUS_LABELS[a.status]}
+                </span>
+                {isOwner && a.status === 'pending' && (
+                  <WithdrawApplicationButton applicationId={a.id} />
+                )}
+              </div>
             </div>
           ))
         )}
-      </SectionCard>
+        </SectionCard>
+      )}
     </>
   );
 }

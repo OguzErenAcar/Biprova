@@ -110,7 +110,7 @@ export async function ProjectFeed({ searchParams }: ProjectFeedProps) {
             <ProjectCard
               key={project.id}
               projectId={project.id}
-              isOwnProject={currentUserId === project.creator.id}
+              isOwnProject={currentUserId === project.leader.id}
               city={project.city ?? "Belirtilmemiş"}
               isRemote={project.is_remote ?? false}
               status={getVisualStatus(project.roles)}
@@ -119,9 +119,9 @@ export async function ProjectFeed({ searchParams }: ProjectFeedProps) {
               title={project.title}
               description={project.description}
               poster={{
-                name: project.creator.name,
-                initials: getInitials(project.creator.name),
-                color: getPosterColor(project.creator.id),
+                name: project.leader.name,
+                initials: getInitials(project.leader.name),
+                color: getPosterColor(project.leader.id),
               }}
               roles={project.roles.map((r) => ({
                 id: r.id,
