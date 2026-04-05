@@ -6,6 +6,9 @@ interface ProfileSectionsProps {
   projects: UserProjectEntry[];
   applications: UserApplicationEntry[];
   teams: UserTeamEntry[];
+  projectsPublic: boolean;
+  teamsPublic: boolean;
+  applicationsPublic: boolean;
   isOwner?: boolean;
 }
 
