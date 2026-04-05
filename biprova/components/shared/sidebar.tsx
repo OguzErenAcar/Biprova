@@ -79,10 +79,10 @@ function StatusBadge({ status }: { status: SidebarProject["status"] }) {
   );
 }
 
-export function Sidebar({ user, teams = [], projects = [] }: SidebarProps) {
+export function Sidebar({ user, projects = [] }: SidebarProps) {
   const pathname = usePathname();
   const [projectsOpen, setProjectsOpen] = useState(true);
-  const [TeamsOpen, setTeamsOpen] = useState(true);
+  const [savedOpen, setSavedOpen] = useState(true);
 
 
   function isActive(href: string, exact?: boolean) {
