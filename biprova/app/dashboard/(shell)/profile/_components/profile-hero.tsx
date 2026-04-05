@@ -56,7 +56,7 @@ export function ProfileHero({ user, isOwner = false }: ProfileHeroProps) {
               LinkedIn
             </a>
           )}
-          {isOwner && user.cv_url && <CvViewDialog cvUrl={user.cv_url} />}
+          {isOwner && <CvViewDialog cvUrl={user.cv_url} />}
           {isOwner && <ProfileEditModal user={user} />}
         </div>
 
