@@ -499,6 +499,63 @@ function ProjectManagementSection({ projectId }: { projectId: string }) {
   );
 }
 
+/* ─── Ekip İsmi ──────────────────────────────────────────────── */
+
+function TeamNameSection({ teamId, currentName }: { teamId: string; currentName: string }) {
+  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
+  const [name, setName] = useState(currentName);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+
+  function handleSave() {
+    const trimmed = name.trim();
+    if (!trimmed || trimmed === currentName) return;
+    setError('');
+    setSuccess('');
+    startTransition(async () => {
+      const result = await renameTeam(teamId, trimmed);
+      if (result.error) {
+        setError(result.error);
+      } else {
+        setSuccess('Ekip ismi güncellendi.');
+        router.refresh();
+      }
+    });
+  }
+
+  const isDirty = name.trim() !== currentName && name.trim() !== '';
+
+  return (
+    <div className="bg-white border-[1.5px] border-slate-200 rounded-2xl overflow-hidden">
+      <div className="px-[1.4rem] py-[1rem] border-b border-slate-200">
+        <span className="font-nunito text-[0.9rem] font-black">✏️ Ekip İsmi</span>
+      </div>
+      <div className="px-[1.4rem] py-[1.2rem]">
+        <div className="flex gap-2">
+          <input
+            type="text"
+            value={name}
+            onChange={(e) => { setName(e.target.value); setSuccess(''); setError(''); }}
+            onKeyDown={(e) => e.key === 'Enter' && handleSave()}
+            placeholder="Ekip ismi"
+            className="flex-1 text-[0.82rem] px-3 py-2 rounded-lg border-[1.5px] border-slate-200 outline-none focus:border-blue-500 transition-colors placeholder:text-slate-400"
+          />
+          <button
+            disabled={!isDirty || isPending}
+            onClick={handleSave}
+            className="text-[0.78rem] font-bold px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer shrink-0"
+          >
+            {isPending ? '…' : 'Kaydet'}
+          </button>
+        </div>
+        {error && <p className="text-[0.72rem] text-red-500 mt-1.5">{error}</p>}
+        {success && <p className="text-[0.72rem] text-green-600 mt-1.5">{success}</p>}
+      </div>
+    </div>
+  );
+}
+
 /* ─── Lider Transfer (unused export, kept for page.tsx if needed) ─ */
 
 interface LeaderTransferDialogProps {
