@@ -3,12 +3,6 @@ import { FeedFilterDropdown } from "@/features/projects/components/feed-filter-d
 import { getProjectFeed, type FeedFilter } from "@/features/projects/actions";
 import { createClient } from "@/lib/supabase/server";
 
-const FILTER_TABS: { label: string; value: FeedFilter }[] = [
-  { label: "Tümü", value: "all" },
-  { label: "Şehrim", value: "sehrim" },
-  { label: "Remote", value: "remote" },
-];
-
 const POSTER_COLORS = [
   "#3b82f6", "#8b5cf6", "#22c55e", "#f59e0b",
   "#ef4444", "#06b6d4", "#ec4899", "#f97316",
