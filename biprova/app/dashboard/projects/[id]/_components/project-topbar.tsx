@@ -1,6 +1,8 @@
 "use client";
 
 import { useRouter } from 'next/navigation';
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 
 const STATUS_LABEL: Record<string, { label: string; className: string }> = {
   open:      { label: '● Rol Aranıyor', className: 'bg-blue-50 text-blue-700 border-blue-200' },
@@ -25,18 +27,20 @@ export function ProjectTopbar({ title, status }: Props) {
       id="project-topbar"
       className="sticky top-0 z-40 bg-slate-100/92 backdrop-blur-[12px] border-b border-slate-200 px-6 py-[0.8rem] flex items-center gap-3"
     >
-      <button
+      <Button
+        variant="ghost"
+        size="sm"
         onClick={() => router.back()}
-        className="text-[0.82rem] font-bold text-slate-400 hover:text-blue-600 transition-colors cursor-pointer"
+        className="text-[0.82rem] font-bold text-slate-400 hover:text-blue-600 h-auto px-2 py-1"
       >
         ← Geri
-      </button>
+      </Button>
 
       <span className="font-nunito font-black text-[1rem] text-slate-900">{title}</span>
 
-      <span className={`text-[0.7rem] font-bold px-2.5 py-[0.2rem] rounded-full border-[1.5px] ${s.className}`}>
+      <Badge variant="outline" className={`text-[0.7rem] font-bold ${s.className}`}>
         {s.label}
-      </span>
+      </Badge>
     </div>
   );
 }
