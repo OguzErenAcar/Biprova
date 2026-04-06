@@ -1,4 +1,5 @@
 import { UserStats } from '@/features/users/actions';
+import { Card, CardContent } from "@/components/ui/card";
 
 interface StatCardProps {
   value: number;
@@ -7,12 +8,14 @@ interface StatCardProps {
 
 function StatCard({ value, label }: StatCardProps) {
   return (
-    <div className="bg-white border border-slate-200 rounded-[14px] p-[1.1rem] text-center">
-      <div className="font-nunito font-black text-[1.7rem] text-blue-600 leading-none mb-1.5">
-        {value}
-      </div>
-      <div className="text-[0.78rem] text-slate-500 font-semibold">{label}</div>
-    </div>
+    <Card>
+      <CardContent className="p-[1.1rem] text-center">
+        <div className="font-nunito font-black text-[1.7rem] text-blue-600 leading-none mb-1.5">
+          {value}
+        </div>
+        <div className="text-[0.78rem] text-slate-500 font-semibold">{label}</div>
+      </CardContent>
+    </Card>
   );
 }
 
