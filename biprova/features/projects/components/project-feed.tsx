@@ -76,21 +76,7 @@ export async function ProjectFeed({ searchParams }: ProjectFeedProps) {
         <h2 className="font-nunito font-black text-[1.1rem] text-slate-900">
           📋 Timeline
         </h2>
-        <div className="hidden sm:flex gap-[0.4rem] bg-white border-[1.5px] border-slate-200 rounded-[10px] p-[0.3rem]">
-          {FILTER_TABS.map((tab) => (
-            <Link
-              key={tab.value}
-              href={tab.value === "all" ? "/dashboard" : `?filter=${tab.value}`}
-              className={`text-[0.78rem] font-bold font-jakarta px-[0.8rem] py-[0.35rem] rounded-[7px] transition-all duration-150 ${
-                activeFilter === tab.value
-                  ? "bg-blue-600 text-white"
-                  : "text-slate-500 hover:text-slate-900"
-              }`}
-            >
-              {tab.label}
-            </Link>
-          ))}
-        </div>
+        <FeedFilterDropdown activeFilter={activeFilter} />
       </div>
 
       {/* Proje kartları */}
