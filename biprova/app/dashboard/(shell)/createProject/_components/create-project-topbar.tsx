@@ -1,31 +1,34 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
 
 export function CreateProjectTopbar() {
   const router = useRouter();
 
   return (
-    <div id="create-project-topbar" className="sticky top-0 z-40 bg-slate-100/90 backdrop-blur-[12px] border-b border-slate-200 px-8 py-[0.9rem] flex items-center gap-4">
-      <button
+    <div id="create-project-topbar" className="dashboard-topbar px-8">
+      <Button
+        variant="outline"
+        size="icon"
         onClick={() => router.back()}
-        className="w-9 h-9 rounded-[9px] bg-white border-[1.5px] border-slate-200 flex items-center justify-center text-base cursor-pointer transition-colors hover:border-blue-600"
+        className="rounded-[9px]"
       >
         ←
-      </button>
+      </Button>
 
       <span className="font-nunito font-black text-[1.1rem] text-slate-900">
         ✨ Proje Oluştur
       </span>
 
-      <div className="ml-auto flex items-center gap-2.5">
-        <button
+      <div className="ml-auto">
+        <Button
           type="submit"
           form="create-project-form"
-          className="bg-blue-600 text-white border-none rounded-[10px] font-nunito font-extrabold text-[0.88rem] px-5 py-[0.6rem] cursor-pointer flex items-center gap-1.5 shadow-[0_4px_12px_rgba(37,99,235,0.25)] transition-all hover:-translate-y-px hover:shadow-[0_6px_18px_rgba(37,99,235,0.35)] disabled:opacity-60 disabled:cursor-not-allowed"
+          className="font-nunito font-extrabold gap-1.5 shadow-[0_4px_12px_rgba(37,99,235,0.25)] hover:-translate-y-px hover:shadow-[0_6px_18px_rgba(37,99,235,0.35)]"
         >
           🚀 Yayınla
-        </button>
+        </Button>
       </div>
     </div>
   );
