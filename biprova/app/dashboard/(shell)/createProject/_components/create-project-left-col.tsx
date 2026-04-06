@@ -189,14 +189,15 @@ export function CreateProjectLeftCol({ cities, skills, userTeams }: Props) {
             {userTeams.map((team) => {
               const isSelected = selectedTeamId === team.id;
               return (
-                <button
+                <Button
                   key={team.id}
                   type="button"
+                  variant="outline"
                   onClick={() => setSelectedTeamId(team.id)}
-                  className={`flex items-center gap-3 rounded-[11px] px-4 py-3 border-[1.5px] text-left transition-all ${
+                  className={`flex items-center gap-3 rounded-[11px] px-4 py-3 h-auto text-left justify-start transition-all ${
                     isSelected
-                      ? "border-blue-600 bg-blue-50"
-                      : "border-slate-200 bg-slate-50 hover:border-slate-300"
+                      ? "border-blue-600 bg-blue-50 hover:bg-blue-50"
+                      : "border-slate-200 bg-slate-50 hover:border-slate-300 hover:bg-slate-50"
                   }`}
                 >
                   <div className={`w-9 h-9 rounded-full flex items-center justify-center text-base shrink-0 ${isSelected ? "bg-blue-100" : "bg-white border-[1.5px] border-slate-200"}`}>
