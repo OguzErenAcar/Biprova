@@ -163,42 +163,48 @@ export function TeamPostCard({
       {/* Aksiyon butonları */}
       <div className="flex items-center gap-2 pt-4 border-t border-slate-100">
         {/* Beğeni */}
-        <button
+        <Button
+          variant="outline"
+          size="sm"
           onClick={(e) => { e.stopPropagation(); handleLike(); }}
           disabled={isPending}
-          className={`flex items-center gap-[0.35rem] border-[1.5px] rounded-lg font-jakarta text-[0.8rem] font-semibold px-[0.85rem] py-[0.4rem] transition-all duration-150 ${
-            isPending ? "opacity-60 cursor-not-allowed" : "cursor-pointer"
-          } ${
+          className={`gap-[0.35rem] font-jakarta text-[0.8rem] font-semibold h-auto px-[0.85rem] py-[0.4rem] transition-all duration-150 ${
             isLiked
-              ? "border-red-300 text-red-500 bg-red-50"
-              : "border-slate-200 text-slate-500 bg-transparent hover:border-blue-600 hover:text-blue-600 hover:bg-blue-50"
+              ? "border-red-300 text-red-500 bg-red-50 hover:bg-red-50 hover:text-red-500"
+              : "border-slate-200 text-slate-500 hover:border-blue-600 hover:text-blue-600 hover:bg-blue-50"
           }`}
         >
           👍 {likeCount}
-        </button>
+        </Button>
 
         {/* Yorum — devre dışı */}
-        <button
+        <Button
+          variant="outline"
+          size="sm"
           disabled
-          className="flex items-center gap-[0.35rem] border-[1.5px] border-slate-100 rounded-lg font-jakarta text-[0.8rem] font-semibold text-slate-300 px-[0.85rem] py-[0.4rem] cursor-not-allowed"
+          className="gap-[0.35rem] border-slate-100 font-jakarta text-[0.8rem] font-semibold text-slate-300 h-auto px-[0.85rem] py-[0.4rem]"
         >
           💬 {comments}
-        </button>
+        </Button>
 
         {/* Paylaş + Kaydet — devre dışı */}
         <div className="ml-auto flex items-center gap-2">
-          <button
+          <Button
+            variant="outline"
+            size="sm"
             disabled
-            className="flex items-center gap-[0.35rem] border-[1.5px] border-slate-100 rounded-lg font-jakarta text-[0.8rem] font-semibold text-slate-300 px-[0.85rem] py-[0.4rem] cursor-not-allowed"
+            className="gap-[0.35rem] border-slate-100 font-jakarta text-[0.8rem] font-semibold text-slate-300 h-auto px-[0.85rem] py-[0.4rem]"
           >
             ↗ Paylaş
-          </button>
-          <button
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
             disabled
-            className="flex items-center gap-[0.35rem] border-[1.5px] border-slate-100 rounded-lg font-jakarta text-[0.8rem] font-semibold text-slate-300 px-[0.85rem] py-[0.4rem] cursor-not-allowed"
+            className="gap-[0.35rem] border-slate-100 font-jakarta text-[0.8rem] font-semibold text-slate-300 h-auto px-[0.85rem] py-[0.4rem]"
           >
             🔖 Kaydet
-          </button>
+          </Button>
         </div>
       </div>
       </CardContent>
