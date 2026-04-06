@@ -201,6 +201,7 @@ export function TeamPostCard({
           </button>
         </div>
       </div>
-    </div>
+      </CardContent>
+    </Card>
   );
 }
