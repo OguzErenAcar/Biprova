@@ -119,22 +119,16 @@ export function CreateProjectLeftCol({ cities, skills, userTeams }: Props) {
       <FormCard id="section-location" title="📍 Konum & Kategori" sub="Ekibini nerede ve hangi alanda arıyorsun?">
         <FormGroup label="">
           <div className="flex items-center justify-between bg-slate-50 border-[1.5px] border-slate-200 rounded-[11px] px-4 py-3">
-            <div>
+            <Label htmlFor="is_remote" className="cursor-pointer">
               <div className="text-[0.88rem] font-bold text-slate-900">🌐 Remote Uyumlu</div>
               <div className="text-[0.74rem] text-slate-400 mt-0.5">Uzaktan çalışmaya açıksanız işaretle</div>
-            </div>
-            <label className="relative w-11 h-6 cursor-pointer">
-              <input
-                type="checkbox"
-                className="opacity-0 w-0 h-0 absolute"
-                name="is_remote"
-                value="on"
-                checked={isRemote}
-                onChange={(e) => setIsRemote(e.target.checked)}
-              />
-              <div className={`absolute inset-0 rounded-full transition-colors ${isRemote ? "bg-blue-600" : "bg-slate-200"}`} />
-              <div className={`absolute top-[3px] w-[18px] h-[18px] bg-white rounded-full shadow-sm transition-transform ${isRemote ? "translate-x-[23px]" : "translate-x-[3px]"}`} />
-            </label>
+            </Label>
+            <input type="hidden" name="is_remote" value={isRemote ? "on" : ""} />
+            <Switch
+              id="is_remote"
+              checked={isRemote}
+              onCheckedChange={setIsRemote}
+            />
           </div>
         </FormGroup>
 
