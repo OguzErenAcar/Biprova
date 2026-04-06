@@ -2,6 +2,8 @@
 
 import { useTransition, useState } from "react";
 import { toggleTeamPostLike } from "@/features/teams/actions";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 
 const BODY_TRUNCATE_THRESHOLD = 180;
 
