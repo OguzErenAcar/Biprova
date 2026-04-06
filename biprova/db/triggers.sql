@@ -163,6 +163,46 @@ create or replace trigger trg_auth_user_login
     for each row execute function handle_auth_user_login();
 
 -- ============================================================
+-- TRIGGER: team_post_likes insert/delete → like_count güncelle
+-- ============================================================
+
+create or replace function sync_team_post_like_count()
+returns trigger language plpgsql security definer as $$
+begin
+    if TG_OP = 'INSERT' then
+        update team_posts set like_count = like_count + 1 where id = new.post_id;
+    elsif TG_OP = 'DELETE' then
+        update team_posts set like_count = greatest(like_count - 1, 0) where id = old.post_id;
+    end if;
+    return null;
+end;
+$$;
+
+create or replace trigger trg_sync_team_post_like_count
+    after insert or delete on team_post_likes
+    for each row execute function sync_team_post_like_count();
+
+-- ============================================================
+-- TRIGGER: news_likes insert/delete → like_count güncelle
+-- ============================================================
+
+create or replace function sync_news_like_count()
+returns trigger language plpgsql security definer as $$
+begin
+    if TG_OP = 'INSERT' then
+        update news set like_count = like_count + 1 where id = new.news_id;
+    elsif TG_OP = 'DELETE' then
+        update news set like_count = greatest(like_count - 1, 0) where id = old.news_id;
+    end if;
+    return null;
+end;
+$$;
+
+create or replace trigger trg_sync_news_like_count
+    after insert or delete on news_likes
+    for each row execute function sync_news_like_count();
+
+-- ============================================================
 -- TRIGGER: Auth user silinince public.users'ı da sil
 -- ============================================================
 
