@@ -16,7 +16,7 @@ interface Props {
   hasTeam: boolean;
 }
 
-export function ProjectTopbar({ title, status, hasTeam }: Props) {
+export function ProjectTopbar({ title, status }: Props) {
   const router = useRouter();
   const s = STATUS_LABEL[status] ?? STATUS_LABEL.open;
 
@@ -37,23 +37,6 @@ export function ProjectTopbar({ title, status, hasTeam }: Props) {
       <span className={`text-[0.7rem] font-bold px-2.5 py-[0.2rem] rounded-full border-[1.5px] ${s.className}`}>
         {s.label}
       </span>
-
-      <div className="ml-auto flex items-center gap-2">
-        <button
-          disabled={!hasTeam}
-          title={!hasTeam ? 'Ekip kurulduktan sonra aktif olur' : undefined}
-          className="w-[34px] h-[34px] rounded-[9px] bg-white border-[1.5px] border-slate-200 flex items-center justify-center text-[0.9rem] transition-colors disabled:opacity-30 disabled:cursor-not-allowed hover:enabled:border-blue-600 cursor-pointer"
-        >
-          🔔
-        </button>
-        <button
-          disabled={!hasTeam}
-          title={!hasTeam ? 'Ekip kurulduktan sonra aktif olur' : undefined}
-          className="w-[34px] h-[34px] rounded-[9px] bg-white border-[1.5px] border-slate-200 flex items-center justify-center text-[0.9rem] transition-colors disabled:opacity-30 disabled:cursor-not-allowed hover:enabled:border-blue-600 cursor-pointer"
-        >
-          ⚙️
-        </button>
-      </div>
     </div>
   );
 }
