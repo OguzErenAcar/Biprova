@@ -1,3 +1,6 @@
+import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+
 const AVATARS = [
   { initials: "AK", color: "#3b82f6" },
   { initials: "ME", color: "#8b5cf6" },
@@ -25,18 +28,26 @@ export function ActiveTeamBanner() {
       <div className="flex items-center gap-[0.6rem]">
         <div className="flex items-center">
           {AVATARS.map((av, i) => (
-            <div
+            <Avatar
               key={i}
-              className="w-[30px] h-[30px] rounded-full border-2 border-white/40 -ml-2 first:ml-0 text-[0.7rem] font-nunito font-black text-white flex items-center justify-center"
-              style={{ background: av.color }}
+              className="w-[30px] h-[30px] border-2 border-white/40 -ml-2 first:ml-0"
             >
-              {av.initials}
-            </div>
+              <AvatarFallback
+                className="text-[0.7rem] font-nunito font-black text-white"
+                style={{ background: av.color }}
+              >
+                {av.initials}
+              </AvatarFallback>
+            </Avatar>
           ))}
         </div>
-        <button className="bg-white text-blue-600 border-none rounded-lg font-nunito font-extrabold text-[0.82rem] px-4 py-[0.45rem] cursor-pointer hover:bg-blue-50 transition-colors duration-150">
+        <Button
+          variant="secondary"
+          size="sm"
+          className="bg-white text-blue-600 hover:bg-blue-50 font-nunito font-extrabold"
+        >
           Gruba Git →
-        </button>
+        </Button>
       </div>
     </div>
   );
