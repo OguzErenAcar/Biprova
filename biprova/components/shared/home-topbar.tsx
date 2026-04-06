@@ -5,7 +5,7 @@ import { SearchBar } from "@/components/shared/search-bar";
 
 export function HomeTopbar() {
   return (
-    <div id="dashboard-topbar" className="sticky top-0 z-40 bg-slate-100/90 backdrop-blur-md border-b border-slate-200 px-4 sm:px-6 lg:px-8 py-[0.9rem] flex items-center gap-4">
+    <div id="dashboard-topbar" className="dashboard-topbar">
       <SearchBar />
 
       <div className="ml-auto flex items-center gap-[0.6rem]">
