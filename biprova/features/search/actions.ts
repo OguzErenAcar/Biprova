@@ -1,0 +1,50 @@
+'use server';
+
+import { createClient } from '@/lib/supabase/server';
+
+export interface SearchResult {
+  id: string;
+  label: string;
+  sub: string | null;
+  type: 'project' | 'user';
+  href: string;
+}
+
+export async function search(query: string): Promise<SearchResult[]> {
+  const q = query.trim();
+  if (q.length < 1) return [];
+
+  const supabase = await createClient();
+
+  const [{ data: projects }, { data: users }] = await Promise.all([
+    supabase
+      .from('projects')
+      .select('id, title, city')
+      .eq('status', 'open')
+      .ilike('title', `%${q}%`)
+      .limit(5),
+    supabase
+      .from('users')
+      .select('id, name, badge')
+      .ilike('name', `%${q}%`)
+      .limit(5),
+  ]);
+
+  const projectResults: SearchResult[] = (projects ?? []).map((p) => ({
+    id: p.id,
+    label: p.title,
+    sub: p.city ?? null,
+    type: 'project',
+    href: `/dashboard/projects/${p.id}`,
+  }));
+
+  const userResults: SearchResult[] = (users ?? []).map((u) => ({
+    id: u.id,
+    label: u.name,
+    sub: u.badge ?? null,
+    type: 'user',
+    href: `/dashboard/profile/${u.id}`,
+  }));
+
+  return [...projectResults, ...userResults].slice(0, 5);
+}

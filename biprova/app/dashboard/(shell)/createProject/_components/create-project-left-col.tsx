@@ -34,10 +34,10 @@ interface Props {
   userTeams: UserTeamOption[];
 }
 
-export function CreateProjectLeftCol({ categories, cities, skills, userTeams }: Props) {
+export function CreateProjectLeftCol({  cities, skills, userTeams }: Props) {
   const [state, formAction] = useActionState(createProject, null);
   const [isRemote, setIsRemote] = useState(false);
-  const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null);
+  const [selectedCategoryId] = useState<string | null>(null);
   const [roles, setRoles] = useState<Role[]>([]);
   const [selectedSkillId, setSelectedSkillId] = useState("");
   const [nextId, setNextId] = useState(1);
@@ -142,28 +142,7 @@ export function CreateProjectLeftCol({ categories, cities, skills, userTeams }: 
             </select>
             <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-[0.8rem]">▾</span>
           </div>
-        </FormGroup>
-
-        {categories.length > 0 && (
-          <FormGroup label="Kategori" hint="— opsiyonel">
-            <div className="flex flex-wrap gap-2">
-              {categories.map((cat) => (
-                <button
-                  key={cat.id}
-                  type="button"
-                  onClick={() => setSelectedCategoryId(selectedCategoryId === cat.id ? null : cat.id)}
-                  className={`border-[1.5px] rounded-full py-1.5 px-3.5 text-[0.78rem] font-semibold cursor-pointer transition-all ${
-                    selectedCategoryId === cat.id
-                      ? "border-blue-600 text-blue-600 bg-blue-50"
-                      : "border-slate-200 text-slate-400 hover:border-blue-600 hover:text-blue-600 hover:bg-blue-50"
-                  }`}
-                >
-                  {cat.name}
-                </button>
-              ))}
-            </div>
-          </FormGroup>
-        )}
+        </FormGroup> 
       </FormCard>
 
       {/* EKİBİ BELİRLE */}
