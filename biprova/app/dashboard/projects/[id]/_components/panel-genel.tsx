@@ -1,6 +1,7 @@
 import type { ProjectDetail } from '@/features/projects/actions';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 function formatDate(iso: string) {
   return new Date(iso).toLocaleDateString('tr-TR', {
