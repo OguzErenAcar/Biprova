@@ -2,6 +2,7 @@
 
 import { useTransition } from "react";
 import { withdrawApplication } from "@/features/users/actions";
+import { Button } from "@/components/ui/button";
 
 interface WithdrawApplicationButtonProps {
   applicationId: string;
