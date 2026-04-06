@@ -406,6 +406,33 @@ export async function getActiveTeam(): Promise<ActiveTeam | null> {
   };
 }
 
+export async function toggleTeamPostLike(postId: string): Promise<{ isLiked: boolean }> {
+  const supabase = await createClient();
+  const { data: { user }, error: authError } = await supabase.auth.getUser();
+  if (authError || !user) throw new Error('Giriş yapmalısın');
+
+  const { data: existing } = await supabase
+    .from('team_post_likes')
+    .select('post_id')
+    .eq('post_id', postId)
+    .eq('user_id', user.id)
+    .maybeSingle();
+
+  if (existing) {
+    await supabase
+      .from('team_post_likes')
+      .delete()
+      .eq('post_id', postId)
+      .eq('user_id', user.id);
+    return { isLiked: false };
+  } else {
+    await supabase
+      .from('team_post_likes')
+      .insert({ post_id: postId, user_id: user.id });
+    return { isLiked: true };
+  }
+}
+
 export async function getTeamPostFeed(): Promise<TeamPostFeedItem[]> {
   const supabase = await createClient();
 
