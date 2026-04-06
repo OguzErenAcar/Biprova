@@ -69,21 +69,23 @@ export function ProjectCard({
     >
       {/* Üst satır: etiketler + zaman */}
 
-      <div className="flex justify-between">
-
-      <div className="flex items-center gap-2 mb-4">
-        <div
-          className="w-6 h-6 rounded-full flex items-center justify-center text-[0.65rem] font-nunito font-black text-white flex-shrink-0"
-          style={{ background: poster.color }}
+      <div className="flex items-center justify-between mb-4">
+        <Link
+          href={`/dashboard/profile/${poster.id}`}
+          className="flex items-center gap-2 hover:opacity-75 transition-opacity"
+          onClick={(e) => e.stopPropagation()}
         >
-          {poster.initials}
-        </div>
-        <span className="text-[0.8rem] font-semibold text-slate-500">
-          <span className="text-slate-900">{poster.name}</span>
-        </span>
-      </div>
+          <div
+            className="w-6 h-6 rounded-full flex items-center justify-center text-[0.65rem] font-nunito font-black text-white flex-shrink-0"
+            style={{ background: poster.color }}
+          >
+            {poster.initials}
+          </div>
+          <span className="text-[0.8rem] font-semibold text-slate-900">
+            {poster.name}
+          </span>
+        </Link>
 
-      <div className="flex items-start justify-between gap-2 mb-[0.9rem]">
         <div className="flex items-center gap-2 flex-wrap">
           <span className="text-[0.72rem] font-bold px-[0.65rem] py-[0.25rem] rounded-full bg-blue-50 text-blue-600">
             {isRemote ? "🌐 Remote" : `📍 ${city}`}
@@ -94,7 +96,6 @@ export function ProjectCard({
             {STATUS_LABELS[status]}
           </span>
         </div>
-      </div>
       </div>
 
       {/* Başlık */}
