@@ -4,6 +4,7 @@ import { useState } from "react";
 import { TeamBar } from "@/components/shared/team-bar";
 import { RoleJoinButton } from "@/features/applications/components/apply-button";
 import { ChevronDown } from "lucide-react";
+import Link from "next/link";
 
 type ProjectStatus = "open" | "almost" | "full";
 
