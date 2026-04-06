@@ -214,7 +214,7 @@ export function CreateProjectLeftCol({ cities, skills, userTeams }: Props) {
                   <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-all ${isSelected ? "border-blue-600 bg-blue-600" : "border-slate-300"}`}>
                     {isSelected && <span className="text-white text-[0.6rem]">✓</span>}
                   </div>
-                </button>
+                </Button>
               );
             })}
           </div>
