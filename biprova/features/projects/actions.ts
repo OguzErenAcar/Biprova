@@ -570,8 +570,19 @@ export async function getProjectDetail(id: string): Promise<ProjectDetail | null
       .eq('project_id', id)
       .limit(20);
 
-    const seenIds = new Set<string>();
-    members = (rawProjMembers as unknown as RawProjectMemberRow[] ?? [])
+    // Lider project_members'a eklenmese bile her zaman listele
+    const leaderMember: ProjectMember = {
+      user_id: project.leader_id,
+      name: project.users?.name ?? '',
+      avatar_url: project.users?.avatar_url ?? null,
+      role_name: 'Lider',
+      is_leader: true,
+      has_biprova: false,
+      is_project_leader: true,
+    };
+
+    const seenIds = new Set<string>([project.leader_id]);
+    const otherMembers = (rawProjMembers as unknown as RawProjectMemberRow[] ?? [])
       .filter((m) => {
         if (seenIds.has(m.user_id)) return false;
         seenIds.add(m.user_id);
@@ -582,10 +593,12 @@ export async function getProjectDetail(id: string): Promise<ProjectDetail | null
         name: m.users.name,
         avatar_url: m.users.avatar_url,
         role_name: m.role === 'leader' ? 'Lider' : 'Üye',
-        is_leader: m.user_id === project.leader_id,
+        is_leader: false,
         has_biprova: false,
-        is_project_leader: m.user_id === project.leader_id,
+        is_project_leader: false,
       }));
+
+    members = [leaderMember, ...otherMembers];
   }
 
   let applications: ProjectApplication[] = [];
