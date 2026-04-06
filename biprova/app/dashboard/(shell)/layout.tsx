@@ -6,7 +6,7 @@ export default function ShellLayout({ children }: { children: React.ReactNode })
     <>
       <HomeTopbar />
 
-      <div id="dashboard-shell" className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-6 px-4 sm:px-6 py-4 pb-20 lg:px-8 lg:py-6 lg:pb-6 items-start">
+      <div id="dashboard-shell" className="dashboard-shell">
         <div id="dashboard-main">
           {children}
         </div>
