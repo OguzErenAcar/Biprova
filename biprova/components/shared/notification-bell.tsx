@@ -44,9 +44,13 @@ export function NotificationBell() {
         <div className="absolute right-0 top-[calc(100%+8px)] w-[320px] bg-white border-[1.5px] border-slate-200 rounded-2xl shadow-xl z-50 p-[1.1rem]">
           <div className="font-nunito font-black text-[0.9rem] text-slate-900 mb-3 flex items-center justify-between">
             🔔 Bildirimler
-            <span className="text-[0.72rem] text-blue-600 font-bold font-jakarta cursor-pointer">
+            <Link
+              href="/dashboard/notifications"
+              className="text-[0.72rem] text-blue-600 font-bold font-jakarta cursor-pointer hover:underline"
+              onClick={() => setOpen(false)}
+            >
               Tümünü Gör
-            </span>
+            </Link>
           </div>
 
           <div className="flex flex-col">
