@@ -3,6 +3,9 @@
 import { useActionState, useState } from "react";
 import { createProject } from "@/features/projects/actions";
 import type { CategoryOption, CityOption, SkillOption, UserTeamOption } from "@/features/projects/actions";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 
 interface Role {
   id: number;
@@ -34,7 +37,7 @@ interface Props {
   userTeams: UserTeamOption[];
 }
 
-export function CreateProjectLeftCol({  cities, skills, userTeams }: Props) {
+export function CreateProjectLeftCol({ cities, skills, userTeams }: Props) {
   const [state, formAction] = useActionState(createProject, null);
   const [isRemote, setIsRemote] = useState(false);
   const [selectedCategoryId] = useState<string | null>(null);
@@ -69,7 +72,6 @@ export function CreateProjectLeftCol({  cities, skills, userTeams }: Props) {
   }
 
   const availableSkills = skills.filter((s) => !roles.some((r) => r.skillId === s.id));
-
   const serializedRoles = JSON.stringify(
     roles.map((r) => ({ name: r.name, count: r.count, skillIds: [r.skillId] }))
   );
@@ -77,10 +79,11 @@ export function CreateProjectLeftCol({  cities, skills, userTeams }: Props) {
   return (
     <form id="create-project-form" action={formAction} className="flex flex-col gap-5">
       {state?.error && (
-        <div className="bg-red-50 border-[1.5px] border-red-200 rounded-[12px] px-4 py-3 text-[0.84rem] font-semibold text-red-600">
-          {state.error}
-        </div>
+        <Alert variant="destructive">
+          <AlertDescription>{state.error}</AlertDescription>
+        </Alert>
       )}
+
       <input type="hidden" name="category_id" value={selectedCategoryId ?? ""} />
       <input type="hidden" name="roles" value={teamMode === "new" ? serializedRoles : ""} />
       <input type="hidden" name="team_id" value={teamMode === "existing" ? (selectedTeamId ?? "") : ""} />
@@ -142,7 +145,7 @@ export function CreateProjectLeftCol({  cities, skills, userTeams }: Props) {
             </select>
             <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-[0.8rem]">▾</span>
           </div>
-        </FormGroup> 
+        </FormGroup>
       </FormCard>
 
       {/* EKİBİ BELİRLE */}
@@ -155,35 +158,35 @@ export function CreateProjectLeftCol({  cities, skills, userTeams }: Props) {
             : "Hangi becerilere sahip kişilere ihtiyacın var? En az 1, en fazla 6 rol ekleyebilirsin."
         }
       >
-        {/* Mod toggle — sadece ekibi olan kullanıcılara göster */}
         {userTeams.length > 0 && (
           <div className="flex gap-1.5 bg-slate-100 rounded-[11px] p-1 mb-1">
-            <button
+            <Button
               type="button"
+              variant="ghost"
               onClick={() => setTeamMode("existing")}
-              className={`flex-1 text-[0.82rem] font-bold rounded-[8px] py-2 transition-all ${
+              className={`flex-1 text-[0.82rem] font-bold rounded-[8px] h-auto py-2 transition-all ${
                 teamMode === "existing"
-                  ? "bg-white text-slate-900 shadow-sm"
-                  : "text-slate-400 hover:text-slate-600"
+                  ? "bg-white text-slate-900 shadow-sm hover:bg-white"
+                  : "text-slate-400 hover:text-slate-600 hover:bg-transparent"
               }`}
             >
               🤝 Mevcut Ekiplerimden
-            </button>
-            <button
+            </Button>
+            <Button
               type="button"
+              variant="ghost"
               onClick={() => setTeamMode("new")}
-              className={`flex-1 text-[0.82rem] font-bold rounded-[8px] py-2 transition-all ${
+              className={`flex-1 text-[0.82rem] font-bold rounded-[8px] h-auto py-2 transition-all ${
                 teamMode === "new"
-                  ? "bg-white text-slate-900 shadow-sm"
-                  : "text-slate-400 hover:text-slate-600"
+                  ? "bg-white text-slate-900 shadow-sm hover:bg-white"
+                  : "text-slate-400 hover:text-slate-600 hover:bg-transparent"
               }`}
             >
               ✨ Sıfırdan Belirle
-            </button>
+            </Button>
           </div>
         )}
 
-        {/* Mevcut ekip seçimi */}
         {teamMode === "existing" && (
           <div className="flex flex-col gap-2.5">
             {userTeams.map((team) => {
@@ -219,7 +222,6 @@ export function CreateProjectLeftCol({  cities, skills, userTeams }: Props) {
           </div>
         )}
 
-        {/* Sıfırdan rol ekleme */}
         {teamMode === "new" && (
           <>
             {roles.length > 0 && (
@@ -232,31 +234,37 @@ export function CreateProjectLeftCol({  cities, skills, userTeams }: Props) {
                     <span className="text-slate-300 cursor-grab text-base">⠿</span>
                     <span className="flex-1 text-[0.88rem] font-bold text-slate-900">{role.name}</span>
                     <div className="flex items-center gap-1 bg-white border-[1.5px] border-slate-200 rounded-[8px] p-0.5">
-                      <button
+                      <Button
                         type="button"
+                        variant="ghost"
+                        size="icon"
                         onClick={() => changeCount(role.id, -1)}
-                        className="w-6 h-6 rounded-[6px] border-none bg-transparent cursor-pointer text-[0.9rem] text-slate-400 flex items-center justify-center transition-colors hover:bg-slate-50 hover:text-slate-900"
+                        className="w-6 h-6 rounded-[6px] text-slate-400"
                       >
                         −
-                      </button>
+                      </Button>
                       <span className="font-nunito font-black text-[0.88rem] min-w-[18px] text-center">
                         {role.count}
                       </span>
-                      <button
+                      <Button
                         type="button"
+                        variant="ghost"
+                        size="icon"
                         onClick={() => changeCount(role.id, 1)}
-                        className="w-6 h-6 rounded-[6px] border-none bg-transparent cursor-pointer text-[0.9rem] text-slate-400 flex items-center justify-center transition-colors hover:bg-slate-50 hover:text-slate-900"
+                        className="w-6 h-6 rounded-[6px] text-slate-400"
                       >
                         +
-                      </button>
+                      </Button>
                     </div>
-                    <button
+                    <Button
                       type="button"
+                      variant="ghost"
+                      size="icon"
                       onClick={() => removeRole(role.id)}
-                      className="w-7 h-7 rounded-[7px] border-none bg-transparent cursor-pointer text-slate-300 flex items-center justify-center text-base transition-all hover:bg-red-50 hover:text-red-500"
+                      className="w-7 h-7 rounded-[7px] text-slate-300 hover:bg-red-50 hover:text-red-500"
                     >
                       ✕
-                    </button>
+                    </Button>
                   </div>
                 ))}
               </div>
@@ -279,14 +287,15 @@ export function CreateProjectLeftCol({  cities, skills, userTeams }: Props) {
                 </select>
                 <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-[0.8rem]">▾</span>
               </div>
-              <button
+              <Button
                 type="button"
+                variant="outline"
                 onClick={addRole}
                 disabled={!selectedSkillId || roles.length >= 6}
-                className="bg-blue-50 text-blue-600 border-[1.5px] border-blue-200 rounded-[10px] font-nunito font-extrabold text-[0.86rem] px-4 py-[0.7rem] cursor-pointer whitespace-nowrap transition-all flex items-center gap-1 hover:bg-blue-600 hover:text-white hover:border-blue-600 disabled:opacity-40 disabled:cursor-not-allowed"
+                className="font-nunito font-extrabold border-blue-200 text-blue-600 bg-blue-50 hover:bg-blue-600 hover:text-white hover:border-blue-600 whitespace-nowrap"
               >
                 ＋ Ekle
-              </button>
+              </Button>
             </div>
           </>
         )}
@@ -350,13 +359,17 @@ interface FormCardProps {
 
 function FormCard({ id, title, sub, children }: FormCardProps) {
   return (
-    <div id={id} className="bg-white border-[1.5px] border-slate-200 rounded-[18px] p-[1.8rem]">
-      <div className="font-nunito font-black text-[1.05rem] text-slate-900 mb-1 flex items-center gap-[0.45rem]">
-        {title}
-      </div>
-      <div className="text-[0.81rem] text-slate-400 mb-5">{sub}</div>
-      <div className="flex flex-col gap-4">{children}</div>
-    </div>
+    <Card id={id}>
+      <CardHeader className="pb-0">
+        <CardTitle className="font-nunito font-black text-[1.05rem] text-slate-900">
+          {title}
+        </CardTitle>
+        <CardDescription className="text-[0.81rem]">{sub}</CardDescription>
+      </CardHeader>
+      <CardContent className="flex flex-col gap-4 pt-5">
+        {children}
+      </CardContent>
+    </Card>
   );
 }
 
