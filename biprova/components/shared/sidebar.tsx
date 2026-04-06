@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { SidebarAccountActions } from "@/components/shared/sidebar-account-actions";
 
 interface SidebarUser {
   name: string;
