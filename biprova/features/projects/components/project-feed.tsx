@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { ProjectCard } from "@/features/projects/components/project-card";
+import { FeedFilterDropdown } from "@/features/projects/components/feed-filter-dropdown";
 import { getProjectFeed, type FeedFilter } from "@/features/projects/actions";
 import { createClient } from "@/lib/supabase/server";
 
