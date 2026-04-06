@@ -111,29 +111,39 @@ export function ProjectCard({
       {/* Aranan pozisyonlar */}
       {openRoles.length > 0 && (
         <div className="mb-4">
-          <p className="text-[0.7rem] font-bold text-slate-400 uppercase tracking-wider mb-2">
-            Aranan Pozisyonlar
-          </p>
-          <div className="flex flex-col gap-2">
-            {openRoles.map((role, i) => (
-              <div
-                key={i}
-                className="rounded-xl border-[1.5px] border-amber-100 bg-amber-50/50 px-3 py-2.5 flex items-center gap-3"
-              >
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 mb-1.5">
-                    <span className="w-2 h-2 rounded-full bg-amber-400 flex-shrink-0" />
-                    <span className="text-[0.82rem] font-bold text-slate-700">
-                      {role.name}
-                    </span>
+          <button
+            onClick={() => setRolesOpen((prev) => !prev)}
+            className="flex items-center justify-between w-full mb-2 group"
+          >
+            <p className="text-[0.7rem] font-bold text-slate-400 uppercase tracking-wider">
+              Aranan Pozisyonlar ({openRoles.length})
+            </p>
+            <ChevronDown
+              className={`w-3.5 h-3.5 text-slate-400 transition-transform duration-200 ${rolesOpen ? "rotate-180" : ""}`}
+            />
+          </button>
+          {rolesOpen && (
+            <div className="flex flex-col gap-2">
+              {openRoles.map((role, i) => (
+                <div
+                  key={i}
+                  className="rounded-xl border-[1.5px] border-amber-100 bg-amber-50/50 px-3 py-2.5 flex items-center gap-3"
+                >
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-1.5">
+                      <span className="w-2 h-2 rounded-full bg-amber-400 flex-shrink-0" />
+                      <span className="text-[0.82rem] font-bold text-slate-700">
+                        {role.name}
+                      </span>
+                    </div>
                   </div>
+                  {!isOwnProject && (
+                    <RoleJoinButton projectId={projectId} roleId={role.id} />
+                  )}
                 </div>
-                {!isOwnProject && (
-                  <RoleJoinButton projectId={projectId} roleId={role.id} />
-                )}
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       )}
 
