@@ -90,6 +90,19 @@ export async function reviewApplication(
         .eq('id', app.project_id);
     }
 
+    const { data: leaderUser } = await supabase
+      .from('users')
+      .select('name')
+      .eq('id', user.id)
+      .single();
+
+    await supabase.from('notifications').insert({
+      user_id: app.user_id,
+      type: 'application_accepted',
+      payload: { actor_name: leaderUser?.name ?? 'Lider' },
+      is_read: false,
+    });
+
     revalidatePath('/dashboard/profile');
   }
 
