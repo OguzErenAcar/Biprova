@@ -77,33 +77,28 @@ function MemberStrip({ members }: { members: MemberSlot[] }) {
   return (
     <div className="flex items-center gap-1.5">
       {visible.map((m) => (
-        <div
-          key={m.id}
-          title={`${m.name}${m.is_leader ? ' (Lider)' : ''}`}
-          className={`relative w-8 h-8 rounded-full flex items-center justify-center text-[0.7rem] font-extrabold shrink-0 ${
-            m.is_leader
-              ? 'bg-orange-400 ring-2 ring-white'
-              : 'bg-white/20 ring-1 ring-white/40'
-          } text-white`}
-        >
-          {m.avatar_url ? (
-            <img
-              src={m.avatar_url}
-              alt={m.name}
-              className="w-full h-full rounded-full object-cover"
-            />
-          ) : (
-            getInitials(m.name)
-          )}
+        <div key={m.id} className="relative shrink-0" title={`${m.name}${m.is_leader ? ' (Lider)' : ''}`}>
+          <Avatar className={`w-8 h-8 ${m.is_leader ? 'ring-2 ring-white' : 'ring-1 ring-white/40'}`}>
+            <AvatarImage src={m.avatar_url ?? undefined} alt={m.name} className="object-cover" />
+            <AvatarFallback
+              className={`text-[0.7rem] font-extrabold text-white ${
+                m.is_leader ? 'bg-orange-400' : 'bg-white/20'
+              }`}
+            >
+              {getInitials(m.name)}
+            </AvatarFallback>
+          </Avatar>
           {m.is_leader && (
             <span className="absolute -top-1 -right-0.5 text-[0.55rem] leading-none">⚡</span>
           )}
         </div>
       ))}
       {overflow > 0 && (
-        <div className="w-8 h-8 rounded-full bg-white/20 ring-1 ring-white/30 flex items-center justify-center text-[0.65rem] font-bold text-white shrink-0">
-          +{overflow}
-        </div>
+        <Avatar className="w-8 h-8 ring-1 ring-white/30 shrink-0">
+          <AvatarFallback className="bg-white/20 text-[0.65rem] font-bold text-white">
+            +{overflow}
+          </AvatarFallback>
+        </Avatar>
       )}
     </div>
   );
