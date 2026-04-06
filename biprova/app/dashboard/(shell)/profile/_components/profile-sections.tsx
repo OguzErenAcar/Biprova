@@ -1,6 +1,8 @@
 import { UserProjectEntry, ProjectStatus, UserApplicationEntry, ApplicationStatus, UserTeamEntry, TeamStatus } from '@/features/users/actions';
 import { VisibilityToggle } from './visibility-toggle';
 import { WithdrawApplicationButton } from './withdraw-application-button';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 
 interface ProfileSectionsProps {
   projects: UserProjectEntry[];
@@ -13,9 +15,9 @@ interface ProfileSectionsProps {
 }
 
 const PROJECT_STATUS_STYLES: Record<ProjectStatus, string> = {
-  active:    "bg-green-50 text-green-700",
-  done:      "bg-blue-50 text-blue-600",
-  dissolved: "bg-slate-100 text-slate-500",
+  active:    "bg-green-50 text-green-700 border-green-100",
+  done:      "bg-blue-50 text-blue-600 border-blue-100",
+  dissolved: "bg-slate-100 text-slate-500 border-slate-200",
 };
 
 const PROJECT_STATUS_LABELS: Record<ProjectStatus, string> = {
@@ -25,9 +27,9 @@ const PROJECT_STATUS_LABELS: Record<ProjectStatus, string> = {
 };
 
 const APP_STATUS_STYLES: Record<ApplicationStatus, string> = {
-  pending:  "bg-amber-50 text-amber-800",
-  accepted: "bg-green-50 text-green-700",
-  rejected: "bg-red-50 text-red-700",
+  pending:  "bg-amber-50 text-amber-800 border-amber-100",
+  accepted: "bg-green-50 text-green-700 border-green-100",
+  rejected: "bg-red-50 text-red-700 border-red-100",
 };
 
 const APP_STATUS_LABELS: Record<ApplicationStatus, string> = {
@@ -41,9 +43,9 @@ const APP_BG_COLORS     = ["#ede9fe", "#dcfce7", "#fef3c7", "#eff6ff", "#fee2e2"
 const TEAM_BG_COLORS    = ["#fef3c7", "#eff6ff", "#dcfce7", "#fee2e2", "#f1f5f9", "#ede9fe"];
 
 const TEAM_STATUS_STYLES: Record<TeamStatus, string> = {
-  pending:    "bg-amber-50 text-amber-800",
-  active:     "bg-green-50 text-green-700",
-  no_project: "bg-slate-100 text-slate-500",
+  pending:    "bg-amber-50 text-amber-800 border-amber-100",
+  active:     "bg-green-50 text-green-700 border-green-100",
+  no_project: "bg-slate-100 text-slate-500 border-slate-200",
 };
 
 const TEAM_STATUS_LABELS: Record<TeamStatus, string> = {
@@ -70,13 +72,17 @@ function SectionCard({ id, title, action, children }: {
   children: React.ReactNode;
 }) {
   return (
-    <div id={id} className="bg-white border border-slate-200 rounded-[16px] p-[1.4rem] mb-5">
-      <div className="flex items-center justify-between mb-4">
-        <div className="font-nunito font-black text-[1rem] text-slate-900">{title}</div>
-        {action}
-      </div>
-      {children}
-    </div>
+    <Card id={id} className="mb-5">
+      <CardHeader className="pb-0">
+        <div className="flex items-center justify-between">
+          <CardTitle className="font-nunito font-black text-[1rem] text-slate-900">{title}</CardTitle>
+          {action}
+        </div>
+      </CardHeader>
+      <CardContent className="pt-4">
+        {children}
+      </CardContent>
+    </Card>
   );
 }
 
@@ -104,10 +110,7 @@ export function ProfileSections({ projects, applications, teams, projectsPublic,
                   key={p.id}
                   className={`flex gap-4 items-start py-3.5 ${i < projects.length - 1 ? "border-b border-slate-100" : ""} ${i === 0 ? "pt-0" : ""}`}
                 >
-                  <div
-                    className="w-10 h-10 rounded-[11px] flex items-center justify-center text-[1.15rem] flex-shrink-0"
-                    style={{ background: bg }}
-                  >
+                  <div className="w-10 h-10 rounded-[11px] flex items-center justify-center text-[1.15rem] flex-shrink-0" style={{ background: bg }}>
                     📁
                   </div>
                   <div className="flex-1 min-w-0">
@@ -116,9 +119,9 @@ export function ProfileSections({ projects, applications, teams, projectsPublic,
                       {meta.map((m) => <span key={m}>{m}</span>)}
                     </div>
                   </div>
-                  <span className={`text-[0.72rem] font-bold px-2.5 py-1 rounded-[6px] whitespace-nowrap self-start mt-0.5 ${PROJECT_STATUS_STYLES[p.status as ProjectStatus] ?? PROJECT_STATUS_STYLES.active}`}>
+                  <Badge variant="outline" className={`text-[0.72rem] font-bold whitespace-nowrap self-start mt-0.5 ${PROJECT_STATUS_STYLES[p.status as ProjectStatus] ?? PROJECT_STATUS_STYLES.active}`}>
                     {PROJECT_STATUS_LABELS[p.status as ProjectStatus] ?? p.status}
-                  </span>
+                  </Badge>
                 </div>
               );
             })
@@ -145,10 +148,7 @@ export function ProfileSections({ projects, applications, teams, projectsPublic,
                   key={t.id}
                   className={`flex gap-4 items-start py-3.5 ${i < teams.length - 1 ? "border-b border-slate-100" : ""} ${i === 0 ? "pt-0" : ""}`}
                 >
-                  <div
-                    className="w-10 h-10 rounded-[11px] flex items-center justify-center text-[1.15rem] flex-shrink-0"
-                    style={{ background: TEAM_BG_COLORS[i % TEAM_BG_COLORS.length] }}
-                  >
+                  <div className="w-10 h-10 rounded-[11px] flex items-center justify-center text-[1.15rem] flex-shrink-0" style={{ background: TEAM_BG_COLORS[i % TEAM_BG_COLORS.length] }}>
                     👥
                   </div>
                   <div className="flex-1 min-w-0">
@@ -159,9 +159,9 @@ export function ProfileSections({ projects, applications, teams, projectsPublic,
                       {meta.map((m) => <span key={m}>{m}</span>)}
                     </div>
                   </div>
-                  <span className={`text-[0.72rem] font-bold px-2.5 py-1 rounded-[6px] whitespace-nowrap self-start mt-0.5 ${TEAM_STATUS_STYLES[t.status]}`}>
+                  <Badge variant="outline" className={`text-[0.72rem] font-bold whitespace-nowrap self-start mt-0.5 ${TEAM_STATUS_STYLES[t.status]}`}>
                     {TEAM_STATUS_LABELS[t.status]}
-                  </span>
+                  </Badge>
                 </div>
               );
             })
@@ -175,37 +175,34 @@ export function ProfileSections({ projects, applications, teams, projectsPublic,
           title="📨 Başvurularım"
           action={isOwner ? <VisibilityToggle section="applications" initialValue={applicationsPublic} /> : undefined}
         >
-        {applications.length === 0 ? (
-          <p className="text-[0.85rem] text-slate-400">Henüz başvuru yok.</p>
-        ) : (
-          applications.map((a, i) => (
-            <div
-              key={a.id}
-              className={`flex gap-4 items-center py-3.5 ${i < applications.length - 1 ? "border-b border-slate-100" : ""} ${i === 0 ? "pt-0" : ""}`}
-            >
+          {applications.length === 0 ? (
+            <p className="text-[0.85rem] text-slate-400">Henüz başvuru yok.</p>
+          ) : (
+            applications.map((a, i) => (
               <div
-                className="w-10 h-10 rounded-[11px] flex items-center justify-center text-[1.15rem] flex-shrink-0"
-                style={{ background: APP_BG_COLORS[i % APP_BG_COLORS.length] }}
+                key={a.id}
+                className={`flex gap-4 items-center py-3.5 ${i < applications.length - 1 ? "border-b border-slate-100" : ""} ${i === 0 ? "pt-0" : ""}`}
               >
-                📨
-              </div>
-              <div className="flex-1 min-w-0">
-                <div className="text-[0.88rem] font-bold text-slate-900 mb-0.5">{a.projectTitle}</div>
-                <div className="text-[0.78rem] text-slate-500">
-                  {a.roleName ? `Rol: ${a.roleName} · ` : ''}{formatRelativeDate(a.createdAt)}
+                <div className="w-10 h-10 rounded-[11px] flex items-center justify-center text-[1.15rem] flex-shrink-0" style={{ background: APP_BG_COLORS[i % APP_BG_COLORS.length] }}>
+                  📨
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="text-[0.88rem] font-bold text-slate-900 mb-0.5">{a.projectTitle}</div>
+                  <div className="text-[0.78rem] text-slate-500">
+                    {a.roleName ? `Rol: ${a.roleName} · ` : ''}{formatRelativeDate(a.createdAt)}
+                  </div>
+                </div>
+                <div className="flex items-center gap-2 flex-shrink-0">
+                  <Badge variant="outline" className={`text-[0.72rem] font-bold whitespace-nowrap ${APP_STATUS_STYLES[a.status]}`}>
+                    {APP_STATUS_LABELS[a.status]}
+                  </Badge>
+                  {isOwner && a.status === 'pending' && (
+                    <WithdrawApplicationButton applicationId={a.id} />
+                  )}
                 </div>
               </div>
-              <div className="flex items-center gap-2 flex-shrink-0">
-                <span className={`text-[0.72rem] font-bold px-2.5 py-1 rounded-[6px] whitespace-nowrap ${APP_STATUS_STYLES[a.status]}`}>
-                  {APP_STATUS_LABELS[a.status]}
-                </span>
-                {isOwner && a.status === 'pending' && (
-                  <WithdrawApplicationButton applicationId={a.id} />
-                )}
-              </div>
-            </div>
-          ))
-        )}
+            ))
+          )}
         </SectionCard>
       )}
     </>
