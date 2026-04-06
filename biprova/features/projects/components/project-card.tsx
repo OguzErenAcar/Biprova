@@ -1,5 +1,9 @@
+"use client";
+
+import { useState } from "react";
 import { TeamBar } from "@/components/shared/team-bar";
 import { RoleJoinButton } from "@/features/applications/components/apply-button";
+import { ChevronDown } from "lucide-react";
 
 type ProjectStatus = "open" | "almost" | "full";
 
@@ -56,34 +60,14 @@ export function ProjectCard({
   const filledRoles = roles.filter((r) => r.filled);
 
   return (
-    <div id={`project-card-${projectId}`} className="bg-white border-[1.5px] border-slate-200 rounded-2xl p-[1.4rem] mb-4 hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(0,0,0,0.07)] transition-all duration-150 cursor-pointer">
+    <div
+      id={`project-card-${projectId}`}
+      className="bg-white border-[1.5px] border-slate-200 rounded-2xl p-[1.4rem] mb-4 hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(0,0,0,0.07)] transition-all duration-150 cursor-pointer"
+    >
       {/* Üst satır: etiketler + zaman */}
-      <div className="flex items-start justify-between gap-2 mb-[0.9rem]">
-        <div className="flex items-center gap-2 flex-wrap">
-          <span className="text-[0.72rem] font-bold px-[0.65rem] py-[0.25rem] rounded-full bg-blue-50 text-blue-600">
-            {isRemote ? "🌐 Remote" : `📍 ${city}`}
-          </span>
-          <span className={`text-[0.72rem] font-bold px-[0.65rem] py-[0.25rem] rounded-full ${STATUS_STYLES[status]}`}>
-            {STATUS_LABELS[status]}
-          </span>
-          <span className="text-[0.72rem] font-bold px-[0.65rem] py-[0.25rem] rounded-full bg-slate-100 text-slate-500">
-            {category}
-          </span>
-        </div>
-        <span className="text-[0.75rem] text-slate-400 whitespace-nowrap flex-shrink-0">
-          {postedAt}
-        </span>
-      </div>
 
-      {/* Başlık */}
-      <div className="font-nunito font-black text-[1.05rem] leading-[1.3] text-slate-900 mb-[0.35rem]">
-        {title}
-      </div>
+      <div className="flex justify-between">
 
-      {/* Açıklama */}
-      <div className="text-[0.84rem] text-slate-500 mb-4 leading-[1.55]">{description}</div>
-
-      {/* Açan kişi */}
       <div className="flex items-center gap-2 mb-4">
         <div
           className="w-6 h-6 rounded-full flex items-center justify-center text-[0.65rem] font-nunito font-black text-white flex-shrink-0"
@@ -92,9 +76,35 @@ export function ProjectCard({
           {poster.initials}
         </div>
         <span className="text-[0.8rem] font-semibold text-slate-500">
-          <span className="text-slate-900">{poster.name}</span> tarafından açıldı
+          <span className="text-slate-900">{poster.name}</span>
         </span>
       </div>
+
+      <div className="flex items-start justify-between gap-2 mb-[0.9rem]">
+        <div className="flex items-center gap-2 flex-wrap">
+          <span className="text-[0.72rem] font-bold px-[0.65rem] py-[0.25rem] rounded-full bg-blue-50 text-blue-600">
+            {isRemote ? "🌐 Remote" : `📍 ${city}`}
+          </span>
+          <span
+            className={`text-[0.72rem] font-bold px-[0.65rem] py-[0.25rem] rounded-full ${STATUS_STYLES[status]}`}
+          >
+            {STATUS_LABELS[status]}
+          </span>
+        </div>
+      </div>
+      </div>
+
+      {/* Başlık */}
+      <div className="font-nunito font-black text-[1.05rem] leading-[1.3] text-slate-900 mb-[0.35rem]">
+        {title}
+      </div>
+
+      {/* Açıklama */}
+      <div className="text-[0.84rem] text-slate-500 mb-4 leading-[1.55]">
+        {description}
+      </div>
+
+      {/* Açan kişi */}
 
       {/* Aranan pozisyonlar */}
       {openRoles.length > 0 && (
@@ -111,20 +121,10 @@ export function ProjectCard({
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1.5">
                     <span className="w-2 h-2 rounded-full bg-amber-400 flex-shrink-0" />
-                    <span className="text-[0.82rem] font-bold text-slate-700">{role.name}</span>
+                    <span className="text-[0.82rem] font-bold text-slate-700">
+                      {role.name}
+                    </span>
                   </div>
-                  {role.skills.length > 0 && (
-                    <div className="flex flex-wrap gap-1.5">
-                      {role.skills.map((skill) => (
-                        <span
-                          key={skill}
-                          className="text-[0.68rem] font-semibold px-2 py-0.5 rounded-full bg-white text-blue-600 border border-blue-100"
-                        >
-                          {skill}
-                        </span>
-                      ))}
-                    </div>
-                  )}
                 </div>
                 {!isOwnProject && (
                   <RoleJoinButton projectId={projectId} roleId={role.id} />
@@ -154,7 +154,6 @@ export function ProjectCard({
       <div className="mb-4">
         <TeamBar filled={filled} total={total} />
       </div>
-
     </div>
   );
 }

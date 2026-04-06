@@ -189,7 +189,7 @@ export function PanelGenel({ project, onGoToChat, onGoToTasks, onGoToFiles }: Pr
           <ProjectInfoCard project={project} />
 
           {/* Active Tasks card */}
-          <div
+          {/* <div
             id="active-tasks-card"
             className="bg-white border-[1.5px] border-slate-200 rounded-2xl overflow-hidden"
           >
@@ -205,10 +205,10 @@ export function PanelGenel({ project, onGoToChat, onGoToTasks, onGoToFiles }: Pr
             <div className="px-[1.2rem] py-[1rem] text-[0.82rem] text-slate-400">
               Görev özelliği yakında geliyor.
             </div>
-          </div>
+          </div> */}
 
           {/* Polls card */}
-          <div
+          {/* <div
             id="polls-card"
             className="bg-white border-[1.5px] border-slate-200 rounded-2xl overflow-hidden"
           >
@@ -219,13 +219,13 @@ export function PanelGenel({ project, onGoToChat, onGoToTasks, onGoToFiles }: Pr
             <div className="px-[1.2rem] py-[1rem] text-[0.82rem] text-slate-400">
               Oylama özelliği yakında geliyor.
             </div>
-          </div>
+          </div> */}
         </div>
 
         {/* Right column */}
         <div className="flex flex-col gap-[1.2rem]">
           {/* Team card */}
-          <div
+          {/* <div
             id="team-card"
             className="bg-white border-[1.5px] border-slate-200 rounded-2xl overflow-hidden"
           >
@@ -263,7 +263,7 @@ export function PanelGenel({ project, onGoToChat, onGoToTasks, onGoToFiles }: Pr
                 ))
               )}
             </div>
-          </div>
+          </div> */}
 
           {/* Files preview card */}
           <div
