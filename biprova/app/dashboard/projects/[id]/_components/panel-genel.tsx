@@ -1,4 +1,6 @@
 import type { ProjectDetail } from '@/features/projects/actions';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 
 function formatDate(iso: string) {
   return new Date(iso).toLocaleDateString('tr-TR', {
@@ -23,12 +25,11 @@ function ProjectInfoCard({ project }: { project: ProjectDetail }) {
   ].filter(Boolean) as { icon: string; label: string; value: string }[];
 
   return (
-    <div className="bg-white border-[1.5px] border-slate-200 rounded-2xl overflow-hidden">
-      <div className="px-[1.2rem] py-[1rem] border-b border-slate-200">
-        <span className="font-nunito text-[0.9rem] font-black">📄 Proje Hakkında</span>
-      </div>
-
-      <div className="px-[1.2rem] py-[1rem] flex flex-col gap-4">
+    <Card className="overflow-hidden">
+      <CardHeader className="px-[1.2rem] py-[1rem] border-b border-slate-200">
+        <CardTitle className="font-nunito text-[0.9rem] font-black">📄 Proje Hakkında</CardTitle>
+      </CardHeader>
+      <CardContent className="px-[1.2rem] py-[1rem] flex flex-col gap-4">
         {project.description && (
           <p className="text-[0.85rem] text-slate-600 leading-[1.65] whitespace-pre-wrap">
             {project.description}
@@ -45,8 +46,8 @@ function ProjectInfoCard({ project }: { project: ProjectDetail }) {
             </div>
           ))}
         </div>
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   );
 }
 
@@ -114,7 +115,7 @@ interface Props {
   onGoToFiles: () => void;
 }
 
-export function PanelGenel({ project, onGoToChat, onGoToTasks, onGoToFiles }: Props) {
+export function PanelGenel({ project, onGoToChat, onGoToTasks: _onGoToTasks, onGoToFiles }: Props) {
   const meta = [
     project.city && `📍 ${project.city}`,
     project.is_remote && '🌐 Remote',
@@ -124,7 +125,6 @@ export function PanelGenel({ project, onGoToChat, onGoToTasks, onGoToFiles }: Pr
     .filter(Boolean)
     .join(' · ');
 
-  // Üye listesi: ekip varsa team_members, yoksa creator + dolu roller
   const memberSlots: MemberSlot[] = (() => {
     const raw: MemberSlot[] = project.team_id
       ? project.members.map((m) => ({
@@ -171,12 +171,14 @@ export function PanelGenel({ project, onGoToChat, onGoToTasks, onGoToFiles }: Pr
         <div className="flex gap-3 items-center ml-auto">
           <MemberStrip members={memberSlots} />
           {project.team_id && (
-            <button
+            <Button
+              variant="outline"
+              size="sm"
               onClick={onGoToChat}
-              className="bg-white/15 text-white border border-white/25 rounded-[8px] font-nunito font-extrabold text-[0.8rem] px-4 py-[0.45rem] cursor-pointer hover:bg-white/25 transition-colors"
+              className="bg-white/15 text-white border-white/25 font-nunito font-extrabold text-[0.8rem] hover:bg-white/25 hover:text-white hover:border-white/40"
             >
               💬 Gruba Git
-            </button>
+            </Button>
           )}
         </div>
       </div>
@@ -185,104 +187,28 @@ export function PanelGenel({ project, onGoToChat, onGoToTasks, onGoToFiles }: Pr
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-[1.2rem] items-start">
         {/* Left column */}
         <div className="flex flex-col gap-[1.2rem]">
-          {/* Project info card */}
           <ProjectInfoCard project={project} />
-
-          {/* Active Tasks card */}
-          {/* <div
-            id="active-tasks-card"
-            className="bg-white border-[1.5px] border-slate-200 rounded-2xl overflow-hidden"
-          >
-            <div className="flex items-center justify-between px-[1.2rem] py-[1rem] border-b border-slate-200">
-              <span className="font-nunito text-[0.9rem] font-black">✅ Aktif Görevler</span>
-              <button
-                onClick={onGoToTasks}
-                className="text-[0.75rem] font-bold text-blue-600 cursor-pointer bg-transparent border-none"
-              >
-                Tümünü Gör →
-              </button>
-            </div>
-            <div className="px-[1.2rem] py-[1rem] text-[0.82rem] text-slate-400">
-              Görev özelliği yakında geliyor.
-            </div>
-          </div> */}
-
-          {/* Polls card */}
-          {/* <div
-            id="polls-card"
-            className="bg-white border-[1.5px] border-slate-200 rounded-2xl overflow-hidden"
-          >
-            <div className="flex items-center justify-between px-[1.2rem] py-[1rem] border-b border-slate-200">
-              <span className="font-nunito text-[0.9rem] font-black">🗳 Açık Kararlar</span>
-              <span className="text-[0.75rem] font-bold text-blue-600 cursor-pointer">+ Yeni Karar</span>
-            </div>
-            <div className="px-[1.2rem] py-[1rem] text-[0.82rem] text-slate-400">
-              Oylama özelliği yakında geliyor.
-            </div>
-          </div> */}
         </div>
 
         {/* Right column */}
         <div className="flex flex-col gap-[1.2rem]">
-          {/* Team card */}
-          {/* <div
-            id="team-card"
-            className="bg-white border-[1.5px] border-slate-200 rounded-2xl overflow-hidden"
-          >
-            <div className="flex items-center justify-between px-[1.2rem] py-[1rem] border-b border-slate-200">
-              <span className="font-nunito text-[0.9rem] font-black">👥 Ekip</span>
-              <span className="text-[0.72rem] text-slate-400">{project.members.length} kişi</span>
-            </div>
-            <div className="px-[1.2rem] py-[1rem]">
-              {project.members.length === 0 ? (
-                <div className="text-[0.82rem] text-slate-400">Henüz ekip üyesi yok.</div>
-              ) : (
-                project.members.map((m) => (
-                  <div
-                    key={m.user_id}
-                    className="flex items-center gap-3 py-[0.5rem] border-b border-slate-100 last:border-b-0"
-                  >
-                    <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center font-nunito font-black text-[0.75rem] text-white shrink-0">
-                      {getInitials(m.name)}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="text-[0.84rem] font-bold truncate">
-                        {m.name}
-                        {m.user_id === project.viewer.id && (
-                          <span className="text-[0.68rem] text-blue-600 ml-1">(Sen)</span>
-                        )}
-                        {m.is_leader && (
-                          <span className="text-[0.68rem] text-orange-500 ml-1">⚡ Leader</span>
-                        )}
-                      </div>
-                      {m.role_name && (
-                        <div className="text-[0.72rem] text-slate-400 truncate">{m.role_name}</div>
-                      )}
-                    </div>
-                  </div>
-                ))
-              )}
-            </div>
-          </div> */}
-
           {/* Files preview card */}
-          <div
-            id="files-preview-card"
-            className="bg-white border-[1.5px] border-slate-200 rounded-2xl overflow-hidden"
-          >
-            <div className="flex items-center justify-between px-[1.2rem] py-[1rem] border-b border-slate-200">
-              <span className="font-nunito text-[0.9rem] font-black">📁 Dosyalar & Linkler</span>
-              <button
+          <Card className="overflow-hidden" id="files-preview-card">
+            <CardHeader className="px-[1.2rem] py-[1rem] border-b border-slate-200 flex-row items-center justify-between space-y-0">
+              <CardTitle className="font-nunito text-[0.9rem] font-black">📁 Dosyalar & Linkler</CardTitle>
+              <Button
+                variant="ghost"
+                size="sm"
                 onClick={onGoToFiles}
-                className="text-[0.75rem] font-bold text-blue-600 cursor-pointer bg-transparent border-none"
+                className="text-[0.75rem] font-bold text-blue-600 h-auto py-0.5"
               >
                 Tümü →
-              </button>
-            </div>
-            <div className="px-[1.2rem] py-[1rem] text-[0.82rem] text-slate-400">
+              </Button>
+            </CardHeader>
+            <CardContent className="px-[1.2rem] py-[1rem] text-[0.82rem] text-slate-400">
               Dosya özelliği yakında geliyor.
-            </div>
-          </div>
+            </CardContent>
+          </Card>
         </div>
       </div>
     </div>
