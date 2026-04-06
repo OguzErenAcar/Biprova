@@ -10,6 +10,8 @@ import { PanelDosyalar } from './panel-dosyalar';
 import { PanelGonderiler } from './panel-gonderiler';
 import { PanelEkip } from './panel-ekip';
 import { PanelAdmin } from './panel-admin';
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 
 type Tab = 'genel' | 'admin' | 'ekip' | 'gorevler' | 'chat' | 'dosyalar' | 'gonderiler';
 
@@ -54,29 +56,32 @@ export function ProjectTabView({ project }: Props) {
         {visibleTabs.map((tab) => {
           const disabled = tab.comingSoon || (tab.requiresTeam && !hasTeam);
           const title = tab.comingSoon ? 'Yakında' : disabled ? 'Ekip kurulduktan sonra aktif olur' : undefined;
+          const isActive = activeTab === tab.key;
           return (
-            <button
+            <Button
               key={tab.key}
+              variant="ghost"
+              size="sm"
               onClick={() => !disabled && setActiveTab(tab.key)}
               disabled={disabled}
               title={title}
-              className={`text-[0.82rem] font-bold px-4 py-3 border-b-2 transition-all whitespace-nowrap flex items-center gap-1 bg-transparent ${
+              className={`text-[0.82rem] font-bold px-4 py-3 border-b-2 rounded-none transition-all whitespace-nowrap gap-1 h-auto ${
                 disabled
                   ? 'text-slate-300 border-transparent cursor-not-allowed'
-                  : activeTab === tab.key
+                  : isActive
                   ? tab.key === 'admin'
-                    ? 'text-indigo-600 border-indigo-600 cursor-pointer'
-                    : 'text-blue-600 border-blue-600 cursor-pointer'
-                  : 'text-slate-400 border-transparent hover:text-slate-700 cursor-pointer'
+                    ? 'text-indigo-600 border-indigo-600 hover:bg-transparent'
+                    : 'text-blue-600 border-blue-600 hover:bg-transparent'
+                  : 'text-slate-400 border-transparent hover:text-slate-700 hover:bg-transparent'
               }`}
             >
               {tab.label}
               {tab.count !== undefined && tab.count > 0 && (
-                <span className="bg-blue-600 text-white rounded-full text-[0.6rem] px-[0.4rem] py-[0.1rem] font-extrabold">
+                <Badge className="bg-blue-600 text-white text-[0.6rem] px-[0.4rem] py-[0.1rem] font-extrabold rounded-full h-auto">
                   {tab.count}
-                </span>
+                </Badge>
               )}
-            </button>
+            </Button>
           );
         })}
       </div>
