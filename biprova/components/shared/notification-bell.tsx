@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
 import { getNotifications, NotificationItem } from '@/features/notifications/actions'
 
