@@ -82,18 +82,6 @@ interface Props {
 
 export function TeamPostFeedClient({ posts }: Props) {
   const [sortKey, setSortKey] = useState<SortKey>('date');
-  const [open, setOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    function handleClick(e: MouseEvent) {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
-        setOpen(false);
-      }
-    }
-    document.addEventListener('mousedown', handleClick);
-    return () => document.removeEventListener('mousedown', handleClick);
-  }, []);
 
   const sorted = [...posts].sort((a, b) => {
     if (sortKey === 'popular') return b.likeCount - a.likeCount;
@@ -108,35 +96,34 @@ export function TeamPostFeedClient({ posts }: Props) {
         <h2 className="font-nunito font-black text-[1.1rem] text-slate-900">
           👥 Ekip Gönderileri
         </h2>
-        <div className="relative" ref={dropdownRef}>
-          <button
-            onClick={() => setOpen((v) => !v)}
-            className="flex items-center gap-1.5 text-[0.8rem] font-semibold text-slate-600 bg-white border-[1.5px] border-slate-200 rounded-[9px] px-3 py-[0.35rem] hover:border-slate-300 transition-colors cursor-pointer"
-          >
-            {sortLabel}
-            <span className="text-[0.7rem] text-slate-400">{open ? '▲' : '▼'}</span>
-          </button>
-          {open && (
-            <div className="absolute right-0 top-[calc(100%+4px)] bg-white border-[1.5px] border-slate-200 rounded-[10px] shadow-lg z-50 min-w-[160px] overflow-hidden">
-              {([
-                { key: 'date' as SortKey, label: 'Tarihe göre sırala' },
-                { key: 'popular' as SortKey, label: 'Popülerlik' },
-              ]).map(({ key, label }) => (
-                <button
-                  key={key}
-                  onClick={() => { setSortKey(key); setOpen(false); }}
-                  className={`w-full text-left px-4 py-[0.55rem] text-[0.82rem] font-semibold transition-colors bg-transparent border-none cursor-pointer ${
-                    sortKey === key
-                      ? 'text-blue-600 bg-blue-50'
-                      : 'text-slate-700 hover:bg-slate-50'
-                  }`}
-                >
-                  {label}
-                </button>
-              ))}
-            </div>
-          )}
-        </div>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              variant="outline"
+              size="sm"
+              className="gap-1.5 text-[0.8rem] font-semibold text-slate-600 rounded-[9px]"
+            >
+              {sortLabel}
+              <span className="text-[0.7rem] text-slate-400">▼</span>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="min-w-[160px]">
+            {([
+              { key: 'date' as SortKey, label: 'Tarihe göre sırala' },
+              { key: 'popular' as SortKey, label: 'Popülerlik' },
+            ]).map(({ key, label }) => (
+              <DropdownMenuItem
+                key={key}
+                onClick={() => setSortKey(key)}
+                className={`text-[0.82rem] font-semibold cursor-pointer ${
+                  sortKey === key ? 'text-blue-600 bg-blue-50' : ''
+                }`}
+              >
+                {label}
+              </DropdownMenuItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
 
       {sorted.length === 0 ? (
