@@ -88,12 +88,12 @@ export function TeamPostCard({
   }
 
   return (
-    <div
+    <Card
       id={`team-post-card-${postId}`}
-      className={`border-[1.5px] rounded-2xl p-[1.4rem] hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(0,0,0,0.07)] transition-all duration-150 cursor-pointer mb-4 ${
-        isOwnTeam ? "bg-[#f8faff] border-blue-200" : "bg-white border-slate-200"
+      className={`hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(0,0,0,0.07)] transition-all duration-150 cursor-pointer mb-4 ${
+        isOwnTeam ? "bg-[#f8faff] border-blue-200" : ""
       }`}
-    >
+    ><CardContent className="p-[1.4rem]">
       {/* Ekip kimlik satırı */}
       <div className="flex items-center gap-3 mb-4">
         <div
