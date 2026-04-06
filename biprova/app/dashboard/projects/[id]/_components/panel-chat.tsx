@@ -4,6 +4,8 @@ import { useState, useTransition, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import type { ProjectMessage } from '@/features/projects/actions';
 import { sendProjectMessage } from '@/features/projects/actions';
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 
 function getInitials(name: string) {
   return name
@@ -47,8 +49,8 @@ export function PanelChat({ teamId, messages, viewerId }: Props) {
 
   return (
     <div id="panel-chat">
-      <div
-        className="bg-white border-[1.5px] border-slate-200 rounded-2xl overflow-hidden flex flex-col"
+      <Card
+        className="overflow-hidden flex flex-col"
         style={{ height: 'calc(100vh - 200px)', minHeight: '400px' }}
       >
         {/* Messages */}
@@ -108,15 +110,16 @@ export function PanelChat({ teamId, messages, viewerId }: Props) {
               if (e.key === 'Enter') handleSend();
             }}
           />
-          <button
+          <Button
+            size="icon"
             onClick={handleSend}
             disabled={isPending || !text.trim()}
-            className="bg-blue-600 text-white border-none rounded-[10px] w-9 h-9 flex items-center justify-center cursor-pointer hover:bg-blue-700 transition-colors disabled:opacity-50"
+            className="rounded-[10px] shrink-0"
           >
             →
-          </button>
+          </Button>
         </div>
-      </div>
+      </Card>
     </div>
   );
 }
