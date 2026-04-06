@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { saveProfileVisibility, VisibilitySection } from "@/features/users/actions";
+import { Button } from "@/components/ui/button";
 
 interface VisibilityToggleProps {
   section: VisibilitySection;
