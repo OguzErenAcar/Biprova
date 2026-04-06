@@ -1,8 +1,15 @@
 "use client";
 
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import { TeamPostCard } from './team-post-card';
 import type { TeamPostFeedItem } from '@/features/teams/actions';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { Button } from '@/components/ui/button';
 
 const AVATAR_BG_COLORS = [
   "#ede9fe", "#dbeafe", "#dcfce7", "#fef3c7",
