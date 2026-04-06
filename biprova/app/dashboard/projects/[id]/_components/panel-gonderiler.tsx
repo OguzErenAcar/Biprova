@@ -6,6 +6,8 @@ import { createClient } from '@/lib/supabase/client';
 import type { ProjectPost, ProjectMember } from '@/features/projects/actions';
 import { createProjectPost, deleteProjectPost } from '@/features/projects/actions';
 import { TeamPostCard } from '@/features/teams/components/team-post-card';
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 
 const AVATAR_BG_COLORS = [
   "#ede9fe", "#dbeafe", "#dcfce7", "#fef3c7",
@@ -149,53 +151,57 @@ export function PanelGonderiler({ teamId, teamName, posts, members, category, ci
     <div id="panel-gonderiler">
       {/* Compose — sadece lider */}
       {isLeader && (
-        <div className="bg-white border-[1.5px] border-slate-200 rounded-[14px] p-4 mb-4 w-1/2 mx-auto">
-          <div className="flex items-center gap-3 mb-3">
-            <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center font-nunito font-black text-[0.75rem] text-white shrink-0">
-              {getInitials(viewerName)}
+        <Card className="mb-4 w-1/2 mx-auto">
+          <CardContent className="p-4">
+            <div className="flex items-center gap-3 mb-3">
+              <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center font-nunito font-black text-[0.75rem] text-white shrink-0">
+                {getInitials(viewerName)}
+              </div>
+              <span className="text-[0.84rem] font-semibold text-slate-400">Ekip adına paylaş...</span>
             </div>
-            <span className="text-[0.84rem] font-semibold text-slate-400">Ekip adına paylaş...</span>
-          </div>
-          <textarea
-            className="w-full border-none outline-none font-[inherit] text-[0.88rem] resize-none text-slate-900 min-h-[70px] placeholder:text-slate-400 bg-transparent"
-            placeholder="Projenizden bir güncelleme paylaşın. Bu gönderi timeline'da görünecek 📢"
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-          />
-          {previews.length > 0 && (
-            <div className="flex gap-2 flex-wrap mt-2 mb-3">
-              {previews.map((p, i) => (
-                <div key={i} className="relative w-20 h-20 rounded-[8px] overflow-hidden border border-slate-200">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={p.previewUrl} alt="" className="w-full h-full object-cover" />
-                  <button
-                    onClick={() => removeImage(i)}
-                    className="absolute top-0.5 right-0.5 w-5 h-5 bg-black/60 rounded-full text-white text-[0.65rem] flex items-center justify-center leading-none"
-                  >
-                    ✕
-                  </button>
-                </div>
-              ))}
+            <textarea
+              className="w-full border-none outline-none font-[inherit] text-[0.88rem] resize-none text-slate-900 min-h-[70px] placeholder:text-slate-400 bg-transparent"
+              placeholder="Projenizden bir güncelleme paylaşın. Bu gönderi timeline'da görünecek 📢"
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+            />
+            {previews.length > 0 && (
+              <div className="flex gap-2 flex-wrap mt-2 mb-3">
+                {previews.map((p, i) => (
+                  <div key={i} className="relative w-20 h-20 rounded-[8px] overflow-hidden border border-slate-200">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={p.previewUrl} alt="" className="w-full h-full object-cover" />
+                    <button
+                      onClick={() => removeImage(i)}
+                      className="absolute top-0.5 right-0.5 w-5 h-5 bg-black/60 rounded-full text-white text-[0.65rem] flex items-center justify-center leading-none"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+            <div className="flex items-center justify-between mt-2 border-t border-slate-200 pt-2">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => fileInputRef.current?.click()}
+                disabled={isPending || previews.length >= 5}
+                className="text-slate-400 hover:text-blue-600 text-[0.82rem] font-semibold gap-1"
+              >
+                📷 Fotoğraf {previews.length > 0 && <span className="text-[0.72rem]">({previews.length}/5)</span>}
+              </Button>
+              <input ref={fileInputRef} type="file" accept="image/*" multiple className="hidden" onChange={handleFileChange} />
+              <Button
+                onClick={handlePost}
+                disabled={isPending || (!text.trim() && previews.length === 0)}
+                className="font-nunito font-extrabold text-[0.84rem]"
+              >
+                {isPending ? 'Paylaşılıyor…' : 'Paylaş →'}
+              </Button>
             </div>
-          )}
-          <div className="flex items-center justify-between mt-2 border-t border-slate-200 pt-2">
-            <button
-              onClick={() => fileInputRef.current?.click()}
-              disabled={isPending || previews.length >= 5}
-              className="text-slate-400 hover:text-blue-600 transition-colors text-[0.82rem] font-semibold flex items-center gap-1 disabled:opacity-40 bg-transparent border-none cursor-pointer"
-            >
-              📷 Fotoğraf {previews.length > 0 && <span className="text-[0.72rem]">({previews.length}/5)</span>}
-            </button>
-            <input ref={fileInputRef} type="file" accept="image/*" multiple className="hidden" onChange={handleFileChange} />
-            <button
-              onClick={handlePost}
-              disabled={isPending || (!text.trim() && previews.length === 0)}
-              className="bg-blue-600 text-white border-none rounded-[8px] font-nunito font-extrabold text-[0.84rem] px-5 py-[0.5rem] cursor-pointer disabled:opacity-50"
-            >
-              {isPending ? 'Paylaşılıyor…' : 'Paylaş →'}
-            </button>
-          </div>
-        </div>
+          </CardContent>
+        </Card>
       )}
 
       {/* Posts list */}
@@ -204,13 +210,15 @@ export function PanelGonderiler({ teamId, teamName, posts, members, category, ci
         return (
           <div key={post.id} className="relative w-1/2 mx-auto mb-4">
             {post.author_id === viewerId && (
-              <button
+              <Button
+                variant="ghost"
+                size="sm"
                 onClick={() => startTransition(async () => { await deleteProjectPost(post.id); router.refresh(); })}
                 disabled={isPending}
-                className="absolute top-4 right-4 z-10 text-slate-400 hover:text-red-500 transition-colors text-[0.75rem] font-semibold bg-transparent border-none cursor-pointer disabled:opacity-40"
+                className="absolute top-4 right-4 z-10 text-slate-400 hover:text-red-500 text-[0.75rem] font-semibold h-auto py-0.5"
               >
                 Sil
-              </button>
+              </Button>
             )}
             <TeamPostCard
               postId={post.id}
