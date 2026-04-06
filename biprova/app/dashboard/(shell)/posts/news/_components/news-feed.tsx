@@ -1,3 +1,4 @@
+import { Separator } from "@/components/ui/separator";
 import { FeaturedNewsCard } from "./featured-news-card";
 import { NewsCard, type NewsCardProps } from "./news-card";
 
@@ -88,7 +89,7 @@ export function NewsFeed() {
         <span className="font-nunito font-black text-[0.95rem] text-slate-900 whitespace-nowrap">
           Girişim Haberleri
         </span>
-        <div className="flex-1 h-px bg-slate-200" />
+        <Separator className="flex-1" />
       </div>
 
       {STARTUP_POSTS.map((post) => (
