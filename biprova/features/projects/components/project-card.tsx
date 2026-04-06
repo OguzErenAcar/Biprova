@@ -25,7 +25,7 @@ interface ProjectCardProps {
   postedAt: string;
   title: string;
   description: string;
-  poster: { name: string; initials: string; color: string };
+  poster: { id: string; name: string; initials: string; color: string };
   roles: Role[];
 }
 
