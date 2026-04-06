@@ -3,6 +3,9 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Separator } from "@/components/ui/separator";
 
 interface SidebarUser {
   name: string;
@@ -28,6 +31,17 @@ const NAV_MAIN = [
   { href: "/dashboard/posts/news", icon: "📰", label: "Haberler" },
   { href: "/dashboard/profile", icon: "👤", label: "Profilim" },
 ];
+
+const STATUS_CONFIG: Record<
+  SidebarProject["status"],
+  { label: string; className: string }
+> = {
+  open:      { label: "Açık",       className: "text-blue-600 bg-blue-50 border-blue-100" },
+  full:      { label: "Dolu",       className: "text-amber-600 bg-amber-50 border-amber-100" },
+  active:    { label: "Aktif",      className: "text-emerald-600 bg-emerald-50 border-emerald-100" },
+  completed: { label: "Tamamlandı", className: "text-slate-400 bg-slate-100 border-slate-200" },
+  cancelled: { label: "İptal",      className: "text-red-400 bg-red-50 border-red-100" },
+};
 
 function NavItem({
   href,
@@ -56,25 +70,12 @@ function NavItem({
   );
 }
 
-const STATUS_LABEL: Record<
-  SidebarProject["status"],
-  { label: string; className: string }
-> = {
-  open: { label: "Açık", className: "text-blue-600 bg-blue-50" },
-  full: { label: "Dolu", className: "text-amber-600 bg-amber-50" },
-  active: { label: "Aktif", className: "text-emerald-600 bg-emerald-50" },
-  completed: { label: "Tamamlandı", className: "text-slate-400 bg-slate-100" },
-  cancelled: { label: "İptal", className: "text-red-400 bg-red-50" },
-};
-
 function StatusBadge({ status }: { status: SidebarProject["status"] }) {
-  const { label, className } = STATUS_LABEL[status];
+  const { label, className } = STATUS_CONFIG[status];
   return (
-    <span
-      className={`ml-auto text-[0.65rem] font-bold px-1.5 py-0.5 rounded-md flex-shrink-0 ${className}`}
-    >
+    <Badge variant="outline" className={`ml-auto text-[0.65rem] font-bold flex-shrink-0 ${className}`}>
       {label}
-    </span>
+    </Badge>
   );
 }
 
@@ -82,7 +83,6 @@ export function Sidebar({ user, projects = [] }: SidebarProps) {
   const pathname = usePathname();
   const [projectsOpen, setProjectsOpen] = useState(true);
   const [savedOpen, setSavedOpen] = useState(true);
-
 
   function isActive(href: string, exact?: boolean) {
     return exact
@@ -117,10 +117,12 @@ export function Sidebar({ user, projects = [] }: SidebarProps) {
         ))}
       </nav>
 
+      <Separator className="my-4" />
+
       {/* Projelerim */}
       <button
         onClick={() => setProjectsOpen((prev) => !prev)}
-        className="flex items-center justify-between w-full px-3 mt-4 mb-1.5 group"
+        className="flex items-center justify-between w-full px-3 mb-1.5 group"
       >
         <span className="text-[0.68rem] font-bold tracking-[2px] uppercase text-slate-400">
           Projelerim
@@ -132,11 +134,7 @@ export function Sidebar({ user, projects = [] }: SidebarProps) {
           stroke="currentColor"
           strokeWidth={2.5}
         >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M19 9l-7 7-7-7"
-          />
+          <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
         </svg>
       </button>
 
@@ -157,9 +155,7 @@ export function Sidebar({ user, projects = [] }: SidebarProps) {
                     : "text-slate-500 hover:bg-slate-100 hover:text-slate-900"
                 }`}
               >
-                <span className="text-[1.1rem] w-5 text-center flex-shrink-0">
-                  📁
-                </span>
+                <span className="text-[1.1rem] w-5 text-center flex-shrink-0">📁</span>
                 <span className="truncate flex-1 min-w-0">{project.title}</span>
                 <StatusBadge status={project.status} />
               </Link>
@@ -199,13 +195,13 @@ export function Sidebar({ user, projects = [] }: SidebarProps) {
       {user && (
         <div className="mt-auto pt-4 border-t border-slate-200">
           <div className="flex items-center gap-[0.7rem] px-2 py-[0.6rem] rounded-[10px] cursor-pointer hover:bg-slate-100 transition-colors duration-150">
-            <div className="w-9 h-9 rounded-full bg-gradient-to-br from-blue-600 to-indigo-500 flex items-center justify-center font-nunito font-black text-[0.85rem] text-white flex-shrink-0">
-              {user.initials}
-            </div>
+            <Avatar className="w-9 h-9 flex-shrink-0">
+              <AvatarFallback className="bg-gradient-to-br from-blue-600 to-indigo-500 font-nunito font-black text-[0.85rem] text-white">
+                {user.initials}
+              </AvatarFallback>
+            </Avatar>
             <div>
-              <div className="text-[0.85rem] font-bold text-slate-900">
-                {user.name}
-              </div>
+              <div className="text-[0.85rem] font-bold text-slate-900">{user.name}</div>
               {user.role && (
                 <div className="text-[0.72rem] text-slate-500">{user.role}</div>
               )}
