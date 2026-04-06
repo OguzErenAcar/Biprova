@@ -7,6 +7,15 @@ import { deleteProject, getSkills, transferProjectLeader } from '@/features/proj
 import { reviewApplication } from '@/features/applications/actions';
 import { kickMember, grantBiprova, revokeBiprova, renameTeam } from '@/features/teams/actions';
 import { inviteToProject, removeFromProject } from '@/features/projects/actions';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 function getInitials(name: string) {
   return name
@@ -60,17 +69,17 @@ interface ApplicationsSectionProps {
 
 function ApplicationsSection({ projectId: _projectId, pending, reviewed }: ApplicationsSectionProps) {
   return (
-    <div className="bg-white border-[1.5px] border-slate-200 rounded-2xl overflow-hidden">
-      <div className="flex items-center justify-between px-[1.4rem] py-[1rem] border-b border-slate-200">
-        <span className="font-nunito text-[0.9rem] font-black">📬 Başvurular</span>
+    <Card className="overflow-hidden">
+      <CardHeader className="px-[1.4rem] py-[1rem] border-b border-slate-200 flex-row items-center justify-between space-y-0">
+        <CardTitle className="font-nunito text-[0.9rem] font-black">📬 Başvurular</CardTitle>
         {pending.length > 0 && (
-          <span className="text-[0.68rem] font-extrabold bg-blue-600 text-white rounded-full px-2 py-0.5">
+          <Badge className="text-[0.68rem] font-extrabold bg-blue-600 text-white rounded-full">
             {pending.length} bekliyor
-          </span>
+          </Badge>
         )}
-      </div>
+      </CardHeader>
 
-      <div className="divide-y divide-slate-100">
+      <CardContent className="p-0 divide-y divide-slate-100">
         {pending.length === 0 && reviewed.length === 0 && (
           <div className="px-[1.4rem] py-[1.2rem] text-[0.82rem] text-slate-400">
             Henüz başvuru yok.
@@ -95,8 +104,8 @@ function ApplicationsSection({ projectId: _projectId, pending, reviewed }: Appli
             ))}
           </>
         )}
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   );
 }
 
@@ -125,14 +134,14 @@ function ApplicationRow({
   const statusBadge = {
     pending: null,
     accepted: (
-      <span className="text-[0.72rem] font-bold text-green-600 bg-green-50 border border-green-200 rounded-full px-2 py-0.5">
+      <Badge variant="outline" className="text-[0.72rem] font-bold text-green-600 bg-green-50 border-green-200 rounded-full">
         ✓ Kabul edildi
-      </span>
+      </Badge>
     ),
     rejected: (
-      <span className="text-[0.72rem] font-bold text-red-500 bg-red-50 border border-red-200 rounded-full px-2 py-0.5">
+      <Badge variant="outline" className="text-[0.72rem] font-bold text-red-500 bg-red-50 border-red-200 rounded-full">
         ✕ Reddedildi
-      </span>
+      </Badge>
     ),
   }[localStatus];
 
@@ -146,9 +155,9 @@ function ApplicationRow({
         <div className="flex items-center gap-2 flex-wrap mb-0.5">
           <span className="text-[0.86rem] font-bold text-slate-900">{app.user_name}</span>
           <span className="text-[0.72rem] text-slate-400">→</span>
-          <span className="text-[0.75rem] font-semibold text-blue-600 bg-blue-50 rounded-full px-2 py-0.5">
+          <Badge variant="outline" className="text-[0.75rem] font-semibold text-blue-600 bg-blue-50 rounded-full">
             {app.role_name}
-          </span>
+          </Badge>
           {statusBadge}
         </div>
         {app.note && (
@@ -161,20 +170,23 @@ function ApplicationRow({
 
       {isPending && localStatus === 'pending' && (
         <div className="flex gap-2 shrink-0">
-          <button
+          <Button
+            size="sm"
             disabled={isPendingTransition}
             onClick={() => handle('accepted')}
-            className="text-[0.75rem] font-bold px-3 py-1.5 rounded-lg bg-green-600 text-white hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+            className="text-[0.75rem] bg-green-600 hover:bg-green-700 text-white"
           >
             {isPendingTransition ? '…' : 'Kabul'}
-          </button>
-          <button
+          </Button>
+          <Button
+            size="sm"
+            variant="outline"
             disabled={isPendingTransition}
             onClick={() => handle('rejected')}
-            className="text-[0.75rem] font-bold px-3 py-1.5 rounded-lg bg-white border-[1.5px] border-slate-200 text-slate-500 hover:border-red-400 hover:text-red-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+            className="text-[0.75rem] text-slate-500 hover:border-red-400 hover:text-red-500"
           >
             Red
-          </button>
+          </Button>
         </div>
       )}
     </div>
@@ -192,12 +204,12 @@ interface MemberManagementSectionProps {
 
 function MemberManagementSection({ projectId, teamId, members, viewerId }: MemberManagementSectionProps) {
   return (
-    <div className="bg-white border-[1.5px] border-slate-200 rounded-2xl overflow-hidden">
-      <div className="px-[1.4rem] py-[1rem] border-b border-slate-200">
-        <span className="font-nunito text-[0.9rem] font-black">👥 Üye Yönetimi</span>
-      </div>
+    <Card className="overflow-hidden">
+      <CardHeader className="px-[1.4rem] py-[1rem] border-b border-slate-200">
+        <CardTitle className="font-nunito text-[0.9rem] font-black">👥 Üye Yönetimi</CardTitle>
+      </CardHeader>
 
-      <div className="divide-y divide-slate-100">
+      <CardContent className="p-0 divide-y divide-slate-100">
         <InviteRow projectId={projectId} />
 
         {members.length > 0 && (
@@ -218,8 +230,8 @@ function MemberManagementSection({ projectId, teamId, members, viewerId }: Membe
             ))}
           </>
         )}
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   );
 }
 
@@ -275,13 +287,13 @@ function InviteRow({ projectId }: { projectId: string }) {
             placeholder="e-posta adresi"
             className="flex-1 text-[0.82rem] px-3 py-2 rounded-lg border-[1.5px] border-slate-200 outline-none focus:border-blue-500 transition-colors placeholder:text-slate-400"
           />
-          <button
+          <Button
             disabled={isPending || !email.trim() || !skillName}
             onClick={handleInvite}
-            className="text-[0.78rem] font-bold px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer shrink-0"
+            className="text-[0.78rem] shrink-0"
           >
             {isPending ? '…' : 'Davet Et'}
-          </button>
+          </Button>
         </div>
       </div>
       {error && <p className="text-[0.72rem] text-red-500 mt-1.5">{error}</p>}
@@ -350,14 +362,14 @@ function MemberRow({
           <div className="flex items-center gap-1.5 flex-wrap">
             <span className="text-[0.84rem] font-bold text-slate-900">{member.name}</span>
             {member.is_project_leader && (
-              <span className="text-[0.65rem] font-bold text-blue-600 bg-blue-50 border border-blue-200 rounded-full px-1.5 py-0.5">
+              <Badge variant="outline" className="text-[0.65rem] font-bold text-blue-600 bg-blue-50 border-blue-200 rounded-full px-1.5">
                 Lider
-              </span>
+              </Badge>
             )}
             {localHasBiprova && (
-              <span className="text-[0.65rem] font-bold text-purple-600 bg-purple-50 border border-purple-200 rounded-full px-1.5 py-0.5">
+              <Badge variant="outline" className="text-[0.65rem] font-bold text-purple-600 bg-purple-50 border-purple-200 rounded-full px-1.5">
                 Yetkili
-              </span>
+              </Badge>
             )}
           </div>
           {member.role_name && (
@@ -368,44 +380,51 @@ function MemberRow({
         {canManage && (
           <div className="flex items-center gap-1.5 shrink-0">
             {teamId && (
-              <button
+              <Button
+                size="sm"
+                variant="outline"
                 disabled={isPending}
                 onClick={handleToggleBiprova}
                 title={localHasBiprova ? 'Yetkiyi Kaldır' : 'Yetki Ver'}
-                className={`text-[0.72rem] font-bold px-2.5 py-1.5 rounded-lg border-[1.5px] transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer ${
+                className={`text-[0.72rem] font-bold h-auto py-1.5 ${
                   localHasBiprova
                     ? 'border-purple-300 text-purple-600 bg-purple-50 hover:bg-purple-100'
-                    : 'border-slate-200 text-slate-500 hover:border-purple-300 hover:text-purple-600'
+                    : 'text-slate-500 hover:border-purple-300 hover:text-purple-600'
                 }`}
               >
                 {localHasBiprova ? '★ Yetkili' : '☆ Yetki Ver'}
-              </button>
+              </Button>
             )}
 
             {!confirmRemove ? (
-              <button
+              <Button
+                size="sm"
+                variant="outline"
                 disabled={isPending}
                 onClick={() => setConfirmRemove(true)}
-                className="text-[0.72rem] font-bold px-2.5 py-1.5 rounded-lg border-[1.5px] border-slate-200 text-slate-400 hover:border-red-300 hover:text-red-500 transition-colors disabled:opacity-40 cursor-pointer"
+                className="text-[0.72rem] font-bold h-auto py-1.5 text-slate-400 hover:border-red-300 hover:text-red-500"
               >
                 Çıkar
-              </button>
+              </Button>
             ) : (
               <div className="flex gap-1">
-                <button
+                <Button
+                  size="sm"
                   disabled={isPending}
                   onClick={handleRemove}
-                  className="text-[0.72rem] font-bold px-2.5 py-1.5 rounded-lg bg-red-600 text-white hover:bg-red-700 transition-colors disabled:opacity-50 cursor-pointer"
+                  className="text-[0.72rem] bg-red-600 hover:bg-red-700 text-white h-auto py-1.5"
                 >
                   {isPending ? '…' : 'Evet'}
-                </button>
-                <button
+                </Button>
+                <Button
+                  size="sm"
+                  variant="outline"
                   disabled={isPending}
                   onClick={() => setConfirmRemove(false)}
-                  className="text-[0.72rem] font-bold px-2.5 py-1.5 rounded-lg border-[1.5px] border-slate-200 text-slate-500 hover:border-slate-400 transition-colors cursor-pointer"
+                  className="text-[0.72rem] h-auto py-1.5"
                 >
                   İptal
-                </button>
+                </Button>
               </div>
             )}
           </div>
@@ -438,12 +457,12 @@ function ProjectManagementSection({ projectId }: { projectId: string }) {
   }
 
   return (
-    <div className="bg-white border-[1.5px] border-slate-200 rounded-2xl overflow-hidden">
-      <div className="px-[1.4rem] py-[1rem] border-b border-slate-200">
-        <span className="font-nunito text-[0.9rem] font-black">⚙️ Proje Yönetimi</span>
-      </div>
+    <Card className="overflow-hidden">
+      <CardHeader className="px-[1.4rem] py-[1rem] border-b border-slate-200">
+        <CardTitle className="font-nunito text-[0.9rem] font-black">⚙️ Proje Yönetimi</CardTitle>
+      </CardHeader>
 
-      <div className="px-[1.4rem] py-[1.2rem] flex flex-col gap-3">
+      <CardContent className="px-[1.4rem] py-[1.2rem] flex flex-col gap-3">
         <button
           disabled
           className="flex items-center gap-3 px-4 py-3 rounded-xl border-[1.5px] border-slate-200 text-left opacity-40 cursor-not-allowed"
@@ -476,26 +495,29 @@ function ProjectManagementSection({ projectId }: { projectId: string }) {
                 <p className="text-[0.75rem] text-red-500 mb-2">{error}</p>
               )}
               <div className="flex gap-2">
-                <button
+                <Button
+                  size="sm"
                   disabled={isPending}
                   onClick={handleDelete}
-                  className="text-[0.78rem] font-bold px-3 py-1.5 rounded-lg bg-red-600 text-white hover:bg-red-700 transition-colors disabled:opacity-50 cursor-pointer"
+                  className="text-[0.78rem] bg-red-600 hover:bg-red-700 text-white"
                 >
                   {isPending ? 'Siliniyor…' : 'Evet, Sil'}
-                </button>
-                <button
+                </Button>
+                <Button
+                  size="sm"
+                  variant="outline"
                   disabled={isPending}
                   onClick={() => setConfirmDelete(false)}
-                  className="text-[0.78rem] font-bold px-3 py-1.5 rounded-lg border-[1.5px] border-slate-200 text-slate-500 hover:border-slate-400 transition-colors cursor-pointer"
+                  className="text-[0.78rem]"
                 >
                   İptal
-                </button>
+                </Button>
               </div>
             </div>
           )}
         </div>
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   );
 }
 
@@ -527,11 +549,11 @@ function TeamNameSection({ teamId, currentName }: { teamId: string; currentName:
   const isDirty = name.trim() !== currentName && name.trim() !== '';
 
   return (
-    <div className="bg-white border-[1.5px] border-slate-200 rounded-2xl overflow-hidden">
-      <div className="px-[1.4rem] py-[1rem] border-b border-slate-200">
-        <span className="font-nunito text-[0.9rem] font-black">✏️ Ekip İsmi</span>
-      </div>
-      <div className="px-[1.4rem] py-[1.2rem]">
+    <Card className="overflow-hidden">
+      <CardHeader className="px-[1.4rem] py-[1rem] border-b border-slate-200">
+        <CardTitle className="font-nunito text-[0.9rem] font-black">✏️ Ekip İsmi</CardTitle>
+      </CardHeader>
+      <CardContent className="px-[1.4rem] py-[1.2rem]">
         <div className="flex gap-2">
           <input
             type="text"
@@ -541,22 +563,22 @@ function TeamNameSection({ teamId, currentName }: { teamId: string; currentName:
             placeholder="Ekip ismi"
             className="flex-1 text-[0.82rem] px-3 py-2 rounded-lg border-[1.5px] border-slate-200 outline-none focus:border-blue-500 transition-colors placeholder:text-slate-400"
           />
-          <button
+          <Button
             disabled={!isDirty || isPending}
             onClick={handleSave}
-            className="text-[0.78rem] font-bold px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer shrink-0"
+            className="text-[0.78rem] shrink-0"
           >
             {isPending ? '…' : 'Kaydet'}
-          </button>
+          </Button>
         </div>
         {error && <p className="text-[0.72rem] text-red-500 mt-1.5">{error}</p>}
         {success && <p className="text-[0.72rem] text-green-600 mt-1.5">{success}</p>}
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   );
 }
 
-/* ─── Lider Transfer (unused export, kept for page.tsx if needed) ─ */
+/* ─── Lider Transfer Dialog ──────────────────────────────────── */
 
 interface LeaderTransferDialogProps {
   projectId: string;
@@ -587,12 +609,12 @@ export function LeaderTransferDialog({ projectId, members, viewerId, onClose }: 
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-      <div className="bg-white rounded-2xl shadow-xl w-full max-w-sm mx-4 overflow-hidden">
-        <div className="px-6 py-4 border-b border-slate-200">
-          <h2 className="font-nunito text-[1rem] font-black">Lider Seç</h2>
-        </div>
-        <div className="px-6 py-5 flex flex-col gap-3">
+    <Dialog open onOpenChange={(open) => { if (!open) onClose(); }}>
+      <DialogContent className="max-w-sm">
+        <DialogHeader>
+          <DialogTitle className="font-nunito text-[1rem] font-black">Lider Seç</DialogTitle>
+        </DialogHeader>
+        <div className="flex flex-col gap-3">
           <p className="text-[0.82rem] text-slate-500">
             Projeden ayrılmadan önce liderliği devredecek bir üye seçmelisin.
           </p>
@@ -614,25 +636,17 @@ export function LeaderTransferDialog({ projectId, members, viewerId, onClose }: 
           )}
           {transferError && <p className="text-[0.75rem] text-red-500">{transferError}</p>}
         </div>
-        <div className="px-6 py-4 border-t border-slate-100 flex gap-2 justify-end">
-          <button
-            disabled={isPending}
-            onClick={onClose}
-            className="text-[0.78rem] font-bold px-4 py-2 rounded-lg border-[1.5px] border-slate-200 text-slate-500 hover:border-slate-400 transition-colors cursor-pointer"
-          >
+        <div className="flex gap-2 justify-end pt-2">
+          <Button variant="outline" size="sm" disabled={isPending} onClick={onClose}>
             İptal
-          </button>
+          </Button>
           {candidates.length > 0 && (
-            <button
-              disabled={!selectedId || isPending}
-              onClick={handleTransfer}
-              className="text-[0.78rem] font-bold px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
-            >
+            <Button size="sm" disabled={!selectedId || isPending} onClick={handleTransfer}>
               {isPending ? 'Devrediliyor…' : 'Devret'}
-            </button>
+            </Button>
           )}
         </div>
-      </div>
-    </div>
+      </DialogContent>
+    </Dialog>
   );
 }
