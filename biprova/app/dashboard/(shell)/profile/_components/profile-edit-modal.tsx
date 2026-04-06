@@ -4,6 +4,19 @@ import { useState, useEffect, useTransition, useRef, DragEvent } from 'react';
 import { UserProfile, updateProfile, saveCvUrl, saveCvPublic, removeCv } from '@/features/users/actions';
 import { getCities } from '@/features/auth/actions';
 import { createClient } from '@/lib/supabase/client';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Label } from '@/components/ui/label';
+import { Switch } from '@/components/ui/switch';
 
 interface ProfileEditModalProps {
   user: UserProfile;
@@ -150,240 +163,243 @@ export function ProfileEditModal({ user }: ProfileEditModalProps) {
   }
 
   return (
-    <>
-      <button
-        onClick={handleOpen}
-        className="flex items-center gap-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-[0.75rem] font-bold px-2.5 py-1 rounded-[8px] transition-colors"
-      >
-        ✏️ Düzenle
-      </button>
-
-      {open && (
-        <div
-          id="profile-edit-modal-overlay"
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm"
-          onClick={(e) => { if (e.target === e.currentTarget) setOpen(false); }}
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        <Button
+          variant="secondary"
+          size="sm"
+          onClick={handleOpen}
+          className="text-[0.75rem] font-bold"
         >
-          <div id="profile-edit-modal" className="bg-white rounded-[20px] w-full max-w-md shadow-xl p-6">
-            <div className="font-nunito font-black text-[1.1rem] text-slate-900 mb-5">
-              Profili Düzenle
-            </div>
+          ✏️ Düzenle
+        </Button>
+      </DialogTrigger>
 
-            <div className="flex flex-col gap-4">
-              {/* Name */}
-              <div>
-                <label className="text-[0.78rem] font-bold text-slate-500 mb-1 block">İsim</label>
-                <input
-                  type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className="w-full border border-slate-200 rounded-[10px] px-3.5 py-2.5 text-[0.9rem] text-slate-900 outline-none focus:border-blue-500 transition-colors"
-                  placeholder="Adınız Soyadınız"
-                />
-              </div>
+      <DialogContent className="max-w-md rounded-[20px] p-6 max-h-[90vh] overflow-y-auto">
+        <DialogHeader>
+          <DialogTitle className="font-nunito font-black text-[1.1rem] text-slate-900">
+            Profili Düzenle
+          </DialogTitle>
+        </DialogHeader>
 
-              {/* LinkedIn URL */}
-              <div>
-                <label className="text-[0.78rem] font-bold text-slate-500 mb-1 block">
-                  LinkedIn URL
-                </label>
-                <input
-                  type="url"
-                  value={linkedinUrl}
-                  onChange={(e) => setLinkedinUrl(e.target.value)}
-                  className="w-full border border-slate-200 rounded-[10px] px-3.5 py-2.5 text-[0.9rem] text-slate-900 outline-none focus:border-blue-500 transition-colors"
-                  placeholder="https://linkedin.com/in/kullanici"
-                />
-              </div>
+        <div className="flex flex-col gap-4">
+          {/* Name */}
+          <div className="flex flex-col gap-1">
+            <Label htmlFor="edit-name" className="text-[0.78rem] font-bold text-slate-500">
+              İsim
+            </Label>
+            <Input
+              id="edit-name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Adınız Soyadınız"
+              className="rounded-[10px]"
+            />
+          </div>
 
-              {/* City dropdown */}
-              <div>
-                <label className="text-[0.78rem] font-bold text-slate-500 mb-1 block">Şehir</label>
-                <div className="relative">
-                  <input
-                    type="text"
-                    value={cityQuery}
-                    onChange={(e) => {
-                      setCityQuery(e.target.value);
-                      setCity(e.target.value);
-                      setCityOpen(true);
-                    }}
-                    onFocus={() => setCityOpen(true)}
-                    onBlur={() => setTimeout(() => setCityOpen(false), 150)}
-                    className="w-full border border-slate-200 rounded-[10px] px-3.5 py-2.5 text-[0.9rem] text-slate-900 outline-none focus:border-blue-500 transition-colors"
-                    placeholder="Şehir seç veya yazın..."
-                    autoComplete="off"
-                  />
-                  {cityOpen && filteredCities.length > 0 && (
-                    <div className="absolute z-10 top-full left-0 right-0 mt-1 bg-white border border-slate-200 rounded-[10px] shadow-lg overflow-hidden">
-                      <div className="overflow-y-auto max-h-[190px]">
-                        {filteredCities.map((c) => (
-                          <button
-                            key={c.id}
-                            type="button"
-                            onMouseDown={() => handleCitySelect(c.name)}
-                            className={`w-full text-left px-3.5 py-2.5 text-[0.88rem] transition-colors ${
-                              city === c.name
-                                ? 'bg-blue-50 text-blue-700 font-semibold'
-                                : 'text-slate-800 hover:bg-slate-50'
-                            }`}
-                          >
-                            {c.name}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </div>
+          {/* LinkedIn URL */}
+          <div className="flex flex-col gap-1">
+            <Label htmlFor="edit-linkedin" className="text-[0.78rem] font-bold text-slate-500">
+              LinkedIn URL
+            </Label>
+            <Input
+              id="edit-linkedin"
+              type="url"
+              value={linkedinUrl}
+              onChange={(e) => setLinkedinUrl(e.target.value)}
+              placeholder="https://linkedin.com/in/kullanici"
+              className="rounded-[10px]"
+            />
+          </div>
 
-              {/* Remote toggle */}
-              <div className="flex items-center justify-between bg-slate-50 rounded-[10px] px-3.5 py-2.5">
-                <span className="text-[0.88rem] font-semibold text-slate-700">🌐 Remote uyumlu</span>
-                <button
-                  type="button"
-                  onClick={() => setIsRemote(!isRemote)}
-                  className={`relative w-11 h-6 rounded-full transition-colors ${isRemote ? 'bg-blue-600' : 'bg-slate-300'}`}
-                >
-                  <span
-                    className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform ${isRemote ? 'translate-x-5' : 'translate-x-0'}`}
-                  />
-                </button>
-              </div>
-
-              {/* Bio */}
-              <div>
-                <label className="text-[0.78rem] font-bold text-slate-500 mb-1 block">Bio</label>
-                <textarea
-                  value={bio}
-                  onChange={(e) => setBio(e.target.value)}
-                  rows={3}
-                  maxLength={500}
-                  className="w-full border border-slate-200 rounded-[10px] px-3.5 py-2.5 text-[0.9rem] text-slate-900 outline-none focus:border-blue-500 transition-colors resize-none"
-                  placeholder="Kendinizden kısaca bahsedin..."
-                />
-                <div className="text-[0.72rem] text-slate-400 text-right mt-0.5">
-                  {bio.length}/500
-                </div>
-              </div>
-
-              {/* CV Upload */}
-              <div>
-                <label className="text-[0.78rem] font-bold text-slate-500 mb-1 block">CV (PDF)</label>
-                {hasCv && !cvSuccess ? (
-                  <div className="flex flex-col gap-2">
-                    <div className="flex items-center justify-between bg-slate-50 rounded-[10px] px-3.5 py-3 border border-slate-200">
-                      <span className="text-[0.82rem] text-slate-700 font-medium">📄 CV yüklü</span>
-                      <div className="flex items-center gap-2">
-                        <button
-                          type="button"
-                          onClick={() => fileInputRef.current?.click()}
-                          disabled={cvUploading || cvRemoving}
-                          className="text-[0.75rem] text-blue-600 font-semibold hover:underline disabled:opacity-50"
-                        >
-                          Değiştir
-                        </button>
-                        <span className="text-slate-300">|</span>
-                        <button
-                          type="button"
-                          onClick={handleRemoveCv}
-                          disabled={cvUploading || cvRemoving}
-                          className="text-[0.75rem] text-red-500 font-semibold hover:underline disabled:opacity-50"
-                        >
-                          {cvRemoving ? 'Kaldırılıyor...' : 'Kaldır'}
-                        </button>
-                      </div>
-                    </div>
-                    <div className="flex items-center justify-between bg-slate-50 rounded-[10px] px-3.5 py-2.5 border border-slate-200">
-                      <span className="text-[0.82rem] text-slate-700">🌐 Herkes görebilsin</span>
+          {/* City dropdown */}
+          <div className="flex flex-col gap-1">
+            <Label htmlFor="edit-city" className="text-[0.78rem] font-bold text-slate-500">
+              Şehir
+            </Label>
+            <div className="relative">
+              <Input
+                id="edit-city"
+                value={cityQuery}
+                onChange={(e) => {
+                  setCityQuery(e.target.value);
+                  setCity(e.target.value);
+                  setCityOpen(true);
+                }}
+                onFocus={() => setCityOpen(true)}
+                onBlur={() => setTimeout(() => setCityOpen(false), 150)}
+                placeholder="Şehir seç veya yazın..."
+                autoComplete="off"
+                className="rounded-[10px]"
+              />
+              {cityOpen && filteredCities.length > 0 && (
+                <div className="absolute z-10 top-full left-0 right-0 mt-1 bg-white border border-slate-200 rounded-[10px] shadow-lg overflow-hidden">
+                  <div className="overflow-y-auto max-h-[190px]">
+                    {filteredCities.map((c) => (
                       <button
+                        key={c.id}
                         type="button"
-                        onClick={async () => {
-                          const next = !cvPublic;
-                          setCvPublic(next);
-                          await saveCvPublic(next);
-                        }}
-                        className={`relative w-11 h-6 rounded-full transition-colors ${cvPublic ? 'bg-blue-600' : 'bg-slate-300'}`}
+                        onMouseDown={() => handleCitySelect(c.name)}
+                        className={`w-full text-left px-3.5 py-2.5 text-[0.88rem] transition-colors ${
+                          city === c.name
+                            ? 'bg-blue-50 text-blue-700 font-semibold'
+                            : 'text-slate-800 hover:bg-slate-50'
+                        }`}
                       >
-                        <span
-                          className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform ${cvPublic ? 'translate-x-5' : 'translate-x-0'}`}
-                        />
+                        {c.name}
                       </button>
-                    </div>
+                    ))}
                   </div>
-                ) : (
-                  <div
-                    onDrop={handleDrop}
-                    onDragOver={handleDragOver}
-                    onDragLeave={handleDragLeave}
-                    onClick={() => fileInputRef.current?.click()}
-                    className={`w-full border-2 border-dashed rounded-[10px] px-4 py-5 flex flex-col items-center justify-center gap-1.5 cursor-pointer transition-colors ${
-                      isDragging
-                        ? 'border-blue-400 bg-blue-50'
-                        : 'border-slate-200 hover:border-slate-300 bg-slate-50'
-                    }`}
-                  >
-                    {cvUploading ? (
-                      <span className="text-[0.82rem] text-slate-500">Yükleniyor...</span>
-                    ) : cvSuccess ? (
-                      <span className="text-[0.82rem] text-green-600 font-semibold">✓ CV başarıyla yüklendi</span>
-                    ) : (
-                      <>
-                        <span className="text-[1.4rem]">📄</span>
-                        <span className="text-[0.82rem] text-slate-500 text-center">
-                          PDF sürükleyin veya tıklayın
-                        </span>
-                        <span className="text-[0.72rem] text-slate-400">Maks. 5 MB</span>
-                      </>
-                    )}
-                  </div>
-                )}
-                <input
-                  ref={fileInputRef}
-                  type="file"
-                  accept="application/pdf"
-                  className="hidden"
-                  onChange={(e) => {
-                    const file = e.target.files?.[0];
-                    if (file) handleCvFile(file);
-                    e.target.value = '';
-                  }}
-                />
-                {cvError && (
-                  <div className="text-[0.78rem] text-red-600 mt-1">{cvError}</div>
-                )}
-              </div>
-
-              {/* Error */}
-              {formError && (
-                <div className="text-[0.82rem] text-red-600 bg-red-50 rounded-[8px] px-3.5 py-2">
-                  {formError}
                 </div>
               )}
             </div>
-
-            {/* Actions */}
-            <div className="flex gap-2.5 mt-6">
-              <button
-                type="button"
-                onClick={() => setOpen(false)}
-                disabled={isPending}
-                className="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-[0.88rem] py-2.5 rounded-[10px] transition-colors disabled:opacity-50"
-              >
-                İptal
-              </button>
-              <button
-                type="button"
-                onClick={handleSubmit}
-                disabled={isPending || !name.trim()}
-                className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold text-[0.88rem] py-2.5 rounded-[10px] transition-colors disabled:opacity-50"
-              >
-                {isPending ? 'Kaydediliyor...' : 'Kaydet'}
-              </button>
-            </div>
           </div>
+
+          {/* Remote toggle */}
+          <div className="flex items-center justify-between bg-slate-50 rounded-[10px] px-3.5 py-2.5">
+            <Label htmlFor="edit-remote" className="text-[0.88rem] font-semibold text-slate-700 cursor-pointer">
+              🌐 Remote uyumlu
+            </Label>
+            <Switch
+              id="edit-remote"
+              checked={isRemote}
+              onCheckedChange={setIsRemote}
+            />
+          </div>
+
+          {/* Bio */}
+          <div className="flex flex-col gap-1">
+            <Label htmlFor="edit-bio" className="text-[0.78rem] font-bold text-slate-500">
+              Bio
+            </Label>
+            <Textarea
+              id="edit-bio"
+              value={bio}
+              onChange={(e) => setBio(e.target.value)}
+              rows={3}
+              maxLength={500}
+              placeholder="Kendinizden kısaca bahsedin..."
+              className="rounded-[10px] resize-none"
+            />
+            <div className="text-[0.72rem] text-slate-400 text-right">{bio.length}/500</div>
+          </div>
+
+          {/* CV Upload */}
+          <div className="flex flex-col gap-1">
+            <Label className="text-[0.78rem] font-bold text-slate-500">CV (PDF)</Label>
+            {hasCv && !cvSuccess ? (
+              <div className="flex flex-col gap-2">
+                <div className="flex items-center justify-between bg-slate-50 rounded-[10px] px-3.5 py-3 border border-slate-200">
+                  <span className="text-[0.82rem] text-slate-700 font-medium">📄 CV yüklü</span>
+                  <div className="flex items-center gap-2">
+                    <Button
+                      type="button"
+                      variant="link"
+                      size="sm"
+                      onClick={() => fileInputRef.current?.click()}
+                      disabled={cvUploading || cvRemoving}
+                      className="text-[0.75rem] text-blue-600 font-semibold h-auto p-0"
+                    >
+                      Değiştir
+                    </Button>
+                    <span className="text-slate-300">|</span>
+                    <Button
+                      type="button"
+                      variant="link"
+                      size="sm"
+                      onClick={handleRemoveCv}
+                      disabled={cvUploading || cvRemoving}
+                      className="text-[0.75rem] text-red-500 font-semibold h-auto p-0"
+                    >
+                      {cvRemoving ? 'Kaldırılıyor...' : 'Kaldır'}
+                    </Button>
+                  </div>
+                </div>
+                <div className="flex items-center justify-between bg-slate-50 rounded-[10px] px-3.5 py-2.5 border border-slate-200">
+                  <Label htmlFor="cv-public" className="text-[0.82rem] text-slate-700 cursor-pointer">
+                    🌐 Herkes görebilsin
+                  </Label>
+                  <Switch
+                    id="cv-public"
+                    checked={cvPublic}
+                    onCheckedChange={async (next) => {
+                      setCvPublic(next);
+                      await saveCvPublic(next);
+                    }}
+                  />
+                </div>
+              </div>
+            ) : (
+              <div
+                onDrop={handleDrop}
+                onDragOver={handleDragOver}
+                onDragLeave={handleDragLeave}
+                onClick={() => fileInputRef.current?.click()}
+                className={`w-full border-2 border-dashed rounded-[10px] px-4 py-5 flex flex-col items-center justify-center gap-1.5 cursor-pointer transition-colors ${
+                  isDragging
+                    ? 'border-blue-400 bg-blue-50'
+                    : 'border-slate-200 hover:border-slate-300 bg-slate-50'
+                }`}
+              >
+                {cvUploading ? (
+                  <span className="text-[0.82rem] text-slate-500">Yükleniyor...</span>
+                ) : cvSuccess ? (
+                  <span className="text-[0.82rem] text-green-600 font-semibold">✓ CV başarıyla yüklendi</span>
+                ) : (
+                  <>
+                    <span className="text-[1.4rem]">📄</span>
+                    <span className="text-[0.82rem] text-slate-500 text-center">
+                      PDF sürükleyin veya tıklayın
+                    </span>
+                    <span className="text-[0.72rem] text-slate-400">Maks. 5 MB</span>
+                  </>
+                )}
+              </div>
+            )}
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="application/pdf"
+              className="hidden"
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (file) handleCvFile(file);
+                e.target.value = '';
+              }}
+            />
+            {cvError && (
+              <div className="text-[0.78rem] text-red-600 mt-1">{cvError}</div>
+            )}
+          </div>
+
+          {/* Form Error */}
+          {formError && (
+            <div className="text-[0.82rem] text-red-600 bg-red-50 rounded-[8px] px-3.5 py-2">
+              {formError}
+            </div>
+          )}
         </div>
-      )}
-    </>
+
+        <DialogFooter className="mt-6 gap-2.5 sm:gap-2.5">
+          <Button
+            type="button"
+            variant="secondary"
+            onClick={() => setOpen(false)}
+            disabled={isPending}
+            className="flex-1 font-bold text-[0.88rem] rounded-[10px]"
+          >
+            İptal
+          </Button>
+          <Button
+            type="button"
+            onClick={handleSubmit}
+            disabled={isPending || !name.trim()}
+            className="flex-1 font-bold text-[0.88rem] rounded-[10px]"
+          >
+            {isPending ? 'Kaydediliyor...' : 'Kaydet'}
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 }
