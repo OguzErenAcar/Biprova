@@ -2,6 +2,7 @@ import { ProjectCard } from "@/features/projects/components/project-card";
 import { FeedFilterDropdown } from "@/features/projects/components/feed-filter-dropdown";
 import { getProjectFeed, type FeedFilter } from "@/features/projects/actions";
 import { createClient } from "@/lib/supabase/server";
+import { Card, CardContent } from "@/components/ui/card";
 
 const POSTER_COLORS = [
   "#3b82f6", "#8b5cf6", "#22c55e", "#f59e0b",
@@ -71,7 +72,6 @@ export async function ProjectFeed({ searchParams }: ProjectFeedProps) {
 
   return (
     <div id="project-feed">
-      {/* Başlık + filtreler */}
       <div className="flex items-center justify-between mb-4">
         <h2 className="font-nunito font-black text-[1.1rem] text-slate-900">
           📋 Timeline
@@ -79,11 +79,12 @@ export async function ProjectFeed({ searchParams }: ProjectFeedProps) {
         <FeedFilterDropdown activeFilter={activeFilter} />
       </div>
 
-      {/* Proje kartları */}
       {projects.length === 0 ? (
-        <div className="bg-white border-[1.5px] border-slate-200 rounded-2xl p-10 text-center text-slate-400 text-[0.9rem]">
-          Henüz aktif proje yok.
-        </div>
+        <Card>
+          <CardContent className="p-10 text-center text-slate-400 text-[0.9rem]">
+            Henüz aktif proje yok.
+          </CardContent>
+        </Card>
       ) : (
         <div className="space-y-4">
           {projects.map((project) => (
