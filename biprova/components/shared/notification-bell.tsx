@@ -2,6 +2,10 @@
 
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Separator } from "@/components/ui/separator";
 import { getNotifications, NotificationItem } from '@/features/notifications/actions'
 
 export function NotificationBell() {
@@ -33,56 +37,58 @@ export function NotificationBell() {
       onMouseEnter={() => setOpen(true)}
       onMouseLeave={() => setOpen(false)}
     >
-      <div className="relative w-[38px] h-[38px] rounded-[10px] bg-white border-[1.5px] border-slate-200 flex items-center justify-center text-[1rem] cursor-pointer hover:border-blue-600 transition-colors duration-150">
+      <Button variant="outline" size="icon" className="relative rounded-[10px] border-[1.5px]">
         🔔
         {unreadCount > 0 && (
           <span className="absolute top-[6px] right-[6px] w-[7px] h-[7px] bg-red-500 rounded-full border-[1.5px] border-slate-100" />
         )}
-      </div>
+      </Button>
 
       {open && (
         <div className="absolute right-0 top-full w-[320px] z-50 pt-2">
-        <div className="bg-white border-[1.5px] border-slate-200 rounded-2xl shadow-xl p-[1.1rem]">
-          <div className="font-nunito font-black text-[0.9rem] text-slate-900 mb-3 flex items-center justify-between">
-            🔔 Bildirimler
-            <Link
-              href="/dashboard/notifications"
-              className="text-[0.72rem] text-blue-600 font-bold font-jakarta cursor-pointer hover:underline"
-              onClick={() => setOpen(false)}
-            >
-              Tümünü Gör
-            </Link>
-          </div>
+          <div className="bg-white border-[1.5px] border-slate-200 rounded-2xl shadow-xl p-[1.1rem]">
+            <div className="font-nunito font-black text-[0.9rem] text-slate-900 mb-3 flex items-center justify-between">
+              🔔 Bildirimler
+              <Link
+                href="/dashboard/notifications"
+                className="text-[0.72rem] text-blue-600 font-bold font-jakarta cursor-pointer hover:underline"
+                onClick={() => setOpen(false)}
+              >
+                Tümünü Gör
+              </Link>
+            </div>
 
-          <div className="flex flex-col">
-            {notifications.length === 0 ? (
-              <p className="text-[0.82rem] text-slate-400 text-center py-3">Bildirim yok</p>
-            ) : (
-              notifications.map((n) => (
-                <div
-                  key={n.id}
-                  className="flex gap-3 py-[0.6rem] border-b border-slate-100 last:border-b-0 last:pb-0 first:pt-0 items-start"
-                >
+            <Separator className="mb-3" />
+
+            <div className="flex flex-col">
+              {notifications.length === 0 ? (
+                <p className="text-[0.82rem] text-slate-400 text-center py-3">Bildirim yok</p>
+              ) : (
+                notifications.map((n) => (
                   <div
-                    className={`w-[32px] h-[32px] rounded-[9px] flex items-center justify-center text-[0.9rem] flex-shrink-0 ${n.iconBg}`}
+                    key={n.id}
+                    className="flex gap-3 py-[0.6rem] border-b border-slate-100 last:border-b-0 last:pb-0 first:pt-0 items-start"
                   >
-                    {n.icon}
+                    <Avatar className="w-[32px] h-[32px] rounded-[9px] flex-shrink-0">
+                      <AvatarFallback className={`rounded-[9px] text-[0.9rem] ${n.iconBg}`}>
+                        {n.icon}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div className="flex-1">
+                      <p className="text-[0.8rem] leading-[1.45] text-slate-900">
+                        {n.bold && <strong>{n.bold} </strong>}
+                        {n.text}
+                      </p>
+                      <div className="text-[0.7rem] text-slate-400 mt-[0.15rem]">{n.time}</div>
+                    </div>
+                    {n.unread && (
+                      <Badge className="w-[6px] h-[6px] p-0 rounded-full bg-blue-600 flex-shrink-0 mt-[6px]" />
+                    )}
                   </div>
-                  <div className="flex-1">
-                    <p className="text-[0.8rem] leading-[1.45] text-slate-900">
-                      {n.bold && <strong>{n.bold} </strong>}
-                      {n.text}
-                    </p>
-                    <div className="text-[0.7rem] text-slate-400 mt-[0.15rem]">{n.time}</div>
-                  </div>
-                  {n.unread && (
-                    <div className="w-[6px] h-[6px] bg-blue-600 rounded-full flex-shrink-0 mt-[6px]" />
-                  )}
-                </div>
-              ))
-            )}
+                ))
+              )}
+            </div>
           </div>
-        </div>
         </div>
       )}
     </div>
