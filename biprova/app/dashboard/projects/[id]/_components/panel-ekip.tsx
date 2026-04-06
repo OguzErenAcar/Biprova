@@ -4,6 +4,15 @@ import { useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import type { ProjectDetail } from '@/features/projects/actions';
 import { leaveProject, transferProjectLeader } from '@/features/projects/actions';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 function getInitials(name: string) {
   return name
@@ -37,15 +46,15 @@ export function PanelEkip({ project }: Props) {
 
 function MembersSection({ members }: { members: ProjectDetail['members'] }) {
   return (
-    <div className="bg-white border-[1.5px] border-slate-200 rounded-2xl overflow-hidden">
-      <div className="px-[1.4rem] py-[1rem] border-b border-slate-200">
-        <span className="font-nunito text-[0.9rem] font-black">👥 Ekip Üyeleri</span>
-        <span className="ml-2 text-[0.72rem] font-bold text-slate-400 bg-slate-100 rounded-full px-2 py-0.5">
+    <Card className="overflow-hidden">
+      <CardHeader className="px-[1.4rem] py-[1rem] border-b border-slate-200 flex-row items-center space-y-0 gap-2">
+        <CardTitle className="font-nunito text-[0.9rem] font-black">👥 Ekip Üyeleri</CardTitle>
+        <Badge variant="outline" className="text-[0.72rem] font-bold text-slate-400 bg-slate-100 rounded-full">
           {members.length}
-        </span>
-      </div>
+        </Badge>
+      </CardHeader>
 
-      <div className="divide-y divide-slate-100">
+      <CardContent className="p-0 divide-y divide-slate-100">
         {members.length === 0 ? (
           <div className="px-[1.4rem] py-[1.2rem] text-[0.82rem] text-slate-400">
             Henüz üye yok.
@@ -60,14 +69,14 @@ function MembersSection({ members }: { members: ProjectDetail['members'] }) {
                 <div className="flex items-center gap-1.5 flex-wrap">
                   <span className="text-[0.84rem] font-bold text-slate-900">{member.name}</span>
                   {member.is_project_leader && (
-                    <span className="text-[0.65rem] font-bold text-blue-600 bg-blue-50 border border-blue-200 rounded-full px-1.5 py-0.5">
+                    <Badge variant="outline" className="text-[0.65rem] font-bold text-blue-600 bg-blue-50 border-blue-200 rounded-full px-1.5">
                       Lider
-                    </span>
+                    </Badge>
                   )}
                   {member.has_biprova && (
-                    <span className="text-[0.65rem] font-bold text-purple-600 bg-purple-50 border border-purple-200 rounded-full px-1.5 py-0.5">
+                    <Badge variant="outline" className="text-[0.65rem] font-bold text-purple-600 bg-purple-50 border-purple-200 rounded-full px-1.5">
                       Yetkili
-                    </span>
+                    </Badge>
                   )}
                 </div>
                 {member.role_name && (
@@ -77,72 +86,34 @@ function MembersSection({ members }: { members: ProjectDetail['members'] }) {
             </div>
           ))
         )}
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   );
 }
 
 /* ─── Aktiviteler ────────────────────────────────────────────── */
 
 const MOCK_ACTIVITIES = [
-  {
-    id: '1',
-    type: 'join',
-    user: 'Ahmet Yılmaz',
-    text: 'projeye katıldı',
-    role: 'Frontend Developer',
-    time: '2 saat önce',
-  },
-  {
-    id: '2',
-    type: 'apply',
-    user: 'Selin Kaya',
-    text: 'Backend Developer rolüne başvurdu',
-    role: null,
-    time: '5 saat önce',
-  },
-  {
-    id: '3',
-    type: 'team',
-    user: null,
-    text: 'Ekip kuruldu 🎉',
-    role: null,
-    time: '1 gün önce',
-  },
-  {
-    id: '4',
-    type: 'join',
-    user: 'Mert Demir',
-    text: 'projeye katıldı',
-    role: 'UI/UX Tasarımcı',
-    time: '2 gün önce',
-  },
-  {
-    id: '5',
-    type: 'create',
-    user: null,
-    text: 'Proje oluşturuldu',
-    role: null,
-    time: '3 gün önce',
-  },
+  { id: '1', type: 'join',   user: 'Ahmet Yılmaz', text: 'projeye katıldı',                    role: 'Frontend Developer', time: '2 saat önce' },
+  { id: '2', type: 'apply',  user: 'Selin Kaya',   text: 'Backend Developer rolüne başvurdu',  role: null,                 time: '5 saat önce' },
+  { id: '3', type: 'team',   user: null,            text: 'Ekip kuruldu 🎉',                    role: null,                 time: '1 gün önce'  },
+  { id: '4', type: 'join',   user: 'Mert Demir',   text: 'projeye katıldı',                    role: 'UI/UX Tasarımcı',    time: '2 gün önce'  },
+  { id: '5', type: 'create', user: null,            text: 'Proje oluşturuldu',                  role: null,                 time: '3 gün önce'  },
 ];
 
 const ACTIVITY_ICONS: Record<string, string> = {
-  join: '👤',
-  apply: '📬',
-  team: '🚀',
-  create: '✨',
+  join: '👤', apply: '📬', team: '🚀', create: '✨',
 };
 
 function AktivitelerSection() {
   return (
-    <div className="bg-white border-[1.5px] border-slate-200 rounded-2xl overflow-hidden">
-      <div className="px-[1.4rem] py-[1rem] border-b border-slate-200 flex items-center justify-between">
-        <span className="font-nunito text-[0.9rem] font-black">⚡ Aktiviteler</span>
+    <Card className="overflow-hidden">
+      <CardHeader className="px-[1.4rem] py-[1rem] border-b border-slate-200 flex-row items-center justify-between space-y-0">
+        <CardTitle className="font-nunito text-[0.9rem] font-black">⚡ Aktiviteler</CardTitle>
         <span className="text-[0.7rem] text-slate-400 font-semibold">Son 7 gün</span>
-      </div>
+      </CardHeader>
 
-      <div className="divide-y divide-slate-100 overflow-y-auto max-h-[320px]">
+      <CardContent className="p-0 divide-y divide-slate-100 overflow-y-auto max-h-[320px]">
         {MOCK_ACTIVITIES.map((activity) => (
           <div key={activity.id} className="flex items-start gap-3 px-[1.4rem] py-[0.9rem]">
             <div className="w-7 h-7 rounded-full bg-slate-100 flex items-center justify-center text-[0.8rem] shrink-0 mt-0.5">
@@ -155,17 +126,17 @@ function AktivitelerSection() {
                 )}
                 {activity.text}
                 {activity.role && (
-                  <span className="ml-1 text-[0.72rem] font-semibold text-blue-600 bg-blue-50 rounded-full px-1.5 py-0.5">
+                  <Badge variant="outline" className="ml-1 text-[0.72rem] font-semibold text-blue-600 bg-blue-50 rounded-full px-1.5">
                     {activity.role}
-                  </span>
+                  </Badge>
                 )}
               </p>
               <span className="text-[0.72rem] text-slate-400">{activity.time}</span>
             </div>
           </div>
         ))}
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   );
 }
 
@@ -224,11 +195,11 @@ function LeaveProjectSection({ projectId, isProjectLeader, members, viewerId }: 
 
   return (
     <>
-      <div className="bg-white border-[1.5px] border-slate-200 rounded-2xl overflow-hidden">
-        <div className="px-[1.4rem] py-[1rem] border-b border-slate-200">
-          <span className="font-nunito text-[0.9rem] font-black">🚪 Projeden Ayrıl</span>
-        </div>
-        <div className="px-[1.4rem] py-[1.2rem]">
+      <Card className="overflow-hidden">
+        <CardHeader className="px-[1.4rem] py-[1rem] border-b border-slate-200">
+          <CardTitle className="font-nunito text-[0.9rem] font-black">🚪 Projeden Ayrıl</CardTitle>
+        </CardHeader>
+        <CardContent className="px-[1.4rem] py-[1.2rem]">
           {!confirm ? (
             <button
               onClick={handleLeaveClick}
@@ -249,75 +220,79 @@ function LeaveProjectSection({ projectId, isProjectLeader, members, viewerId }: 
               </p>
               {error && <p className="text-[0.75rem] text-red-500 mb-2">{error}</p>}
               <div className="flex gap-2">
-                <button
+                <Button
+                  size="sm"
                   disabled={isPending}
                   onClick={handleLeave}
-                  className="text-[0.78rem] font-bold px-3 py-1.5 rounded-lg bg-red-600 text-white hover:bg-red-700 transition-colors disabled:opacity-50 cursor-pointer"
+                  className="bg-red-600 hover:bg-red-700 text-white text-[0.78rem]"
                 >
                   {isPending ? 'Ayrılıyor…' : 'Evet, Ayrıl'}
-                </button>
-                <button
+                </Button>
+                <Button
+                  size="sm"
+                  variant="outline"
                   disabled={isPending}
                   onClick={() => setConfirm(false)}
-                  className="text-[0.78rem] font-bold px-3 py-1.5 rounded-lg border-[1.5px] border-slate-200 text-slate-500 hover:border-slate-400 transition-colors cursor-pointer"
+                  className="text-[0.78rem]"
                 >
                   İptal
-                </button>
+                </Button>
               </div>
             </div>
           )}
-        </div>
-      </div>
+        </CardContent>
+      </Card>
 
-      {showTransferDialog && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-          <div className="bg-white rounded-2xl shadow-xl w-full max-w-sm mx-4 overflow-hidden">
-            <div className="px-6 py-4 border-b border-slate-200">
-              <h2 className="font-nunito text-[1rem] font-black">Lider Seç</h2>
-            </div>
-            <div className="px-6 py-5 flex flex-col gap-3">
-              <p className="text-[0.82rem] text-slate-500">
-                Projeden ayrılmadan önce liderliği devredecek bir üye seçmelisin.
+      <Dialog open={showTransferDialog} onOpenChange={(open) => {
+        if (!open) { setShowTransferDialog(false); setSelectedId(''); setTransferError(''); }
+      }}>
+        <DialogContent className="max-w-sm">
+          <DialogHeader>
+            <DialogTitle className="font-nunito text-[1rem] font-black">Lider Seç</DialogTitle>
+          </DialogHeader>
+          <div className="flex flex-col gap-3">
+            <p className="text-[0.82rem] text-slate-500">
+              Projeden ayrılmadan önce liderliği devredecek bir üye seçmelisin.
+            </p>
+            {candidates.length === 0 ? (
+              <p className="text-[0.82rem] text-amber-600 font-semibold">
+                Projede başka üye yok. Liderliği devretmek için önce projeye üye eklemen gerekiyor.
               </p>
-              {candidates.length === 0 ? (
-                <p className="text-[0.82rem] text-amber-600 font-semibold">
-                  Projede başka üye yok. Liderliği devretmek için önce projeye üye eklemen gerekiyor.
-                </p>
-              ) : (
-                <select
-                  value={selectedId}
-                  onChange={(e) => { setSelectedId(e.target.value); setTransferError(''); }}
-                  className="text-[0.82rem] px-3 py-2 rounded-lg border-[1.5px] border-slate-200 outline-none focus:border-blue-500 transition-colors text-slate-700 bg-white cursor-pointer"
-                >
-                  <option value="">— Üye seç —</option>
-                  {candidates.map((m) => (
-                    <option key={m.user_id} value={m.user_id}>{m.name}</option>
-                  ))}
-                </select>
-              )}
-              {transferError && <p className="text-[0.75rem] text-red-500">{transferError}</p>}
-            </div>
-            <div className="px-6 py-4 border-t border-slate-100 flex gap-2 justify-end">
-              <button
-                disabled={isPending}
-                onClick={() => { setShowTransferDialog(false); setSelectedId(''); setTransferError(''); }}
-                className="text-[0.78rem] font-bold px-4 py-2 rounded-lg border-[1.5px] border-slate-200 text-slate-500 hover:border-slate-400 transition-colors cursor-pointer"
+            ) : (
+              <select
+                value={selectedId}
+                onChange={(e) => { setSelectedId(e.target.value); setTransferError(''); }}
+                className="text-[0.82rem] px-3 py-2 rounded-lg border-[1.5px] border-slate-200 outline-none focus:border-blue-500 transition-colors text-slate-700 bg-white cursor-pointer"
               >
-                İptal
-              </button>
-              {candidates.length > 0 && (
-                <button
-                  disabled={!selectedId || isPending}
-                  onClick={handleTransfer}
-                  className="text-[0.78rem] font-bold px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
-                >
-                  {isPending ? 'Devrediliyor…' : 'Devret'}
-                </button>
-              )}
-            </div>
+                <option value="">— Üye seç —</option>
+                {candidates.map((m) => (
+                  <option key={m.user_id} value={m.user_id}>{m.name}</option>
+                ))}
+              </select>
+            )}
+            {transferError && <p className="text-[0.75rem] text-red-500">{transferError}</p>}
           </div>
-        </div>
-      )}
+          <div className="flex gap-2 justify-end pt-2">
+            <Button
+              variant="outline"
+              size="sm"
+              disabled={isPending}
+              onClick={() => { setShowTransferDialog(false); setSelectedId(''); setTransferError(''); }}
+            >
+              İptal
+            </Button>
+            {candidates.length > 0 && (
+              <Button
+                size="sm"
+                disabled={!selectedId || isPending}
+                onClick={handleTransfer}
+              >
+                {isPending ? 'Devrediliyor…' : 'Devret'}
+              </Button>
+            )}
+          </div>
+        </DialogContent>
+      </Dialog>
     </>
   );
 }
