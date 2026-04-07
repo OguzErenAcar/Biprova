@@ -9,7 +9,7 @@ export function HomeTopbar() {
           {/* Logo */}
       <Link
         href="/dashboard"
-        className="font-nunito font-black text-[1.3rem] text-blue-600 px-2  no-underline"
+        className="font-nunito font-black text-h2 text-blue-600 px-2  no-underline"
       >
         Bi<span className="text-slate-900">prova</span>
       </Link>
