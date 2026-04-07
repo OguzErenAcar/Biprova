@@ -82,7 +82,7 @@ export function SidebarAccountActions() {
           variant="ghost"
           onClick={handleDeleteAccount}
           disabled={isLoading}
-          className="justify-start gap-[0.65rem] px-3 py-[0.65rem] text-[0.9rem] font-semibold text-red-400 hover:bg-red-50 hover:text-red-600 h-auto rounded-[10px]"
+          className="justify-start gap-[0.65rem] px-3 py-[0.65rem] text-body font-semibold text-red-400 hover:bg-red-50 hover:text-red-600 h-auto rounded-[10px]"
         >
           <span className="text-[1.1rem] w-5 text-center">🗑️</span>
           Hesabı Sil
