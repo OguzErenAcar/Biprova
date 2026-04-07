@@ -95,13 +95,7 @@ export function Sidebar({ user, projects = [] }: SidebarProps) {
       id="dashboard-sidebar"
       className="w-60 bg-white border-r border-slate-200 flex flex-col fixed top-14 left-0 bottom-0 z-30 px-4 py-6 -translate-x-full lg:translate-x-0 transition-transform duration-200"
     >
-      {/* Logo */}
-      <Link
-        href="/dashboard"
-        className="font-nunito font-black text-[1.3rem] text-blue-600 px-2 mb-8 no-underline"
-      >
-        bir<span className="text-slate-900">prova</span>
-      </Link>
+ 
 
       {/* Ana navigasyon */}
       <nav>
