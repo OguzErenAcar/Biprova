@@ -197,7 +197,7 @@ export function Sidebar({ user, projects = [] }: SidebarProps) {
             <div>
               <div className="text-body font-bold text-slate-900">{user.name}</div>
               {user.role && (
-                <div className="text-[0.72rem] text-slate-500">{user.role}</div>
+                <div className="text-label text-slate-500">{user.role}</div>
               )}
             </div>
           </div>
