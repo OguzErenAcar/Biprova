@@ -83,7 +83,7 @@ export function SearchBar() {
                     {r.type === 'project' ? '📁' : '👤'}
                   </span>
                   <div className="min-w-0">
-                    <div className="text-[0.84rem] font-semibold text-slate-900 truncate">
+                    <div className="text-caption font-semibold text-slate-900 truncate">
                       {r.label}
                     </div>
                     {r.sub && (
