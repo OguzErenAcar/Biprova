@@ -1,10 +1,8 @@
-import { HomeTopbar } from "@/components/shared/home-topbar";
-import { SuggestedPeople } from "@/components/shared/suggested-people";
+ import { SuggestedPeople } from "@/components/shared/suggested-people";
 
 export default function ShellLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <HomeTopbar />
 
       <div id="dashboard-shell" className="dashboard-shell">
         <div id="dashboard-main">
