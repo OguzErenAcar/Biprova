@@ -556,13 +556,13 @@ function TeamNameSection({ teamId, currentName }: { teamId: string; currentName:
       </CardHeader>
       <CardContent className="px-[1.4rem] py-[1.2rem]">
         <div className="flex gap-2">
-          <input
+          <Input
             type="text"
             value={name}
             onChange={(e) => { setName(e.target.value); setSuccess(''); setError(''); }}
             onKeyDown={(e) => e.key === 'Enter' && handleSave()}
             placeholder="Ekip ismi"
-            className="flex-1 text-[0.82rem] px-3 py-2 rounded-lg border-[1.5px] border-slate-200 outline-none focus:border-blue-500 transition-colors placeholder:text-slate-400"
+            className="flex-1 text-[0.82rem] rounded-lg"
           />
           <Button
             disabled={!isDirty || isPending}
