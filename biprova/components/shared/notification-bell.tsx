@@ -80,7 +80,7 @@ export function NotificationBell() {
                         {n.bold && <strong>{n.bold} </strong>}
                         {n.text}
                       </p>
-                      <div className="text-[0.7rem] text-slate-400 mt-[0.15rem]">{n.time}</div>
+                      <div className="text-label text-slate-400 mt-[0.15rem]">{n.time}</div>
                     </div>
                     {n.unread && (
                       <Badge className="w-[6px] h-[6px] p-0 rounded-full bg-blue-600 flex-shrink-0 mt-[6px]" />
