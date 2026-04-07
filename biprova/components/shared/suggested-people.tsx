@@ -41,7 +41,7 @@ export async function SuggestedPeople() {
           Önerilecek kimse yok.
         </div>
       ) : (
-        <div className="divide-y divide-edge">
+        <div className="divide-y divide-slate-100">
           {users.map((u) => (
             <Link
               key={u.id}
