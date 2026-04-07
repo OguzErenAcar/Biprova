@@ -77,7 +77,7 @@ export function SearchBar() {
                   key={`${r.type}-${r.id}`}
                   href={r.href}
                   onClick={handleSelect}
-                  className="flex items-center gap-3 px-4 py-[0.65rem] hover:bg-slate-50 transition-colors no-underline border-b border-edge last:border-b-0"
+                  className="flex items-center gap-3 px-4 py-[0.65rem] hover:bg-slate-50 transition-colors no-underline border-b border-slate-100 last:border-b-0"
                 >
                   <span className="text-[1rem] shrink-0">
                     {r.type === 'project' ? '📁' : '👤'}
