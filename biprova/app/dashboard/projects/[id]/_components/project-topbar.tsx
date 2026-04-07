@@ -5,11 +5,11 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
 const STATUS_LABEL: Record<string, { label: string; className: string }> = {
-  open:      { label: '● Rol Aranıyor', className: 'bg-blue-50 text-blue-700 border-blue-200' },
-  full:      { label: '● Ekip Tam',     className: 'bg-yellow-50 text-yellow-700 border-yellow-200' },
-  active:    { label: '✓ Aktif',        className: 'bg-green-50 text-green-700 border-green-200' },
-  completed: { label: '● Tamamlandı',   className: 'bg-slate-50 text-slate-500 border-slate-200' },
-  cancelled: { label: '● İptal',        className: 'bg-red-50 text-red-500 border-red-200' },
+  open:      { label: '● Rol Aranıyor', className: 'bg-brand-surface text-brand border-brand-surface' },
+  full:      { label: '● Ekip Tam',     className: 'bg-warning-surface text-warning border-warning-surface' },
+  active:    { label: '✓ Aktif',        className: 'bg-success-surface text-success border-success-surface' },
+  completed: { label: '● Tamamlandı',   className: 'bg-canvas text-ink-muted border-edge' },
+  cancelled: { label: '● İptal',        className: 'bg-danger-surface text-danger border-danger-surface' },
 };
 
 interface Props {
@@ -25,18 +25,18 @@ export function ProjectTopbar({ title, status }: Props) {
   return (
     <div
       id="project-topbar"
-      className="sticky top-0 z-40 bg-slate-100/92 backdrop-blur-[12px] border-b border-slate-200 px-6 py-[0.8rem] flex items-center gap-3"
+      className="sticky top-0 z-40 bg-slate-100/92 backdrop-blur-[12px] border-b border-edge px-6 py-[0.8rem] flex items-center gap-3"
     >
       <Button
         variant="ghost"
         size="sm"
         onClick={() => router.back()}
-        className="text-caption font-bold text-slate-400 hover:text-blue-600 h-auto px-2 py-1"
+        className="text-caption font-bold text-ink-subtle hover:text-brand h-auto px-2 py-1"
       >
         ← Geri
       </Button>
 
-      <span className="font-nunito font-black text-base text-slate-900">{title}</span>
+      <span className="font-nunito font-black text-base text-ink">{title}</span>
 
       <Badge variant="outline" className={`text-label font-bold ${s.className}`}>
         {s.label}

@@ -51,7 +51,7 @@ export function ProjectTabView({ project }: Props) {
       {/* Tabs */}
       <div
         id="project-tabs"
-        className="flex border-b border-slate-200 bg-white px-6 sticky top-[53px] z-30"
+        className="flex border-b border-edge bg-canvas px-6 sticky top-[53px] z-30"
       >
         {visibleTabs.map((tab) => {
           const disabled = tab.comingSoon || (tab.requiresTeam && !hasTeam);
@@ -67,17 +67,17 @@ export function ProjectTabView({ project }: Props) {
               title={title}
               className={`text-caption font-bold px-4 py-3 border-b-2 rounded-none transition-all whitespace-nowrap gap-1 h-auto ${
                 disabled
-                  ? 'text-slate-300 border-transparent cursor-not-allowed'
+                  ? 'text-ink-subtle border-transparent cursor-not-allowed'
                   : isActive
                   ? tab.key === 'admin'
-                    ? 'text-indigo-600 border-indigo-600 hover:bg-transparent'
-                    : 'text-blue-600 border-blue-600 hover:bg-transparent'
-                  : 'text-slate-400 border-transparent hover:text-slate-700 hover:bg-transparent'
+                    ? 'text-brand border-brand hover:bg-transparent'
+                    : 'text-brand border-brand hover:bg-transparent'
+                  : 'text-ink-subtle border-transparent hover:text-ink-muted hover:bg-transparent'
               }`}
             >
               {tab.label}
               {tab.count !== undefined && tab.count > 0 && (
-                <Badge className="bg-blue-600 text-white text-label px-[0.4rem] py-[0.1rem] font-extrabold rounded-full h-auto">
+                <Badge className="bg-brand text-white text-label px-[0.4rem] py-[0.1rem] font-extrabold rounded-full h-auto">
                   {tab.count}
                 </Badge>
               )}
@@ -110,7 +110,7 @@ export function ProjectTabView({ project }: Props) {
             viewerId={project.viewer.id}
           />
         ) : activeTab === 'chat' ? (
-          <div className="text-body text-slate-400 text-center py-12">
+          <div className="text-body text-ink-subtle text-center py-12">
             Ekip kurulduktan sonra chat aktif olacak.
           </div>
         ) : null}
@@ -131,7 +131,7 @@ export function ProjectTabView({ project }: Props) {
             isLeader={isLeader}
           />
         ) : activeTab === 'gonderiler' ? (
-          <div className="text-body text-slate-400 text-center py-12">
+          <div className="text-body text-ink-subtle text-center py-12">
             Ekip kurulduktan sonra gönderi paylaşabilirsiniz.
           </div>
         ) : null}

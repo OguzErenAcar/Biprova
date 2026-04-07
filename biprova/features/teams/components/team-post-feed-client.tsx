@@ -93,7 +93,7 @@ export function TeamPostFeedClient({ posts }: Props) {
   return (
     <div id="team-post-feed">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="font-nunito font-black text-title text-slate-900">
+        <h2 className="font-nunito font-black text-title text-ink">
           👥 Ekip Gönderileri
         </h2>
         <DropdownMenu>
@@ -101,10 +101,10 @@ export function TeamPostFeedClient({ posts }: Props) {
             <Button
               variant="outline"
               size="sm"
-              className="gap-1.5 text-caption font-semibold text-slate-600 rounded-[9px]"
+              className="gap-1.5 text-caption font-semibold text-ink-muted rounded-[9px]"
             >
               {sortLabel}
-              <span className="text-label text-slate-400">▼</span>
+              <span className="text-label text-ink-subtle">▼</span>
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="min-w-[160px]">
@@ -116,7 +116,7 @@ export function TeamPostFeedClient({ posts }: Props) {
                 key={key}
                 onClick={() => setSortKey(key)}
                 className={`text-caption font-semibold cursor-pointer ${
-                  sortKey === key ? 'text-blue-600 bg-blue-50' : ''
+                  sortKey === key ? 'text-brand bg-brand-surface' : ''
                 }`}
               >
                 {label}
@@ -127,7 +127,7 @@ export function TeamPostFeedClient({ posts }: Props) {
       </div>
 
       {sorted.length === 0 ? (
-        <div className="bg-white border-[1.5px] border-slate-200 rounded-2xl p-10 text-center text-slate-400 text-lead">
+        <div className="bg-canvas border-[1.5px] border-edge rounded-2xl p-10 text-center text-ink-subtle text-lead">
           Henüz ekip gönderisi yok.
         </div>
       ) : (

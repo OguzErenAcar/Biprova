@@ -35,7 +35,7 @@ export function FeedFilterDropdown({ activeFilter }: FeedFilterDropdownProps) {
       <DropdownMenuTrigger asChild>
         <Button variant="outline" size="sm" className="gap-1.5 font-semibold">
           {activeLabel}
-          <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
+          <ChevronDown className="w-3.5 h-3.5 text-ink-subtle" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="min-w-[140px]">
@@ -43,7 +43,7 @@ export function FeedFilterDropdown({ activeFilter }: FeedFilterDropdownProps) {
           <DropdownMenuItem
             key={value}
             onClick={() => handleSelect(value)}
-            className={activeFilter === value ? "text-blue-600 bg-blue-50 focus:bg-blue-50 focus:text-blue-600" : ""}
+            className={activeFilter === value ? "text-brand bg-brand-surface focus:bg-brand-surface focus:text-brand" : ""}
           >
             {label}
           </DropdownMenuItem>

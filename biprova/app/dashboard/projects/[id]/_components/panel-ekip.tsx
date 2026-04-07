@@ -48,16 +48,16 @@ export function PanelEkip({ project }: Props) {
 function MembersSection({ members }: { members: ProjectDetail['members'] }) {
   return (
     <Card className="overflow-hidden">
-      <CardHeader className="px-[1.4rem] py-[1rem] border-b border-slate-200 flex-row items-center space-y-0 gap-2">
+      <CardHeader className="px-[1.4rem] py-[1rem] border-b border-edge flex-row items-center space-y-0 gap-2">
         <CardTitle className="font-nunito text-lead font-black">👥 Ekip Üyeleri</CardTitle>
-        <Badge variant="outline" className="text-meta font-bold text-slate-400 bg-slate-100 rounded-full">
+        <Badge variant="outline" className="text-meta font-bold text-ink-subtle bg-slate-100 rounded-full">
           {members.length}
         </Badge>
       </CardHeader>
 
       <CardContent className="p-0 divide-y divide-slate-100">
         {members.length === 0 ? (
-          <div className="px-[1.4rem] py-[1.2rem] text-caption text-slate-400">
+          <div className="px-[1.4rem] py-[1.2rem] text-caption text-ink-subtle">
             Henüz üye yok.
           </div>
         ) : (
@@ -65,15 +65,15 @@ function MembersSection({ members }: { members: ProjectDetail['members'] }) {
             <div key={member.user_id} className="flex items-center gap-3 px-[1.4rem] py-[0.9rem]">
               <Avatar className="w-8 h-8 shrink-0">
                 <AvatarImage src={member.avatar_url ?? undefined} alt={member.name} />
-                <AvatarFallback className="bg-gradient-to-br from-blue-400 to-indigo-500 font-nunito font-black text-meta text-white">
+                <AvatarFallback className="bg-gradient-to-br from-brand to-indigo-500 font-nunito font-black text-meta text-white">
                   {getInitials(member.name)}
                 </AvatarFallback>
               </Avatar>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-1.5 flex-wrap">
-                  <span className="text-body font-bold text-slate-900">{member.name}</span>
+                  <span className="text-body font-bold text-ink">{member.name}</span>
                   {member.is_project_leader && (
-                    <Badge variant="outline" className="text-label font-bold text-blue-600 bg-blue-50 border-blue-200 rounded-full px-1.5">
+                    <Badge variant="outline" className="text-label font-bold text-brand bg-brand-surface border-brand-surface rounded-full px-1.5">
                       Lider
                     </Badge>
                   )}
@@ -84,7 +84,7 @@ function MembersSection({ members }: { members: ProjectDetail['members'] }) {
                   )}
                 </div>
                 {member.role_name && (
-                  <span className="text-meta text-slate-400">{member.role_name}</span>
+                  <span className="text-meta text-ink-subtle">{member.role_name}</span>
                 )}
               </div>
             </div>
@@ -112,9 +112,9 @@ const ACTIVITY_ICONS: Record<string, string> = {
 function AktivitelerSection() {
   return (
     <Card className="overflow-hidden">
-      <CardHeader className="px-[1.4rem] py-[1rem] border-b border-slate-200 flex-row items-center justify-between space-y-0">
+      <CardHeader className="px-[1.4rem] py-[1rem] border-b border-edge flex-row items-center justify-between space-y-0">
         <CardTitle className="font-nunito text-lead font-black">⚡ Aktiviteler</CardTitle>
-        <span className="text-label text-slate-400 font-semibold">Son 7 gün</span>
+        <span className="text-label text-ink-subtle font-semibold">Son 7 gün</span>
       </CardHeader>
 
       <CardContent className="p-0 divide-y divide-slate-100 overflow-y-auto max-h-[320px]">
@@ -126,18 +126,18 @@ function AktivitelerSection() {
               </AvatarFallback>
             </Avatar>
             <div className="flex-1 min-w-0">
-              <p className="text-caption text-slate-700 leading-snug">
+              <p className="text-caption text-ink-muted leading-snug">
                 {activity.user && (
-                  <span className="font-bold text-slate-900">{activity.user} </span>
+                  <span className="font-bold text-ink">{activity.user} </span>
                 )}
                 {activity.text}
                 {activity.role && (
-                  <Badge variant="outline" className="ml-1 text-meta font-semibold text-blue-600 bg-blue-50 rounded-full px-1.5">
+                  <Badge variant="outline" className="ml-1 text-meta font-semibold text-brand bg-brand-surface rounded-full px-1.5">
                     {activity.role}
                   </Badge>
                 )}
               </p>
-              <span className="text-meta text-slate-400">{activity.time}</span>
+              <span className="text-meta text-ink-subtle">{activity.time}</span>
             </div>
           </div>
         ))}
@@ -202,7 +202,7 @@ function LeaveProjectSection({ projectId, isProjectLeader, members, viewerId }: 
   return (
     <>
       <Card className="overflow-hidden">
-        <CardHeader className="px-[1.4rem] py-[1rem] border-b border-slate-200">
+        <CardHeader className="px-[1.4rem] py-[1rem] border-b border-edge">
           <CardTitle className="font-nunito text-lead font-black">🚪 Projeden Ayrıl</CardTitle>
         </CardHeader>
         <CardContent className="px-[1.4rem] py-[1.2rem]">
@@ -210,28 +210,28 @@ function LeaveProjectSection({ projectId, isProjectLeader, members, viewerId }: 
             <Button
               variant="outline"
               onClick={handleLeaveClick}
-              className="flex items-center gap-3 px-4 py-3 h-auto rounded-xl border-red-200 text-left w-full justify-start hover:bg-red-50"
+              className="flex items-center gap-3 px-4 py-3 h-auto rounded-xl border-danger-surface text-left w-full justify-start hover:bg-danger-surface"
             >
               <span className="text-base">🚪</span>
               <div>
-                <div className="text-body font-bold text-red-600">Projeden Ayrıl</div>
-                <div className="text-meta text-slate-400">
+                <div className="text-body font-bold text-danger">Projeden Ayrıl</div>
+                <div className="text-meta text-ink-subtle">
                   Ekipten çıkarsın, geri dönmek için tekrar başvurman gerekir
                 </div>
               </div>
             </Button>
           ) : (
-            <div className="px-4 py-3 rounded-xl border-[1.5px] border-red-300 bg-red-50">
-              <p className="text-caption font-semibold text-red-700 mb-3">
+            <div className="px-4 py-3 rounded-xl border-[1.5px] border-danger-surface bg-danger-surface">
+              <p className="text-caption font-semibold text-danger mb-3">
                 Projeden ayrılmak istediğine emin misin?
               </p>
-              {error && <p className="text-meta text-red-500 mb-2">{error}</p>}
+              {error && <p className="text-meta text-danger mb-2">{error}</p>}
               <div className="flex gap-2">
                 <Button
                   size="sm"
                   disabled={isPending}
                   onClick={handleLeave}
-                  className="bg-red-600 hover:bg-red-700 text-white text-caption"
+                  className="bg-danger hover:bg-danger text-white text-caption"
                 >
                   {isPending ? 'Ayrılıyor…' : 'Evet, Ayrıl'}
                 </Button>
@@ -258,18 +258,18 @@ function LeaveProjectSection({ projectId, isProjectLeader, members, viewerId }: 
             <DialogTitle className="font-nunito text-base font-black">Lider Seç</DialogTitle>
           </DialogHeader>
           <div className="flex flex-col gap-3">
-            <p className="text-caption text-slate-500">
+            <p className="text-caption text-ink-muted">
               Projeden ayrılmadan önce liderliği devredecek bir üye seçmelisin.
             </p>
             {candidates.length === 0 ? (
-              <p className="text-caption text-amber-600 font-semibold">
+              <p className="text-caption text-warning font-semibold">
                 Projede başka üye yok. Liderliği devretmek için önce projeye üye eklemen gerekiyor.
               </p>
             ) : (
               <select
                 value={selectedId}
                 onChange={(e) => { setSelectedId(e.target.value); setTransferError(''); }}
-                className="text-caption px-3 py-2 rounded-lg border-[1.5px] border-slate-200 outline-none focus:border-blue-500 transition-colors text-slate-700 bg-white cursor-pointer"
+                className="text-caption px-3 py-2 rounded-lg border-[1.5px] border-edge outline-none focus:border-brand transition-colors text-ink-muted bg-canvas cursor-pointer"
               >
                 <option value="">— Üye seç —</option>
                 {candidates.map((m) => (
@@ -277,7 +277,7 @@ function LeaveProjectSection({ projectId, isProjectLeader, members, viewerId }: 
                 ))}
               </select>
             )}
-            {transferError && <p className="text-meta text-red-500">{transferError}</p>}
+            {transferError && <p className="text-meta text-danger">{transferError}</p>}
           </div>
           <div className="flex gap-2 justify-end pt-2">
             <Button

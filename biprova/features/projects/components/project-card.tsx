@@ -34,9 +34,9 @@ interface ProjectCardProps {
 }
 
 const STATUS_STYLES: Record<ProjectStatus, string> = {
-  open:   "bg-green-100 text-green-700 border-green-200",
-  almost: "bg-amber-100 text-amber-700 border-amber-200",
-  full:   "bg-red-100 text-red-700 border-red-200",
+  open:   "bg-success-surface text-success border-success-surface",
+  almost: "bg-warning-surface text-warning border-warning-surface",
+  full:   "bg-danger-surface text-danger border-danger-surface",
 };
 
 const STATUS_LABELS: Record<ProjectStatus, string> = {
@@ -84,13 +84,13 @@ export function ProjectCard({
                 {poster.initials}
               </AvatarFallback>
             </Avatar>
-            <span className="text-caption font-semibold text-slate-900">
+            <span className="text-caption font-semibold text-ink">
               {poster.name}
             </span>
           </Link>
 
           <div className="flex items-center gap-2 flex-wrap">
-            <Badge variant="outline" className="bg-blue-50 text-blue-600 border-blue-100 font-bold">
+            <Badge variant="outline" className="bg-brand-surface text-brand border-brand-surface font-bold">
               {isRemote ? "🌐 Remote" : `📍 ${city}`}
             </Badge>
             <Badge variant="outline" className={`font-bold ${STATUS_STYLES[status]}`}>
@@ -100,12 +100,12 @@ export function ProjectCard({
         </div>
 
         {/* Başlık */}
-        <div className="font-nunito font-black text-title leading-[1.3] text-slate-900 mb-[0.35rem]">
+        <div className="font-nunito font-black text-title leading-[1.3] text-ink mb-[0.35rem]">
           {title}
         </div>
 
         {/* Açıklama */}
-        <div className="text-body text-slate-500 mb-4 leading-[1.55]">
+        <div className="text-body text-ink-muted mb-4 leading-[1.55]">
           {description}
         </div>
 
@@ -118,11 +118,11 @@ export function ProjectCard({
               onClick={() => setRolesOpen((prev) => !prev)}
               className="w-full justify-between px-0 h-auto py-1 mb-2 hover:bg-transparent"
             >
-              <span className="text-label font-bold text-slate-400 uppercase tracking-wider">
+              <span className="text-label font-bold text-ink-subtle uppercase tracking-wider">
                 Aranan Pozisyonlar ({openRoles.length})
               </span>
               <ChevronDown
-                className={`w-3.5 h-3.5 text-slate-400 transition-transform duration-200 ${rolesOpen ? "rotate-180" : ""}`}
+                className={`w-3.5 h-3.5 text-ink-subtle transition-transform duration-200 ${rolesOpen ? "rotate-180" : ""}`}
               />
             </Button>
             {rolesOpen && (
@@ -130,12 +130,12 @@ export function ProjectCard({
                 {openRoles.map((role, i) => (
                   <div
                     key={i}
-                    className="rounded-xl border-[1.5px] border-amber-100 bg-amber-50/50 px-3 py-2.5 flex items-center gap-3"
+                    className="rounded-xl border-[1.5px] border-warning-surface bg-warning-surface/50 px-3 py-2.5 flex items-center gap-3"
                   >
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-1.5">
-                        <span className="w-2 h-2 rounded-full bg-amber-400 flex-shrink-0" />
-                        <span className="text-caption font-bold text-slate-700">
+                        <span className="w-2 h-2 rounded-full bg-warning flex-shrink-0" />
+                        <span className="text-caption font-bold text-ink-muted">
                           {role.name}
                         </span>
                       </div>
@@ -157,9 +157,9 @@ export function ProjectCard({
               <Badge
                 key={i}
                 variant="outline"
-                className="bg-green-50 text-green-600 border-green-100 font-semibold gap-1.5"
+                className="bg-success-surface text-success border-success-surface font-semibold gap-1.5"
               >
-                <span className="w-1.5 h-1.5 rounded-full bg-green-400 flex-shrink-0" />
+                <span className="w-1.5 h-1.5 rounded-full bg-success flex-shrink-0" />
                 {role.name}
               </Badge>
             ))}

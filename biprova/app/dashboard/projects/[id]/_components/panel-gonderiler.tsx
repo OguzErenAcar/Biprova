@@ -154,13 +154,13 @@ export function PanelGonderiler({ teamId, teamName, posts, members, category, ci
         <Card className="mb-4 w-1/2 mx-auto">
           <CardContent className="p-4">
             <div className="flex items-center gap-3 mb-3">
-              <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center font-nunito font-black text-meta text-white shrink-0">
+              <div className="w-8 h-8 rounded-full bg-brand flex items-center justify-center font-nunito font-black text-meta text-white shrink-0">
                 {getInitials(viewerName)}
               </div>
-              <span className="text-body font-semibold text-slate-400">Ekip adına paylaş...</span>
+              <span className="text-body font-semibold text-ink-subtle">Ekip adına paylaş...</span>
             </div>
             <textarea
-              className="w-full border-none outline-none font-[inherit] text-body resize-none text-slate-900 min-h-[70px] placeholder:text-slate-400 bg-transparent"
+              className="w-full border-none outline-none font-[inherit] text-body resize-none text-ink min-h-[70px] placeholder:text-ink-subtle bg-transparent"
               placeholder="Projenizden bir güncelleme paylaşın. Bu gönderi timeline'da görünecek 📢"
               value={text}
               onChange={(e) => setText(e.target.value)}
@@ -168,7 +168,7 @@ export function PanelGonderiler({ teamId, teamName, posts, members, category, ci
             {previews.length > 0 && (
               <div className="flex gap-2 flex-wrap mt-2 mb-3">
                 {previews.map((p, i) => (
-                  <div key={i} className="relative w-20 h-20 rounded-[8px] overflow-hidden border border-slate-200">
+                  <div key={i} className="relative w-20 h-20 rounded-[8px] overflow-hidden border border-edge">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={p.previewUrl} alt="" className="w-full h-full object-cover" />
                     <button
@@ -181,13 +181,13 @@ export function PanelGonderiler({ teamId, teamName, posts, members, category, ci
                 ))}
               </div>
             )}
-            <div className="flex items-center justify-between mt-2 border-t border-slate-200 pt-2">
+            <div className="flex items-center justify-between mt-2 border-t border-edge pt-2">
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={() => fileInputRef.current?.click()}
                 disabled={isPending || previews.length >= 5}
-                className="text-slate-400 hover:text-blue-600 text-caption font-semibold gap-1"
+                className="text-ink-subtle hover:text-brand text-caption font-semibold gap-1"
               >
                 📷 Fotoğraf {previews.length > 0 && <span className="text-meta">({previews.length}/5)</span>}
               </Button>
@@ -215,7 +215,7 @@ export function PanelGonderiler({ teamId, teamName, posts, members, category, ci
                 size="sm"
                 onClick={() => startTransition(async () => { await deleteProjectPost(post.id); router.refresh(); })}
                 disabled={isPending}
-                className="absolute top-4 right-4 z-10 text-slate-400 hover:text-red-500 text-meta font-semibold h-auto py-0.5"
+                className="absolute top-4 right-4 z-10 text-ink-subtle hover:text-danger text-meta font-semibold h-auto py-0.5"
               >
                 Sil
               </Button>
@@ -242,7 +242,7 @@ export function PanelGonderiler({ teamId, teamName, posts, members, category, ci
       })}
 
       {posts.length === 0 && (
-        <div className="text-center text-caption text-slate-400 py-8">
+        <div className="text-center text-caption text-ink-subtle py-8">
           Henüz gönderi yok.
         </div>
       )}

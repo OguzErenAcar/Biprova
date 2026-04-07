@@ -73,7 +73,7 @@ export async function ProjectFeed({ searchParams }: ProjectFeedProps) {
   return (
     <div id="project-feed">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="font-nunito font-black text-title text-slate-900">
+        <h2 className="font-nunito font-black text-title text-ink">
           📋 Timeline
         </h2>
         <FeedFilterDropdown activeFilter={activeFilter} />
@@ -81,7 +81,7 @@ export async function ProjectFeed({ searchParams }: ProjectFeedProps) {
 
       {projects.length === 0 ? (
         <Card>
-          <CardContent className="p-10 text-center text-slate-400 text-lead">
+          <CardContent className="p-10 text-center text-ink-subtle text-lead">
             Henüz aktif proje yok.
           </CardContent>
         </Card>

@@ -15,9 +15,9 @@ interface ProfileSectionsProps {
 }
 
 const PROJECT_STATUS_STYLES: Record<ProjectStatus, string> = {
-  active:    "bg-green-50 text-green-700 border-green-100",
-  done:      "bg-blue-50 text-blue-600 border-blue-100",
-  dissolved: "bg-slate-100 text-slate-500 border-slate-200",
+  active:    "bg-success-surface text-success border-success-surface",
+  done:      "bg-brand-surface text-brand border-brand-surface",
+  dissolved: "bg-slate-100 text-ink-muted border-edge",
 };
 
 const PROJECT_STATUS_LABELS: Record<ProjectStatus, string> = {
@@ -27,9 +27,9 @@ const PROJECT_STATUS_LABELS: Record<ProjectStatus, string> = {
 };
 
 const APP_STATUS_STYLES: Record<ApplicationStatus, string> = {
-  pending:  "bg-amber-50 text-amber-800 border-amber-100",
-  accepted: "bg-green-50 text-green-700 border-green-100",
-  rejected: "bg-red-50 text-red-700 border-red-100",
+  pending:  "bg-warning-surface text-warning border-warning-surface",
+  accepted: "bg-success-surface text-success border-success-surface",
+  rejected: "bg-danger-surface text-danger border-danger-surface",
 };
 
 const APP_STATUS_LABELS: Record<ApplicationStatus, string> = {
@@ -43,9 +43,9 @@ const APP_BG_COLORS     = ["#ede9fe", "#dcfce7", "#fef3c7", "#eff6ff", "#fee2e2"
 const TEAM_BG_COLORS    = ["#fef3c7", "#eff6ff", "#dcfce7", "#fee2e2", "#f1f5f9", "#ede9fe"];
 
 const TEAM_STATUS_STYLES: Record<TeamStatus, string> = {
-  pending:    "bg-amber-50 text-amber-800 border-amber-100",
-  active:     "bg-green-50 text-green-700 border-green-100",
-  no_project: "bg-slate-100 text-slate-500 border-slate-200",
+  pending:    "bg-warning-surface text-warning border-warning-surface",
+  active:     "bg-success-surface text-success border-success-surface",
+  no_project: "bg-slate-100 text-ink-muted border-edge",
 };
 
 const TEAM_STATUS_LABELS: Record<TeamStatus, string> = {
@@ -75,7 +75,7 @@ function SectionCard({ id, title, action, children }: {
     <Card id={id} className="mb-5">
       <CardHeader className="pb-0">
         <div className="flex items-center justify-between">
-          <CardTitle className="font-nunito font-black text-base text-slate-900">{title}</CardTitle>
+          <CardTitle className="font-nunito font-black text-base text-ink">{title}</CardTitle>
           {action}
         </div>
       </CardHeader>
@@ -96,7 +96,7 @@ export function ProfileSections({ projects, applications, teams, projectsPublic,
           action={isOwner ? <VisibilityToggle section="projects" initialValue={projectsPublic} /> : undefined}
         >
           {projects.length === 0 ? (
-            <p className="text-body text-slate-400">Henüz proje yok.</p>
+            <p className="text-body text-ink-subtle">Henüz proje yok.</p>
           ) : (
             projects.map((p, i) => {
               const bg = PROJECT_BG_COLORS[i % PROJECT_BG_COLORS.length];
@@ -108,14 +108,14 @@ export function ProfileSections({ projects, applications, teams, projectsPublic,
               return (
                 <div
                   key={p.id}
-                  className={`flex gap-4 items-start py-3.5 ${i < projects.length - 1 ? "border-b border-slate-100" : ""} ${i === 0 ? "pt-0" : ""}`}
+                  className={`flex gap-4 items-start py-3.5 ${i < projects.length - 1 ? "border-b border-edge" : ""} ${i === 0 ? "pt-0" : ""}`}
                 >
                   <div className="w-10 h-10 rounded-[11px] flex items-center justify-center text-title flex-shrink-0" style={{ background: bg }}>
                     📁
                   </div>
                   <div className="flex-1 min-w-0">
-                    <div className="text-lead font-bold text-slate-900 mb-1">{p.title}</div>
-                    <div className="flex flex-wrap gap-2.5 text-meta text-slate-500">
+                    <div className="text-lead font-bold text-ink mb-1">{p.title}</div>
+                    <div className="flex flex-wrap gap-2.5 text-meta text-ink-muted">
                       {meta.map((m) => <span key={m}>{m}</span>)}
                     </div>
                   </div>
@@ -136,7 +136,7 @@ export function ProfileSections({ projects, applications, teams, projectsPublic,
           action={isOwner ? <VisibilityToggle section="teams" initialValue={teamsPublic} /> : undefined}
         >
           {teams.length === 0 ? (
-            <p className="text-body text-slate-400">Henüz ekip yok.</p>
+            <p className="text-body text-ink-subtle">Henüz ekip yok.</p>
           ) : (
             teams.map((t, i) => {
               const meta: string[] = [];
@@ -146,16 +146,16 @@ export function ProfileSections({ projects, applications, teams, projectsPublic,
               return (
                 <div
                   key={t.id}
-                  className={`flex gap-4 items-start py-3.5 ${i < teams.length - 1 ? "border-b border-slate-100" : ""} ${i === 0 ? "pt-0" : ""}`}
+                  className={`flex gap-4 items-start py-3.5 ${i < teams.length - 1 ? "border-b border-edge" : ""} ${i === 0 ? "pt-0" : ""}`}
                 >
                   <div className="w-10 h-10 rounded-[11px] flex items-center justify-center text-title flex-shrink-0" style={{ background: TEAM_BG_COLORS[i % TEAM_BG_COLORS.length] }}>
                     👥
                   </div>
                   <div className="flex-1 min-w-0">
-                    <div className="text-lead font-bold text-slate-900 mb-1">
+                    <div className="text-lead font-bold text-ink mb-1">
                       {t.name ?? t.projectTitle ?? 'Ekip'}
                     </div>
-                    <div className="flex flex-wrap gap-2.5 text-meta text-slate-500">
+                    <div className="flex flex-wrap gap-2.5 text-meta text-ink-muted">
                       {meta.map((m) => <span key={m}>{m}</span>)}
                     </div>
                   </div>
@@ -176,19 +176,19 @@ export function ProfileSections({ projects, applications, teams, projectsPublic,
           action={isOwner ? <VisibilityToggle section="applications" initialValue={applicationsPublic} /> : undefined}
         >
           {applications.length === 0 ? (
-            <p className="text-body text-slate-400">Henüz başvuru yok.</p>
+            <p className="text-body text-ink-subtle">Henüz başvuru yok.</p>
           ) : (
             applications.map((a, i) => (
               <div
                 key={a.id}
-                className={`flex gap-4 items-center py-3.5 ${i < applications.length - 1 ? "border-b border-slate-100" : ""} ${i === 0 ? "pt-0" : ""}`}
+                className={`flex gap-4 items-center py-3.5 ${i < applications.length - 1 ? "border-b border-edge" : ""} ${i === 0 ? "pt-0" : ""}`}
               >
                 <div className="w-10 h-10 rounded-[11px] flex items-center justify-center text-title flex-shrink-0" style={{ background: APP_BG_COLORS[i % APP_BG_COLORS.length] }}>
                   📨
                 </div>
                 <div className="flex-1 min-w-0">
-                  <div className="text-body font-bold text-slate-900 mb-0.5">{a.projectTitle}</div>
-                  <div className="text-caption text-slate-500">
+                  <div className="text-body font-bold text-ink mb-0.5">{a.projectTitle}</div>
+                  <div className="text-caption text-ink-muted">
                     {a.roleName ? `Rol: ${a.roleName} · ` : ''}{formatRelativeDate(a.createdAt)}
                   </div>
                 </div>

@@ -27,12 +27,12 @@ function ProjectInfoCard({ project }: { project: ProjectDetail }) {
 
   return (
     <Card className="overflow-hidden">
-      <CardHeader className="px-[1.2rem] py-[1rem] border-b border-slate-200">
+      <CardHeader className="px-[1.2rem] py-[1rem] border-b border-edge">
         <CardTitle className="font-nunito text-lead font-black">📄 Proje Hakkında</CardTitle>
       </CardHeader>
       <CardContent className="px-[1.2rem] py-[1rem] flex flex-col gap-4">
         {project.description && (
-          <p className="text-body text-slate-600 leading-[1.65] whitespace-pre-wrap">
+          <p className="text-body text-ink-muted leading-[1.65] whitespace-pre-wrap">
             {project.description}
           </p>
         )}
@@ -40,10 +40,10 @@ function ProjectInfoCard({ project }: { project: ProjectDetail }) {
         <div className="grid grid-cols-2 gap-x-4 gap-y-3">
           {meta.map((item) => (
             <div key={item.label}>
-              <div className="text-label font-bold text-slate-400 uppercase tracking-wider mb-0.5">
+              <div className="text-label font-bold text-ink-subtle uppercase tracking-wider mb-0.5">
                 {item.icon} {item.label}
               </div>
-              <div className="text-caption font-semibold text-slate-800">{item.value}</div>
+              <div className="text-caption font-semibold text-ink">{item.value}</div>
             </div>
           ))}
         </div>
@@ -82,7 +82,7 @@ function MemberStrip({ members }: { members: MemberSlot[] }) {
             <AvatarImage src={m.avatar_url ?? undefined} alt={m.name} className="object-cover" />
             <AvatarFallback
               className={`text-label font-extrabold text-white ${
-                m.is_leader ? 'bg-orange-400' : 'bg-white/20'
+                m.is_leader ? 'bg-orange-400' : 'bg-canvas/20'
               }`}
             >
               {getInitials(m.name)}
@@ -95,7 +95,7 @@ function MemberStrip({ members }: { members: MemberSlot[] }) {
       ))}
       {overflow > 0 && (
         <Avatar className="w-8 h-8 ring-1 ring-white/30 shrink-0">
-          <AvatarFallback className="bg-white/20 text-label font-bold text-white">
+          <AvatarFallback className="bg-canvas/20 text-label font-bold text-white">
             +{overflow}
           </AvatarFallback>
         </Avatar>
@@ -158,7 +158,7 @@ export function PanelGenel({ project, onGoToChat, onGoToTasks: _onGoToTasks, onG
       {/* Project Header */}
       <div
         id="project-header"
-        className="bg-gradient-to-br from-blue-700 to-indigo-500 rounded-2xl px-[1.8rem] py-[1.5rem] mb-[1.2rem] flex items-center justify-between flex-wrap gap-4"
+        className="bg-gradient-to-br from-brand-hover to-indigo-500 rounded-2xl px-[1.8rem] py-[1.5rem] mb-[1.2rem] flex items-center justify-between flex-wrap gap-4"
       >
         <div>
           <h2 className="font-nunito font-black text-title text-white mb-1">{project.title}</h2>
@@ -171,7 +171,7 @@ export function PanelGenel({ project, onGoToChat, onGoToTasks: _onGoToTasks, onG
               variant="outline"
               size="sm"
               onClick={onGoToChat}
-              className="bg-white/15 text-white border-white/25 font-nunito font-extrabold text-caption hover:bg-white/25 hover:text-white hover:border-white/40"
+              className="bg-canvas/15 text-white border-white/25 font-nunito font-extrabold text-caption hover:bg-canvas/25 hover:text-white hover:border-white/40"
             >
               💬 Gruba Git
             </Button>
@@ -190,18 +190,18 @@ export function PanelGenel({ project, onGoToChat, onGoToTasks: _onGoToTasks, onG
         <div className="flex flex-col gap-[1.2rem]">
           {/* Files preview card */}
           <Card className="overflow-hidden" id="files-preview-card">
-            <CardHeader className="px-[1.2rem] py-[1rem] border-b border-slate-200 flex-row items-center justify-between space-y-0">
+            <CardHeader className="px-[1.2rem] py-[1rem] border-b border-edge flex-row items-center justify-between space-y-0">
               <CardTitle className="font-nunito text-lead font-black">📁 Dosyalar & Linkler</CardTitle>
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={onGoToFiles}
-                className="text-meta font-bold text-blue-600 h-auto py-0.5"
+                className="text-meta font-bold text-brand h-auto py-0.5"
               >
                 Tümü →
               </Button>
             </CardHeader>
-            <CardContent className="px-[1.2rem] py-[1rem] text-caption text-slate-400">
+            <CardContent className="px-[1.2rem] py-[1rem] text-caption text-ink-subtle">
               Dosya özelliği yakında geliyor.
             </CardContent>
           </Card>

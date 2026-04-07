@@ -4,11 +4,11 @@ import { Badge } from "@/components/ui/badge";
 type NewsTag = "platform" | "girişim" | "etkinlik" | "duyuru" | "başarı";
 
 const TAG_STYLES: Record<NewsTag, string> = {
-  platform: "bg-blue-50 text-blue-600 border-blue-100",
-  girişim:  "bg-green-50 text-green-700 border-green-100",
-  etkinlik: "bg-amber-50 text-amber-800 border-amber-100",
+  platform: "bg-brand-surface text-brand border-brand-surface",
+  girişim:  "bg-success-surface text-success border-success-surface",
+  etkinlik: "bg-warning-surface text-warning border-warning-surface",
   duyuru:   "bg-purple-50 text-purple-600 border-purple-100",
-  başarı:   "bg-red-50 text-red-700 border-red-100",
+  başarı:   "bg-danger-surface text-danger border-danger-surface",
 };
 
 const TAG_LABELS: Record<NewsTag, string> = {
@@ -45,25 +45,25 @@ export function NewsCard({ title, excerpt, tag, date, readTime, emoji, thumbBg }
             <Badge variant="outline" className={`text-label font-bold ${TAG_STYLES[tag]}`}>
               {TAG_LABELS[tag]}
             </Badge>
-            <span className="text-meta text-slate-400">{date}</span>
+            <span className="text-meta text-ink-subtle">{date}</span>
           </div>
 
-          <div className="font-nunito font-black text-lead leading-[1.35] text-slate-900 mb-1.5">
+          <div className="font-nunito font-black text-lead leading-[1.35] text-ink mb-1.5">
             {title}
           </div>
 
-          <p className="text-caption text-slate-500 leading-[1.5] mb-2.5 line-clamp-2">
+          <p className="text-caption text-ink-muted leading-[1.5] mb-2.5 line-clamp-2">
             {excerpt}
           </p>
 
           <div className="flex items-center gap-2.5">
-            <div className="flex items-center gap-1.5 text-meta text-slate-500 font-semibold">
+            <div className="flex items-center gap-1.5 text-meta text-ink-muted font-semibold">
               biprova Ekibi
-              <Badge variant="outline" className="bg-blue-50 text-blue-600 border-blue-100 text-label font-extrabold">
+              <Badge variant="outline" className="bg-brand-surface text-brand border-brand-surface text-label font-extrabold">
                 Admin
               </Badge>
             </div>
-            <span className="text-meta text-slate-400">{readTime}</span>
+            <span className="text-meta text-ink-subtle">{readTime}</span>
           </div>
         </div>
       </CardContent>

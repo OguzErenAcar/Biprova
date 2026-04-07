@@ -96,7 +96,7 @@ export function CreateProjectLeftCol({ cities, skills, userTeams }: Props) {
         <FormGroup label="Proje Başlığı" required>
           <InputWithIcon icon="✏️">
             <input
-              className="flex-1 outline-none text-body text-slate-900 bg-transparent placeholder:text-slate-400"
+              className="flex-1 outline-none text-body text-ink bg-transparent placeholder:text-ink-subtle"
               type="text"
               name="title"
               placeholder="örn. İklim Değişikliği Farkındalık Belgeseli"
@@ -118,10 +118,10 @@ export function CreateProjectLeftCol({ cities, skills, userTeams }: Props) {
       {/* KONUM & KATEGORİ */}
       <FormCard id="section-location" title="📍 Konum & Kategori" sub="Ekibini nerede ve hangi alanda arıyorsun?">
         <FormGroup label="">
-          <div className="flex items-center justify-between bg-slate-50 border-[1.5px] border-slate-200 rounded-[11px] px-4 py-3">
+          <div className="flex items-center justify-between bg-canvas border-[1.5px] border-edge rounded-[11px] px-4 py-3">
             <Label htmlFor="is_remote" className="cursor-pointer">
-              <div className="text-body font-bold text-slate-900">🌐 Remote Uyumlu</div>
-              <div className="text-meta text-slate-400 mt-0.5">Uzaktan çalışmaya açıksanız işaretle</div>
+              <div className="text-body font-bold text-ink">🌐 Remote Uyumlu</div>
+              <div className="text-meta text-ink-subtle mt-0.5">Uzaktan çalışmaya açıksanız işaretle</div>
             </Label>
             <input type="hidden" name="is_remote" value={isRemote ? "on" : ""} />
             <Switch
@@ -140,7 +140,7 @@ export function CreateProjectLeftCol({ cities, skills, userTeams }: Props) {
                 <option key={c.id} value={c.name}>{c.name}</option>
               ))}
             </select>
-            <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-caption">▾</span>
+            <span className="absolute right-4 top-1/2 -translate-y-1/2 text-ink-subtle pointer-events-none text-caption">▾</span>
           </div>
         </FormGroup>
       </FormCard>
@@ -163,8 +163,8 @@ export function CreateProjectLeftCol({ cities, skills, userTeams }: Props) {
               onClick={() => setTeamMode("existing")}
               className={`flex-1 text-caption font-bold rounded-[8px] h-auto py-2 transition-all ${
                 teamMode === "existing"
-                  ? "bg-white text-slate-900 shadow-sm hover:bg-white"
-                  : "text-slate-400 hover:text-slate-600 hover:bg-transparent"
+                  ? "bg-canvas text-ink shadow-sm hover:bg-canvas"
+                  : "text-ink-subtle hover:text-ink-muted hover:bg-transparent"
               }`}
             >
               🤝 Mevcut Ekiplerimden
@@ -175,8 +175,8 @@ export function CreateProjectLeftCol({ cities, skills, userTeams }: Props) {
               onClick={() => setTeamMode("new")}
               className={`flex-1 text-caption font-bold rounded-[8px] h-auto py-2 transition-all ${
                 teamMode === "new"
-                  ? "bg-white text-slate-900 shadow-sm hover:bg-white"
-                  : "text-slate-400 hover:text-slate-600 hover:bg-transparent"
+                  ? "bg-canvas text-ink shadow-sm hover:bg-canvas"
+                  : "text-ink-subtle hover:text-ink-muted hover:bg-transparent"
               }`}
             >
               ✨ Sıfırdan Belirle
@@ -196,22 +196,22 @@ export function CreateProjectLeftCol({ cities, skills, userTeams }: Props) {
                   onClick={() => setSelectedTeamId(team.id)}
                   className={`flex items-center gap-3 rounded-[11px] px-4 py-3 h-auto text-left justify-start transition-all ${
                     isSelected
-                      ? "border-blue-600 bg-blue-50 hover:bg-blue-50"
-                      : "border-slate-200 bg-slate-50 hover:border-slate-300 hover:bg-slate-50"
+                      ? "border-brand bg-brand-surface hover:bg-brand-surface"
+                      : "border-edge bg-canvas hover:border-edge hover:bg-canvas"
                   }`}
                 >
-                  <div className={`w-9 h-9 rounded-full flex items-center justify-center text-base shrink-0 ${isSelected ? "bg-blue-100" : "bg-white border-[1.5px] border-slate-200"}`}>
+                  <div className={`w-9 h-9 rounded-full flex items-center justify-center text-base shrink-0 ${isSelected ? "bg-brand-surface" : "bg-canvas border-[1.5px] border-edge"}`}>
                     {team.is_leader ? "👑" : "👤"}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <div className={`text-body font-bold truncate ${isSelected ? "text-blue-700" : "text-slate-900"}`}>
+                    <div className={`text-body font-bold truncate ${isSelected ? "text-brand" : "text-ink"}`}>
                       {team.name}
                     </div>
-                    <div className="text-meta text-slate-400 mt-0.5">
+                    <div className="text-meta text-ink-subtle mt-0.5">
                       {team.is_leader ? "Lider" : "Üye"} · {TEAM_STATUS_LABEL[team.status] ?? team.status}
                     </div>
                   </div>
-                  <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-all ${isSelected ? "border-blue-600 bg-blue-600" : "border-slate-300"}`}>
+                  <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-all ${isSelected ? "border-brand bg-brand" : "border-edge"}`}>
                     {isSelected && <span className="text-white text-label">✓</span>}
                   </div>
                 </Button>
@@ -227,17 +227,17 @@ export function CreateProjectLeftCol({ cities, skills, userTeams }: Props) {
                 {roles.map((role) => (
                   <div
                     key={role.id}
-                    className="flex items-center gap-2.5 bg-slate-50 border-[1.5px] border-slate-200 rounded-[11px] px-4 py-3 transition-colors hover:border-slate-300"
+                    className="flex items-center gap-2.5 bg-canvas border-[1.5px] border-edge rounded-[11px] px-4 py-3 transition-colors hover:border-edge"
                   >
-                    <span className="text-slate-300 cursor-grab text-base">⠿</span>
-                    <span className="flex-1 text-body font-bold text-slate-900">{role.name}</span>
-                    <div className="flex items-center gap-1 bg-white border-[1.5px] border-slate-200 rounded-[8px] p-0.5">
+                    <span className="text-ink-subtle cursor-grab text-base">⠿</span>
+                    <span className="flex-1 text-body font-bold text-ink">{role.name}</span>
+                    <div className="flex items-center gap-1 bg-canvas border-[1.5px] border-edge rounded-[8px] p-0.5">
                       <Button
                         type="button"
                         variant="ghost"
                         size="icon"
                         onClick={() => changeCount(role.id, -1)}
-                        className="w-6 h-6 rounded-[6px] text-slate-400"
+                        className="w-6 h-6 rounded-[6px] text-ink-subtle"
                       >
                         −
                       </Button>
@@ -249,7 +249,7 @@ export function CreateProjectLeftCol({ cities, skills, userTeams }: Props) {
                         variant="ghost"
                         size="icon"
                         onClick={() => changeCount(role.id, 1)}
-                        className="w-6 h-6 rounded-[6px] text-slate-400"
+                        className="w-6 h-6 rounded-[6px] text-ink-subtle"
                       >
                         +
                       </Button>
@@ -259,7 +259,7 @@ export function CreateProjectLeftCol({ cities, skills, userTeams }: Props) {
                       variant="ghost"
                       size="icon"
                       onClick={() => removeRole(role.id)}
-                      className="w-7 h-7 rounded-[7px] text-slate-300 hover:bg-red-50 hover:text-red-500"
+                      className="w-7 h-7 rounded-[7px] text-ink-subtle hover:bg-danger-surface hover:text-danger"
                     >
                       ✕
                     </Button>
@@ -283,14 +283,14 @@ export function CreateProjectLeftCol({ cities, skills, userTeams }: Props) {
                     <option key={s.id} value={s.id}>{s.name}</option>
                   ))}
                 </select>
-                <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-caption">▾</span>
+                <span className="absolute right-4 top-1/2 -translate-y-1/2 text-ink-subtle pointer-events-none text-caption">▾</span>
               </div>
               <Button
                 type="button"
                 variant="outline"
                 onClick={addRole}
                 disabled={!selectedSkillId || roles.length >= 6}
-                className="font-nunito font-extrabold border-blue-200 text-blue-600 bg-blue-50 hover:bg-blue-600 hover:text-white hover:border-blue-600 whitespace-nowrap"
+                className="font-nunito font-extrabold border-brand-surface text-brand bg-brand-surface hover:bg-brand hover:text-white hover:border-brand whitespace-nowrap"
               >
                 ＋ Ekle
               </Button>
@@ -312,7 +312,7 @@ export function CreateProjectLeftCol({ cities, skills, userTeams }: Props) {
                   <option key={opt}>{opt}</option>
                 ))}
               </select>
-              <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-caption">▾</span>
+              <span className="absolute right-4 top-1/2 -translate-y-1/2 text-ink-subtle pointer-events-none text-caption">▾</span>
             </div>
           </FormGroup>
         </div>
@@ -320,7 +320,7 @@ export function CreateProjectLeftCol({ cities, skills, userTeams }: Props) {
         <FormGroup label="Bağlantı" hint="— opsiyonel">
           <InputWithIcon icon="🔗">
             <input
-              className="flex-1 outline-none text-body text-slate-900 bg-transparent placeholder:text-slate-400"
+              className="flex-1 outline-none text-body text-ink bg-transparent placeholder:text-ink-subtle"
               type="url"
               name="link"
               placeholder="Proje dosyası, Notion, Drive linki..."
@@ -341,7 +341,7 @@ interface InputWithIconProps {
 
 function InputWithIcon({ icon, children }: InputWithIconProps) {
   return (
-    <div className="flex items-center gap-2.5 border-[1.5px] border-slate-200 rounded-[11px] px-3.5 py-[0.65rem] bg-white focus-within:border-blue-600 transition-colors">
+    <div className="flex items-center gap-2.5 border-[1.5px] border-edge rounded-[11px] px-3.5 py-[0.65rem] bg-canvas focus-within:border-brand transition-colors">
       <span className="shrink-0 text-base pointer-events-none select-none">{icon}</span>
       {children}
     </div>
@@ -359,7 +359,7 @@ function FormCard({ id, title, sub, children }: FormCardProps) {
   return (
     <Card id={id}>
       <CardHeader className="pb-0">
-        <CardTitle className="font-nunito font-black text-title text-slate-900">
+        <CardTitle className="font-nunito font-black text-title text-ink">
           {title}
         </CardTitle>
         <CardDescription className="text-caption">{sub}</CardDescription>
@@ -382,10 +382,10 @@ function FormGroup({ label, required, hint, children }: FormGroupProps) {
   return (
     <div>
       {label && (
-        <Label className="block text-caption font-bold text-slate-900 mb-1.5">
+        <Label className="block text-caption font-bold text-ink mb-1.5">
           {label}
-          {required && <span className="text-red-500 ml-0.5">*</span>}
-          {hint && <span className="text-meta text-slate-400 font-normal ml-1">{hint}</span>}
+          {required && <span className="text-danger ml-0.5">*</span>}
+          {hint && <span className="text-meta text-ink-subtle font-normal ml-1">{hint}</span>}
         </Label>
       )}
       {children}

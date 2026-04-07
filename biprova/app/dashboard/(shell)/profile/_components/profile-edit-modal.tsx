@@ -177,7 +177,7 @@ export function ProfileEditModal({ user }: ProfileEditModalProps) {
 
       <DialogContent className="max-w-md rounded-[20px] p-6 max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="font-nunito font-black text-title text-slate-900">
+          <DialogTitle className="font-nunito font-black text-title text-ink">
             Profili Düzenle
           </DialogTitle>
         </DialogHeader>
@@ -185,7 +185,7 @@ export function ProfileEditModal({ user }: ProfileEditModalProps) {
         <div className="flex flex-col gap-4">
           {/* Name */}
           <div className="flex flex-col gap-1">
-            <Label htmlFor="edit-name" className="text-caption font-bold text-slate-500">
+            <Label htmlFor="edit-name" className="text-caption font-bold text-ink-muted">
               İsim
             </Label>
             <Input
@@ -199,7 +199,7 @@ export function ProfileEditModal({ user }: ProfileEditModalProps) {
 
           {/* LinkedIn URL */}
           <div className="flex flex-col gap-1">
-            <Label htmlFor="edit-linkedin" className="text-caption font-bold text-slate-500">
+            <Label htmlFor="edit-linkedin" className="text-caption font-bold text-ink-muted">
               LinkedIn URL
             </Label>
             <Input
@@ -214,7 +214,7 @@ export function ProfileEditModal({ user }: ProfileEditModalProps) {
 
           {/* City dropdown */}
           <div className="flex flex-col gap-1">
-            <Label htmlFor="edit-city" className="text-caption font-bold text-slate-500">
+            <Label htmlFor="edit-city" className="text-caption font-bold text-ink-muted">
               Şehir
             </Label>
             <div className="relative">
@@ -233,7 +233,7 @@ export function ProfileEditModal({ user }: ProfileEditModalProps) {
                 className="rounded-[10px]"
               />
               {cityOpen && filteredCities.length > 0 && (
-                <div className="absolute z-10 top-full left-0 right-0 mt-1 bg-white border border-slate-200 rounded-[10px] shadow-lg overflow-hidden">
+                <div className="absolute z-10 top-full left-0 right-0 mt-1 bg-canvas border border-edge rounded-[10px] shadow-lg overflow-hidden">
                   <div className="overflow-y-auto max-h-[190px]">
                     {filteredCities.map((c) => (
                       <button
@@ -242,8 +242,8 @@ export function ProfileEditModal({ user }: ProfileEditModalProps) {
                         onMouseDown={() => handleCitySelect(c.name)}
                         className={`w-full text-left px-3.5 py-2.5 text-body transition-colors ${
                           city === c.name
-                            ? 'bg-blue-50 text-blue-700 font-semibold'
-                            : 'text-slate-800 hover:bg-slate-50'
+                            ? 'bg-brand-surface text-brand font-semibold'
+                            : 'text-ink hover:bg-canvas'
                         }`}
                       >
                         {c.name}
@@ -256,8 +256,8 @@ export function ProfileEditModal({ user }: ProfileEditModalProps) {
           </div>
 
           {/* Remote toggle */}
-          <div className="flex items-center justify-between bg-slate-50 rounded-[10px] px-3.5 py-2.5">
-            <Label htmlFor="edit-remote" className="text-body font-semibold text-slate-700 cursor-pointer">
+          <div className="flex items-center justify-between bg-canvas rounded-[10px] px-3.5 py-2.5">
+            <Label htmlFor="edit-remote" className="text-body font-semibold text-ink-muted cursor-pointer">
               🌐 Remote uyumlu
             </Label>
             <Switch
@@ -269,7 +269,7 @@ export function ProfileEditModal({ user }: ProfileEditModalProps) {
 
           {/* Bio */}
           <div className="flex flex-col gap-1">
-            <Label htmlFor="edit-bio" className="text-caption font-bold text-slate-500">
+            <Label htmlFor="edit-bio" className="text-caption font-bold text-ink-muted">
               Bio
             </Label>
             <Textarea
@@ -281,16 +281,16 @@ export function ProfileEditModal({ user }: ProfileEditModalProps) {
               placeholder="Kendinizden kısaca bahsedin..."
               className="rounded-[10px] resize-none"
             />
-            <div className="text-meta text-slate-400 text-right">{bio.length}/500</div>
+            <div className="text-meta text-ink-subtle text-right">{bio.length}/500</div>
           </div>
 
           {/* CV Upload */}
           <div className="flex flex-col gap-1">
-            <Label className="text-caption font-bold text-slate-500">CV (PDF)</Label>
+            <Label className="text-caption font-bold text-ink-muted">CV (PDF)</Label>
             {hasCv && !cvSuccess ? (
               <div className="flex flex-col gap-2">
-                <div className="flex items-center justify-between bg-slate-50 rounded-[10px] px-3.5 py-3 border border-slate-200">
-                  <span className="text-caption text-slate-700 font-medium">📄 CV yüklü</span>
+                <div className="flex items-center justify-between bg-canvas rounded-[10px] px-3.5 py-3 border border-edge">
+                  <span className="text-caption text-ink-muted font-medium">📄 CV yüklü</span>
                   <div className="flex items-center gap-2">
                     <Button
                       type="button"
@@ -298,25 +298,25 @@ export function ProfileEditModal({ user }: ProfileEditModalProps) {
                       size="sm"
                       onClick={() => fileInputRef.current?.click()}
                       disabled={cvUploading || cvRemoving}
-                      className="text-meta text-blue-600 font-semibold h-auto p-0"
+                      className="text-meta text-brand font-semibold h-auto p-0"
                     >
                       Değiştir
                     </Button>
-                    <span className="text-slate-300">|</span>
+                    <span className="text-ink-subtle">|</span>
                     <Button
                       type="button"
                       variant="link"
                       size="sm"
                       onClick={handleRemoveCv}
                       disabled={cvUploading || cvRemoving}
-                      className="text-meta text-red-500 font-semibold h-auto p-0"
+                      className="text-meta text-danger font-semibold h-auto p-0"
                     >
                       {cvRemoving ? 'Kaldırılıyor...' : 'Kaldır'}
                     </Button>
                   </div>
                 </div>
-                <div className="flex items-center justify-between bg-slate-50 rounded-[10px] px-3.5 py-2.5 border border-slate-200">
-                  <Label htmlFor="cv-public" className="text-caption text-slate-700 cursor-pointer">
+                <div className="flex items-center justify-between bg-canvas rounded-[10px] px-3.5 py-2.5 border border-edge">
+                  <Label htmlFor="cv-public" className="text-caption text-ink-muted cursor-pointer">
                     🌐 Herkes görebilsin
                   </Label>
                   <Switch
@@ -337,21 +337,21 @@ export function ProfileEditModal({ user }: ProfileEditModalProps) {
                 onClick={() => fileInputRef.current?.click()}
                 className={`w-full border-2 border-dashed rounded-[10px] px-4 py-5 flex flex-col items-center justify-center gap-1.5 cursor-pointer transition-colors ${
                   isDragging
-                    ? 'border-blue-400 bg-blue-50'
-                    : 'border-slate-200 hover:border-slate-300 bg-slate-50'
+                    ? 'border-brand bg-brand-surface'
+                    : 'border-edge hover:border-edge bg-canvas'
                 }`}
               >
                 {cvUploading ? (
-                  <span className="text-caption text-slate-500">Yükleniyor...</span>
+                  <span className="text-caption text-ink-muted">Yükleniyor...</span>
                 ) : cvSuccess ? (
-                  <span className="text-caption text-green-600 font-semibold">✓ CV başarıyla yüklendi</span>
+                  <span className="text-caption text-success font-semibold">✓ CV başarıyla yüklendi</span>
                 ) : (
                   <>
                     <span className="text-h2">📄</span>
-                    <span className="text-caption text-slate-500 text-center">
+                    <span className="text-caption text-ink-muted text-center">
                       PDF sürükleyin veya tıklayın
                     </span>
-                    <span className="text-meta text-slate-400">Maks. 5 MB</span>
+                    <span className="text-meta text-ink-subtle">Maks. 5 MB</span>
                   </>
                 )}
               </div>
@@ -368,13 +368,13 @@ export function ProfileEditModal({ user }: ProfileEditModalProps) {
               }}
             />
             {cvError && (
-              <div className="text-caption text-red-600 mt-1">{cvError}</div>
+              <div className="text-caption text-danger mt-1">{cvError}</div>
             )}
           </div>
 
           {/* Form Error */}
           {formError && (
-            <div className="text-caption text-red-600 bg-red-50 rounded-[8px] px-3.5 py-2">
+            <div className="text-caption text-danger bg-danger-surface rounded-[8px] px-3.5 py-2">
               {formError}
             </div>
           )}

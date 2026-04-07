@@ -61,7 +61,7 @@ export function PanelChat({ teamId, messages, viewerId }: Props) {
           className="flex-1 overflow-y-auto p-4 flex flex-col gap-3"
         >
           {messages.length === 0 && (
-            <div className="text-center text-caption text-slate-400 mt-8">
+            <div className="text-center text-caption text-ink-subtle mt-8">
               Henüz mesaj yok. İlk mesajı sen gönder!
             </div>
           )}
@@ -73,24 +73,24 @@ export function PanelChat({ teamId, messages, viewerId }: Props) {
                 className={`flex gap-2 items-start ${isMine ? 'flex-row-reverse' : ''}`}
               >
                 <Avatar className="w-[30px] h-[30px] shrink-0">
-                  <AvatarFallback className="bg-blue-500 font-nunito font-black text-label text-white">
+                  <AvatarFallback className="bg-brand font-nunito font-black text-label text-white">
                     {getInitials(msg.sender_name)}
                   </AvatarFallback>
                 </Avatar>
                 <div className="max-w-[70%]">
-                  <div className={`text-label text-slate-400 mb-0.5 ${isMine ? 'text-right' : ''}`}>
+                  <div className={`text-label text-ink-subtle mb-0.5 ${isMine ? 'text-right' : ''}`}>
                     {msg.sender_name}
                   </div>
                   <div
                     className={`rounded-[12px] px-[0.9rem] py-[0.65rem] text-body leading-relaxed border ${
                       isMine
-                        ? 'bg-blue-600 text-white border-blue-600'
-                        : 'bg-slate-100 text-slate-900 border-slate-200'
+                        ? 'bg-brand text-white border-brand'
+                        : 'bg-slate-100 text-ink border-edge'
                     }`}
                   >
                     {msg.content}
                   </div>
-                  <div className={`text-label text-slate-400 mt-0.5 ${isMine ? 'text-right' : ''}`}>
+                  <div className={`text-label text-ink-subtle mt-0.5 ${isMine ? 'text-right' : ''}`}>
                     {formatTime(msg.created_at)}
                   </div>
                 </div>
@@ -103,10 +103,10 @@ export function PanelChat({ teamId, messages, viewerId }: Props) {
         {/* Input */}
         <div
           id="chat-input-wrap"
-          className="border-t border-slate-200 px-4 py-[0.8rem] flex gap-2 items-center"
+          className="border-t border-edge px-4 py-[0.8rem] flex gap-2 items-center"
         >
           <Input
-            className="flex-1 rounded-[10px] text-body bg-slate-50 focus-visible:bg-white"
+            className="flex-1 rounded-[10px] text-body bg-canvas focus-visible:bg-canvas"
             placeholder="Mesaj yaz..."
             value={text}
             onChange={(e) => setText(e.target.value)}

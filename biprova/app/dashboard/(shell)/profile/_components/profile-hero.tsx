@@ -38,7 +38,7 @@ export function ProfileHero({ user, isOwner = false }: ProfileHeroProps) {
         {user.cover_url ? (
           <img src={user.cover_url} alt="Kapak fotoğrafı" className="w-full h-full object-cover" />
         ) : (
-          <div className="w-full h-full bg-gradient-to-br from-blue-800 via-indigo-500 to-violet-500" />
+          <div className="w-full h-full bg-gradient-to-br from-brand-hover via-indigo-500 to-violet-500" />
         )}
         {isOwner && (
           <ImageUploadButton type="cover" userId={user.id} currentUrl={user.cover_url}>
@@ -54,7 +54,7 @@ export function ProfileHero({ user, isOwner = false }: ProfileHeroProps) {
             {user.avatar_url ? (
               <img src={user.avatar_url} alt={user.name} className="w-full h-full object-cover" />
             ) : (
-              <div className="w-full h-full bg-gradient-to-br from-blue-600 to-indigo-500 flex items-center justify-center font-nunito font-black text-hero text-white">
+              <div className="w-full h-full bg-gradient-to-br from-brand to-indigo-500 flex items-center justify-center font-nunito font-black text-hero text-white">
                 {initials}
               </div>
             )}
@@ -86,19 +86,19 @@ export function ProfileHero({ user, isOwner = false }: ProfileHeroProps) {
 
         {/* İsim + rozet */}
         <div className="flex items-center justify-between pt-20 mb-2">
-          <div className="font-nunito font-black text-h2 text-slate-900">{user.name}</div>
+          <div className="font-nunito font-black text-h2 text-ink">{user.name}</div>
           {user.badge && (
-            <Badge variant="outline" className="bg-amber-50 text-amber-800 border-amber-200 font-bold gap-1.5">
+            <Badge variant="outline" className="bg-warning-surface text-warning border-warning-surface font-bold gap-1.5">
               🏅 {user.badge}
             </Badge>
           )}
         </div>
 
         {user.bio && (
-          <p className="text-body text-slate-600 leading-relaxed mb-6 mt-6">{user.bio}</p>
+          <p className="text-body text-ink-muted leading-relaxed mb-6 mt-6">{user.bio}</p>
         )}
 
-        <div className="flex flex-wrap gap-4 text-caption text-slate-500">
+        <div className="flex flex-wrap gap-4 text-caption text-ink-muted">
           {user.city && <span>📍 {user.city}</span>}
           {user.is_remote && <span>🌐 Remote uyumlu</span>}
           <span>📅 {formatMemberSince(user.created_at)}&apos;den beri üye</span>

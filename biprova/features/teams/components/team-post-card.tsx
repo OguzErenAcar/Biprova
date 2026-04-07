@@ -91,7 +91,7 @@ export function TeamPostCard({
     <Card
       id={`team-post-card-${postId}`}
       className={`hover:-translate-y-0.5 hover:shadow-card transition-all duration-150 cursor-pointer mb-4 ${
-        isOwnTeam ? "bg-[#f8faff] border-blue-200" : ""
+        isOwnTeam ? "bg-[#f8faff] border-brand-surface" : ""
       }`}
     ><CardContent className="p-[1.4rem]">
       {/* Ekip kimlik satırı */}
@@ -103,38 +103,38 @@ export function TeamPostCard({
           {teamEmoji}
         </div>
         <div className="flex-1 min-w-0">
-          <div className="font-nunito font-black text-lead text-slate-900 flex items-center gap-1 flex-wrap">
+          <div className="font-nunito font-black text-lead text-ink flex items-center gap-1 flex-wrap">
             {teamName}
             {isOwnTeam && (
-              <span className="text-blue-600 font-bold text-meta">· Senin ekibin</span>
+              <span className="text-brand font-bold text-meta">· Senin ekibin</span>
             )}
           </div>
-          <div className="text-meta text-slate-400 flex items-center gap-[0.4rem] mt-[0.1rem]">
+          <div className="text-meta text-ink-subtle flex items-center gap-[0.4rem] mt-[0.1rem]">
             <span>{location}</span>
             <span className="opacity-40">·</span>
             <span>{memberCount} üye</span>
           </div>
         </div>
-        <span className="text-meta text-slate-400 whitespace-nowrap flex-shrink-0">
+        <span className="text-meta text-ink-subtle whitespace-nowrap flex-shrink-0">
           {postedAt}
         </span>
       </div>
 
       {/* Başlık */}
-      <div className="font-nunito font-black text-title leading-[1.35] text-slate-900 mb-[0.45rem]">
+      <div className="font-nunito font-black text-title leading-[1.35] text-ink mb-[0.45rem]">
         {title}
       </div>
 
       {/* Açıklama */}
       {body && (
-        <div className="text-body text-slate-500 leading-[1.6] mb-4">
+        <div className="text-body text-ink-muted leading-[1.6] mb-4">
           {displayBody}
           {isLong && (
             <>
               {" "}
               <button
                 onClick={(e) => { e.stopPropagation(); setExpanded((v) => !v); }}
-                className="text-blue-600 font-semibold cursor-pointer bg-transparent border-none p-0"
+                className="text-brand font-semibold cursor-pointer bg-transparent border-none p-0"
               >
                 {expanded ? "Daha az" : "Devamını oku"}
               </button>
@@ -155,13 +155,13 @@ export function TeamPostCard({
         </div>
       )}
       {!imageUrls && hasImage && (
-        <div className="w-full h-[180px] rounded-xl bg-gradient-to-br from-indigo-100 to-blue-100 flex items-center justify-center text-[2.5rem] mb-4">
+        <div className="w-full h-[180px] rounded-xl bg-gradient-to-br from-brand-surface to-brand-surface flex items-center justify-center text-[2.5rem] mb-4">
           📸
         </div>
       )}
 
       {/* Aksiyon butonları */}
-      <div className="flex items-center gap-2 pt-4 border-t border-slate-100">
+      <div className="flex items-center gap-2 pt-4 border-t border-edge">
         {/* Beğeni */}
         <Button
           variant="outline"
@@ -170,8 +170,8 @@ export function TeamPostCard({
           disabled={isPending}
           className={`gap-[0.35rem] font-jakarta text-caption font-semibold h-auto px-[0.85rem] py-[0.4rem] transition-all duration-150 ${
             isLiked
-              ? "border-red-300 text-red-500 bg-red-50 hover:bg-red-50 hover:text-red-500"
-              : "border-slate-200 text-slate-500 hover:border-blue-600 hover:text-blue-600 hover:bg-blue-50"
+              ? "border-danger-surface text-danger bg-danger-surface hover:bg-danger-surface hover:text-danger"
+              : "border-edge text-ink-muted hover:border-brand hover:text-brand hover:bg-brand-surface"
           }`}
         >
           👍 {likeCount}
@@ -182,7 +182,7 @@ export function TeamPostCard({
           variant="outline"
           size="sm"
           disabled
-          className="gap-[0.35rem] border-slate-100 font-jakarta text-caption font-semibold text-slate-300 h-auto px-[0.85rem] py-[0.4rem]"
+          className="gap-[0.35rem] border-edge font-jakarta text-caption font-semibold text-ink-subtle h-auto px-[0.85rem] py-[0.4rem]"
         >
           💬 {comments}
         </Button>
@@ -193,7 +193,7 @@ export function TeamPostCard({
             variant="outline"
             size="sm"
             disabled
-            className="gap-[0.35rem] border-slate-100 font-jakarta text-caption font-semibold text-slate-300 h-auto px-[0.85rem] py-[0.4rem]"
+            className="gap-[0.35rem] border-edge font-jakarta text-caption font-semibold text-ink-subtle h-auto px-[0.85rem] py-[0.4rem]"
           >
             ↗ Paylaş
           </Button>
@@ -201,7 +201,7 @@ export function TeamPostCard({
             variant="outline"
             size="sm"
             disabled
-            className="gap-[0.35rem] border-slate-100 font-jakarta text-caption font-semibold text-slate-300 h-auto px-[0.85rem] py-[0.4rem]"
+            className="gap-[0.35rem] border-edge font-jakarta text-caption font-semibold text-ink-subtle h-auto px-[0.85rem] py-[0.4rem]"
           >
             🔖 Kaydet
           </Button>
