@@ -90,7 +90,7 @@ export function SearchBar() {
                       <div className="text-label text-slate-400 truncate">{r.sub}</div>
                     )}
                   </div>
-                  <span className="ml-auto text-[0.68rem] font-bold text-slate-300 shrink-0">
+                  <span className="ml-auto text-label font-bold text-slate-300 shrink-0">
                     {r.type === 'project' ? 'Proje' : 'Kişi'}
                   </span>
                 </Link>
