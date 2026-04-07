@@ -53,7 +53,7 @@ export function SidebarAccountActions() {
       {confirmDelete ? (
         <Alert className="px-3 py-2 bg-red-50 border-red-200">
           <AlertDescription>
-            <p className="text-[0.75rem] text-red-700 font-medium mb-2">
+            <p className="text-meta text-red-700 font-medium mb-2">
               Emin misin? Bu işlem geri alınamaz.
             </p>
             <div className="flex gap-2">
@@ -61,7 +61,7 @@ export function SidebarAccountActions() {
                 size="sm"
                 onClick={handleDeleteAccount}
                 disabled={isLoading}
-                className="flex-1 text-[0.75rem] bg-red-600 hover:bg-red-700 text-white h-7"
+                className="flex-1 text-meta bg-red-600 hover:bg-red-700 text-white h-7"
               >
                 {isLoading ? "Siliniyor..." : "Evet, Sil"}
               </Button>
@@ -70,7 +70,7 @@ export function SidebarAccountActions() {
                 variant="secondary"
                 onClick={() => setConfirmDelete(false)}
                 disabled={isLoading}
-                className="flex-1 text-[0.75rem] h-7"
+                className="flex-1 text-meta h-7"
               >
                 İptal
               </Button>
