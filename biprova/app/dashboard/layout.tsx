@@ -6,11 +6,11 @@ import { SidebarLoader } from "@/components/shared/sidebar-loader";
 export default function DashboardLayout({  children}: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen">
-      <HomeTopbar />
       <Suspense fallback={<Sidebar />}>
         <SidebarLoader />
       </Suspense>
-      <div className="lg:ml-60 pt-14 flex-1">
+      <div className="lg:ml-60 flex flex-col min-h-screen">
+        <HomeTopbar />
         {children}
       </div>
     </div>
