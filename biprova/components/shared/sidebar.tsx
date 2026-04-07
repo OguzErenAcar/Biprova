@@ -118,7 +118,7 @@ export function Sidebar({ user, projects = [] }: SidebarProps) {
         onClick={() => setProjectsOpen((prev) => !prev)}
         className="flex items-center justify-between w-full px-3 mb-1.5 group"
       >
-        <span className="text-[0.68rem] font-bold tracking-[2px] uppercase text-slate-400">
+        <span className="text-label font-bold tracking-[2px] uppercase text-slate-400">
           Projelerim
         </span>
         <svg
@@ -163,7 +163,7 @@ export function Sidebar({ user, projects = [] }: SidebarProps) {
         onClick={() => setSavedOpen((prev) => !prev)}
         className="flex items-center justify-between w-full px-3 mt-4 mb-1.5 group"
       >
-        <span className="text-[0.68rem] font-bold tracking-[2px] uppercase text-slate-400">
+        <span className="text-label font-bold tracking-[2px] uppercase text-slate-400">
           Kaydettiklerim
         </span>
         <svg
