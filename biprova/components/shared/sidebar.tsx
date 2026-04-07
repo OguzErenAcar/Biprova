@@ -58,7 +58,7 @@ function NavItem({
   return (
     <Link
       href={href}
-      className={`flex items-center gap-[0.65rem] px-3 py-[0.65rem] rounded-[10px] text-[0.9rem] font-semibold mb-0.5 transition-all duration-150 no-underline ${
+      className={`flex items-center gap-[0.65rem] px-3 py-[0.65rem] rounded-[10px] text-body font-semibold mb-0.5 transition-all duration-150 no-underline ${
         isActive
           ? "bg-blue-50 text-blue-600"
           : "text-slate-500 hover:bg-slate-100 hover:text-slate-900"
