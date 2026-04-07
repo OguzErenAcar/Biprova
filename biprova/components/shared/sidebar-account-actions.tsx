@@ -36,7 +36,7 @@ export function SidebarAccountActions() {
     <div id="sidebar-account-actions" className="flex flex-col gap-0.5">
       {error && (
         <Alert variant="destructive" className="mb-1 py-2">
-          <AlertDescription className="text-[0.72rem]">{error}</AlertDescription>
+          <AlertDescription className="text-label">{error}</AlertDescription>
         </Alert>
       )}
 

@@ -55,7 +55,7 @@ function MembersSection({ members }: { members: ProjectDetail['members'] }) {
         </Badge>
       </CardHeader>
 
-      <CardContent className="p-0 divide-y divide-edge">
+      <CardContent className="p-0 divide-y divide-slate-100">
         {members.length === 0 ? (
           <div className="px-[1.4rem] py-[1.2rem] text-caption text-ink-subtle">
             Henüz üye yok.
@@ -117,7 +117,7 @@ function AktivitelerSection() {
         <span className="text-label text-ink-subtle font-semibold">Son 7 gün</span>
       </CardHeader>
 
-      <CardContent className="p-0 divide-y divide-edge overflow-y-auto max-h-[320px]">
+      <CardContent className="p-0 divide-y divide-slate-100 overflow-y-auto max-h-[320px]">
         {MOCK_ACTIVITIES.map((activity) => (
           <div key={activity.id} className="flex items-start gap-3 px-[1.4rem] py-[0.9rem]">
             <Avatar className="w-7 h-7 shrink-0 mt-0.5">

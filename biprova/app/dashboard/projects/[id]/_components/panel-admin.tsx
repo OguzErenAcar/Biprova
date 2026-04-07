@@ -81,7 +81,7 @@ function ApplicationsSection({ projectId: _projectId, pending, reviewed }: Appli
         )}
       </CardHeader>
 
-      <CardContent className="p-0 divide-y divide-edge">
+      <CardContent className="p-0 divide-y divide-slate-100">
         {pending.length === 0 && reviewed.length === 0 && (
           <div className="px-[1.4rem] py-[1.2rem] text-caption text-ink-subtle">
             Henüz başvuru yok.
@@ -213,7 +213,7 @@ function MemberManagementSection({ projectId, teamId, members, viewerId }: Membe
         <CardTitle className="font-nunito text-lead font-black">👥 Üye Yönetimi</CardTitle>
       </CardHeader>
 
-      <CardContent className="p-0 divide-y divide-edge">
+      <CardContent className="p-0 divide-y divide-slate-100">
         <InviteRow projectId={projectId} />
 
         {members.length > 0 && (
