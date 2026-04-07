@@ -280,13 +280,13 @@ function InviteRow({ projectId }: { projectId: string }) {
           ))}
         </select>
         <div className="flex gap-2">
-          <input
+          <Input
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleInvite()}
             placeholder="e-posta adresi"
-            className="flex-1 text-[0.82rem] px-3 py-2 rounded-lg border-[1.5px] border-slate-200 outline-none focus:border-blue-500 transition-colors placeholder:text-slate-400"
+            className="flex-1 text-[0.82rem] rounded-lg"
           />
           <Button
             disabled={isPending || !email.trim() || !skillName}
