@@ -49,6 +49,7 @@ export function NotificationBell() {
           <div className="bg-white border-[1.5px] border-slate-200 rounded-2xl shadow-xl p-[1.1rem]">
             <div className="font-nunito font-black text-[0.9rem] text-slate-900 mb-3 flex items-center justify-between">
               🔔 Bildirimler
+
               <Link
                 href="/dashboard/notifications"
                 className="text-[0.72rem] text-blue-600 font-bold font-jakarta cursor-pointer hover:underline"
