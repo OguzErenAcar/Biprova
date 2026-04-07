@@ -1,20 +1,18 @@
 import { Suspense } from "react";
 import { Sidebar } from "@/components/shared/sidebar";
 import { SidebarLoader } from "@/components/shared/sidebar-loader";
-import { TabBar } from "@/components/shared/tab-bar";
-import { HomeTopbar } from "@/components/shared/home-topbar";
+ import { HomeTopbar } from "@/components/shared/home-topbar";
 
-export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+export default function DashboardLayout({  children}: { children: React.ReactNode }) {
   return (
-    <div id="dashboard-root" className="dashboard-root">
+    <div className="min-h-screen">
       <HomeTopbar />
       <Suspense fallback={<Sidebar />}>
         <SidebarLoader />
       </Suspense>
-      <div id="dashboard-content" className="dashboard-content pt-14">
+      <div className="lg:ml-60 pt-14 flex-1">
         {children}
       </div>
-      <TabBar />
     </div>
   );
 }
