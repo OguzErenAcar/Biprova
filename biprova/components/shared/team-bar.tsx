@@ -33,7 +33,7 @@ export function TeamBar({ filled, total }: TeamBarProps) {
 
   return (
     <div>
-      <div className="flex justify-between text-[0.76rem] text-slate-500 font-semibold mb-1.5">
+      <div className="flex justify-between text-meta text-slate-500 font-semibold mb-1.5">
         <span>Rol Doluluk</span>
         <span>
           {filled+1} / {total+1}
