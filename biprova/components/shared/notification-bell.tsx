@@ -76,7 +76,7 @@ export function NotificationBell() {
                       </AvatarFallback>
                     </Avatar>
                     <div className="flex-1">
-                      <p className="text-[0.8rem] leading-[1.45] text-slate-900">
+                      <p className="text-caption leading-[1.45] text-slate-900">
                         {n.bold && <strong>{n.bold} </strong>}
                         {n.text}
                       </p>
