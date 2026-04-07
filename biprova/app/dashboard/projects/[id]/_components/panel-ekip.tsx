@@ -207,9 +207,10 @@ function LeaveProjectSection({ projectId, isProjectLeader, members, viewerId }: 
         </CardHeader>
         <CardContent className="px-[1.4rem] py-[1.2rem]">
           {!confirm ? (
-            <button
+            <Button
+              variant="outline"
               onClick={handleLeaveClick}
-              className="flex items-center gap-3 px-4 py-3 rounded-xl border-[1.5px] border-red-200 text-left w-full hover:bg-red-50 transition-colors cursor-pointer"
+              className="flex items-center gap-3 px-4 py-3 h-auto rounded-xl border-red-200 text-left w-full justify-start hover:bg-red-50"
             >
               <span className="text-base">🚪</span>
               <div>
@@ -218,7 +219,7 @@ function LeaveProjectSection({ projectId, isProjectLeader, members, viewerId }: 
                   Ekipten çıkarsın, geri dönmek için tekrar başvurman gerekir
                 </div>
               </div>
-            </button>
+            </Button>
           ) : (
             <div className="px-4 py-3 rounded-xl border-[1.5px] border-red-300 bg-red-50">
               <p className="text-[0.82rem] font-semibold text-red-700 mb-3">
