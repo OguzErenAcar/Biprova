@@ -51,6 +51,33 @@
     /* Tüm component'lerin köşe yuvarlaklığı */
     --radius:             0.5rem;
 
+    /* ─────────────────────────────────────────
+       DASHBOARD DESIGN TOKENS
+       Renk, gölge ve tipografi tek yerden kontrol
+    ───────────────────────────────────────── */
+
+    /* Brand Renkleri */
+    --brand:         220 90% 56%;   /* blue-600 */
+    --brand-dark:    220 82% 47%;   /* blue-700 */
+    --brand-surface: 214 100% 97%;  /* blue-50  */
+    --brand-border:  213 94%  87%;  /* blue-200 */
+
+    /* Gölgeler */
+    --shadow-card:     0 8px 24px rgba(0,0,0,0.07);
+    --shadow-feature:  0 8px 28px rgba(0,0,0,0.08);
+    --shadow-brand:    0 4px 16px rgba(37,99,235,0.25);
+    --shadow-brand-lg: 0 6px 18px rgba(37,99,235,0.35);
+
+    /* Tipografi Skalası */
+    --text-label:   0.70rem;   /* rozet, küçük etiket */
+    --text-meta:    0.75rem;   /* meta bilgi, zaman damgası */
+    --text-caption: 0.82rem;   /* açıklama, ikincil */
+    --text-body:    0.88rem;   /* genel gövde metni */
+    --text-lead:    0.95rem;   /* öne çıkan metin */
+    --text-title:   1.10rem;   /* bölüm başlığı */
+    --text-h2:      1.30rem;   /* sayfa başlığı */
+    --text-hero:    1.70rem;   /* istatistik, hero rakamı */
+
   }
 
   .dark {

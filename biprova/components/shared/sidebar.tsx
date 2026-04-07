@@ -150,7 +150,7 @@ export function Sidebar({ user, projects = [] }: SidebarProps) {
                 }`}
               >
                 <span className="shrink-0">📁</span>
-                <span className="truncate">{project.title}</span>
+                <span className="truncate">{project.title.substring(0,19)+"..."}</span>
                 <StatusBadge status={project.status} />
               </Link>
             ))

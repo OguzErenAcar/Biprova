@@ -13,13 +13,13 @@ export default function DashboardLayout({
     <div className="">
       <HomeTopbar />
       <div className="h-screen m-0">
-        <div className="grid h-full grid-cols-[1fr_3fr_1fr] gap-4 m-5">
+        <div className="grid h-full grid-cols-[1fr_3fr_1fr] gap-4 m-[40]">
           <div className="">
             <Suspense fallback={<Sidebar />}>
               <SidebarLoader />
             </Suspense>
           </div> 
-          <div className="">B{/* {children} */}</div>
+          <div className="mx-4">{children}</div>
           <div className=""> 
             <SuggestedPeople />
           </div>
