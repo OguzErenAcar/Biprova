@@ -52,11 +52,33 @@ export default {
           "4": "hsl(var(--chart-4))",
           "5": "hsl(var(--chart-5))",
         },
+        /* ── Dashboard renk token'ları ──────────────────────────
+           globals.css'deki --color-* değişkenleriyle beslenir.
+           Kullanım: bg-brand, text-ink, border-edge, bg-success vs.
+        ────────────────────────────────────────────────────── */
         brand: {
-          DEFAULT: "hsl(var(--brand))",
-          dark:    "hsl(var(--brand-dark))",
-          surface: "hsl(var(--brand-surface))",
-          border:  "hsl(var(--brand-border))",
+          DEFAULT: "hsl(var(--color-brand))",
+          hover:   "hsl(var(--color-brand-hover))",
+          surface: "hsl(var(--color-brand-surface))",
+        },
+        ink: {
+          DEFAULT: "hsl(var(--color-ink))",
+          muted:   "hsl(var(--color-ink-muted))",
+          subtle:  "hsl(var(--color-ink-subtle))",
+        },
+        canvas:  "hsl(var(--color-canvas))",
+        edge:    "hsl(var(--color-edge))",
+        success: {
+          DEFAULT: "hsl(var(--color-success))",
+          surface: "hsl(var(--color-success-surface))",
+        },
+        danger: {
+          DEFAULT: "hsl(var(--color-danger))",
+          surface: "hsl(var(--color-danger-surface))",
+        },
+        warning: {
+          DEFAULT: "hsl(var(--color-warning))",
+          surface: "hsl(var(--color-warning-surface))",
         },
       },
       boxShadow: {
