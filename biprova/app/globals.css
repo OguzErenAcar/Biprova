@@ -67,24 +67,24 @@
          p-success: #16A34A  (yeşil)
          p-danger:  #DC2626  (kırmızı)
     ──────────────────────────────────────────── */
-    --p-brand:   262 83% 58%;
-    --p-ink:     250 30% 15%;
-    --p-canvas:  250 60% 99%;
-    --p-success: 142 76% 36%;
-    --p-danger:    0 72% 50%;
+    --p-brand:   #7C3AED;   /* violet  — DEĞİŞTİR: istediğin hex rengi yaz */
+    --p-ink:     #1E1B2E;   /* koyu metin */
+    --p-canvas:  #FAFAFF;   /* sayfa arkaplanı */
+    --p-success: #16A34A;   /* yeşil */
+    --p-danger:  #DC2626;   /* kırmızı */
 
     /* ─── Türetilmiş Tonlar ──────────────────────
        Paletten üretildi — genellikle değiştirmene gerek yok
     ──────────────────────────────────────────── */
-    --p-brand-hover:    262 83% 48%;   /* brand koyu hover */
-    --p-brand-surface:  262 83% 97%;   /* brand çok açık bg */
-    --p-ink-muted:      250 15% 45%;   /* ikincil metin */
-    --p-ink-subtle:     250 10% 65%;   /* placeholder / soluk */
-    --p-ink-border:     250 10% 88%;   /* kenarlık */
-    --p-success-surface:142 76% 96%;   /* success açık bg */
-    --p-danger-surface:   0 72% 97%;   /* danger açık bg */
-    --p-warning:         38 95% 44%;   /* amber — uyarı */
-    --p-warning-surface: 38 95% 96%;   /* warning açık bg */
+    --p-brand-hover:    #6D28D9;   /* brand koyu hover */
+    --p-brand-surface:  #F5F0FF;   /* brand çok açık bg */
+    --p-ink-muted:      #6B7280;   /* ikincil metin */
+    --p-ink-subtle:     #9CA3AF;   /* placeholder / soluk */
+    --p-ink-border:     #E5E7EB;   /* kenarlık */
+    --p-success-surface:#F0FDF4;   /* success açık bg */
+    --p-danger-surface: #FEF2F2;   /* danger açık bg */
+    --p-warning:        #D97706;   /* amber — uyarı */
+    --p-warning-surface:#FFFBEB;   /* warning açık bg */
 
     /* ─── Semantic Tokenlar ──────────────────────
        Tailwind class'larına bunlar bağlı.
