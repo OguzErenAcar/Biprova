@@ -72,9 +72,11 @@ export function PanelChat({ teamId, messages, viewerId }: Props) {
                 key={msg.id}
                 className={`flex gap-2 items-start ${isMine ? 'flex-row-reverse' : ''}`}
               >
-                <div className="w-[30px] h-[30px] rounded-full bg-blue-500 flex items-center justify-center font-nunito font-black text-[0.68rem] text-white shrink-0">
-                  {getInitials(msg.sender_name)}
-                </div>
+                <Avatar className="w-[30px] h-[30px] shrink-0">
+                  <AvatarFallback className="bg-blue-500 font-nunito font-black text-[0.68rem] text-white">
+                    {getInitials(msg.sender_name)}
+                  </AvatarFallback>
+                </Avatar>
                 <div className="max-w-[70%]">
                   <div className={`text-[0.7rem] text-slate-400 mb-0.5 ${isMine ? 'text-right' : ''}`}>
                     {msg.sender_name}
