@@ -358,9 +358,11 @@ function MemberRow({
   return (
     <div className="px-[1.4rem] py-[0.9rem]">
       <div className="flex items-center gap-3">
-        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-slate-400 to-slate-600 flex items-center justify-center font-nunito font-black text-[0.72rem] text-white shrink-0">
-          {getInitials(member.name)}
-        </div>
+        <Avatar className="w-8 h-8 shrink-0">
+          <AvatarFallback className="bg-gradient-to-br from-slate-400 to-slate-600 font-nunito font-black text-[0.72rem] text-white">
+            {getInitials(member.name)}
+          </AvatarFallback>
+        </Avatar>
 
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-1.5 flex-wrap">
