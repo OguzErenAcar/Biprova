@@ -149,9 +149,11 @@ function ApplicationRow({
 
   return (
     <div className="flex items-start gap-3 px-[1.4rem] py-[1rem]">
-      <div className="w-9 h-9 rounded-full bg-gradient-to-br from-blue-500 to-indigo-400 flex items-center justify-center font-nunito font-black text-[0.75rem] text-white shrink-0">
-        {getInitials(app.user_name)}
-      </div>
+      <Avatar className="w-9 h-9 shrink-0">
+        <AvatarFallback className="bg-gradient-to-br from-blue-500 to-indigo-400 font-nunito font-black text-[0.75rem] text-white">
+          {getInitials(app.user_name)}
+        </AvatarFallback>
+      </Avatar>
 
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2 flex-wrap mb-0.5">
