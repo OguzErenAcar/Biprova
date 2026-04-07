@@ -71,7 +71,7 @@ export function NotificationBell() {
                     className="flex gap-3 py-[0.6rem] border-b border-slate-100 last:border-b-0 last:pb-0 first:pt-0 items-start"
                   >
                     <Avatar className="w-[32px] h-[32px] rounded-[9px] flex-shrink-0">
-                      <AvatarFallback className={`rounded-[9px] text-[0.9rem] ${n.iconBg}`}>
+                      <AvatarFallback className={`rounded-[9px] text-body ${n.iconBg}`}>
                         {n.icon}
                       </AvatarFallback>
                     </Avatar>
