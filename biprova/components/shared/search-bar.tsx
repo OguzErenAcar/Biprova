@@ -61,12 +61,12 @@ export function SearchBar() {
         onChange={(e) => setQuery(e.target.value)}
         onFocus={() => results.length > 0 && setOpen(true)}
         placeholder="Proje veya kişi ara..."
-        className="w-full bg-white border-[1.5px] border-slate-200 rounded-[10px] pl-9 pr-4 py-[0.6rem] font-jakarta text-[0.88rem] text-slate-900 outline-none focus:border-blue-600 placeholder:text-slate-400 transition-colors duration-200"
+        className="w-full bg-white border-[1.5px] border-edge rounded-[10px] pl-9 pr-4 py-[0.6rem] font-jakarta text-[0.88rem] text-slate-900 outline-none focus:border-blue-600 placeholder:text-slate-400 transition-colors duration-200"
       />
 
       {open && (
         <div className="absolute left-0 top-full z-50 pt-2 w-full">
-          <div className="bg-white border-[1.5px] border-slate-200 rounded-2xl shadow-xl overflow-hidden">
+          <div className="bg-white border-[1.5px] border-edge rounded-2xl shadow-xl overflow-hidden">
             {isPending ? (
               <div className="px-4 py-3 text-[0.82rem] text-slate-400">Aranıyor…</div>
             ) : results.length === 0 ? (
