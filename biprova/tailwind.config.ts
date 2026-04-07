@@ -52,34 +52,81 @@ export default {
           "4": "hsl(var(--chart-4))",
           "5": "hsl(var(--chart-5))",
         },
-        /* ── Dashboard renk token'ları ──────────────────────────
-           globals.css'deki --color-* değişkenleriyle beslenir.
-           Kullanım: bg-brand, text-ink, border-edge, bg-success vs.
+        /* ── Palet override'ları ─────────────────────────────────
+           Mevcut Tailwind renk class'larını (bg-blue-600, text-slate-400
+           gibi) CSS variable'larımıza bağlar. Component dosyalarına
+           dokunmadan globals.css'deki --p-* değişkenini değiştirince
+           projede o rengi kullanan her yer otomatik güncellenir.
         ────────────────────────────────────────────────────── */
-        brand: {
-          DEFAULT: "hsl(var(--color-brand))",
-          hover:   "hsl(var(--color-brand-hover))",
-          surface: "hsl(var(--color-brand-surface))",
+
+        /* Brand → tüm blue-* class'ları --p-brand'i izler */
+        blue: {
+          "50":  "hsl(var(--p-brand-surface))",
+          "100": "hsl(var(--p-brand-surface))",
+          "400": "hsl(var(--p-brand))",
+          "500": "hsl(var(--p-brand))",
+          "600": "hsl(var(--p-brand))",
+          "700": "hsl(var(--p-brand-hover))",
+          "800": "hsl(var(--p-brand-hover))",
         },
-        ink: {
-          DEFAULT: "hsl(var(--color-ink))",
-          muted:   "hsl(var(--color-ink-muted))",
-          subtle:  "hsl(var(--color-ink-subtle))",
+        indigo: {
+          "100": "hsl(var(--p-brand-surface))",
+          "500": "hsl(var(--p-brand))",
+          "600": "hsl(var(--p-brand))",
         },
-        canvas:  "hsl(var(--color-canvas))",
-        edge:    "hsl(var(--color-edge))",
-        success: {
-          DEFAULT: "hsl(var(--color-success))",
-          surface: "hsl(var(--color-success-surface))",
+
+        /* Metin/yüzey → tüm slate-* class'ları --p-ink'i izler */
+        slate: {
+          "50":  "hsl(var(--p-canvas))",
+          "100": "hsl(var(--p-canvas))",
+          "200": "hsl(var(--p-ink-border))",
+          "300": "hsl(var(--p-ink-subtle))",
+          "400": "hsl(var(--p-ink-subtle))",
+          "500": "hsl(var(--p-ink-muted))",
+          "600": "hsl(var(--p-ink-muted))",
+          "700": "hsl(var(--p-ink-muted))",
+          "800": "hsl(var(--p-ink))",
+          "900": "hsl(var(--p-ink))",
         },
-        danger: {
-          DEFAULT: "hsl(var(--color-danger))",
-          surface: "hsl(var(--color-danger-surface))",
+
+        /* Success → tüm green-* */
+        green: {
+          "50":  "hsl(var(--p-success-surface))",
+          "100": "hsl(var(--p-success-surface))",
+          "400": "hsl(var(--p-success))",
+          "500": "hsl(var(--p-success))",
+          "600": "hsl(var(--p-success))",
+          "700": "hsl(var(--p-success))",
         },
-        warning: {
-          DEFAULT: "hsl(var(--color-warning))",
-          surface: "hsl(var(--color-warning-surface))",
+
+        /* Danger → tüm red-* */
+        red: {
+          "50":  "hsl(var(--p-danger-surface))",
+          "100": "hsl(var(--p-danger-surface))",
+          "200": "hsl(var(--p-danger-surface))",
+          "500": "hsl(var(--p-danger))",
+          "600": "hsl(var(--p-danger))",
+          "700": "hsl(var(--p-danger))",
         },
+
+        /* Warning → tüm amber-* */
+        amber: {
+          "50":  "hsl(var(--p-warning-surface))",
+          "100": "hsl(var(--p-warning-surface))",
+          "200": "hsl(var(--p-warning-surface))",
+          "500": "hsl(var(--p-warning))",
+          "600": "hsl(var(--p-warning))",
+          "800": "hsl(var(--p-warning))",
+        },
+
+        /* Özel token class'lar (isteğe bağlı, ek esneklik için) */
+        brand:   { DEFAULT: "hsl(var(--p-brand))", hover: "hsl(var(--p-brand-hover))", surface: "hsl(var(--p-brand-surface))" },
+        ink:     { DEFAULT: "hsl(var(--p-ink))", muted: "hsl(var(--p-ink-muted))", subtle: "hsl(var(--p-ink-subtle))" },
+        canvas:  "hsl(var(--p-canvas))",
+        edge:    "hsl(var(--p-ink-border))",
+        success: { DEFAULT: "hsl(var(--p-success))", surface: "hsl(var(--p-success-surface))" },
+        danger:  { DEFAULT: "hsl(var(--p-danger))",  surface: "hsl(var(--p-danger-surface))" },
+        warning: { DEFAULT: "hsl(var(--p-warning))", surface: "hsl(var(--p-warning-surface))" },
       },
       boxShadow: {
         card:       "var(--shadow-card)",
