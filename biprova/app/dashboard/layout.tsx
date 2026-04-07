@@ -7,11 +7,11 @@ import { HomeTopbar } from "@/components/shared/home-topbar";
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (
     <div id="dashboard-root" className="dashboard-root">
-      <HomeTopbar />
       <Suspense fallback={<Sidebar />}>
         <SidebarLoader />
       </Suspense>
-      <div id="dashboard-content" className="dashboard-content pt-14">
+      <div id="dashboard-content" className="dashboard-content">
+        <HomeTopbar />
         {children}
       </div>
       <TabBar />
