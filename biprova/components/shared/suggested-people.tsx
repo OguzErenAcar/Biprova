@@ -56,9 +56,9 @@ export async function SuggestedPeople() {
                 )}
               </div>
               <div className="flex-1 min-w-0">
-                <div className="text-[0.84rem] font-bold text-slate-900 truncate">{u.name}</div>
+                <div className="text-caption font-bold text-slate-900 truncate">{u.name}</div>
                 {u.badge && (
-                  <div className="text-[0.72rem] text-slate-400 truncate">{u.badge}</div>
+                  <div className="text-label text-slate-400 truncate">{u.badge}</div>
                 )}
               </div>
             </Link>
