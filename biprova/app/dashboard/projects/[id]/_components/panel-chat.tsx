@@ -105,8 +105,8 @@ export function PanelChat({ teamId, messages, viewerId }: Props) {
           id="chat-input-wrap"
           className="border-t border-slate-200 px-4 py-[0.8rem] flex gap-2 items-center"
         >
-          <input
-            className="flex-1 border-[1.5px] border-slate-200 rounded-[10px] px-4 py-[0.65rem] font-[inherit] text-[0.88rem] outline-none transition-colors bg-slate-50 focus:border-blue-600 focus:bg-white"
+          <Input
+            className="flex-1 rounded-[10px] text-[0.88rem] bg-slate-50 focus-visible:bg-white"
             placeholder="Mesaj yaz..."
             value={text}
             onChange={(e) => setText(e.target.value)}
