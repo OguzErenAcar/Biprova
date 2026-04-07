@@ -143,14 +143,14 @@ export function Sidebar({ user, projects = [] }: SidebarProps) {
               <Link
                 key={project.id}
                 href={`/dashboard/projects/${project.id}`}
-                className={`flex items-center gap-[0.65rem] px-3 py-[0.65rem] rounded-[10px] text-[0.9rem] font-semibold mb-0.5 transition-all duration-150 no-underline ${
+                className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-semibold mb-0.5 transition-colors no-underline min-w-0 ${
                   isActive(`/dashboard/projects/${project.id}`)
                     ? "bg-blue-50 text-blue-600"
                     : "text-slate-500 hover:bg-slate-100 hover:text-slate-900"
                 }`}
               >
-                <span className="text-[1.1rem] w-5 text-center flex-shrink-0">📁</span>
-                <span className="truncate flex-1 min-w-0">{project.title}</span>
+                <span className="shrink-0">📁</span>
+                <span className="truncate">{project.title}</span>
                 <StatusBadge status={project.status} />
               </Link>
             ))

@@ -10,17 +10,19 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen bg-slate-100">
+    <div className="">
       <HomeTopbar />
-      <div className="max-w-6xl mx-auto px-4 py-6">
-        <div className="grid grid-cols-[1fr_3fr_1fr] gap-4 items-start">
-          <Suspense fallback={<Sidebar />}>
-            <SidebarLoader />
-          </Suspense>
-          <main className="min-w-0">{children}</main>
-          <aside className="sticky top-4">
+      <div className="h-screen m-0">
+        <div className="grid h-full grid-cols-[1fr_3fr_1fr] gap-4 m-5">
+          <div className="">
+            <Suspense fallback={<Sidebar />}>
+              <SidebarLoader />
+            </Suspense>
+          </div> 
+          <div className="">B{/* {children} */}</div>
+          <div className=""> 
             <SuggestedPeople />
-          </aside>
+          </div>
         </div>
       </div>
     </div>
