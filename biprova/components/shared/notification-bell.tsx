@@ -40,7 +40,7 @@ export function NotificationBell() {
       <Button variant="outline" size="icon" className="relative rounded-[10px] border-[1.5px]">
         🔔
         {unreadCount > 0 && (
-          <span className="absolute top-[6px] right-[6px] w-[7px] h-[7px] bg-red-500 rounded-full border-[1.5px] border-slate-100" />
+          <span className="absolute top-[6px] right-[6px] w-[7px] h-[7px] bg-red-500 rounded-full border-[1.5px] border-edge" />
         )}
       </Button>
 
@@ -67,7 +67,7 @@ export function NotificationBell() {
                 notifications.map((n) => (
                   <div
                     key={n.id}
-                    className="flex gap-3 py-[0.6rem] border-b border-slate-100 last:border-b-0 last:pb-0 first:pt-0 items-start"
+                    className="flex gap-3 py-[0.6rem] border-b border-edge last:border-b-0 last:pb-0 first:pt-0 items-start"
                   >
                     <Avatar className="w-[32px] h-[32px] rounded-[9px] flex-shrink-0">
                       <AvatarFallback className={`rounded-[9px] text-[0.9rem] ${n.iconBg}`}>
