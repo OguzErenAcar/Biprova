@@ -73,7 +73,7 @@ function NavItem({
 function StatusBadge({ status }: { status: SidebarProject["status"] }) {
   const { label, className } = STATUS_CONFIG[status];
   return (
-    <Badge variant="outline" className={`ml-auto text-[0.65rem] font-bold flex-shrink-0 ${className}`}>
+    <Badge variant="outline" className={`ml-auto text-label font-bold flex-shrink-0 ${className}`}>
       {label}
     </Badge>
   );
