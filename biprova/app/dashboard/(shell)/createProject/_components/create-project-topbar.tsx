@@ -7,7 +7,7 @@ export function CreateProjectTopbar() {
   const router = useRouter();
 
   return (
-    <div id="create-project-topbar" className="dashboard-topbar px-8">
+    <div id="create-project-topbar" className="bg-slate-100/90 backdrop-blur-md border-b border-slate-200 sm:px-6 lg:px-8 py-[0.9rem] flex items-center gap-4 px-8">
       <Button
         variant="outline"
         size="icon"
