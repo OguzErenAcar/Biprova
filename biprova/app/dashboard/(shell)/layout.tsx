@@ -9,7 +9,7 @@ export default function ShellLayout({ children }: { children: React.ReactNode })
           {children}
         </div>
 
-        <div id="dashboard-right-panel" className="hidden lg:flex flex-col gap-5">
+        <div id="dashboard-right-panel" className="hidden lg:flex flex-col gap-5 relative">
           <SuggestedPeople />
         </div>
       </div>

@@ -31,9 +31,9 @@ export async function SuggestedPeople() {
   const users = await getRecentUsers();
 
   return (
-    <div className="bg-white border-[1.5px] border-slate-200 rounded-2xl overflow-hidden">
+    <div className="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
       <div className="px-[1.2rem] py-[1rem] border-b border-slate-200">
-        <span className="font-nunito text-[0.9rem] font-black">✨ Yeni Üyeler</span>
+        <span className="font-nunito text-[0.9rem] font-black">Önerilenler</span>
       </div>
 
       {users.length === 0 ? (

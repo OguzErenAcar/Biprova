@@ -93,7 +93,7 @@ export function Sidebar({ user, projects = [] }: SidebarProps) {
   return (
     <div
       id="dashboard-sidebar"
-      className="w-60 bg-white border border-slate-200 rounded-2xl shadow-sm flex-col sticky top-4 z-30 mx-3 px-4 py-6 hidden lg:flex shrink-0"
+      className="w-60 bg-white border border-slate-200 rounded-2xl shadow-sm flex-col sticky mt-5 top-4 z-30 mx-3 px-4 py-6 hidden lg:flex shrink-0"
     >
  
 
