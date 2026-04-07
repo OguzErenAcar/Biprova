@@ -63,7 +63,7 @@ export function NotificationBell() {
 
             <div className="flex flex-col">
               {notifications.length === 0 ? (
-                <p className="text-[0.82rem] text-slate-400 text-center py-3">Bildirim yok</p>
+                <p className="text-caption text-slate-400 text-center py-3">Bildirim yok</p>
               ) : (
                 notifications.map((n) => (
                   <div
