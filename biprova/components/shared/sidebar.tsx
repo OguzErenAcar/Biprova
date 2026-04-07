@@ -135,7 +135,7 @@ export function Sidebar({ user, projects = [] }: SidebarProps) {
       {projectsOpen && (
         <nav>
           {projects.length === 0 ? (
-            <div className="px-3 py-2 text-[0.8rem] text-slate-400">
+            <div className="px-3 py-2 text-caption text-slate-400">
               Henüz proje yok
             </div>
           ) : (
@@ -179,7 +179,7 @@ export function Sidebar({ user, projects = [] }: SidebarProps) {
 
       {savedOpen && (
         <nav>
-          <div className="px-3 py-2 text-[0.8rem] text-slate-400">
+          <div className="px-3 py-2 text-caption text-slate-400">
             Henüz kaydedilen yok
           </div>
         </nav>
