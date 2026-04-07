@@ -10,8 +10,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       <Suspense fallback={<Sidebar />}>
         <SidebarLoader />
       </Suspense>
-      <div id="dashboard-content" className="dashboard-content">
-        <HomeTopbar />
+      <div id="dashboard-content" className="dashboard-content pt-14">
         {children}
       </div>
       <TabBar />
