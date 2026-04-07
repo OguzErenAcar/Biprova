@@ -66,7 +66,7 @@ export function SearchBar() {
 
       {open && (
         <div className="absolute left-0 top-full z-50 pt-2 w-full">
-          <div className="bg-white border-[1.5px] border-edge rounded-2xl shadow-xl overflow-hidden">
+          <div className="bg-white border-[1.5px] border-slate-200 rounded-2xl shadow-xl overflow-hidden">
             {isPending ? (
               <div className="px-4 py-3 text-[0.82rem] text-slate-400">Aranıyor…</div>
             ) : results.length === 0 ? (
