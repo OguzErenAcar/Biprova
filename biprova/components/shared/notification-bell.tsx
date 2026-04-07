@@ -40,7 +40,7 @@ export function NotificationBell() {
       <Button variant="outline" size="icon" className="relative rounded-[10px] border-[1.5px]">
         🔔
         {unreadCount > 0 && (
-          <span className="absolute top-[6px] right-[6px] w-[7px] h-[7px] bg-red-500 rounded-full border-[1.5px] border-edge" />
+          <span className="absolute top-[6px] right-[6px] w-[7px] h-[7px] bg-red-500 rounded-full border-[1.5px] border-slate-100" />
         )}
       </Button>
 
