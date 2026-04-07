@@ -61,26 +61,26 @@
 
     /* ─── 5 Ana Palet Rengi (HSL — H S% L%) ─────
        Hex karşılıkları:
-         p-brand:   #2563EB  (mavi)
-         p-ink:     #1E293B  (koyu lacivert)
-         p-canvas:  #F8FAFC  (kırık beyaz)
+         p-brand:   #7C3AED  (violet)
+         p-ink:     #1E1B2E  (koyu mor-lacivert)
+         p-canvas:  #FAF9FF  (mor tintli beyaz)
          p-success: #16A34A  (yeşil)
          p-danger:  #DC2626  (kırmızı)
     ──────────────────────────────────────────── */
-    --p-brand:   221 83% 53%;
-    --p-ink:     217 33% 17%;
-    --p-canvas:  210 20% 98%;
+    --p-brand:   262 83% 58%;
+    --p-ink:     250 30% 15%;
+    --p-canvas:  250 60% 99%;
     --p-success: 142 76% 36%;
     --p-danger:    0 72% 50%;
 
     /* ─── Türetilmiş Tonlar ──────────────────────
        Paletten üretildi — genellikle değiştirmene gerek yok
     ──────────────────────────────────────────── */
-    --p-brand-hover:    221 83% 45%;   /* brand koyu hover */
-    --p-brand-surface:  221 83% 97%;   /* brand çok açık bg */
-    --p-ink-muted:      215 20% 46%;   /* ikincil metin */
-    --p-ink-subtle:     213 14% 66%;   /* placeholder / soluk */
-    --p-ink-border:     214 14% 89%;   /* kenarlık */
+    --p-brand-hover:    262 83% 48%;   /* brand koyu hover */
+    --p-brand-surface:  262 83% 97%;   /* brand çok açık bg */
+    --p-ink-muted:      250 15% 45%;   /* ikincil metin */
+    --p-ink-subtle:     250 10% 65%;   /* placeholder / soluk */
+    --p-ink-border:     250 10% 88%;   /* kenarlık */
     --p-success-surface:142 76% 96%;   /* success açık bg */
     --p-danger-surface:   0 72% 97%;   /* danger açık bg */
     --p-warning:         38 95% 44%;   /* amber — uyarı */
