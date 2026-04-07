@@ -37,7 +37,7 @@ export async function SuggestedPeople() {
       </div>
 
       {users.length === 0 ? (
-        <div className="px-[1.2rem] py-[1rem] text-[0.82rem] text-slate-400 text-center">
+        <div className="px-[1.2rem] py-[1rem] text-caption text-slate-400 text-center">
           Önerilecek kimse yok.
         </div>
       ) : (
