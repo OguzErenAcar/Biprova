@@ -6,6 +6,8 @@ import type { ProjectMessage } from '@/features/projects/actions';
 import { sendProjectMessage } from '@/features/projects/actions';
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
 function getInitials(name: string) {
   return name
