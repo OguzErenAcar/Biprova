@@ -169,7 +169,7 @@ export function ProfileEditModal({ user }: ProfileEditModalProps) {
           variant="secondary"
           size="sm"
           onClick={handleOpen}
-          className="text-[0.75rem] font-bold"
+          className="text-meta font-bold"
         >
           ✏️ Düzenle
         </Button>
@@ -177,7 +177,7 @@ export function ProfileEditModal({ user }: ProfileEditModalProps) {
 
       <DialogContent className="max-w-md rounded-[20px] p-6 max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="font-nunito font-black text-[1.1rem] text-slate-900">
+          <DialogTitle className="font-nunito font-black text-title text-slate-900">
             Profili Düzenle
           </DialogTitle>
         </DialogHeader>
@@ -185,7 +185,7 @@ export function ProfileEditModal({ user }: ProfileEditModalProps) {
         <div className="flex flex-col gap-4">
           {/* Name */}
           <div className="flex flex-col gap-1">
-            <Label htmlFor="edit-name" className="text-[0.78rem] font-bold text-slate-500">
+            <Label htmlFor="edit-name" className="text-caption font-bold text-slate-500">
               İsim
             </Label>
             <Input
@@ -199,7 +199,7 @@ export function ProfileEditModal({ user }: ProfileEditModalProps) {
 
           {/* LinkedIn URL */}
           <div className="flex flex-col gap-1">
-            <Label htmlFor="edit-linkedin" className="text-[0.78rem] font-bold text-slate-500">
+            <Label htmlFor="edit-linkedin" className="text-caption font-bold text-slate-500">
               LinkedIn URL
             </Label>
             <Input
@@ -214,7 +214,7 @@ export function ProfileEditModal({ user }: ProfileEditModalProps) {
 
           {/* City dropdown */}
           <div className="flex flex-col gap-1">
-            <Label htmlFor="edit-city" className="text-[0.78rem] font-bold text-slate-500">
+            <Label htmlFor="edit-city" className="text-caption font-bold text-slate-500">
               Şehir
             </Label>
             <div className="relative">
@@ -240,7 +240,7 @@ export function ProfileEditModal({ user }: ProfileEditModalProps) {
                         key={c.id}
                         type="button"
                         onMouseDown={() => handleCitySelect(c.name)}
-                        className={`w-full text-left px-3.5 py-2.5 text-[0.88rem] transition-colors ${
+                        className={`w-full text-left px-3.5 py-2.5 text-body transition-colors ${
                           city === c.name
                             ? 'bg-blue-50 text-blue-700 font-semibold'
                             : 'text-slate-800 hover:bg-slate-50'
@@ -257,7 +257,7 @@ export function ProfileEditModal({ user }: ProfileEditModalProps) {
 
           {/* Remote toggle */}
           <div className="flex items-center justify-between bg-slate-50 rounded-[10px] px-3.5 py-2.5">
-            <Label htmlFor="edit-remote" className="text-[0.88rem] font-semibold text-slate-700 cursor-pointer">
+            <Label htmlFor="edit-remote" className="text-body font-semibold text-slate-700 cursor-pointer">
               🌐 Remote uyumlu
             </Label>
             <Switch
@@ -269,7 +269,7 @@ export function ProfileEditModal({ user }: ProfileEditModalProps) {
 
           {/* Bio */}
           <div className="flex flex-col gap-1">
-            <Label htmlFor="edit-bio" className="text-[0.78rem] font-bold text-slate-500">
+            <Label htmlFor="edit-bio" className="text-caption font-bold text-slate-500">
               Bio
             </Label>
             <Textarea
@@ -281,16 +281,16 @@ export function ProfileEditModal({ user }: ProfileEditModalProps) {
               placeholder="Kendinizden kısaca bahsedin..."
               className="rounded-[10px] resize-none"
             />
-            <div className="text-[0.72rem] text-slate-400 text-right">{bio.length}/500</div>
+            <div className="text-meta text-slate-400 text-right">{bio.length}/500</div>
           </div>
 
           {/* CV Upload */}
           <div className="flex flex-col gap-1">
-            <Label className="text-[0.78rem] font-bold text-slate-500">CV (PDF)</Label>
+            <Label className="text-caption font-bold text-slate-500">CV (PDF)</Label>
             {hasCv && !cvSuccess ? (
               <div className="flex flex-col gap-2">
                 <div className="flex items-center justify-between bg-slate-50 rounded-[10px] px-3.5 py-3 border border-slate-200">
-                  <span className="text-[0.82rem] text-slate-700 font-medium">📄 CV yüklü</span>
+                  <span className="text-caption text-slate-700 font-medium">📄 CV yüklü</span>
                   <div className="flex items-center gap-2">
                     <Button
                       type="button"
@@ -298,7 +298,7 @@ export function ProfileEditModal({ user }: ProfileEditModalProps) {
                       size="sm"
                       onClick={() => fileInputRef.current?.click()}
                       disabled={cvUploading || cvRemoving}
-                      className="text-[0.75rem] text-blue-600 font-semibold h-auto p-0"
+                      className="text-meta text-blue-600 font-semibold h-auto p-0"
                     >
                       Değiştir
                     </Button>
@@ -309,14 +309,14 @@ export function ProfileEditModal({ user }: ProfileEditModalProps) {
                       size="sm"
                       onClick={handleRemoveCv}
                       disabled={cvUploading || cvRemoving}
-                      className="text-[0.75rem] text-red-500 font-semibold h-auto p-0"
+                      className="text-meta text-red-500 font-semibold h-auto p-0"
                     >
                       {cvRemoving ? 'Kaldırılıyor...' : 'Kaldır'}
                     </Button>
                   </div>
                 </div>
                 <div className="flex items-center justify-between bg-slate-50 rounded-[10px] px-3.5 py-2.5 border border-slate-200">
-                  <Label htmlFor="cv-public" className="text-[0.82rem] text-slate-700 cursor-pointer">
+                  <Label htmlFor="cv-public" className="text-caption text-slate-700 cursor-pointer">
                     🌐 Herkes görebilsin
                   </Label>
                   <Switch
@@ -342,16 +342,16 @@ export function ProfileEditModal({ user }: ProfileEditModalProps) {
                 }`}
               >
                 {cvUploading ? (
-                  <span className="text-[0.82rem] text-slate-500">Yükleniyor...</span>
+                  <span className="text-caption text-slate-500">Yükleniyor...</span>
                 ) : cvSuccess ? (
-                  <span className="text-[0.82rem] text-green-600 font-semibold">✓ CV başarıyla yüklendi</span>
+                  <span className="text-caption text-green-600 font-semibold">✓ CV başarıyla yüklendi</span>
                 ) : (
                   <>
-                    <span className="text-[1.4rem]">📄</span>
-                    <span className="text-[0.82rem] text-slate-500 text-center">
+                    <span className="text-h2">📄</span>
+                    <span className="text-caption text-slate-500 text-center">
                       PDF sürükleyin veya tıklayın
                     </span>
-                    <span className="text-[0.72rem] text-slate-400">Maks. 5 MB</span>
+                    <span className="text-meta text-slate-400">Maks. 5 MB</span>
                   </>
                 )}
               </div>
@@ -368,13 +368,13 @@ export function ProfileEditModal({ user }: ProfileEditModalProps) {
               }}
             />
             {cvError && (
-              <div className="text-[0.78rem] text-red-600 mt-1">{cvError}</div>
+              <div className="text-caption text-red-600 mt-1">{cvError}</div>
             )}
           </div>
 
           {/* Form Error */}
           {formError && (
-            <div className="text-[0.82rem] text-red-600 bg-red-50 rounded-[8px] px-3.5 py-2">
+            <div className="text-caption text-red-600 bg-red-50 rounded-[8px] px-3.5 py-2">
               {formError}
             </div>
           )}
@@ -386,7 +386,7 @@ export function ProfileEditModal({ user }: ProfileEditModalProps) {
             variant="secondary"
             onClick={() => setOpen(false)}
             disabled={isPending}
-            className="flex-1 font-bold text-[0.88rem] rounded-[10px]"
+            className="flex-1 font-bold text-body rounded-[10px]"
           >
             İptal
           </Button>
@@ -394,7 +394,7 @@ export function ProfileEditModal({ user }: ProfileEditModalProps) {
             type="button"
             onClick={handleSubmit}
             disabled={isPending || !name.trim()}
-            className="flex-1 font-bold text-[0.88rem] rounded-[10px]"
+            className="flex-1 font-bold text-body rounded-[10px]"
           >
             {isPending ? 'Kaydediliyor...' : 'Kaydet'}
           </Button>

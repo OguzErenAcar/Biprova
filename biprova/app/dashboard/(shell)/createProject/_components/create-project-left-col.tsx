@@ -96,7 +96,7 @@ export function CreateProjectLeftCol({ cities, skills, userTeams }: Props) {
         <FormGroup label="Proje Başlığı" required>
           <InputWithIcon icon="✏️">
             <input
-              className="flex-1 outline-none text-[0.88rem] text-slate-900 bg-transparent placeholder:text-slate-400"
+              className="flex-1 outline-none text-body text-slate-900 bg-transparent placeholder:text-slate-400"
               type="text"
               name="title"
               placeholder="örn. İklim Değişikliği Farkındalık Belgeseli"
@@ -120,8 +120,8 @@ export function CreateProjectLeftCol({ cities, skills, userTeams }: Props) {
         <FormGroup label="">
           <div className="flex items-center justify-between bg-slate-50 border-[1.5px] border-slate-200 rounded-[11px] px-4 py-3">
             <Label htmlFor="is_remote" className="cursor-pointer">
-              <div className="text-[0.88rem] font-bold text-slate-900">🌐 Remote Uyumlu</div>
-              <div className="text-[0.74rem] text-slate-400 mt-0.5">Uzaktan çalışmaya açıksanız işaretle</div>
+              <div className="text-body font-bold text-slate-900">🌐 Remote Uyumlu</div>
+              <div className="text-meta text-slate-400 mt-0.5">Uzaktan çalışmaya açıksanız işaretle</div>
             </Label>
             <input type="hidden" name="is_remote" value={isRemote ? "on" : ""} />
             <Switch
@@ -140,7 +140,7 @@ export function CreateProjectLeftCol({ cities, skills, userTeams }: Props) {
                 <option key={c.id} value={c.name}>{c.name}</option>
               ))}
             </select>
-            <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-[0.8rem]">▾</span>
+            <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-caption">▾</span>
           </div>
         </FormGroup>
       </FormCard>
@@ -161,7 +161,7 @@ export function CreateProjectLeftCol({ cities, skills, userTeams }: Props) {
               type="button"
               variant="ghost"
               onClick={() => setTeamMode("existing")}
-              className={`flex-1 text-[0.82rem] font-bold rounded-[8px] h-auto py-2 transition-all ${
+              className={`flex-1 text-caption font-bold rounded-[8px] h-auto py-2 transition-all ${
                 teamMode === "existing"
                   ? "bg-white text-slate-900 shadow-sm hover:bg-white"
                   : "text-slate-400 hover:text-slate-600 hover:bg-transparent"
@@ -173,7 +173,7 @@ export function CreateProjectLeftCol({ cities, skills, userTeams }: Props) {
               type="button"
               variant="ghost"
               onClick={() => setTeamMode("new")}
-              className={`flex-1 text-[0.82rem] font-bold rounded-[8px] h-auto py-2 transition-all ${
+              className={`flex-1 text-caption font-bold rounded-[8px] h-auto py-2 transition-all ${
                 teamMode === "new"
                   ? "bg-white text-slate-900 shadow-sm hover:bg-white"
                   : "text-slate-400 hover:text-slate-600 hover:bg-transparent"
@@ -204,15 +204,15 @@ export function CreateProjectLeftCol({ cities, skills, userTeams }: Props) {
                     {team.is_leader ? "👑" : "👤"}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <div className={`text-[0.88rem] font-bold truncate ${isSelected ? "text-blue-700" : "text-slate-900"}`}>
+                    <div className={`text-body font-bold truncate ${isSelected ? "text-blue-700" : "text-slate-900"}`}>
                       {team.name}
                     </div>
-                    <div className="text-[0.74rem] text-slate-400 mt-0.5">
+                    <div className="text-meta text-slate-400 mt-0.5">
                       {team.is_leader ? "Lider" : "Üye"} · {TEAM_STATUS_LABEL[team.status] ?? team.status}
                     </div>
                   </div>
                   <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-all ${isSelected ? "border-blue-600 bg-blue-600" : "border-slate-300"}`}>
-                    {isSelected && <span className="text-white text-[0.6rem]">✓</span>}
+                    {isSelected && <span className="text-white text-label">✓</span>}
                   </div>
                 </Button>
               );
@@ -230,7 +230,7 @@ export function CreateProjectLeftCol({ cities, skills, userTeams }: Props) {
                     className="flex items-center gap-2.5 bg-slate-50 border-[1.5px] border-slate-200 rounded-[11px] px-4 py-3 transition-colors hover:border-slate-300"
                   >
                     <span className="text-slate-300 cursor-grab text-base">⠿</span>
-                    <span className="flex-1 text-[0.88rem] font-bold text-slate-900">{role.name}</span>
+                    <span className="flex-1 text-body font-bold text-slate-900">{role.name}</span>
                     <div className="flex items-center gap-1 bg-white border-[1.5px] border-slate-200 rounded-[8px] p-0.5">
                       <Button
                         type="button"
@@ -241,7 +241,7 @@ export function CreateProjectLeftCol({ cities, skills, userTeams }: Props) {
                       >
                         −
                       </Button>
-                      <span className="font-nunito font-black text-[0.88rem] min-w-[18px] text-center">
+                      <span className="font-nunito font-black text-body min-w-[18px] text-center">
                         {role.count}
                       </span>
                       <Button
@@ -283,7 +283,7 @@ export function CreateProjectLeftCol({ cities, skills, userTeams }: Props) {
                     <option key={s.id} value={s.id}>{s.name}</option>
                   ))}
                 </select>
-                <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-[0.8rem]">▾</span>
+                <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-caption">▾</span>
               </div>
               <Button
                 type="button"
@@ -312,7 +312,7 @@ export function CreateProjectLeftCol({ cities, skills, userTeams }: Props) {
                   <option key={opt}>{opt}</option>
                 ))}
               </select>
-              <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-[0.8rem]">▾</span>
+              <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-caption">▾</span>
             </div>
           </FormGroup>
         </div>
@@ -320,7 +320,7 @@ export function CreateProjectLeftCol({ cities, skills, userTeams }: Props) {
         <FormGroup label="Bağlantı" hint="— opsiyonel">
           <InputWithIcon icon="🔗">
             <input
-              className="flex-1 outline-none text-[0.88rem] text-slate-900 bg-transparent placeholder:text-slate-400"
+              className="flex-1 outline-none text-body text-slate-900 bg-transparent placeholder:text-slate-400"
               type="url"
               name="link"
               placeholder="Proje dosyası, Notion, Drive linki..."
@@ -359,10 +359,10 @@ function FormCard({ id, title, sub, children }: FormCardProps) {
   return (
     <Card id={id}>
       <CardHeader className="pb-0">
-        <CardTitle className="font-nunito font-black text-[1.05rem] text-slate-900">
+        <CardTitle className="font-nunito font-black text-title text-slate-900">
           {title}
         </CardTitle>
-        <CardDescription className="text-[0.81rem]">{sub}</CardDescription>
+        <CardDescription className="text-caption">{sub}</CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col gap-4 pt-5">
         {children}
@@ -382,10 +382,10 @@ function FormGroup({ label, required, hint, children }: FormGroupProps) {
   return (
     <div>
       {label && (
-        <Label className="block text-[0.82rem] font-bold text-slate-900 mb-1.5">
+        <Label className="block text-caption font-bold text-slate-900 mb-1.5">
           {label}
           {required && <span className="text-red-500 ml-0.5">*</span>}
-          {hint && <span className="text-[0.72rem] text-slate-400 font-normal ml-1">{hint}</span>}
+          {hint && <span className="text-meta text-slate-400 font-normal ml-1">{hint}</span>}
         </Label>
       )}
       {children}

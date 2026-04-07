@@ -31,14 +31,14 @@ export function ProjectTopbar({ title, status }: Props) {
         variant="ghost"
         size="sm"
         onClick={() => router.back()}
-        className="text-[0.82rem] font-bold text-slate-400 hover:text-blue-600 h-auto px-2 py-1"
+        className="text-caption font-bold text-slate-400 hover:text-blue-600 h-auto px-2 py-1"
       >
         ← Geri
       </Button>
 
-      <span className="font-nunito font-black text-[1rem] text-slate-900">{title}</span>
+      <span className="font-nunito font-black text-base text-slate-900">{title}</span>
 
-      <Badge variant="outline" className={`text-[0.7rem] font-bold ${s.className}`}>
+      <Badge variant="outline" className={`text-label font-bold ${s.className}`}>
         {s.label}
       </Badge>
     </div>

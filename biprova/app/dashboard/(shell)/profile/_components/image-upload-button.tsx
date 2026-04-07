@@ -163,7 +163,7 @@ export function ImageUploadButton({ type, userId, currentUrl, children }: ImageU
         className="absolute inset-0 w-full h-full opacity-0 hover:opacity-100 bg-black/30 transition-opacity flex items-center justify-center cursor-pointer"
         aria-label={`${label} değiştir`}
       >
-        <span className="text-white text-[0.75rem] font-bold drop-shadow">✏️ Düzenle</span>
+        <span className="text-white text-meta font-bold drop-shadow">✏️ Düzenle</span>
       </button>
 
       {open && (
@@ -172,7 +172,7 @@ export function ImageUploadButton({ type, userId, currentUrl, children }: ImageU
           onClick={(e) => { if (e.target === e.currentTarget) handleClose(); }}
         >
           <div className="bg-white rounded-[20px] w-full max-w-sm shadow-xl p-6">
-            <div className="font-nunito font-black text-[1rem] text-slate-900 mb-5">
+            <div className="font-nunito font-black text-base text-slate-900 mb-5">
               {label} Yükle
             </div>
 
@@ -188,10 +188,10 @@ export function ImageUploadButton({ type, userId, currentUrl, children }: ImageU
                   }`}
                 >
                   <span className="text-[2rem]">{type === 'avatar' ? '🧑' : '🖼️'}</span>
-                  <span className="text-[0.82rem] text-slate-500 text-center">
+                  <span className="text-caption text-slate-500 text-center">
                     Resim sürükleyin veya tıklayın
                   </span>
-                  <span className="text-[0.72rem] text-slate-400">JPG, PNG, WebP · Maks. 5 MB</span>
+                  <span className="text-meta text-slate-400">JPG, PNG, WebP · Maks. 5 MB</span>
                 </div>
 
                 <input
@@ -211,7 +211,7 @@ export function ImageUploadButton({ type, userId, currentUrl, children }: ImageU
                     type="button"
                     onClick={handleRemove}
                     disabled={uploading}
-                    className="mt-3 w-full border border-red-200 hover:bg-red-50 disabled:opacity-60 text-red-600 font-bold text-[0.88rem] py-2.5 rounded-[10px] transition-colors"
+                    className="mt-3 w-full border border-red-200 hover:bg-red-50 disabled:opacity-60 text-red-600 font-bold text-body py-2.5 rounded-[10px] transition-colors"
                   >
                     {uploading ? 'Kaldırılıyor...' : `🗑️ ${label} Kaldır`}
                   </button>
@@ -236,7 +236,7 @@ export function ImageUploadButton({ type, userId, currentUrl, children }: ImageU
 
                 {/* Zoom slider */}
                 <div className="flex items-center gap-3 mt-4">
-                  <span className="text-[0.72rem] text-slate-400 shrink-0">Yakınlaştır</span>
+                  <span className="text-meta text-slate-400 shrink-0">Yakınlaştır</span>
                   <input
                     type="range"
                     min={1}
@@ -249,13 +249,13 @@ export function ImageUploadButton({ type, userId, currentUrl, children }: ImageU
                 </div>
 
                 {success ? (
-                  <div className="mt-4 text-center text-[0.85rem] text-green-600 font-semibold">✓ Yüklendi</div>
+                  <div className="mt-4 text-center text-body text-green-600 font-semibold">✓ Yüklendi</div>
                 ) : (
                   <button
                     type="button"
                     onClick={handleUpload}
                     disabled={uploading}
-                    className="mt-4 w-full bg-blue-600 hover:bg-blue-700 disabled:opacity-60 text-white font-bold text-[0.88rem] py-2.5 rounded-[10px] transition-colors"
+                    className="mt-4 w-full bg-blue-600 hover:bg-blue-700 disabled:opacity-60 text-white font-bold text-body py-2.5 rounded-[10px] transition-colors"
                   >
                     {uploading ? 'Yükleniyor...' : 'Kaydet'}
                   </button>
@@ -264,13 +264,13 @@ export function ImageUploadButton({ type, userId, currentUrl, children }: ImageU
             )}
 
             {error && (
-              <div className="text-[0.78rem] text-red-600 mt-3">{error}</div>
+              <div className="text-caption text-red-600 mt-3">{error}</div>
             )}
 
             <button
               type="button"
               onClick={handleClose}
-              className="mt-3 w-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-[0.88rem] py-2.5 rounded-[10px] transition-colors"
+              className="mt-3 w-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-body py-2.5 rounded-[10px] transition-colors"
             >
               Kapat
             </button>

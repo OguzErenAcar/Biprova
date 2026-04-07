@@ -15,7 +15,7 @@ export function RoleJoinButton({ projectId, roleId }: RoleJoinButtonProps) {
 
   if (done) {
     return (
-      <span className="text-[0.75rem] font-extrabold text-green-600 whitespace-nowrap">
+      <span className="text-meta font-extrabold text-green-600 whitespace-nowrap">
         ✓ Başvuruldu
       </span>
     );
@@ -35,12 +35,12 @@ export function RoleJoinButton({ projectId, roleId }: RoleJoinButtonProps) {
             }
           })
         }
-        className="bg-blue-600 text-white rounded-lg font-nunito font-extrabold text-[0.75rem] px-3 py-1.5 cursor-pointer hover:bg-blue-700 transition-colors duration-150 whitespace-nowrap disabled:opacity-60 disabled:cursor-not-allowed"
+        className="bg-blue-600 text-white rounded-lg font-nunito font-extrabold text-meta px-3 py-1.5 cursor-pointer hover:bg-blue-700 transition-colors duration-150 whitespace-nowrap disabled:opacity-60 disabled:cursor-not-allowed"
       >
         {isPending ? "…" : "Başvur →"}
       </button>
       {error && (
-        <span className="text-[0.68rem] text-red-500 font-semibold text-right">{error}</span>
+        <span className="text-label text-red-500 font-semibold text-right">{error}</span>
       )}
     </div>
   );

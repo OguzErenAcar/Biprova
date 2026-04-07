@@ -66,7 +66,7 @@ export function ProjectCard({
   return (
     <Card
       id={`project-card-${projectId}`}
-      className="hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(0,0,0,0.07)] transition-all duration-150 cursor-pointer"
+      className="hover:-translate-y-0.5 hover:shadow-card transition-all duration-150 cursor-pointer"
     >
       <CardContent className="p-[1.4rem]">
         {/* Üst satır: poster + etiketler */}
@@ -78,13 +78,13 @@ export function ProjectCard({
           >
             <Avatar className="w-6 h-6 flex-shrink-0">
               <AvatarFallback
-                className="text-[0.65rem] font-nunito font-black text-white"
+                className="text-label font-nunito font-black text-white"
                 style={{ background: poster.color }}
               >
                 {poster.initials}
               </AvatarFallback>
             </Avatar>
-            <span className="text-[0.8rem] font-semibold text-slate-900">
+            <span className="text-caption font-semibold text-slate-900">
               {poster.name}
             </span>
           </Link>
@@ -100,12 +100,12 @@ export function ProjectCard({
         </div>
 
         {/* Başlık */}
-        <div className="font-nunito font-black text-[1.05rem] leading-[1.3] text-slate-900 mb-[0.35rem]">
+        <div className="font-nunito font-black text-title leading-[1.3] text-slate-900 mb-[0.35rem]">
           {title}
         </div>
 
         {/* Açıklama */}
-        <div className="text-[0.84rem] text-slate-500 mb-4 leading-[1.55]">
+        <div className="text-body text-slate-500 mb-4 leading-[1.55]">
           {description}
         </div>
 
@@ -118,7 +118,7 @@ export function ProjectCard({
               onClick={() => setRolesOpen((prev) => !prev)}
               className="w-full justify-between px-0 h-auto py-1 mb-2 hover:bg-transparent"
             >
-              <span className="text-[0.7rem] font-bold text-slate-400 uppercase tracking-wider">
+              <span className="text-label font-bold text-slate-400 uppercase tracking-wider">
                 Aranan Pozisyonlar ({openRoles.length})
               </span>
               <ChevronDown
@@ -135,7 +135,7 @@ export function ProjectCard({
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-1.5">
                         <span className="w-2 h-2 rounded-full bg-amber-400 flex-shrink-0" />
-                        <span className="text-[0.82rem] font-bold text-slate-700">
+                        <span className="text-caption font-bold text-slate-700">
                           {role.name}
                         </span>
                       </div>

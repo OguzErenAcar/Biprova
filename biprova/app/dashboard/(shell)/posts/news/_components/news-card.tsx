@@ -31,10 +31,10 @@ export interface NewsCardProps {
 
 export function NewsCard({ title, excerpt, tag, date, readTime, emoji, thumbBg }: NewsCardProps) {
   return (
-    <Card className="mb-3.5 cursor-pointer hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(0,0,0,0.07)] transition-all duration-150">
+    <Card className="mb-3.5 cursor-pointer hover:-translate-y-0.5 hover:shadow-card transition-all duration-150">
       <CardContent className="p-[1.3rem] flex gap-4 items-start">
         <div
-          className="w-20 h-20 rounded-[12px] flex-shrink-0 flex items-center justify-center text-[1.9rem]"
+          className="w-20 h-20 rounded-[12px] flex-shrink-0 flex items-center justify-center text-hero"
           style={{ background: thumbBg }}
         >
           {emoji}
@@ -42,28 +42,28 @@ export function NewsCard({ title, excerpt, tag, date, readTime, emoji, thumbBg }
 
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-1.5 mb-1.5 flex-wrap">
-            <Badge variant="outline" className={`text-[0.7rem] font-bold ${TAG_STYLES[tag]}`}>
+            <Badge variant="outline" className={`text-label font-bold ${TAG_STYLES[tag]}`}>
               {TAG_LABELS[tag]}
             </Badge>
-            <span className="text-[0.72rem] text-slate-400">{date}</span>
+            <span className="text-meta text-slate-400">{date}</span>
           </div>
 
-          <div className="font-nunito font-black text-[0.95rem] leading-[1.35] text-slate-900 mb-1.5">
+          <div className="font-nunito font-black text-lead leading-[1.35] text-slate-900 mb-1.5">
             {title}
           </div>
 
-          <p className="text-[0.8rem] text-slate-500 leading-[1.5] mb-2.5 line-clamp-2">
+          <p className="text-caption text-slate-500 leading-[1.5] mb-2.5 line-clamp-2">
             {excerpt}
           </p>
 
           <div className="flex items-center gap-2.5">
-            <div className="flex items-center gap-1.5 text-[0.76rem] text-slate-500 font-semibold">
+            <div className="flex items-center gap-1.5 text-meta text-slate-500 font-semibold">
               biprova Ekibi
-              <Badge variant="outline" className="bg-blue-50 text-blue-600 border-blue-100 text-[0.65rem] font-extrabold">
+              <Badge variant="outline" className="bg-blue-50 text-blue-600 border-blue-100 text-label font-extrabold">
                 Admin
               </Badge>
             </div>
-            <span className="text-[0.72rem] text-slate-400">{readTime}</span>
+            <span className="text-meta text-slate-400">{readTime}</span>
           </div>
         </div>
       </CardContent>

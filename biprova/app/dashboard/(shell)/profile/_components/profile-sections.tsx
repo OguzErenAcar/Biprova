@@ -75,7 +75,7 @@ function SectionCard({ id, title, action, children }: {
     <Card id={id} className="mb-5">
       <CardHeader className="pb-0">
         <div className="flex items-center justify-between">
-          <CardTitle className="font-nunito font-black text-[1rem] text-slate-900">{title}</CardTitle>
+          <CardTitle className="font-nunito font-black text-base text-slate-900">{title}</CardTitle>
           {action}
         </div>
       </CardHeader>
@@ -96,7 +96,7 @@ export function ProfileSections({ projects, applications, teams, projectsPublic,
           action={isOwner ? <VisibilityToggle section="projects" initialValue={projectsPublic} /> : undefined}
         >
           {projects.length === 0 ? (
-            <p className="text-[0.85rem] text-slate-400">Henüz proje yok.</p>
+            <p className="text-body text-slate-400">Henüz proje yok.</p>
           ) : (
             projects.map((p, i) => {
               const bg = PROJECT_BG_COLORS[i % PROJECT_BG_COLORS.length];
@@ -110,16 +110,16 @@ export function ProfileSections({ projects, applications, teams, projectsPublic,
                   key={p.id}
                   className={`flex gap-4 items-start py-3.5 ${i < projects.length - 1 ? "border-b border-slate-100" : ""} ${i === 0 ? "pt-0" : ""}`}
                 >
-                  <div className="w-10 h-10 rounded-[11px] flex items-center justify-center text-[1.15rem] flex-shrink-0" style={{ background: bg }}>
+                  <div className="w-10 h-10 rounded-[11px] flex items-center justify-center text-title flex-shrink-0" style={{ background: bg }}>
                     📁
                   </div>
                   <div className="flex-1 min-w-0">
-                    <div className="text-[0.9rem] font-bold text-slate-900 mb-1">{p.title}</div>
-                    <div className="flex flex-wrap gap-2.5 text-[0.77rem] text-slate-500">
+                    <div className="text-lead font-bold text-slate-900 mb-1">{p.title}</div>
+                    <div className="flex flex-wrap gap-2.5 text-meta text-slate-500">
                       {meta.map((m) => <span key={m}>{m}</span>)}
                     </div>
                   </div>
-                  <Badge variant="outline" className={`text-[0.72rem] font-bold whitespace-nowrap self-start mt-0.5 ${PROJECT_STATUS_STYLES[p.status as ProjectStatus] ?? PROJECT_STATUS_STYLES.active}`}>
+                  <Badge variant="outline" className={`text-meta font-bold whitespace-nowrap self-start mt-0.5 ${PROJECT_STATUS_STYLES[p.status as ProjectStatus] ?? PROJECT_STATUS_STYLES.active}`}>
                     {PROJECT_STATUS_LABELS[p.status as ProjectStatus] ?? p.status}
                   </Badge>
                 </div>
@@ -136,7 +136,7 @@ export function ProfileSections({ projects, applications, teams, projectsPublic,
           action={isOwner ? <VisibilityToggle section="teams" initialValue={teamsPublic} /> : undefined}
         >
           {teams.length === 0 ? (
-            <p className="text-[0.85rem] text-slate-400">Henüz ekip yok.</p>
+            <p className="text-body text-slate-400">Henüz ekip yok.</p>
           ) : (
             teams.map((t, i) => {
               const meta: string[] = [];
@@ -148,18 +148,18 @@ export function ProfileSections({ projects, applications, teams, projectsPublic,
                   key={t.id}
                   className={`flex gap-4 items-start py-3.5 ${i < teams.length - 1 ? "border-b border-slate-100" : ""} ${i === 0 ? "pt-0" : ""}`}
                 >
-                  <div className="w-10 h-10 rounded-[11px] flex items-center justify-center text-[1.15rem] flex-shrink-0" style={{ background: TEAM_BG_COLORS[i % TEAM_BG_COLORS.length] }}>
+                  <div className="w-10 h-10 rounded-[11px] flex items-center justify-center text-title flex-shrink-0" style={{ background: TEAM_BG_COLORS[i % TEAM_BG_COLORS.length] }}>
                     👥
                   </div>
                   <div className="flex-1 min-w-0">
-                    <div className="text-[0.9rem] font-bold text-slate-900 mb-1">
+                    <div className="text-lead font-bold text-slate-900 mb-1">
                       {t.name ?? t.projectTitle ?? 'Ekip'}
                     </div>
-                    <div className="flex flex-wrap gap-2.5 text-[0.77rem] text-slate-500">
+                    <div className="flex flex-wrap gap-2.5 text-meta text-slate-500">
                       {meta.map((m) => <span key={m}>{m}</span>)}
                     </div>
                   </div>
-                  <Badge variant="outline" className={`text-[0.72rem] font-bold whitespace-nowrap self-start mt-0.5 ${TEAM_STATUS_STYLES[t.status]}`}>
+                  <Badge variant="outline" className={`text-meta font-bold whitespace-nowrap self-start mt-0.5 ${TEAM_STATUS_STYLES[t.status]}`}>
                     {TEAM_STATUS_LABELS[t.status]}
                   </Badge>
                 </div>
@@ -176,24 +176,24 @@ export function ProfileSections({ projects, applications, teams, projectsPublic,
           action={isOwner ? <VisibilityToggle section="applications" initialValue={applicationsPublic} /> : undefined}
         >
           {applications.length === 0 ? (
-            <p className="text-[0.85rem] text-slate-400">Henüz başvuru yok.</p>
+            <p className="text-body text-slate-400">Henüz başvuru yok.</p>
           ) : (
             applications.map((a, i) => (
               <div
                 key={a.id}
                 className={`flex gap-4 items-center py-3.5 ${i < applications.length - 1 ? "border-b border-slate-100" : ""} ${i === 0 ? "pt-0" : ""}`}
               >
-                <div className="w-10 h-10 rounded-[11px] flex items-center justify-center text-[1.15rem] flex-shrink-0" style={{ background: APP_BG_COLORS[i % APP_BG_COLORS.length] }}>
+                <div className="w-10 h-10 rounded-[11px] flex items-center justify-center text-title flex-shrink-0" style={{ background: APP_BG_COLORS[i % APP_BG_COLORS.length] }}>
                   📨
                 </div>
                 <div className="flex-1 min-w-0">
-                  <div className="text-[0.88rem] font-bold text-slate-900 mb-0.5">{a.projectTitle}</div>
-                  <div className="text-[0.78rem] text-slate-500">
+                  <div className="text-body font-bold text-slate-900 mb-0.5">{a.projectTitle}</div>
+                  <div className="text-caption text-slate-500">
                     {a.roleName ? `Rol: ${a.roleName} · ` : ''}{formatRelativeDate(a.createdAt)}
                   </div>
                 </div>
                 <div className="flex items-center gap-2 flex-shrink-0">
-                  <Badge variant="outline" className={`text-[0.72rem] font-bold whitespace-nowrap ${APP_STATUS_STYLES[a.status]}`}>
+                  <Badge variant="outline" className={`text-meta font-bold whitespace-nowrap ${APP_STATUS_STYLES[a.status]}`}>
                     {APP_STATUS_LABELS[a.status]}
                   </Badge>
                   {isOwner && a.status === 'pending' && (

@@ -12,14 +12,14 @@ export function ActiveTeamBanner() {
   return (
     <div id="active-team-banner" className="bg-gradient-to-br from-blue-700 to-indigo-500 rounded-2xl px-[1.6rem] py-[1.4rem] mb-6 flex items-center justify-between gap-4 flex-wrap">
       <div className="flex items-center gap-4">
-        <div className="w-11 h-11 bg-white/15 rounded-xl flex items-center justify-center text-[1.3rem] flex-shrink-0">
+        <div className="w-11 h-11 bg-white/15 rounded-xl flex items-center justify-center text-h2 flex-shrink-0">
           🎬
         </div>
         <div>
-          <div className="font-nunito font-black text-[0.95rem] text-white mb-0.5">
+          <div className="font-nunito font-black text-lead text-white mb-0.5">
             Kısa Film Projesi — Aktif Ekibindesin!
           </div>
-          <div className="text-[0.8rem] text-white/70">
+          <div className="text-caption text-white/70">
             İstanbul · 4 kişilik ekip · Dün kuruldu
           </div>
         </div>
@@ -33,7 +33,7 @@ export function ActiveTeamBanner() {
               className="w-[30px] h-[30px] border-2 border-white/40 -ml-2 first:ml-0"
             >
               <AvatarFallback
-                className="text-[0.7rem] font-nunito font-black text-white"
+                className="text-label font-nunito font-black text-white"
                 style={{ background: av.color }}
               >
                 {av.initials}

@@ -49,12 +49,12 @@ export function ProfileHero({ user, isOwner = false }: ProfileHeroProps) {
 
       <div className="px-6 pb-6 relative">
         {/* Avatar */}
-        <div className="absolute -top-[60px] left-6 w-[120px] h-[120px] rounded-full border-4 border-white shadow-[0_4px_16px_rgba(37,99,235,0.25)] overflow-hidden">
+        <div className="absolute -top-[60px] left-6 w-[120px] h-[120px] rounded-full border-4 border-white shadow-brand overflow-hidden">
           <div className="relative w-full h-full">
             {user.avatar_url ? (
               <img src={user.avatar_url} alt={user.name} className="w-full h-full object-cover" />
             ) : (
-              <div className="w-full h-full bg-gradient-to-br from-blue-600 to-indigo-500 flex items-center justify-center font-nunito font-black text-[1.8rem] text-white">
+              <div className="w-full h-full bg-gradient-to-br from-blue-600 to-indigo-500 flex items-center justify-center font-nunito font-black text-hero text-white">
                 {initials}
               </div>
             )}
@@ -86,7 +86,7 @@ export function ProfileHero({ user, isOwner = false }: ProfileHeroProps) {
 
         {/* İsim + rozet */}
         <div className="flex items-center justify-between pt-20 mb-2">
-          <div className="font-nunito font-black text-[1.4rem] text-slate-900">{user.name}</div>
+          <div className="font-nunito font-black text-h2 text-slate-900">{user.name}</div>
           {user.badge && (
             <Badge variant="outline" className="bg-amber-50 text-amber-800 border-amber-200 font-bold gap-1.5">
               🏅 {user.badge}
@@ -95,10 +95,10 @@ export function ProfileHero({ user, isOwner = false }: ProfileHeroProps) {
         </div>
 
         {user.bio && (
-          <p className="text-[0.88rem] text-slate-600 leading-relaxed mb-6 mt-6">{user.bio}</p>
+          <p className="text-body text-slate-600 leading-relaxed mb-6 mt-6">{user.bio}</p>
         )}
 
-        <div className="flex flex-wrap gap-4 text-[0.82rem] text-slate-500">
+        <div className="flex flex-wrap gap-4 text-caption text-slate-500">
           {user.city && <span>📍 {user.city}</span>}
           {user.is_remote && <span>🌐 Remote uyumlu</span>}
           <span>📅 {formatMemberSince(user.created_at)}&apos;den beri üye</span>

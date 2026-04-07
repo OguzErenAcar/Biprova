@@ -27,19 +27,19 @@ export function CvPdfViewer({ cvUrl }: CvPdfViewerProps) {
           file={cvUrl}
           onLoadSuccess={onLoadSuccess}
           loading={
-            <div className="flex items-center justify-center h-40 text-slate-400 text-[0.88rem]">
+            <div className="flex items-center justify-center h-40 text-slate-400 text-body">
               Yükleniyor...
             </div>
           }
           error={
             <div className="text-center text-slate-400 p-8">
               <div className="text-[2rem] mb-2">📄</div>
-              <p className="text-[0.88rem]">CV yüklenemedi.</p>
+              <p className="text-body">CV yüklenemedi.</p>
               <a
                 href={cvUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[0.82rem] text-blue-600 font-semibold hover:underline mt-2 inline-block"
+                className="text-caption text-blue-600 font-semibold hover:underline mt-2 inline-block"
               >
                 Doğrudan aç ↗
               </a>
@@ -63,7 +63,7 @@ export function CvPdfViewer({ cvUrl }: CvPdfViewerProps) {
           >
             ←
           </button>
-          <span className="text-[0.82rem] text-slate-500">
+          <span className="text-caption text-slate-500">
             {pageNumber} / {numPages}
           </span>
           <button

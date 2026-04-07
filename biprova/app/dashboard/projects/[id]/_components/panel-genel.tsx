@@ -28,11 +28,11 @@ function ProjectInfoCard({ project }: { project: ProjectDetail }) {
   return (
     <Card className="overflow-hidden">
       <CardHeader className="px-[1.2rem] py-[1rem] border-b border-slate-200">
-        <CardTitle className="font-nunito text-[0.9rem] font-black">📄 Proje Hakkında</CardTitle>
+        <CardTitle className="font-nunito text-lead font-black">📄 Proje Hakkında</CardTitle>
       </CardHeader>
       <CardContent className="px-[1.2rem] py-[1rem] flex flex-col gap-4">
         {project.description && (
-          <p className="text-[0.85rem] text-slate-600 leading-[1.65] whitespace-pre-wrap">
+          <p className="text-body text-slate-600 leading-[1.65] whitespace-pre-wrap">
             {project.description}
           </p>
         )}
@@ -40,10 +40,10 @@ function ProjectInfoCard({ project }: { project: ProjectDetail }) {
         <div className="grid grid-cols-2 gap-x-4 gap-y-3">
           {meta.map((item) => (
             <div key={item.label}>
-              <div className="text-[0.68rem] font-bold text-slate-400 uppercase tracking-wider mb-0.5">
+              <div className="text-label font-bold text-slate-400 uppercase tracking-wider mb-0.5">
                 {item.icon} {item.label}
               </div>
-              <div className="text-[0.82rem] font-semibold text-slate-800">{item.value}</div>
+              <div className="text-caption font-semibold text-slate-800">{item.value}</div>
             </div>
           ))}
         </div>
@@ -81,7 +81,7 @@ function MemberStrip({ members }: { members: MemberSlot[] }) {
           <Avatar className={`w-8 h-8 ${m.is_leader ? 'ring-2 ring-white' : 'ring-1 ring-white/40'}`}>
             <AvatarImage src={m.avatar_url ?? undefined} alt={m.name} className="object-cover" />
             <AvatarFallback
-              className={`text-[0.7rem] font-extrabold text-white ${
+              className={`text-label font-extrabold text-white ${
                 m.is_leader ? 'bg-orange-400' : 'bg-white/20'
               }`}
             >
@@ -89,13 +89,13 @@ function MemberStrip({ members }: { members: MemberSlot[] }) {
             </AvatarFallback>
           </Avatar>
           {m.is_leader && (
-            <span className="absolute -top-1 -right-0.5 text-[0.55rem] leading-none">⚡</span>
+            <span className="absolute -top-1 -right-0.5 text-label leading-none">⚡</span>
           )}
         </div>
       ))}
       {overflow > 0 && (
         <Avatar className="w-8 h-8 ring-1 ring-white/30 shrink-0">
-          <AvatarFallback className="bg-white/20 text-[0.65rem] font-bold text-white">
+          <AvatarFallback className="bg-white/20 text-label font-bold text-white">
             +{overflow}
           </AvatarFallback>
         </Avatar>
@@ -161,8 +161,8 @@ export function PanelGenel({ project, onGoToChat, onGoToTasks: _onGoToTasks, onG
         className="bg-gradient-to-br from-blue-700 to-indigo-500 rounded-2xl px-[1.8rem] py-[1.5rem] mb-[1.2rem] flex items-center justify-between flex-wrap gap-4"
       >
         <div>
-          <h2 className="font-nunito font-black text-[1.2rem] text-white mb-1">{project.title}</h2>
-          {meta && <p className="text-[0.82rem] text-white/70">{meta}</p>}
+          <h2 className="font-nunito font-black text-title text-white mb-1">{project.title}</h2>
+          {meta && <p className="text-caption text-white/70">{meta}</p>}
         </div>
         <div className="flex gap-3 items-center ml-auto">
           <MemberStrip members={memberSlots} />
@@ -171,7 +171,7 @@ export function PanelGenel({ project, onGoToChat, onGoToTasks: _onGoToTasks, onG
               variant="outline"
               size="sm"
               onClick={onGoToChat}
-              className="bg-white/15 text-white border-white/25 font-nunito font-extrabold text-[0.8rem] hover:bg-white/25 hover:text-white hover:border-white/40"
+              className="bg-white/15 text-white border-white/25 font-nunito font-extrabold text-caption hover:bg-white/25 hover:text-white hover:border-white/40"
             >
               💬 Gruba Git
             </Button>
@@ -191,17 +191,17 @@ export function PanelGenel({ project, onGoToChat, onGoToTasks: _onGoToTasks, onG
           {/* Files preview card */}
           <Card className="overflow-hidden" id="files-preview-card">
             <CardHeader className="px-[1.2rem] py-[1rem] border-b border-slate-200 flex-row items-center justify-between space-y-0">
-              <CardTitle className="font-nunito text-[0.9rem] font-black">📁 Dosyalar & Linkler</CardTitle>
+              <CardTitle className="font-nunito text-lead font-black">📁 Dosyalar & Linkler</CardTitle>
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={onGoToFiles}
-                className="text-[0.75rem] font-bold text-blue-600 h-auto py-0.5"
+                className="text-meta font-bold text-blue-600 h-auto py-0.5"
               >
                 Tümü →
               </Button>
             </CardHeader>
-            <CardContent className="px-[1.2rem] py-[1rem] text-[0.82rem] text-slate-400">
+            <CardContent className="px-[1.2rem] py-[1rem] text-caption text-slate-400">
               Dosya özelliği yakında geliyor.
             </CardContent>
           </Card>

@@ -51,24 +51,79 @@
     /* Tüm component'lerin köşe yuvarlaklığı */
     --radius:             0.5rem;
 
-    /* ─────────────────────────────────────────
+    /* ══════════════════════════════════════════════
        DASHBOARD DESIGN TOKENS
-       Renk, gölge ve tipografi tek yerden kontrol
-    ───────────────────────────────────────── */
+       Tüm renkler, gölgeler ve tipografi tek yerden
+       ══════════════════════════════════════════════
 
-    /* Brand Renkleri */
-    --brand:         220 90% 56%;   /* blue-600 */
-    --brand-dark:    220 82% 47%;   /* blue-700 */
-    --brand-surface: 214 100% 97%;  /* blue-50  */
-    --brand-border:  213 94%  87%;  /* blue-200 */
+       DEĞİŞTİRMEK İSTEDİĞİNDE SADECE BU BLOĞU DÜZENLE
+       ══════════════════════════════════════════════ */
 
-    /* Gölgeler */
+    /* ─── 5 Ana Palet Rengi (HSL — H S% L%) ─────
+       Hex karşılıkları:
+         p-brand:   #2563EB  (mavi)
+         p-ink:     #1E293B  (koyu lacivert)
+         p-canvas:  #F8FAFC  (kırık beyaz)
+         p-success: #16A34A  (yeşil)
+         p-danger:  #DC2626  (kırmızı)
+    ──────────────────────────────────────────── */
+    --p-brand:   221 83% 53%;
+    --p-ink:     217 33% 17%;
+    --p-canvas:  210 20% 98%;
+    --p-success: 142 76% 36%;
+    --p-danger:    0 72% 50%;
+
+    /* ─── Türetilmiş Tonlar ──────────────────────
+       Paletten üretildi — genellikle değiştirmene gerek yok
+    ──────────────────────────────────────────── */
+    --p-brand-hover:    221 83% 45%;   /* brand koyu hover */
+    --p-brand-surface:  221 83% 97%;   /* brand çok açık bg */
+    --p-ink-muted:      215 20% 46%;   /* ikincil metin */
+    --p-ink-subtle:     213 14% 66%;   /* placeholder / soluk */
+    --p-ink-border:     214 14% 89%;   /* kenarlık */
+    --p-success-surface:142 76% 96%;   /* success açık bg */
+    --p-danger-surface:   0 72% 97%;   /* danger açık bg */
+    --p-warning:         38 95% 44%;   /* amber — uyarı */
+    --p-warning-surface: 38 95% 96%;   /* warning açık bg */
+
+    /* ─── Semantic Tokenlar ──────────────────────
+       Tailwind class'larına bunlar bağlı.
+       Paleti değiştirince burası otomatik güncellenir.
+    ──────────────────────────────────────────── */
+
+    /* Brand */
+    --color-brand:         var(--p-brand);
+    --color-brand-hover:   var(--p-brand-hover);
+    --color-brand-surface: var(--p-brand-surface);
+
+    /* Metin */
+    --color-ink:           var(--p-ink);
+    --color-ink-muted:     var(--p-ink-muted);
+    --color-ink-subtle:    var(--p-ink-subtle);
+
+    /* Yüzey & kenarlık */
+    --color-canvas:        var(--p-canvas);
+    --color-edge:          var(--p-ink-border);
+
+    /* Durum */
+    --color-success:         var(--p-success);
+    --color-success-surface: var(--p-success-surface);
+    --color-danger:          var(--p-danger);
+    --color-danger-surface:  var(--p-danger-surface);
+    --color-warning:         var(--p-warning);
+    --color-warning-surface: var(--p-warning-surface);
+
+    /* ─── Gölgeler ───────────────────────────────
+       --shadow-brand otomatik olarak --p-brand rengini kullanır
+    ──────────────────────────────────────────── */
     --shadow-card:     0 8px 24px rgba(0,0,0,0.07);
     --shadow-feature:  0 8px 28px rgba(0,0,0,0.08);
     --shadow-brand:    0 4px 16px rgba(37,99,235,0.25);
     --shadow-brand-lg: 0 6px 18px rgba(37,99,235,0.35);
 
-    /* Tipografi Skalası */
+    /* ─── Tipografi Skalası ──────────────────────
+       Tüm font boyutları buradan
+    ──────────────────────────────────────────── */
     --text-label:   0.70rem;   /* rozet, küçük etiket */
     --text-meta:    0.75rem;   /* meta bilgi, zaman damgası */
     --text-caption: 0.82rem;   /* açıklama, ikincil */

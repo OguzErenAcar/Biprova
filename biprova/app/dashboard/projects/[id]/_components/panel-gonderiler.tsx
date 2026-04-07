@@ -154,13 +154,13 @@ export function PanelGonderiler({ teamId, teamName, posts, members, category, ci
         <Card className="mb-4 w-1/2 mx-auto">
           <CardContent className="p-4">
             <div className="flex items-center gap-3 mb-3">
-              <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center font-nunito font-black text-[0.75rem] text-white shrink-0">
+              <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center font-nunito font-black text-meta text-white shrink-0">
                 {getInitials(viewerName)}
               </div>
-              <span className="text-[0.84rem] font-semibold text-slate-400">Ekip adına paylaş...</span>
+              <span className="text-body font-semibold text-slate-400">Ekip adına paylaş...</span>
             </div>
             <textarea
-              className="w-full border-none outline-none font-[inherit] text-[0.88rem] resize-none text-slate-900 min-h-[70px] placeholder:text-slate-400 bg-transparent"
+              className="w-full border-none outline-none font-[inherit] text-body resize-none text-slate-900 min-h-[70px] placeholder:text-slate-400 bg-transparent"
               placeholder="Projenizden bir güncelleme paylaşın. Bu gönderi timeline'da görünecek 📢"
               value={text}
               onChange={(e) => setText(e.target.value)}
@@ -173,7 +173,7 @@ export function PanelGonderiler({ teamId, teamName, posts, members, category, ci
                     <img src={p.previewUrl} alt="" className="w-full h-full object-cover" />
                     <button
                       onClick={() => removeImage(i)}
-                      className="absolute top-0.5 right-0.5 w-5 h-5 bg-black/60 rounded-full text-white text-[0.65rem] flex items-center justify-center leading-none"
+                      className="absolute top-0.5 right-0.5 w-5 h-5 bg-black/60 rounded-full text-white text-label flex items-center justify-center leading-none"
                     >
                       ✕
                     </button>
@@ -187,15 +187,15 @@ export function PanelGonderiler({ teamId, teamName, posts, members, category, ci
                 size="sm"
                 onClick={() => fileInputRef.current?.click()}
                 disabled={isPending || previews.length >= 5}
-                className="text-slate-400 hover:text-blue-600 text-[0.82rem] font-semibold gap-1"
+                className="text-slate-400 hover:text-blue-600 text-caption font-semibold gap-1"
               >
-                📷 Fotoğraf {previews.length > 0 && <span className="text-[0.72rem]">({previews.length}/5)</span>}
+                📷 Fotoğraf {previews.length > 0 && <span className="text-meta">({previews.length}/5)</span>}
               </Button>
               <input ref={fileInputRef} type="file" accept="image/*" multiple className="hidden" onChange={handleFileChange} />
               <Button
                 onClick={handlePost}
                 disabled={isPending || (!text.trim() && previews.length === 0)}
-                className="font-nunito font-extrabold text-[0.84rem]"
+                className="font-nunito font-extrabold text-body"
               >
                 {isPending ? 'Paylaşılıyor…' : 'Paylaş →'}
               </Button>
@@ -215,7 +215,7 @@ export function PanelGonderiler({ teamId, teamName, posts, members, category, ci
                 size="sm"
                 onClick={() => startTransition(async () => { await deleteProjectPost(post.id); router.refresh(); })}
                 disabled={isPending}
-                className="absolute top-4 right-4 z-10 text-slate-400 hover:text-red-500 text-[0.75rem] font-semibold h-auto py-0.5"
+                className="absolute top-4 right-4 z-10 text-slate-400 hover:text-red-500 text-meta font-semibold h-auto py-0.5"
               >
                 Sil
               </Button>
@@ -242,7 +242,7 @@ export function PanelGonderiler({ teamId, teamName, posts, members, category, ci
       })}
 
       {posts.length === 0 && (
-        <div className="text-center text-[0.82rem] text-slate-400 py-8">
+        <div className="text-center text-caption text-slate-400 py-8">
           Henüz gönderi yok.
         </div>
       )}

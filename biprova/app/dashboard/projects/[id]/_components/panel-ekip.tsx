@@ -49,15 +49,15 @@ function MembersSection({ members }: { members: ProjectDetail['members'] }) {
   return (
     <Card className="overflow-hidden">
       <CardHeader className="px-[1.4rem] py-[1rem] border-b border-slate-200 flex-row items-center space-y-0 gap-2">
-        <CardTitle className="font-nunito text-[0.9rem] font-black">👥 Ekip Üyeleri</CardTitle>
-        <Badge variant="outline" className="text-[0.72rem] font-bold text-slate-400 bg-slate-100 rounded-full">
+        <CardTitle className="font-nunito text-lead font-black">👥 Ekip Üyeleri</CardTitle>
+        <Badge variant="outline" className="text-meta font-bold text-slate-400 bg-slate-100 rounded-full">
           {members.length}
         </Badge>
       </CardHeader>
 
       <CardContent className="p-0 divide-y divide-slate-100">
         {members.length === 0 ? (
-          <div className="px-[1.4rem] py-[1.2rem] text-[0.82rem] text-slate-400">
+          <div className="px-[1.4rem] py-[1.2rem] text-caption text-slate-400">
             Henüz üye yok.
           </div>
         ) : (
@@ -65,26 +65,26 @@ function MembersSection({ members }: { members: ProjectDetail['members'] }) {
             <div key={member.user_id} className="flex items-center gap-3 px-[1.4rem] py-[0.9rem]">
               <Avatar className="w-8 h-8 shrink-0">
                 <AvatarImage src={member.avatar_url ?? undefined} alt={member.name} />
-                <AvatarFallback className="bg-gradient-to-br from-blue-400 to-indigo-500 font-nunito font-black text-[0.72rem] text-white">
+                <AvatarFallback className="bg-gradient-to-br from-blue-400 to-indigo-500 font-nunito font-black text-meta text-white">
                   {getInitials(member.name)}
                 </AvatarFallback>
               </Avatar>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-1.5 flex-wrap">
-                  <span className="text-[0.84rem] font-bold text-slate-900">{member.name}</span>
+                  <span className="text-body font-bold text-slate-900">{member.name}</span>
                   {member.is_project_leader && (
-                    <Badge variant="outline" className="text-[0.65rem] font-bold text-blue-600 bg-blue-50 border-blue-200 rounded-full px-1.5">
+                    <Badge variant="outline" className="text-label font-bold text-blue-600 bg-blue-50 border-blue-200 rounded-full px-1.5">
                       Lider
                     </Badge>
                   )}
                   {member.has_biprova && (
-                    <Badge variant="outline" className="text-[0.65rem] font-bold text-purple-600 bg-purple-50 border-purple-200 rounded-full px-1.5">
+                    <Badge variant="outline" className="text-label font-bold text-purple-600 bg-purple-50 border-purple-200 rounded-full px-1.5">
                       Yetkili
                     </Badge>
                   )}
                 </div>
                 {member.role_name && (
-                  <span className="text-[0.74rem] text-slate-400">{member.role_name}</span>
+                  <span className="text-meta text-slate-400">{member.role_name}</span>
                 )}
               </div>
             </div>
@@ -113,31 +113,31 @@ function AktivitelerSection() {
   return (
     <Card className="overflow-hidden">
       <CardHeader className="px-[1.4rem] py-[1rem] border-b border-slate-200 flex-row items-center justify-between space-y-0">
-        <CardTitle className="font-nunito text-[0.9rem] font-black">⚡ Aktiviteler</CardTitle>
-        <span className="text-[0.7rem] text-slate-400 font-semibold">Son 7 gün</span>
+        <CardTitle className="font-nunito text-lead font-black">⚡ Aktiviteler</CardTitle>
+        <span className="text-label text-slate-400 font-semibold">Son 7 gün</span>
       </CardHeader>
 
       <CardContent className="p-0 divide-y divide-slate-100 overflow-y-auto max-h-[320px]">
         {MOCK_ACTIVITIES.map((activity) => (
           <div key={activity.id} className="flex items-start gap-3 px-[1.4rem] py-[0.9rem]">
             <Avatar className="w-7 h-7 shrink-0 mt-0.5">
-              <AvatarFallback className="bg-slate-100 text-[0.8rem]">
+              <AvatarFallback className="bg-slate-100 text-caption">
                 {ACTIVITY_ICONS[activity.type] ?? '•'}
               </AvatarFallback>
             </Avatar>
             <div className="flex-1 min-w-0">
-              <p className="text-[0.82rem] text-slate-700 leading-snug">
+              <p className="text-caption text-slate-700 leading-snug">
                 {activity.user && (
                   <span className="font-bold text-slate-900">{activity.user} </span>
                 )}
                 {activity.text}
                 {activity.role && (
-                  <Badge variant="outline" className="ml-1 text-[0.72rem] font-semibold text-blue-600 bg-blue-50 rounded-full px-1.5">
+                  <Badge variant="outline" className="ml-1 text-meta font-semibold text-blue-600 bg-blue-50 rounded-full px-1.5">
                     {activity.role}
                   </Badge>
                 )}
               </p>
-              <span className="text-[0.72rem] text-slate-400">{activity.time}</span>
+              <span className="text-meta text-slate-400">{activity.time}</span>
             </div>
           </div>
         ))}
@@ -203,7 +203,7 @@ function LeaveProjectSection({ projectId, isProjectLeader, members, viewerId }: 
     <>
       <Card className="overflow-hidden">
         <CardHeader className="px-[1.4rem] py-[1rem] border-b border-slate-200">
-          <CardTitle className="font-nunito text-[0.9rem] font-black">🚪 Projeden Ayrıl</CardTitle>
+          <CardTitle className="font-nunito text-lead font-black">🚪 Projeden Ayrıl</CardTitle>
         </CardHeader>
         <CardContent className="px-[1.4rem] py-[1.2rem]">
           {!confirm ? (
@@ -214,24 +214,24 @@ function LeaveProjectSection({ projectId, isProjectLeader, members, viewerId }: 
             >
               <span className="text-base">🚪</span>
               <div>
-                <div className="text-[0.84rem] font-bold text-red-600">Projeden Ayrıl</div>
-                <div className="text-[0.72rem] text-slate-400">
+                <div className="text-body font-bold text-red-600">Projeden Ayrıl</div>
+                <div className="text-meta text-slate-400">
                   Ekipten çıkarsın, geri dönmek için tekrar başvurman gerekir
                 </div>
               </div>
             </Button>
           ) : (
             <div className="px-4 py-3 rounded-xl border-[1.5px] border-red-300 bg-red-50">
-              <p className="text-[0.82rem] font-semibold text-red-700 mb-3">
+              <p className="text-caption font-semibold text-red-700 mb-3">
                 Projeden ayrılmak istediğine emin misin?
               </p>
-              {error && <p className="text-[0.75rem] text-red-500 mb-2">{error}</p>}
+              {error && <p className="text-meta text-red-500 mb-2">{error}</p>}
               <div className="flex gap-2">
                 <Button
                   size="sm"
                   disabled={isPending}
                   onClick={handleLeave}
-                  className="bg-red-600 hover:bg-red-700 text-white text-[0.78rem]"
+                  className="bg-red-600 hover:bg-red-700 text-white text-caption"
                 >
                   {isPending ? 'Ayrılıyor…' : 'Evet, Ayrıl'}
                 </Button>
@@ -240,7 +240,7 @@ function LeaveProjectSection({ projectId, isProjectLeader, members, viewerId }: 
                   variant="outline"
                   disabled={isPending}
                   onClick={() => setConfirm(false)}
-                  className="text-[0.78rem]"
+                  className="text-caption"
                 >
                   İptal
                 </Button>
@@ -255,21 +255,21 @@ function LeaveProjectSection({ projectId, isProjectLeader, members, viewerId }: 
       }}>
         <DialogContent className="max-w-sm">
           <DialogHeader>
-            <DialogTitle className="font-nunito text-[1rem] font-black">Lider Seç</DialogTitle>
+            <DialogTitle className="font-nunito text-base font-black">Lider Seç</DialogTitle>
           </DialogHeader>
           <div className="flex flex-col gap-3">
-            <p className="text-[0.82rem] text-slate-500">
+            <p className="text-caption text-slate-500">
               Projeden ayrılmadan önce liderliği devredecek bir üye seçmelisin.
             </p>
             {candidates.length === 0 ? (
-              <p className="text-[0.82rem] text-amber-600 font-semibold">
+              <p className="text-caption text-amber-600 font-semibold">
                 Projede başka üye yok. Liderliği devretmek için önce projeye üye eklemen gerekiyor.
               </p>
             ) : (
               <select
                 value={selectedId}
                 onChange={(e) => { setSelectedId(e.target.value); setTransferError(''); }}
-                className="text-[0.82rem] px-3 py-2 rounded-lg border-[1.5px] border-slate-200 outline-none focus:border-blue-500 transition-colors text-slate-700 bg-white cursor-pointer"
+                className="text-caption px-3 py-2 rounded-lg border-[1.5px] border-slate-200 outline-none focus:border-blue-500 transition-colors text-slate-700 bg-white cursor-pointer"
               >
                 <option value="">— Üye seç —</option>
                 {candidates.map((m) => (
@@ -277,7 +277,7 @@ function LeaveProjectSection({ projectId, isProjectLeader, members, viewerId }: 
                 ))}
               </select>
             )}
-            {transferError && <p className="text-[0.75rem] text-red-500">{transferError}</p>}
+            {transferError && <p className="text-meta text-red-500">{transferError}</p>}
           </div>
           <div className="flex gap-2 justify-end pt-2">
             <Button

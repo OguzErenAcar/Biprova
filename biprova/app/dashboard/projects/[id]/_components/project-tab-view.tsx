@@ -65,7 +65,7 @@ export function ProjectTabView({ project }: Props) {
               onClick={() => !disabled && setActiveTab(tab.key)}
               disabled={disabled}
               title={title}
-              className={`text-[0.82rem] font-bold px-4 py-3 border-b-2 rounded-none transition-all whitespace-nowrap gap-1 h-auto ${
+              className={`text-caption font-bold px-4 py-3 border-b-2 rounded-none transition-all whitespace-nowrap gap-1 h-auto ${
                 disabled
                   ? 'text-slate-300 border-transparent cursor-not-allowed'
                   : isActive
@@ -77,7 +77,7 @@ export function ProjectTabView({ project }: Props) {
             >
               {tab.label}
               {tab.count !== undefined && tab.count > 0 && (
-                <Badge className="bg-blue-600 text-white text-[0.6rem] px-[0.4rem] py-[0.1rem] font-extrabold rounded-full h-auto">
+                <Badge className="bg-blue-600 text-white text-label px-[0.4rem] py-[0.1rem] font-extrabold rounded-full h-auto">
                   {tab.count}
                 </Badge>
               )}
@@ -110,7 +110,7 @@ export function ProjectTabView({ project }: Props) {
             viewerId={project.viewer.id}
           />
         ) : activeTab === 'chat' ? (
-          <div className="text-[0.84rem] text-slate-400 text-center py-12">
+          <div className="text-body text-slate-400 text-center py-12">
             Ekip kurulduktan sonra chat aktif olacak.
           </div>
         ) : null}
@@ -131,7 +131,7 @@ export function ProjectTabView({ project }: Props) {
             isLeader={isLeader}
           />
         ) : activeTab === 'gonderiler' ? (
-          <div className="text-[0.84rem] text-slate-400 text-center py-12">
+          <div className="text-body text-slate-400 text-center py-12">
             Ekip kurulduktan sonra gönderi paylaşabilirsiniz.
           </div>
         ) : null}

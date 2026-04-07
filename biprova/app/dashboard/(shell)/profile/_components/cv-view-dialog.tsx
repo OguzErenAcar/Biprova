@@ -15,7 +15,7 @@ const CvPdfViewer = dynamic(
   {
     ssr: false,
     loading: () => (
-      <div className="flex items-center justify-center h-full text-slate-400 text-[0.88rem]">
+      <div className="flex items-center justify-center h-full text-slate-400 text-body">
         Yükleniyor...
       </div>
     ),
@@ -44,13 +44,13 @@ export function CvViewDialog({ cvUrl }: CvViewDialogProps) {
         <DialogContent className="max-w-3xl h-[90vh] flex flex-col p-0 gap-0">
           <DialogHeader className="px-6 py-4 border-b border-slate-200 shrink-0">
             <div className="flex items-center justify-between">
-              <DialogTitle className="font-nunito font-black text-[1rem] text-slate-900">CV</DialogTitle>
+              <DialogTitle className="font-nunito font-black text-base text-slate-900">CV</DialogTitle>
               {cvUrl && (
                 <a
                   href={cvUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[0.75rem] text-blue-600 font-semibold hover:underline mr-8"
+                  className="text-meta text-blue-600 font-semibold hover:underline mr-8"
                 >
                   İndir ↗
                 </a>
@@ -64,7 +64,7 @@ export function CvViewDialog({ cvUrl }: CvViewDialogProps) {
             ) : (
               <div className="flex flex-col items-center justify-center h-full text-slate-400">
                 <div className="text-[2.5rem] mb-3">📄</div>
-                <p className="text-[0.88rem] font-medium">Henüz CV yüklenmemiş.</p>
+                <p className="text-body font-medium">Henüz CV yüklenmemiş.</p>
               </div>
             )}
           </div>

@@ -29,10 +29,10 @@ interface FeaturedNewsCardProps {
 
 export function FeaturedNewsCard({ title, excerpt, tags, date }: FeaturedNewsCardProps) {
   return (
-    <Card id="featured-news-card" className="mb-5 cursor-pointer hover:-translate-y-0.5 hover:shadow-[0_8px_28px_rgba(0,0,0,0.08)] transition-all duration-150 overflow-hidden">
+    <Card id="featured-news-card" className="mb-5 cursor-pointer hover:-translate-y-0.5 hover:shadow-feature transition-all duration-150 overflow-hidden">
       <div className="h-[200px] bg-gradient-to-br from-blue-800 via-indigo-500 to-violet-500 flex items-center justify-center text-[4rem] relative">
         🚀
-        <span className="absolute top-4 left-4 bg-white/20 border border-white/30 backdrop-blur-sm text-white text-[0.72rem] font-extrabold px-3 py-1 rounded-full flex items-center gap-1">
+        <span className="absolute top-4 left-4 bg-white/20 border border-white/30 backdrop-blur-sm text-white text-meta font-extrabold px-3 py-1 rounded-full flex items-center gap-1">
           📌 Öne Çıkan
         </span>
       </div>
@@ -40,29 +40,29 @@ export function FeaturedNewsCard({ title, excerpt, tags, date }: FeaturedNewsCar
       <CardContent className="p-[1.4rem]">
         <div className="flex items-center gap-2 mb-3 flex-wrap">
           {tags.map((tag) => (
-            <Badge key={tag} variant="outline" className={`text-[0.7rem] font-bold ${TAG_STYLES[tag]}`}>
+            <Badge key={tag} variant="outline" className={`text-label font-bold ${TAG_STYLES[tag]}`}>
               {TAG_LABELS[tag]}
             </Badge>
           ))}
-          <span className="text-[0.72rem] text-slate-400 ml-auto">{date}</span>
+          <span className="text-meta text-slate-400 ml-auto">{date}</span>
         </div>
 
-        <div className="font-nunito font-black text-[1.2rem] leading-[1.35] text-slate-900 mb-2">
+        <div className="font-nunito font-black text-title leading-[1.35] text-slate-900 mb-2">
           {title}
         </div>
 
-        <p className="text-[0.86rem] text-slate-500 leading-[1.6] mb-4">
+        <p className="text-body text-slate-500 leading-[1.6] mb-4">
           {excerpt}
         </p>
 
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-1.5 text-[0.76rem] text-slate-500 font-semibold">
+          <div className="flex items-center gap-1.5 text-meta text-slate-500 font-semibold">
             biprova Ekibi
-            <Badge variant="outline" className="bg-blue-50 text-blue-600 border-blue-100 text-[0.65rem] font-extrabold">
+            <Badge variant="outline" className="bg-blue-50 text-blue-600 border-blue-100 text-label font-extrabold">
               Admin
             </Badge>
           </div>
-          <Button variant="link" className="text-[0.8rem] font-bold text-blue-600 p-0 h-auto">
+          <Button variant="link" className="text-caption font-bold text-blue-600 p-0 h-auto">
             Devamını Oku →
           </Button>
         </div>

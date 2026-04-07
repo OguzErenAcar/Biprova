@@ -17,7 +17,7 @@ export function CreateProjectTopbar() {
         ←
       </Button>
 
-      <span className="font-nunito font-black text-[1.1rem] text-slate-900">
+      <span className="font-nunito font-black text-title text-slate-900">
         ✨ Proje Oluştur
       </span>
 
@@ -25,7 +25,7 @@ export function CreateProjectTopbar() {
         <Button
           type="submit"
           form="create-project-form"
-          className="font-nunito font-extrabold gap-1.5 shadow-[0_4px_12px_rgba(37,99,235,0.25)] hover:-translate-y-px hover:shadow-[0_6px_18px_rgba(37,99,235,0.35)]"
+          className="font-nunito font-extrabold gap-1.5 shadow-brand hover:-translate-y-px hover:shadow-brand-lg"
         >
           🚀 Yayınla
         </Button>
