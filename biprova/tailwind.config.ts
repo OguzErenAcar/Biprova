@@ -52,6 +52,28 @@ export default {
           "4": "hsl(var(--chart-4))",
           "5": "hsl(var(--chart-5))",
         },
+        brand: {
+          DEFAULT: "hsl(var(--brand))",
+          dark:    "hsl(var(--brand-dark))",
+          surface: "hsl(var(--brand-surface))",
+          border:  "hsl(var(--brand-border))",
+        },
+      },
+      boxShadow: {
+        card:       "var(--shadow-card)",
+        feature:    "var(--shadow-feature)",
+        brand:      "var(--shadow-brand)",
+        "brand-lg": "var(--shadow-brand-lg)",
+      },
+      fontSize: {
+        label:   ["var(--text-label)",   { lineHeight: "1" }],
+        meta:    ["var(--text-meta)",    { lineHeight: "1.35" }],
+        caption: ["var(--text-caption)", { lineHeight: "1.5" }],
+        body:    ["var(--text-body)",    { lineHeight: "1.6" }],
+        lead:    ["var(--text-lead)",    { lineHeight: "1.5" }],
+        title:   ["var(--text-title)",   { lineHeight: "1.3" }],
+        h2:      ["var(--text-h2)",      { lineHeight: "1.25" }],
+        hero:    ["var(--text-hero)",    { lineHeight: "1" }],
       },
       fontFamily: {
         nunito:  ['var(--font-nunito)', 'sans-serif'],
