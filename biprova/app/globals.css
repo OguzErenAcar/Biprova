@@ -68,7 +68,7 @@
          p-danger:  #DC2626  (kırmızı)
     ──────────────────────────────────────────── */
     --p-brand:   #7C3AED;   /* violet  — DEĞİŞTİR: istediğin hex rengi yaz */
-    --p-ink:     #1E1B2E;   /* koyu metin */
+    --p-ink:     #130e31;   /* koyu metin */
     --p-canvas:  #FAFAFF;   /* sayfa arkaplanı */
     --p-success: #16A34A;   /* yeşil */
     --p-danger:  #DC2626;   /* kırmızı */
@@ -78,9 +78,9 @@
     ──────────────────────────────────────────── */
     --p-brand-hover:    #6D28D9;   /* brand koyu hover */
     --p-brand-surface:  #F5F0FF;   /* brand çok açık bg */
-    --p-ink-muted:      #6B7280;   /* ikincil metin */
-    --p-ink-subtle:     #9CA3AF;   /* placeholder / soluk */
-    --p-ink-border:     #E5E7EB;   /* kenarlık */
+    --p-ink-muted:      #2354b4;   /* ikincil metin */
+    --p-ink-subtle:     #d8210d;   /* placeholder / soluk */
+    --p-ink-border:     #08090a;   /* kenarlık */
     --p-success-surface:#F0FDF4;   /* success açık bg */
     --p-danger-surface: #FEF2F2;   /* danger açık bg */
     --p-warning:        #D97706;   /* amber — uyarı */
