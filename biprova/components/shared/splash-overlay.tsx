@@ -5,37 +5,45 @@ import Lottie from "lottie-react";
 import { animate } from "animejs";
 import iconData from "@/app/icons/wired-outline-1827-growing-plant-hover-pinch.json";
 
-export function SplashOverlay() {
-  const [visible, setVisible] = useState(true);
-  const overlayRef = useRef<HTMLDivElement>(null);
+export function SplashWrapper({ children }: { children: React.ReactNode }) {
+  const [showSplash, setShowSplash] = useState(false);
+  const splashRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    const seen = sessionStorage.getItem("splash_seen");
+    if (seen) return;
+
+    setShowSplash(true);
+    sessionStorage.setItem("splash_seen", "1");
+
     const timer = setTimeout(() => {
-      if (!overlayRef.current) return;
-      animate(overlayRef.current, {
+      if (!splashRef.current) return;
+      animate(splashRef.current, {
         opacity: [1, 0],
-        duration: 600,
+        duration: 500,
         ease: "out(2)",
-        onComplete: () => setVisible(false),
+        onComplete: () => setShowSplash(false),
       });
-    }, 1400);
+    }, 1000);
 
     return () => clearTimeout(timer);
   }, []);
 
-  if (!visible) return null;
-
-  return (
-    <div
-      ref={overlayRef}
-      className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-white"
-    >
-      <div className="w-36 h-36">
-        <Lottie animationData={iconData} loop={false} autoplay />
+  if (showSplash) {
+    return (
+      <div
+        ref={splashRef}
+        className="flex flex-col items-center justify-center h-full min-h-[400px]"
+      >
+        <div className="w-32 h-32">
+          <Lottie animationData={iconData} loop={false} autoplay />
+        </div>
+        <span className="mt-3 font-black text-xl text-blue-600 tracking-tight">
+          Bi<span className="text-slate-900">prova</span>
+        </span>
       </div>
-      <span className="mt-4 font-black text-2xl text-blue-600 tracking-tight">
-        Bi<span className="text-slate-900">prova</span>
-      </span>
-    </div>
-  );
+    );
+  }
+
+  return <>{children}</>;
 }
