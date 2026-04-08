@@ -89,6 +89,34 @@ function NavItem({
   );
 }
 
+function ProjectNavItem({ project, isActive }: { project: SidebarProject; isActive: boolean }) {
+  const lottieRef = useRef<LottieRefCurrentProps>(null);
+  return (
+    <Link
+      href={`/dashboard/projects/${project.id}`}
+      className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-semibold mb-0.5 transition-colors no-underline min-w-0 ${
+        isActive
+          ? "bg-blue-50 text-blue-600"
+          : "text-slate-600 hover:bg-slate-100 hover:text-slate-600"
+      }`}
+      onMouseEnter={() => lottieRef.current?.play()}
+      onMouseLeave={() => lottieRef.current?.stop()}
+    >
+      <span className="w-5 h-5 shrink-0">
+        <Lottie
+          lottieRef={lottieRef}
+          animationData={folderIcon}
+          loop={false}
+          autoplay={false}
+          style={{ width: 20, height: 20 }}
+        />
+      </span>
+      <span className="truncate">{project.title.substring(0, 19) + "..."}</span>
+      <StatusBadge status={project.status} />
+    </Link>
+  );
+}
+
 function StatusBadge({ status }: { status: SidebarProject["status"] }) {
   const { label, className } = STATUS_CONFIG[status];
   return (
