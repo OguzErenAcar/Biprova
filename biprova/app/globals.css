@@ -150,7 +150,7 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-family: "Comic Sans MS", cursive !important;
+    font-family: var(--font-body);
   }
 }
 
