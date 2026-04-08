@@ -146,8 +146,8 @@ export default {
         hero:    ["var(--text-hero)",    { lineHeight: "1" }],
       },
       fontFamily: {
-        nunito:  ['var(--font-nunito)', 'sans-serif'],
-        jakarta: ['var(--font-jakarta)', 'sans-serif'],
+        nunito:  ['var(--font-display)', 'sans-serif'],
+        jakarta: ['var(--font-body)',    'sans-serif'],
         display: ['var(--font-display)', 'sans-serif'],
         body:    ['var(--font-body)',    'sans-serif'],
       },
