@@ -1,34 +1,32 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
 
 export function CreateProjectTopbar() {
   const router = useRouter();
 
   return (
     <div id="create-project-topbar" className="bg-slate-100/90 backdrop-blur-md border-b border-edge sm:px-6 lg:px-8 py-[0.9rem] flex items-center gap-4 px-8">
-      <Button
-        variant="outline"
-        size="icon"
+      <button
+        type="button"
         onClick={() => router.back()}
-        className="rounded-[9px]"
+        className="w-9 h-9 rounded-[9px] border border-edge bg-canvas text-ink flex items-center justify-center hover:bg-slate-50 transition-colors"
       >
         ←
-      </Button>
+      </button>
 
       <span className="font-nunito font-black text-title text-ink">
         ✨ Proje Oluştur
       </span>
 
       <div className="ml-auto">
-        <Button
+        <button
           type="submit"
           form="create-project-form"
-          className="font-nunito font-extrabold gap-1.5 shadow-brand hover:-translate-y-px hover:shadow-brand-lg"
+          className="font-nunito font-extrabold bg-brand text-white px-4 py-2 rounded-lg flex items-center gap-1.5 shadow-brand hover:-translate-y-px hover:shadow-brand-lg transition-all"
         >
           🚀 Yayınla
-        </Button>
+        </button>
       </div>
     </div>
   );
