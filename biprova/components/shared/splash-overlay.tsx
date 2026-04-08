@@ -1,23 +1,17 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 import Lottie from "lottie-react";
 import { animate } from "animejs";
 import iconData from "@/app/icons/wired-outline-1827-growing-plant-hover-pinch.json";
 
 export function SplashWrapper({ children }: { children: React.ReactNode }) {
-  // null = henüz karar verilmedi (hydration öncesi)
-  const [showSplash, setShowSplash] = useState<boolean | null>(null);
+  const pathname = usePathname();
+  const [showSplash, setShowSplash] = useState(true);
   const splashRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const seen = sessionStorage.getItem("splash_seen");
-    if (seen) {
-      setShowSplash(false);
-      return;
-    }
-
-    sessionStorage.setItem("splash_seen", "1");
     setShowSplash(true);
 
     const timer = setTimeout(() => {
@@ -28,10 +22,10 @@ export function SplashWrapper({ children }: { children: React.ReactNode }) {
         ease: "out(2)",
         onComplete: () => setShowSplash(false),
       });
-    }, 1200);
+    }, 1000);
 
     return () => clearTimeout(timer);
-  }, []);
+  }, [pathname]);
 
   // hydration tamamlanana kadar hiçbir şey render etme
   if (showSplash === null) return null;
