@@ -32,7 +32,7 @@ export function TabBar() {
                 <div className="w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center text-[1.4rem] text-white shadow-[0_4px_14px_rgba(37,99,235,0.4)] -mt-[14px] mb-[0.1rem]">
                   {icon}
                 </div>
-                <span className="text-[0.62rem] font-extrabold font-nunito text-blue-600">
+                <span className="text-[0.62rem] font-extrabold font-display text-blue-600">
                   {label}
                 </span>
               </Link>
@@ -48,7 +48,7 @@ export function TabBar() {
             >
               <span className="text-[1.3rem] leading-none">{icon}</span>
               <span
-                className={`text-[0.62rem] font-bold font-nunito ${
+                className={`text-[0.62rem] font-bold font-display ${
                   active ? "text-blue-600" : "text-slate-500"
                 }`}
               >
