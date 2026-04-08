@@ -46,9 +46,9 @@ function HelloWorldAnimation() {
   }, []);
 
   return (
-    <div className="absolute left-1/2 -translate-x-1/2 overflow-hidden flex items-center h-6">
-      <p ref={p1Ref} className="absolute text-sm font-semibold text-slate-700 whitespace-nowrap">Hello World</p>
-      <p ref={p2Ref} className="absolute text-sm font-semibold text-slate-700 whitespace-nowrap">Lorem Ipsum</p>
+    <div className="absolute left-1/2 -translate-x-1/2 h-8 overflow-hidden flex items-center min-w-[140px]">
+      <p ref={p1Ref} className="absolute inset-x-0 text-sm font-semibold text-slate-700 whitespace-nowrap text-center">Hello World</p>
+      <p ref={p2Ref} className="absolute inset-x-0 text-sm font-semibold text-slate-700 whitespace-nowrap text-center">Lorem Ipsum</p>
     </div>
   );
 }
