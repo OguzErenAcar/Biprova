@@ -13,22 +13,29 @@ function HelloWorldAnimation() {
 
   useEffect(() => {
     if (!containerRef.current) return;
-    const ps = Array.from(containerRef.current.querySelectorAll('p'));
+    const ps = Array.from(containerRef.current.querySelectorAll('p')) as HTMLElement[];
 
     const splitResults = ps.map((el) =>
-      splitText(el as HTMLElement, { chars: { wrap: 'clip' } })
+      splitText(el, { chars: { wrap: 'clip' } })
     );
 
-    const tl = createTimeline({ loop: true });
+    let current = 0;
 
-    splitResults.forEach(({ chars }) => {
-      tl.add(chars, {
+    function playNext() {
+      const { chars } = splitResults[current];
+      animate(chars, {
         y: [{ to: ['100%', '0%'] }, { to: '-100%', delay: 1200, ease: 'in(3)' }],
         duration: 750,
         ease: 'out(3)',
         delay: stagger(50),
+        onComplete: () => {
+          current = (current + 1) % splitResults.length;
+          playNext();
+        },
       });
-    });
+    }
+
+    playNext();
   }, []);
 
   return (
