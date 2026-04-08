@@ -33,7 +33,7 @@ export async function SuggestedPeople() {
   return (
     <div className="bg-surface border border-slate-200 rounded-2xl shadow-sm overflow-hidden w-[272]">
       <div className="px-[1.2rem] py-[1rem] border-b border-slate-200">
-        <span className="font-nunito text-body font-black">Önerilenler</span>
+        <span className="font-display text-body font-black">Önerilenler</span>
       </div>
 
       {users.length === 0 ? (
@@ -48,7 +48,7 @@ export async function SuggestedPeople() {
               href={`/dashboard/profile/${u.id}`}
               className="flex items-center gap-3 px-[1.2rem] py-[0.75rem] hover:bg-slate-50 transition-colors no-underline"
             >
-              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-400 to-indigo-500 flex items-center justify-center font-nunito font-black text-[0.72rem] text-white shrink-0 overflow-hidden">
+              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-400 to-indigo-500 flex items-center justify-center font-display font-black text-[0.72rem] text-white shrink-0 overflow-hidden">
                 {u.avatar_url ? (
                   <img src={u.avatar_url} alt={u.name} className="w-full h-full object-cover" />
                 ) : (
