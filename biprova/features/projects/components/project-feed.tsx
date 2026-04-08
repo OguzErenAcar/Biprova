@@ -6,7 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 
 const POSTER_COLORS = [
   "#3b82f6", "#8b5cf6", "#22c55e", "#f59e0b",
-  "#ef4444", "#06b6d4", "#ec4899", "#f97316",
+  "#e7d6d6", "#06b6d4", "#ec4899", "#dbb193",
 ];
 
 function getPosterColor(userId: string): string {

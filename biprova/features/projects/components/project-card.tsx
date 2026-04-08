@@ -29,7 +29,7 @@ interface ProjectCardProps {
   postedAt: string;
   title: string;
   description: string;
-  poster: { id: string; name: string; initials: string; color: string };
+  poster: { id: string; name: string; initials: string;  };
   roles: Role[];
 }
 
@@ -66,7 +66,7 @@ export function ProjectCard({
   return (
     <Card
       id={`project-card-${projectId}`}
-      className="hover:-translate-y-0.5 hover:shadow-card transition-all duration-150 cursor-pointer"
+      className="hover:-translate-y-0.5   transition-all duration-150 cursor-pointer"
     >
       <CardContent className="p-[1.4rem]">
         {/* Üst satır: poster + etiketler */}
@@ -78,8 +78,7 @@ export function ProjectCard({
           >
             <Avatar className="w-6 h-6 flex-shrink-0">
               <AvatarFallback
-                className="text-label font-nunito font-black text-white"
-                style={{ background: poster.color }}
+                className="text-label   text-white" 
               >
                 {poster.initials}
               </AvatarFallback>

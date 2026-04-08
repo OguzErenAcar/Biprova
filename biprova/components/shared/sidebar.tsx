@@ -191,8 +191,8 @@ export function Sidebar({ projects = [] }: SidebarProps) {
                 isActive={isActive(`/dashboard/projects/${project.id}`)}
               />
             ))
-            ))
-          )}
+            )
+          }
         </nav>
       )}
 
