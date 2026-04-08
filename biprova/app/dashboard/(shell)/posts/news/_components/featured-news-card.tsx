@@ -1,6 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 
 type NewsTag = "platform" | "girişim" | "etkinlik" | "duyuru" | "başarı";
 
@@ -62,9 +61,9 @@ export function FeaturedNewsCard({ title, excerpt, tags, date }: FeaturedNewsCar
               Admin
             </Badge>
           </div>
-          <Button variant="link" className="text-caption font-bold text-brand p-0 h-auto">
-            Devamını Oku →
-          </Button>
+          <button className="text-ink font-bold  p-0 h-auto">
+            Devamı →
+          </button>
         </div>
       </CardContent>
     </Card>

@@ -130,9 +130,9 @@ export function ProjectCard({
                 {openRoles.map((role, i) => (
                   <div
                     key={i}
-                    className="rounded-xl border   px-3 py-2.5 flex items-center gap-3"
+                    className="rounded-xl border text-black   px-3 py-2.5 flex items-center gap-3"
                   >
-                    <div className="flex-1 min-w-0 w-[100px]">
+                    <div className="flex-1 min-w-0  w-[100px]">
                       <div className="flex items-center gap-2 mb-1.5">
                         <span className="text-caption   text-ink-muted">
                           {role.name}

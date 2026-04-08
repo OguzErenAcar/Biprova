@@ -3,8 +3,7 @@
 import { useTransition, useState } from "react";
 import { toggleTeamPostLike } from "@/features/teams/actions";
 import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-
+ 
 const BODY_TRUNCATE_THRESHOLD = 180;
 
 type TagType = "update" | "milestone" | "announcement" | "city" | "category";
@@ -163,48 +162,40 @@ export function TeamPostCard({
       {/* Aksiyon butonları */}
       <div className="flex items-center gap-2 pt-4 border-t ">
         {/* Beğeni */}
-        <Button
-          variant="outline"
-          size="sm"
+        <button 
           onClick={(e) => { e.stopPropagation(); handleLike(); }}
           disabled={isPending}
-          className={`gap-[0.35rem] font-jakarta text-caption font-semibold h-auto px-[0.85rem] py-[0.4rem] transition-all duration-150 ${
+          className={`gap-[0.35rem] border rounded-md font-jakarta text-caption font-semibold h-auto px-[0.85rem] py-[0.4rem] transition-all duration-150 ${
             isLiked
               ? "border-danger-surface text-danger bg-danger-surface hover:bg-danger-surface hover:text-danger"
               : "text-danger hover:border-brand hover:text-brand hover:bg-brand-surface"
           }`}
         >
           👍 {likeCount}
-        </Button>
+        </button>
 
         {/* Yorum — devre dışı */}
-        <Button
-          variant="outline"
-          size="sm"
+        <button          
           disabled
-          className="gap-[0.35rem] font-jakarta text-caption font-semibold text-ink-subtle h-auto px-[0.85rem] py-[0.4rem]"
+          className="border rounded-md gap-[0.35rem] font-jakarta text-caption font-semibold text-ink-subtle h-auto px-[0.85rem] py-[0.4rem]"
         >
           💬 {comments}
-        </Button>
+        </button>
 
         {/* Paylaş + Kaydet — devre dışı */}
         <div className="ml-auto flex items-center gap-2">
-          <Button
-            variant="outline"
-            size="sm"
+          <button
             disabled
-            className="gap-[0.35rem]  font-jakarta text-caption font-semibold text-ink-subtle h-auto px-[0.85rem] py-[0.4rem]"
+            className="border rounded-md gap-[0.35rem]  font-jakarta text-caption font-semibold text-ink-subtle h-auto px-[0.85rem] py-[0.4rem]"
           >
             ↗ Paylaş
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
+          </button>
+          <button
             disabled
-            className="gap-[0.35rem]  font-jakarta text-caption font-semibold text-ink-subtle h-auto px-[0.85rem] py-[0.4rem]"
+            className="gap-[0.35rem] border rounded-md font-jakarta text-caption font-semibold text-ink-subtle h-auto px-[0.85rem] py-[0.4rem]"
           >
             🔖 Kaydet
-          </Button>
+          </button>
         </div>
       </div>
       </CardContent>

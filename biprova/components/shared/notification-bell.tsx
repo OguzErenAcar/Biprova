@@ -2,7 +2,6 @@
 
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
@@ -33,16 +32,16 @@ export function NotificationBell() {
     <div
       id="notification-bell"
       ref={containerRef}
-      className="relative"
+      className="relative "
       onMouseEnter={() => setOpen(true)}
       onMouseLeave={() => setOpen(false)}
     >
-      <Button variant="outline" size="icon" className="relative rounded-[10px] border-[1.5px]">
+      <button  className="relative rounded-[10px] border-[1.5px] h-8 w-8">
         🔔
         {unreadCount > 0 && (
           <span className="absolute top-[6px] right-[6px] w-[7px] h-[7px] bg-red-500 rounded-full border-[1.5px] border-slate-100" />
         )}
-      </Button>
+      </button>
 
       {open && (
         <div className="absolute right-0 top-full w-[320px] z-50 pt-2">

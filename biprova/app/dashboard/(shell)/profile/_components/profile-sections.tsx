@@ -176,7 +176,7 @@ export function ProfileSections({ projects, applications, teams, projectsPublic,
           action={isOwner ? <VisibilityToggle section="applications" initialValue={applicationsPublic} /> : undefined}
         >
           {applications.length === 0 ? (
-            <p className="text-body text-ink-subtle">Henüz başvuru yok.</p>
+            <p className="text-body text-ink">Henüz başvuru yok.</p>
           ) : (
             applications.map((a, i) => (
               <div

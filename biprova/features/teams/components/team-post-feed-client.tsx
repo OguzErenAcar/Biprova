@@ -88,7 +88,7 @@ export function TeamPostFeedClient({ posts }: Props) {
     return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
   });
 
-  const sortLabel = sortKey === 'date' ? 'Tarihe göre' : 'Popülerlik';
+  const sortLabel = sortKey === 'date' ? 'Tarih' : 'Popülerlik';
 
   return (
     <div id="team-post-feed">
@@ -98,14 +98,12 @@ export function TeamPostFeedClient({ posts }: Props) {
         </h2>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button
-              variant="outline"
-              size="sm"
-              className="gap-1.5 text-caption font-semibold text-ink rounded-[9px]"
+            <button  
+              className="gap-1.5   text-ink rounded-[9px]"
             >
               {sortLabel}
               <span className="text-label text-ink">▼</span>
-            </Button>
+            </button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="min-w-[160px]">
             {([
@@ -116,7 +114,7 @@ export function TeamPostFeedClient({ posts }: Props) {
                 key={key}
                 onClick={() => setSortKey(key)}
                 className={`text-caption font-semibold cursor-pointer ${
-                  sortKey === key ? 'text-brand bg-brand-surface' : ''
+                  sortKey === key ? 'text-brand ' : ''
                 }`}
               >
                 {label}

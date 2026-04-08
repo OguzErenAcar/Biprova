@@ -10,7 +10,7 @@ function StatCard({ value, label }: StatCardProps) {
   return (
     <Card>
       <CardContent className="p-[1.1rem] text-center">
-        <div className="font-nunito font-black text-hero text-brand leading-none mb-1.5">
+        <div className=" text-hero text-ink leading-none mb-1.5">
           {value}
         </div>
         <div className="text-caption text-ink-muted font-semibold">{label}</div>

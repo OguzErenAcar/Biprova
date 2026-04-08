@@ -73,9 +73,9 @@ export async function ProjectFeed({ searchParams }: ProjectFeedProps) {
   return (
     <div id="project-feed">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="font-nunito font-black text-title text-ink">
-          📋 Timeline
-        </h2>
+        <h1 className="text-3xl   text-ink">
+           Projeler
+        </h1>
         <FeedFilterDropdown activeFilter={activeFilter} />
       </div>
 

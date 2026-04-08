@@ -66,9 +66,9 @@
 
     --p-canvas:         #FAFAFF;   /* sayfa arkaplanı */
     
-    --p-ink:            #acacac;   /* koyu metin */
-    --p-ink-muted:      #2354b4;   /* ikincil metin */
-    --p-ink-subtle:     #d8210d;   /* placeholder / soluk */
+    --p-ink:            #ffffff;   /* koyu metin */
+    --p-ink-muted:      #d4d4d4;   /* ikincil metin */
+    --p-ink-subtle:     #d4d4d4;   /* placeholder / soluk */
     --p-ink-border:     #08090a;   /* kenarlık */
     
     --p-success:        #16A34A;   /* yeşil */
@@ -150,8 +150,8 @@
   }
   body {
     @apply text-foreground;
-    background: linear-gradient(to top, rgb(5, 56, 209), rgb(244, 244, 244)) fixed;
-    font-family: "Times New Roman", cursive !important;
+    background: linear-gradient(to bottom, rgb(55 100 236), rgb(255, 255, 255)) fixed;
+    font-family: "Arial", cursive !important;
   }
 
 
@@ -162,7 +162,7 @@
 }
   .g-bg{
     
-    background-color: rgba(5, 56, 209, 0.3);
+    background-color: rgba(15, 40, 84,0.3);
   }
 
 /* ══════════════════════════════════════════════

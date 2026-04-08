@@ -1,7 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation"; 
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -33,17 +32,17 @@ export function FeedFilterDropdown({ activeFilter }: FeedFilterDropdownProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="sm" className="gap-1.5 text-ink font-semibold">
+        <button  className="gap-1.5 flex text-ink font-semibold">
           {activeLabel}
           <ChevronDown className="w-3.5 h-3.5 text-ink" />
-        </Button>
+        </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="min-w-[140px]">
         {FILTER_OPTIONS.map(({ value, label }) => (
           <DropdownMenuItem
             key={value}
             onClick={() => handleSelect(value)}
-            className={activeFilter === value ? "text-brand bg-brand-surface focus:bg-brand-surface focus:text-brand" : ""}
+            className={activeFilter === value ? "text-brand    focus:text-brand" : ""}
           >
             {label}
           </DropdownMenuItem>
