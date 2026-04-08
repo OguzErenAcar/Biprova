@@ -13,7 +13,6 @@ export default function DashboardLayout({
 }) {
   return (
     <div className="">
-      <SplashOverlay />
       <HomeTopbar />
       <div className="h-screen">
         <DashboardGrid
@@ -24,7 +23,7 @@ export default function DashboardLayout({
           }
           suggestedPeople={<SuggestedPeople />}
         >
-          {children}
+          <SplashWrapper>{children}</SplashWrapper>
         </DashboardGrid>
       </div>
     </div>
