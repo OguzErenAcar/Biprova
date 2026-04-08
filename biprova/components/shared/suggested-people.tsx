@@ -31,7 +31,7 @@ export async function SuggestedPeople() {
   const users = await getRecentUsers();
 
   return (
-    <div className="bg-surface border border-slate-400 rounded-2xl shadow-sm overflow-hidden w-[272]">
+    <div className="bg-surface border g-bg border-slate-400 rounded-2xl shadow-sm overflow-hidden w-[272]">
       <div className="px-[1.2rem] py-[1rem] border-b border-slate-200">
         <span className="font-display text-body font-black text-ink">Önerilenler</span>
       </div>
@@ -41,7 +41,7 @@ export async function SuggestedPeople() {
           Önerilecek kimse yok.
         </div>
       ) : (
-        <div className="divide-y divide-slate-100">
+        <div className="  ">
           {users.map((u) => (
             <Link
               key={u.id}

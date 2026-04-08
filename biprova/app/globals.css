@@ -66,7 +66,7 @@
 
     --p-canvas:         #FAFAFF;   /* sayfa arkaplanı */
     
-    --p-ink:            #a497f0;   /* koyu metin */
+    --p-ink:            #acacac;   /* koyu metin */
     --p-ink-muted:      #2354b4;   /* ikincil metin */
     --p-ink-subtle:     #d8210d;   /* placeholder / soluk */
     --p-ink-border:     #08090a;   /* kenarlık */
@@ -145,14 +145,27 @@
   * {
     @apply border-border;
   }
+  html {
+    background: linear-gradient(to top, rgb(5, 56, 209), rgb(244, 244, 244));
+    min-height: 100%;
+  }
   body {
     @apply text-foreground;
-    background: radial-gradient(circle at top, #1e293b, #020617);
-    min-height: 100vh;
+    background: transparent;
+    min-height: 100%;
     font-family: "Times New Roman", cursive !important;
   }
+
+
 }
 
+.g-topbar{
+  backdrop-filter: blur(30px);
+}
+  .g-bg{
+    
+    background-color: rgba(5, 56, 209, 0.3);
+  }
 
 /* ══════════════════════════════════════════════
    ANİMASYONLAR

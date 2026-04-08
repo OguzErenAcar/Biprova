@@ -66,7 +66,7 @@ export function ProjectCard({
   return (
     <Card
       id={`project-card-${projectId}`}
-      className="hover:-translate-y-0.5   transition-all duration-150 cursor-pointer"
+      className="hover:-translate-y-0.5  transition-all duration-150 cursor-pointer"
     >
       <CardContent className="p-[1.4rem]">
         {/* Üst satır: poster + etiketler */}
