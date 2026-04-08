@@ -12,6 +12,7 @@ import postsIcon from "@/app/icons/wired-outline-56-document-hover-swipe.json";
 import createIcon from "@/app/icons/wired-outline-2844-magic-wand-hover-pinch.json";
 import newsIcon from "@/app/icons/wired-outline-3090-document-letter-hover-pinch.json";
 import profileIcon from "@/app/icons/wired-outline-268-avatar-man-hover-glance.json";
+import folderIcon from "@/app/icons/wired-outline-1356-wooden-box-hover-pinch.json";
 
 interface SidebarUser {
   name: string;
