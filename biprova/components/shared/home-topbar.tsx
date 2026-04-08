@@ -8,7 +8,7 @@ import { SearchBar } from "@/components/shared/search-bar";
 
 // ─── Buraya yaz ───────────────────────────────────────────────
 const TICKER_TEXT = "Takım kur. Proje bul. Hayalini gerçeğe dönüştür. Biprova ile başla.";
-const CHARS_PER_CHUNK = 20; // her seferinde kaç karakter gösterilsin (boşlukta bölmez)
+const CHARS_PER_CHUNK = 30; // her seferinde kaç karakter gösterilsin (boşlukta bölmez)
 // ─────────────────────────────────────────────────────────────
 
 function chunkText(text: string, maxChars: number): string[] {
@@ -47,12 +47,12 @@ function TickerAnimation() {
       splits.forEach(({ chars }) => {
         tl.add(chars, {
           y: { from: '100%', to: '0%' },
-          duration: 750,
+          duration: 1500,
           ease: 'out(3)',
           delay: stagger(50),
         }).add(chars, {
           y: '-100%',
-          duration: 750,
+          duration: 1500,
           ease: 'in(3)',
           delay: stagger(50),
         }, '+=900');
@@ -70,12 +70,12 @@ function TickerAnimation() {
   return (
     <div
       ref={containerRef}
-      className="absolute left-1/2 -translate-x-1/2 h-8 overflow-hidden flex items-center min-w-[300px]"
+      className="absolute left-1/2 -translate-x-1/2 h-8 overflow-hidden flex items-center min-w-[350px]"
     >
       {CHUNKS.map((chunk) => (
         <p
           key={chunk}
-          style={{ color: "rgba(55,100,236)" }}
+          style={{ color: "rgba(55,100,236)", transform: "translateY(100%)" }}
           className="absolute left-1/2 -translate-x-1/2 text-2xl font-semibold whitespace-nowrap"
         >
           {chunk}

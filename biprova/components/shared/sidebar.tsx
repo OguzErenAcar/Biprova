@@ -70,7 +70,7 @@ function NavItem({
       className={`flex items-center gap-[0.65rem] px-3 py-[0.65rem] rounded-[10px] text-body font-semibold mb-0.5 transition-all duration-150 no-underline ${
         isActive
           ? "bg-blue-50 text-slate-900"
-          : "text-ink hover:bg-slate-100 hover:text-ink"
+          : "text-ink hover:text-black hover:bg-slate-100 hover:text-ink"
       }`}
       onMouseEnter={() => lottieRef.current?.play()}
       onMouseLeave={() => lottieRef.current?.stop()}
@@ -111,7 +111,7 @@ function ProjectNavItem({ project, isActive }: { project: SidebarProject; isActi
           style={{ width: 20, height: 20, filter: "grayscale(1)" }}
         />
       </span>
-      <span className="truncate">{project.title.substring(0, 19) + "..."}</span>
+      <span className="truncate hover:text-black">{project.title.substring(0, 19) + "..."}</span>
       <StatusBadge status={project.status} />
     </Link>
   );
