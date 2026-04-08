@@ -167,7 +167,7 @@ export function Sidebar({ projects = [] }: SidebarProps) {
           Projelerim
         </span>
         <svg
-          className={`w-3 h-3 text-ink transition-transform duration-200 ${projectsOpen ? "rotate-180" : ""}`}
+          className={`w-3 h-3 text-slate-900 transition-transform duration-200 ${projectsOpen ? "rotate-180" : ""}`}
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -205,7 +205,7 @@ export function Sidebar({ projects = [] }: SidebarProps) {
           Kaydettiklerim
         </span>
         <svg
-          className={`w-3 h-3 text-ink transition-transform duration-200 ${savedOpen ? "rotate-180" : ""}`}
+          className={`w-3 h-3 text-slate-900 transition-transform duration-200 ${savedOpen ? "rotate-180" : ""}`}
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
