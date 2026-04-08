@@ -31,7 +31,7 @@ export function VisibilityToggle({ section, initialValue }: VisibilityToggleProp
       className={`gap-1.5 text-meta font-semibold h-auto px-2.5 py-1 rounded-[8px] transition-colors ${
         isPublic
           ? "bg-success-surface text-success border-success-surface hover:bg-success-surface hover:text-success"
-          : "bg-slate-100 text-ink-muted border-edge hover:bg-slate-200 hover:text-ink-muted"
+          : "bg-slate-100 text-ink-muted   hover:bg-slate-200 hover:text-ink-muted"
       }`}
     >
       {isPublic ? (

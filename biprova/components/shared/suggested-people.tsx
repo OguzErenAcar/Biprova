@@ -37,7 +37,7 @@ export async function SuggestedPeople() {
       </div>
 
       {users.length === 0 ? (
-        <div className="px-[1.2rem] py-[1rem] text-caption text-ink-muted text-center">
+        <div className="px-[1.2rem] py-[1rem] text-caption text-ink text-center">
           Önerilecek kimse yok.
         </div>
       ) : (
@@ -56,7 +56,7 @@ export async function SuggestedPeople() {
                 )}
               </div>
               <div className="flex-1 min-w-0">
-                <div className="text-caption font-bold text-ink-muted truncate">{u.name}</div>
+                <div className="text-caption font-bold text-ink truncate">{u.name}</div>
                 {u.badge && (
                   <div className="text-label text-ink truncate">{u.badge}</div>
                 )}
