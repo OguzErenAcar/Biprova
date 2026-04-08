@@ -45,68 +45,7 @@ export default {
         border: "var(--border)",
         input: "var(--input)",
         ring: "var(--ring)",
-        chart: {
-          "1": "hsl(var(--chart-1))",
-          "2": "hsl(var(--chart-2))",
-          "3": "hsl(var(--chart-3))",
-          "4": "hsl(var(--chart-4))",
-          "5": "hsl(var(--chart-5))",
-        },
-        /* ── Palet override'ları ─────────────────────────────────
-           Mevcut Tailwind renk class'larını (bg-blue-600, text-slate-400
-           gibi) CSS variable'larımıza bağlar. Component dosyalarına
-           dokunmadan globals.css'deki --p-* değişkenini değiştirince
-           projede o rengi kullanan her yer otomatik güncellenir.
-        ────────────────────────────────────────────────────── */
-
-        /* Brand → tüm blue-* class'ları --p-brand'i izler */
-        blue: {
-          "50":  "var(--p-brand-surface)",
-          "100": "var(--p-brand-surface)",
-          "400": "var(--p-brand)",
-          "500": "var(--p-brand)",
-          "600": "var(--p-brand)",
-          "700": "var(--p-brand-hover)",
-          "800": "var(--p-brand-hover)",
-        },
-        indigo: {
-          "100": "var(--p-brand-surface)",
-          "500": "var(--p-brand)",
-          "600": "var(--p-brand)",
-        },
-
-
-        /* Success → tüm green-* */
-        green: {
-          "50":  "var(--p-success-surface)",
-          "100": "var(--p-success-surface)",
-          "400": "var(--p-success)",
-          "500": "var(--p-success)",
-          "600": "var(--p-success)",
-          "700": "var(--p-success)",
-        },
-
-        /* Danger → tüm red-* */
-        red: {
-          "50":  "var(--p-danger-surface)",
-          "100": "var(--p-danger-surface)",
-          "200": "var(--p-danger-surface)",
-          "500": "var(--p-danger)",
-          "600": "var(--p-danger)",
-          "700": "var(--p-danger)",
-        },
-
-        /* Warning → tüm amber-* */
-        amber: {
-          "50":  "var(--p-warning-surface)",
-          "100": "var(--p-warning-surface)",
-          "200": "var(--p-warning-surface)",
-          "500": "var(--p-warning)",
-          "600": "var(--p-warning)",
-          "800": "var(--p-warning)",
-        },
-
-        /* Özel token class'lar (isteğe bağlı, ek esneklik için) */
+        /* Özel token class'lar */
         brand:   { DEFAULT: "var(--p-brand)", hover: "var(--p-brand-hover)", surface: "var(--p-brand-surface)" },
         ink:     { DEFAULT: "var(--p-ink)", muted: "var(--p-ink-muted)", subtle: "var(--p-ink-subtle)" },
         canvas:  "var(--p-canvas)",
