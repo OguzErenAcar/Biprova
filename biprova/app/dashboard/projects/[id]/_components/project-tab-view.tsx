@@ -92,7 +92,7 @@ export function ProjectTabView({ project }: Props) {
       </div>
 
       {/* Content */}
-      <div className="p-6">
+      <div ref={contentRef} className="p-6">
         {activeTab === 'genel' && (
           <PanelGenel
             project={project}
