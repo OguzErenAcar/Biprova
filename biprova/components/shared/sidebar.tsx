@@ -69,8 +69,8 @@ function NavItem({
       href={href}
       className={`flex items-center gap-[0.65rem] px-3 py-[0.65rem] rounded-[10px] text-body font-semibold mb-0.5 transition-all duration-150 no-underline ${
         isActive
-          ? "bg-blue-50 text-slate-600"
-          : "text-slate-600 hover:bg-slate-100 hover:text-slate-600"
+          ? "bg-blue-50 text-ink"
+          : "text-ink hover:bg-slate-100 hover:text-ink"
       }`}
       onMouseEnter={() => lottieRef.current?.play()}
       onMouseLeave={() => lottieRef.current?.stop()}
@@ -97,7 +97,7 @@ function ProjectNavItem({ project, isActive }: { project: SidebarProject; isActi
       className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-semibold mb-0.5 transition-colors no-underline min-w-0 ${
         isActive
           ? "bg-blue-50 text-blue-600"
-          : "text-slate-600 hover:bg-slate-100 hover:text-slate-600"
+          : "text-ink hover:bg-slate-100 hover:text-ink"
       }`}
       onMouseEnter={() => lottieRef.current?.play()}
       onMouseLeave={() => lottieRef.current?.stop()}
@@ -140,7 +140,7 @@ export function Sidebar({ projects = [] }: SidebarProps) {
   return (
     <div
       id="dashboard-sidebar"
-      className="bg-surface border border-slate-200 rounded-2xl shadow-sm flex-col sticky top-4 z-30 px-4 py-6 hidden lg:flex"
+      className="bg-surface border border-slate-400 rounded-2xl shadow-sm flex-col sticky top-4 z-30 px-4 py-6 hidden lg:flex"
     >
       {/* Ana navigasyon */}
       <nav>
@@ -163,11 +163,11 @@ export function Sidebar({ projects = [] }: SidebarProps) {
         onClick={() => setProjectsOpen((prev) => !prev)}
         className="flex items-center justify-between w-full px-3 mb-1.5 group"
       >
-        <span className="text-label font-bold tracking-[2px] uppercase text-slate-600">
+        <span className="text-label font-bold tracking-[2px] uppercase text-ink">
           Projelerim
         </span>
         <svg
-          className={`w-3 h-3 text-slate-600 transition-transform duration-200 ${projectsOpen ? "rotate-180" : ""}`}
+          className={`w-3 h-3 text-ink transition-transform duration-200 ${projectsOpen ? "rotate-180" : ""}`}
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -180,7 +180,7 @@ export function Sidebar({ projects = [] }: SidebarProps) {
       {projectsOpen && (
         <nav>
           {projects.length === 0 ? (
-            <div className="px-3 py-2 text-caption text-slate-600">
+            <div className="px-3 py-2 text-caption text-ink">
               Henüz proje yok
             </div>
           ) : (
@@ -201,11 +201,11 @@ export function Sidebar({ projects = [] }: SidebarProps) {
         onClick={() => setSavedOpen((prev) => !prev)}
         className="flex items-center justify-between w-full px-3 mt-4 mb-1.5 group"
       >
-        <span className="text-label font-bold tracking-[2px] uppercase text-slate-600">
+        <span className="text-label font-bold tracking-[2px] uppercase text-ink">
           Kaydettiklerim
         </span>
         <svg
-          className={`w-3 h-3 text-slate-600 transition-transform duration-200 ${savedOpen ? "rotate-180" : ""}`}
+          className={`w-3 h-3 text-ink transition-transform duration-200 ${savedOpen ? "rotate-180" : ""}`}
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -217,7 +217,7 @@ export function Sidebar({ projects = [] }: SidebarProps) {
 
       {savedOpen && (
         <nav>
-          <div className="px-3 py-2 text-caption text-slate-600">
+          <div className="px-3 py-2 text-caption text-ink">
             Henüz kaydedilen yok
           </div>
         </nav>

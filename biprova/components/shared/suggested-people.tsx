@@ -31,13 +31,13 @@ export async function SuggestedPeople() {
   const users = await getRecentUsers();
 
   return (
-    <div className="bg-surface border border-slate-200 rounded-2xl shadow-sm overflow-hidden w-[272]">
+    <div className="bg-surface border border-slate-400 rounded-2xl shadow-sm overflow-hidden w-[272]">
       <div className="px-[1.2rem] py-[1rem] border-b border-slate-200">
-        <span className="font-display text-body font-black">Önerilenler</span>
+        <span className="font-display text-body font-black text-ink">Önerilenler</span>
       </div>
 
       {users.length === 0 ? (
-        <div className="px-[1.2rem] py-[1rem] text-caption text-slate-400 text-center">
+        <div className="px-[1.2rem] py-[1rem] text-caption text-ink-muted text-center">
           Önerilecek kimse yok.
         </div>
       ) : (
@@ -56,9 +56,9 @@ export async function SuggestedPeople() {
                 )}
               </div>
               <div className="flex-1 min-w-0">
-                <div className="text-caption font-bold text-slate-900 truncate">{u.name}</div>
+                <div className="text-caption font-bold text-ink-muted truncate">{u.name}</div>
                 {u.badge && (
-                  <div className="text-label text-slate-400 truncate">{u.badge}</div>
+                  <div className="text-label text-ink truncate">{u.badge}</div>
                 )}
               </div>
             </Link>

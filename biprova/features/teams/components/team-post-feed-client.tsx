@@ -101,10 +101,10 @@ export function TeamPostFeedClient({ posts }: Props) {
             <Button
               variant="outline"
               size="sm"
-              className="gap-1.5 text-caption font-semibold text-ink-muted rounded-[9px]"
+              className="gap-1.5 text-caption font-semibold text-ink rounded-[9px]"
             >
               {sortLabel}
-              <span className="text-label text-ink-subtle">▼</span>
+              <span className="text-label text-ink">▼</span>
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="min-w-[160px]">

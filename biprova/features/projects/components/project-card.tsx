@@ -61,7 +61,7 @@ export function ProjectCard({
   const filled = roles.filter((r) => r.filled).length;
   const total = roles.length;
   const openRoles = roles.filter((r) => !r.filled);
-  const filledRoles = roles.filter((r) => r.filled);
+  //const filledRoles = roles.filter((r) => r.filled);
 
   return (
     <Card
@@ -118,11 +118,11 @@ export function ProjectCard({
               onClick={() => setRolesOpen((prev) => !prev)}
               className="w-full justify-between px-0 h-auto py-1 mb-2 hover:bg-transparent"
             >
-              <span className="text-label font-bold text-ink-subtle uppercase tracking-wider">
+              <span className="text-label font-bold text-ink uppercase tracking-wider">
                 Aranan Pozisyonlar ({openRoles.length})
               </span>
               <ChevronDown
-                className={`w-3.5 h-3.5 text-ink-subtle transition-transform duration-200 ${rolesOpen ? "rotate-180" : ""}`}
+                className={`w-3.5 h-3.5 text-ink transition-transform duration-200 ${rolesOpen ? "rotate-180" : ""}`}
               />
             </Button>
             {rolesOpen && (
@@ -130,12 +130,11 @@ export function ProjectCard({
                 {openRoles.map((role, i) => (
                   <div
                     key={i}
-                    className="rounded-xl border-[1.5px] border-warning-surface bg-warning-surface/50 px-3 py-2.5 flex items-center gap-3"
+                    className="rounded-xl border   px-3 py-2.5 flex items-center gap-3"
                   >
-                    <div className="flex-1 min-w-0">
+                    <div className="flex-1 min-w-0 w-[100px]">
                       <div className="flex items-center gap-2 mb-1.5">
-                        <span className="w-2 h-2 rounded-full bg-warning flex-shrink-0" />
-                        <span className="text-caption font-bold text-ink-muted">
+                        <span className="text-caption   text-ink-muted">
                           {role.name}
                         </span>
                       </div>
@@ -151,7 +150,7 @@ export function ProjectCard({
         )}
 
         {/* Dolu roller */}
-        {filledRoles.length > 0 && (
+        {/* {filledRoles.length > 0 && (
           <div className="flex flex-wrap gap-1.5 mb-4">
             {filledRoles.map((role, i) => (
               <Badge
@@ -164,7 +163,7 @@ export function ProjectCard({
               </Badge>
             ))}
           </div>
-        )}
+        )} */}
 
         {/* Ekip doluluk barı */}
         <div className="mb-0">

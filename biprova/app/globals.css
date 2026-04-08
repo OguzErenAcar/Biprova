@@ -59,30 +59,24 @@
        DEĞİŞTİRMEK İSTEDİĞİNDE SADECE BU BLOĞU DÜZENLE
        ══════════════════════════════════════════════ */
 
-    /* ─── 5 Ana Palet Rengi (HSL — H S% L%) ─────
-       Hex karşılıkları:
-         p-brand:   #7C3AED  (violet)
-         p-ink:     #1E1B2E  (koyu mor-lacivert)
-         p-canvas:  #FAF9FF  (mor tintli beyaz)
-         p-success: #16A34A  (yeşil)
-         p-danger:  #DC2626  (kırmızı)
-    ──────────────────────────────────────────── */
-    --p-brand:   #7C3AED;   /* violet  — DEĞİŞTİR: istediğin hex rengi yaz */
-    --p-ink:     #72ed97;   /* koyu metin */
-    --p-canvas:  #FAFAFF;   /* sayfa arkaplanı */
-    --p-surface: #FFFFFF;   /* kart & panel arkaplanı — DEĞİŞTİR */
-    --p-success: #16A34A;   /* yeşil */
-    --p-danger:  #DC2626;   /* kırmızı */
-
-    /* ─── Türetilmiş Tonlar ──────────────────────
-       Paletten üretildi — genellikle değiştirmene gerek yok
-    ──────────────────────────────────────────── */
+ 
+    --p-brand:          #000000;   /* violet  */
     --p-brand-hover:    #6D28D9;   /* brand koyu hover */
-    --p-brand-surface:  #F5F0FF;   /* brand çok açık bg */
+    --p-brand-surface:  #f0fff9;   /* brand çok açık bg */
+
+    --p-canvas:         #FAFAFF;   /* sayfa arkaplanı */
+    
+    --p-ink:            #a497f0;   /* koyu metin */
     --p-ink-muted:      #2354b4;   /* ikincil metin */
     --p-ink-subtle:     #d8210d;   /* placeholder / soluk */
     --p-ink-border:     #08090a;   /* kenarlık */
+    
+    --p-success:        #16A34A;   /* yeşil */
     --p-success-surface:#F0FDF4;   /* success açık bg */
+    --p-surface:        #FFFFFF;   /* kart & panel arkaplanı — DEĞİŞTİR */
+
+
+    --p-danger:         #DC2626;   /* kırmızı */
     --p-danger-surface: #FEF2F2;   /* danger açık bg */
     --p-warning:        #D97706;   /* amber — uyarı */
     --p-warning-surface:#FFFBEB;   /* warning açık bg */

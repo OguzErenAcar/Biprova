@@ -161,7 +161,7 @@ export function TeamPostCard({
       )}
 
       {/* Aksiyon butonları */}
-      <div className="flex items-center gap-2 pt-4 border-t border-edge">
+      <div className="flex items-center gap-2 pt-4 border-t ">
         {/* Beğeni */}
         <Button
           variant="outline"
@@ -171,7 +171,7 @@ export function TeamPostCard({
           className={`gap-[0.35rem] font-jakarta text-caption font-semibold h-auto px-[0.85rem] py-[0.4rem] transition-all duration-150 ${
             isLiked
               ? "border-danger-surface text-danger bg-danger-surface hover:bg-danger-surface hover:text-danger"
-              : "border-edge text-ink-muted hover:border-brand hover:text-brand hover:bg-brand-surface"
+              : "text-danger hover:border-brand hover:text-brand hover:bg-brand-surface"
           }`}
         >
           👍 {likeCount}
@@ -182,7 +182,7 @@ export function TeamPostCard({
           variant="outline"
           size="sm"
           disabled
-          className="gap-[0.35rem] border-edge font-jakarta text-caption font-semibold text-ink-subtle h-auto px-[0.85rem] py-[0.4rem]"
+          className="gap-[0.35rem] font-jakarta text-caption font-semibold text-ink-subtle h-auto px-[0.85rem] py-[0.4rem]"
         >
           💬 {comments}
         </Button>
@@ -193,7 +193,7 @@ export function TeamPostCard({
             variant="outline"
             size="sm"
             disabled
-            className="gap-[0.35rem] border-edge font-jakarta text-caption font-semibold text-ink-subtle h-auto px-[0.85rem] py-[0.4rem]"
+            className="gap-[0.35rem]  font-jakarta text-caption font-semibold text-ink-subtle h-auto px-[0.85rem] py-[0.4rem]"
           >
             ↗ Paylaş
           </Button>
@@ -201,7 +201,7 @@ export function TeamPostCard({
             variant="outline"
             size="sm"
             disabled
-            className="gap-[0.35rem] border-edge font-jakarta text-caption font-semibold text-ink-subtle h-auto px-[0.85rem] py-[0.4rem]"
+            className="gap-[0.35rem]  font-jakarta text-caption font-semibold text-ink-subtle h-auto px-[0.85rem] py-[0.4rem]"
           >
             🔖 Kaydet
           </Button>
