@@ -61,7 +61,7 @@ export function SearchBar() {
         onChange={(e) => setQuery(e.target.value)}
         onFocus={() => results.length > 0 && setOpen(true)}
         placeholder="Proje veya kişi ara..."
-        className="w-full bg-surface border-[1.5px] border-slate-200 rounded-[10px] pl-9 pr-4 py-[0.6rem] font-jakarta text-body text-slate-900 outline-none focus:border-blue-600 placeholder:text-slate-400 transition-colors duration-200"
+        className="w-full bg-surface border-[1.5px] border-slate-200 rounded-[10px] pl-9 pr-4 py-[0.6rem] font-body text-body text-slate-900 outline-none focus:border-blue-600 placeholder:text-slate-400 transition-colors duration-200"
       />
 
       {open && (
