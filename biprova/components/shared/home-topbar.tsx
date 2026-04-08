@@ -40,6 +40,9 @@ function TickerAnimation() {
 
     const splits = ps.map((el) => splitText(el, { chars: { wrap: 'clip' } }));
 
+    // tüm char'ları başlangıçta aşağıya göm
+    splits.forEach(({ chars }) => animate(chars, { y: '100%', duration: 0 }));
+
     let tl = createTimeline({});
 
     function playLoop() {
