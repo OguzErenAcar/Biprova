@@ -43,7 +43,7 @@ export function SplashWrapper({ children }: { children: React.ReactNode }) {
         className="flex flex-col items-center justify-center h-full min-h-[400px]"
       >
         <div className="w-32 h-32">
-          <Lottie animationData={iconData} loop={false} autoplay />
+          <Lottie animationData={iconData as object} loop={false} autoplay />
         </div>
         <span className="mt-3 font-black text-xl text-blue-600 tracking-tight">
           Bi<span className="text-slate-900">prova</span>
