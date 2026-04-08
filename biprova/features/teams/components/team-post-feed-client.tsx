@@ -93,9 +93,11 @@ export function TeamPostFeedClient({ posts }: Props) {
   return (
     <div id="team-post-feed">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="font-nunito font-black text-title text-ink">
-          👥 Ekip Gönderileri
-        </h2>
+          <div className="flex items-center justify-between mb-4">
+                <h1 className="text-3xl   text-ink">
+                   Gönderiler
+                </h1>
+              </div>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <button  
