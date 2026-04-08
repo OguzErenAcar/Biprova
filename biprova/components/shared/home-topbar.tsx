@@ -9,33 +9,36 @@ import { SearchBar } from "@/components/shared/search-bar";
 const SENTENCES = ['Hello World', 'Lorem Ipsum'];
 
 function HelloWorldAnimation() {
-  const refs = [useRef<HTMLParagraphElement>(null), useRef<HTMLParagraphElement>(null)];
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const els = refs.map((r) => r.current).filter(Boolean) as HTMLParagraphElement[];
-    if (els.length < 2) return;
+    if (!containerRef.current) return;
+    const ps = Array.from(containerRef.current.querySelectorAll('p'));
 
-    const splitResults = els.map((el) => splitText(el, { chars: { wrap: 'clip' } }));
+    const splitResults = ps.map((el) =>
+      splitText(el as HTMLElement, { chars: { wrap: 'clip' } })
+    );
 
     const tl = createTimeline({ loop: true });
 
-    splitResults.forEach(({ chars }, i) => {
+    splitResults.forEach(({ chars }) => {
       tl.add(chars, {
         y: [{ to: ['100%', '0%'] }, { to: '-100%', delay: 1200, ease: 'in(3)' }],
         duration: 750,
         ease: 'out(3)',
         delay: stagger(50),
-      }, i === 0 ? 0 : '+=0');
+      });
     });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    <div className="absolute left-1/2 -translate-x-1/2 overflow-hidden flex items-center h-6">
-      {SENTENCES.map((text, i) => (
+    <div
+      ref={containerRef}
+      className="absolute left-1/2 -translate-x-1/2 overflow-hidden flex items-center h-6"
+    >
+      {SENTENCES.map((text) => (
         <p
           key={text}
-          ref={refs[i]}
           className="absolute text-sm font-semibold text-slate-700 whitespace-nowrap"
         >
           {text}
