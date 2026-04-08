@@ -20,10 +20,10 @@ export function DashboardGrid({ sidebar, children, suggestedPeople }: {
   }
 
   return (
-    <div className="grid h-full grid-cols-[1fr_3fr_1fr] gap-4 m-[40]">
+    <div className="grid  grid-cols-[1fr_3fr_1fr] gap-4 m-[40]">
       <div>{sidebar}</div>
       <div className="mx-4">{children}</div>
-      {suggestedPeople}
+      <div className="self-start">{suggestedPeople}</div>
     </div>
   );
 }
