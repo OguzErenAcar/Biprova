@@ -125,9 +125,8 @@
     /* ─── Font Ailesi ───────────────────────────
        DEĞİŞTİRMEK İÇİN: var(--font-nunito) veya var(--font-jakarta) yaz
     ──────────────────────────────────────────── */
-    --font-display: Arial, sans-serif;  /* başlık, logo, kalın yazılar */
-    --font-body:    Arial, sans-serif;  /* genel metin, formlar */
-
+--font-display: "Georgia", serif;
+--font-body:    system-ui, sans-serif;
     /* ─── Tipografi Skalası ──────────────────────
        Tüm font boyutları buradan
     ──────────────────────────────────────────── */
@@ -151,7 +150,7 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-family: var(--font-body);
+    font-family: "Comic Sans MS", cursive !important;
   }
 }
 
