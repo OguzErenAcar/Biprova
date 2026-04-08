@@ -2,10 +2,16 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useRef, useState } from "react";
+import Lottie, { LottieRefCurrentProps } from "lottie-react";
 import { Badge } from "@/components/ui/badge";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
+
+import homeIcon from "@/app/icons/home.json";
+import postsIcon from "@/app/icons/wired-outline-56-document-hover-swipe.json";
+import createIcon from "@/app/icons/wired-outline-2844-magic-wand-hover-pinch.json";
+import newsIcon from "@/app/icons/wired-outline-3090-document-letter-hover-pinch.json";
+import profileIcon from "@/app/icons/wired-outline-268-avatar-man-hover-glance.json";
 
 interface SidebarUser {
   name: string;
@@ -25,11 +31,11 @@ interface SidebarProps {
 }
 
 const NAV_MAIN = [
-  { href: "/dashboard", icon: "🏠", label: "Ana Sayfa", exact: true },
-  { href: "/dashboard/posts/teams", icon: "📝", label: "Gönderiler" },
-  { href: "/dashboard/createProject", icon: "✨", label: "Proje Oluştur" },
-  { href: "/dashboard/posts/news", icon: "📰", label: "Haberler" },
-  { href: "/dashboard/profile", icon: "👤", label: "Profilim" },
+  { href: "/dashboard", animationData: homeIcon, label: "Ana Sayfa", exact: true },
+  { href: "/dashboard/posts/teams", animationData: postsIcon, label: "Gönderiler" },
+  { href: "/dashboard/createProject", animationData: createIcon, label: "Proje Oluştur" },
+  { href: "/dashboard/posts/news", animationData: newsIcon, label: "Haberler" },
+  { href: "/dashboard/profile", animationData: profileIcon, label: "Profilim" },
 ];
 
 const STATUS_CONFIG: Record<
@@ -45,26 +51,38 @@ const STATUS_CONFIG: Record<
 
 function NavItem({
   href,
-  icon,
+  animationData,
   label,
   isActive,
 }: {
   href: string;
-  icon: string;
+  animationData: object;
   label: string;
   exact?: boolean;
   isActive: boolean;
 }) {
+  const lottieRef = useRef<LottieRefCurrentProps>(null);
+
   return (
     <Link
       href={href}
       className={`flex items-center gap-[0.65rem] px-3 py-[0.65rem] rounded-[10px] text-body font-semibold mb-0.5 transition-all duration-150 no-underline ${
         isActive
-          ? "bg-blue-50 text-blue-600"
-          : "text-slate-500 hover:bg-slate-100 hover:text-slate-900"
+          ? "bg-blue-50 text-slate-600"
+          : "text-slate-600 hover:bg-slate-100 hover:text-slate-600"
       }`}
+      onMouseEnter={() => lottieRef.current?.play()}
+      onMouseLeave={() => lottieRef.current?.stop()}
     >
-      <span className="text-[1.1rem] w-5 text-center">{icon}</span>
+      <span className="w-6 h-6 shrink-0">
+        <Lottie
+          lottieRef={lottieRef}
+          animationData={animationData}
+          loop={false}
+          autoplay={false}
+          style={{ width: 24, height: 24 }}
+        />
+      </span>
       {label}
     </Link>
   );
@@ -79,7 +97,7 @@ function StatusBadge({ status }: { status: SidebarProject["status"] }) {
   );
 }
 
-export function Sidebar({ user, projects = [] }: SidebarProps) {
+export function Sidebar({ projects = [] }: SidebarProps) {
   const pathname = usePathname();
   const [projectsOpen, setProjectsOpen] = useState(true);
   const [savedOpen, setSavedOpen] = useState(true);
@@ -95,15 +113,13 @@ export function Sidebar({ user, projects = [] }: SidebarProps) {
       id="dashboard-sidebar"
       className="bg-surface border border-slate-200 rounded-2xl shadow-sm flex-col sticky top-4 z-30 px-4 py-6 hidden lg:flex"
     >
- 
-
       {/* Ana navigasyon */}
       <nav>
-        {NAV_MAIN.map(({ href, icon, label, exact }) => (
+        {NAV_MAIN.map(({ href, animationData, label, exact }) => (
           <NavItem
             key={href}
             href={href}
-            icon={icon}
+            animationData={animationData}
             label={label}
             exact={exact}
             isActive={isActive(href, exact)}
@@ -118,11 +134,11 @@ export function Sidebar({ user, projects = [] }: SidebarProps) {
         onClick={() => setProjectsOpen((prev) => !prev)}
         className="flex items-center justify-between w-full px-3 mb-1.5 group"
       >
-        <span className="text-label font-bold tracking-[2px] uppercase text-slate-400">
+        <span className="text-label font-bold tracking-[2px] uppercase text-slate-600">
           Projelerim
         </span>
         <svg
-          className={`w-3 h-3 text-slate-400 transition-transform duration-200 ${projectsOpen ? "rotate-180" : ""}`}
+          className={`w-3 h-3 text-slate-600 transition-transform duration-200 ${projectsOpen ? "rotate-180" : ""}`}
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -135,7 +151,7 @@ export function Sidebar({ user, projects = [] }: SidebarProps) {
       {projectsOpen && (
         <nav>
           {projects.length === 0 ? (
-            <div className="px-3 py-2 text-caption text-slate-400">
+            <div className="px-3 py-2 text-caption text-slate-600">
               Henüz proje yok
             </div>
           ) : (
@@ -146,11 +162,11 @@ export function Sidebar({ user, projects = [] }: SidebarProps) {
                 className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-semibold mb-0.5 transition-colors no-underline min-w-0 ${
                   isActive(`/dashboard/projects/${project.id}`)
                     ? "bg-blue-50 text-blue-600"
-                    : "text-slate-500 hover:bg-slate-100 hover:text-slate-900"
+                    : "text-slate-600 hover:bg-slate-100 hover:text-slate-600"
                 }`}
               >
                 <span className="shrink-0">📁</span>
-                <span className="truncate">{project.title.substring(0,19)+"..."}</span>
+                <span className="truncate">{project.title.substring(0, 19) + "..."}</span>
                 <StatusBadge status={project.status} />
               </Link>
             ))
@@ -163,11 +179,11 @@ export function Sidebar({ user, projects = [] }: SidebarProps) {
         onClick={() => setSavedOpen((prev) => !prev)}
         className="flex items-center justify-between w-full px-3 mt-4 mb-1.5 group"
       >
-        <span className="text-label font-bold tracking-[2px] uppercase text-slate-400">
+        <span className="text-label font-bold tracking-[2px] uppercase text-slate-600">
           Kaydettiklerim
         </span>
         <svg
-          className={`w-3 h-3 text-slate-400 transition-transform duration-200 ${savedOpen ? "rotate-180" : ""}`}
+          className={`w-3 h-3 text-slate-600 transition-transform duration-200 ${savedOpen ? "rotate-180" : ""}`}
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -179,29 +195,10 @@ export function Sidebar({ user, projects = [] }: SidebarProps) {
 
       {savedOpen && (
         <nav>
-          <div className="px-3 py-2 text-caption text-slate-400">
+          <div className="px-3 py-2 text-caption text-slate-600">
             Henüz kaydedilen yok
           </div>
         </nav>
-      )}
-
-      {/* Footer — kullanıcı mini profil */}
-      {user && (
-        <div className="mt-auto pt-4 border-t border-slate-200">
-          <div className="flex items-center gap-[0.7rem] px-2 py-[0.6rem] rounded-[10px] cursor-pointer hover:bg-slate-100 transition-colors duration-150">
-            <Avatar className="w-9 h-9 flex-shrink-0">
-              <AvatarFallback className="bg-gradient-to-br from-blue-600 to-indigo-500 font-display font-black text-body text-white">
-                {user.initials}
-              </AvatarFallback>
-            </Avatar>
-            <div>
-              <div className="text-body font-bold text-slate-900">{user.name}</div>
-              {user.role && (
-                <div className="text-label text-slate-500">{user.role}</div>
-              )}
-            </div>
-          </div>
-        </div>
       )}
     </div>
   );
