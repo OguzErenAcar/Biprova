@@ -156,20 +156,34 @@ export function Sidebar({ projects = [] }: SidebarProps) {
               Henüz proje yok
             </div>
           ) : (
-            projects.map((project) => (
-              <Link
-                key={project.id}
-                href={`/dashboard/projects/${project.id}`}
-                className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-semibold mb-0.5 transition-colors no-underline min-w-0 ${
-                  isActive(`/dashboard/projects/${project.id}`)
-                    ? "bg-blue-50 text-blue-600"
-                    : "text-slate-600 hover:bg-slate-100 hover:text-slate-600"
-                }`}
-              >
-                <span className="shrink-0">📁</span>
-                <span className="truncate">{project.title.substring(0, 19) + "..."}</span>
-                <StatusBadge status={project.status} />
-              </Link>
+            projects.map((project) => {
+              const lottieRef = useRef<LottieRefCurrentProps>(null);
+              return (
+                <Link
+                  key={project.id}
+                  href={`/dashboard/projects/${project.id}`}
+                  className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-semibold mb-0.5 transition-colors no-underline min-w-0 ${
+                    isActive(`/dashboard/projects/${project.id}`)
+                      ? "bg-blue-50 text-blue-600"
+                      : "text-slate-600 hover:bg-slate-100 hover:text-slate-600"
+                  }`}
+                  onMouseEnter={() => lottieRef.current?.play()}
+                  onMouseLeave={() => lottieRef.current?.stop()}
+                >
+                  <span className="w-5 h-5 shrink-0">
+                    <Lottie
+                      lottieRef={lottieRef}
+                      animationData={folderIcon}
+                      loop={false}
+                      autoplay={false}
+                      style={{ width: 20, height: 20 }}
+                    />
+                  </span>
+                  <span className="truncate">{project.title.substring(0, 19) + "..."}</span>
+                  <StatusBadge status={project.status} />
+                </Link>
+              );
+            })
             ))
           )}
         </nav>
