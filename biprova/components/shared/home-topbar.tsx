@@ -9,17 +9,21 @@ import { SearchBar } from "@/components/shared/search-bar";
 const SENTENCES = ['Hello World', 'Lorem Ipsum'];
 
 function HelloWorldAnimation() {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const p1Ref = useRef<HTMLParagraphElement>(null);
+  const p2Ref = useRef<HTMLParagraphElement>(null);
 
   useEffect(() => {
-    if (!containerRef.current) return;
-    const ps = Array.from(containerRef.current.querySelectorAll('p')) as HTMLElement[];
-    const splitResults = ps.map((el) => splitText(el, { chars: { wrap: 'clip' } }));
+    if (!p1Ref.current || !p2Ref.current) return;
+
+    const splits = [p1Ref.current, p2Ref.current].map((el) =>
+      splitText(el, { chars: { wrap: 'clip' } })
+    );
+
+    let tl = createTimeline({});
 
     function playLoop() {
-      const tl = createTimeline({ onComplete: playLoop });
-
-      splitResults.forEach(({ chars }) => {
+      tl = createTimeline({ onComplete: playLoop });
+      splits.forEach(({ chars }) => {
         tl.add(chars, {
           y: { from: '100%', to: '0%' },
           duration: 750,
@@ -35,21 +39,17 @@ function HelloWorldAnimation() {
     }
 
     playLoop();
+
+    return () => {
+      tl.pause();
+      splits.forEach((s) => s.revert());
+    };
   }, []);
 
   return (
-    <div
-      ref={containerRef}
-      className="absolute left-1/2 -translate-x-1/2 overflow-hidden flex items-center h-6"
-    >
-      {SENTENCES.map((text) => (
-        <p
-          key={text}
-          className="absolute text-sm font-semibold text-slate-700 whitespace-nowrap"
-        >
-          {text}
-        </p>
-      ))}
+    <div className="absolute left-1/2 -translate-x-1/2 overflow-hidden flex items-center h-6">
+      <p ref={p1Ref} className="absolute text-sm font-semibold text-slate-700 whitespace-nowrap">Hello World</p>
+      <p ref={p2Ref} className="absolute text-sm font-semibold text-slate-700 whitespace-nowrap">Lorem Ipsum</p>
     </div>
   );
 }
