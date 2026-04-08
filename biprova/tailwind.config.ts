@@ -148,6 +148,8 @@ export default {
       fontFamily: {
         nunito:  ['var(--font-nunito)', 'sans-serif'],
         jakarta: ['var(--font-jakarta)', 'sans-serif'],
+        display: ['var(--font-display)', 'sans-serif'],
+        body:    ['var(--font-body)',    'sans-serif'],
       },
       keyframes: {
         fadeUp: {
