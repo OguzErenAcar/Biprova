@@ -47,7 +47,7 @@ export function NotificationBell() {
       {open && (
         <div className="absolute right-0 top-full w-[320px] z-50 pt-2">
           <div className="bg-surface border-[1.5px] border-slate-200 rounded-2xl shadow-xl p-[1.1rem]">
-            <div className="font-nunito font-black text-body text-slate-900 mb-3 flex items-center justify-between">
+            <div className="font-display font-black text-body text-slate-900 mb-3 flex items-center justify-between">
               🔔 Bildirimler
 
               <Link
