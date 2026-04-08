@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 import Link from "next/link";
-import { animate, createTimeline, splitText, stagger } from 'animejs';
+import { createTimeline, splitText, stagger } from 'animejs';
 import { NotificationBell } from "@/components/shared/notification-bell";
 import { SearchBar } from "@/components/shared/search-bar";
 
