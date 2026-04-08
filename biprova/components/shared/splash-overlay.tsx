@@ -3,8 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Lottie from "lottie-react";
 import { animate } from "animejs";
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const iconData = require("@/app/icons/wired-outline-1827-growing-plant-hover-pinch.json");
+import iconData from "@/app/icons/wired-outline-1827-growing-plant-hover-pinch.json";
 
 export function SplashWrapper({ children }: { children: React.ReactNode }) {
   // null = henüz karar verilmedi (hydration öncesi)
