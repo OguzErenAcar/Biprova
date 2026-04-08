@@ -190,7 +190,7 @@ export function Sidebar({ user, projects = [] }: SidebarProps) {
         <div className="mt-auto pt-4 border-t border-slate-200">
           <div className="flex items-center gap-[0.7rem] px-2 py-[0.6rem] rounded-[10px] cursor-pointer hover:bg-slate-100 transition-colors duration-150">
             <Avatar className="w-9 h-9 flex-shrink-0">
-              <AvatarFallback className="bg-gradient-to-br from-blue-600 to-indigo-500 font-nunito font-black text-body text-white">
+              <AvatarFallback className="bg-gradient-to-br from-blue-600 to-indigo-500 font-display font-black text-body text-white">
                 {user.initials}
               </AvatarFallback>
             </Avatar>
