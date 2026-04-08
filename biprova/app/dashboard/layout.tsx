@@ -20,9 +20,7 @@ export default function DashboardLayout({
             </Suspense>
           </div> 
           <div className="mx-4">{children}</div>
-          <div className=""> 
             <SuggestedPeople />
-          </div>
         </div>
       </div>
     </div>
