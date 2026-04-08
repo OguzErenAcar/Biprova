@@ -6,17 +6,39 @@ import { createTimeline, splitText, stagger } from 'animejs';
 import { NotificationBell } from "@/components/shared/notification-bell";
 import { SearchBar } from "@/components/shared/search-bar";
 
+// ─── Buraya yaz ───────────────────────────────────────────────
+const TICKER_TEXT = "Takım kur. Proje bul. Hayalini gerçeğe dönüştür. Biprova ile başla.";
+const CHARS_PER_CHUNK = 20; // her seferinde kaç karakter gösterilsin (boşlukta bölmez)
+// ─────────────────────────────────────────────────────────────
 
-function HelloWorldAnimation() {
-  const p1Ref = useRef<HTMLParagraphElement>(null);
-  const p2Ref = useRef<HTMLParagraphElement>(null);
+function chunkText(text: string, maxChars: number): string[] {
+  const words = text.split(' ');
+  const chunks: string[] = [];
+  let current = '';
+
+  for (const word of words) {
+    const candidate = current ? `${current} ${word}` : word;
+    if (candidate.length > maxChars && current) {
+      chunks.push(current);
+      current = word;
+    } else {
+      current = candidate;
+    }
+  }
+  if (current) chunks.push(current);
+  return chunks;
+}
+
+const CHUNKS = chunkText(TICKER_TEXT, CHARS_PER_CHUNK);
+
+function TickerAnimation() {
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!p1Ref.current || !p2Ref.current) return;
+    if (!containerRef.current) return;
+    const ps = Array.from(containerRef.current.querySelectorAll('p')) as HTMLElement[];
 
-    const splits = [p1Ref.current, p2Ref.current].map((el) =>
-      splitText(el, { chars: { wrap: 'clip' } })
-    );
+    const splits = ps.map((el) => splitText(el, { chars: { wrap: 'clip' } }));
 
     let tl = createTimeline({});
 
@@ -46,9 +68,19 @@ function HelloWorldAnimation() {
   }, []);
 
   return (
-    <div className="absolute left-1/2 -translate-x-1/2 h-8 overflow-hidden flex items-center min-w-[340px]">
-      <p style={{color:"rgba(55,100,236)"}} ref={p1Ref} className="absolute left-1/2 -translate-x-1/2 text-2xl font-semibold whitespace-nowrap">Hello World</p>
-      <p style={{color:"rgba(55,100,236)"}} ref={p2Ref} className="absolute left-1/2 -translate-x-1/2 text-2xl font-semibold whitespace-nowrap">Lorem Ipsum</p>
+    <div
+      ref={containerRef}
+      className="absolute left-1/2 -translate-x-1/2 h-8 overflow-hidden flex items-center min-w-[300px]"
+    >
+      {CHUNKS.map((chunk) => (
+        <p
+          key={chunk}
+          style={{ color: "rgba(55,100,236)" }}
+          className="absolute left-1/2 -translate-x-1/2 text-2xl font-semibold whitespace-nowrap"
+        >
+          {chunk}
+        </p>
+      ))}
     </div>
   );
 }
@@ -63,7 +95,7 @@ export function HomeTopbar() {
         Bi<span className="text-slate-900">prova</span>
       </Link>
 
-      <HelloWorldAnimation />
+      <TickerAnimation />
 
       <div className="ml-auto flex items-center gap-[0.6rem]">
         <SearchBar />
