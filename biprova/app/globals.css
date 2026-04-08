@@ -150,7 +150,7 @@
   }
   body {
     @apply text-foreground;
-    background: linear-gradient(to bottom, rgb(55 100 236), rgb(255, 255, 255)) fixed;
+    background: linear-gradient(to bottom, rgb(55 100 236), rgb(196, 203, 223)) fixed;
     font-family: "Arial", cursive !important;
   }
 

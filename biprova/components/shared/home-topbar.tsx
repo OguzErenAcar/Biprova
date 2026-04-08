@@ -79,7 +79,7 @@ function TickerAnimation() {
         <p
           key={chunk}
           style={{ color: "rgba(55,100,236)" }}
-          className="absolute left-1/2 -translate-x-1/2 text-2xl font-semibold whitespace-nowrap"
+          className="absolute left-1/2 -translate-x-1/2 text-lg font-semibold whitespace-nowrap"
         >
           {chunk}
         </p>

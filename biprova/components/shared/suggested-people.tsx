@@ -46,7 +46,7 @@ export async function SuggestedPeople() {
             <Link
               key={u.id}
               href={`/dashboard/profile/${u.id}`}
-              className="flex items-center gap-3 px-[1.2rem] py-[0.75rem] hover:bg-slate-50 transition-colors no-underline"
+              className="flex items-center gap-3 px-[1.2rem] py-[0.75rem] hover:bg-slate-50 hover:text-black transition-colors no-underline"
             >
               <div className=" w-8 h-8 rounded-full bg-gradient-to-br from-blue-400 to-indigo-500 flex items-center justify-center font-display font-black text-[0.72rem] text-white shrink-0 overflow-hidden">
                 {u.avatar_url ? (
