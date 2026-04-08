@@ -6,15 +6,19 @@ import { animate } from "animejs";
 import iconData from "@/app/icons/wired-outline-1827-growing-plant-hover-pinch.json";
 
 export function SplashWrapper({ children }: { children: React.ReactNode }) {
-  const [showSplash, setShowSplash] = useState(false);
+  // null = henüz karar verilmedi (hydration öncesi)
+  const [showSplash, setShowSplash] = useState<boolean | null>(null);
   const splashRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const seen = sessionStorage.getItem("splash_seen");
-    if (seen) return;
+    if (seen) {
+      setShowSplash(false);
+      return;
+    }
 
-    setShowSplash(true);
     sessionStorage.setItem("splash_seen", "1");
+    setShowSplash(true);
 
     const timer = setTimeout(() => {
       if (!splashRef.current) return;
@@ -24,10 +28,13 @@ export function SplashWrapper({ children }: { children: React.ReactNode }) {
         ease: "out(2)",
         onComplete: () => setShowSplash(false),
       });
-    }, 1000);
+    }, 1200);
 
     return () => clearTimeout(timer);
   }, []);
+
+  // hydration tamamlanana kadar hiçbir şey render etme
+  if (showSplash === null) return null;
 
   if (showSplash) {
     return (
