@@ -52,7 +52,7 @@ export function NotificationBell() {
 
               <Link
                 href="/dashboard/notifications"
-                className="text-label text-blue-600 font-bold font-jakarta cursor-pointer hover:underline"
+                className="text-label text-blue-600 font-bold font-body cursor-pointer hover:underline"
                 onClick={() => setOpen(false)}
               >
                 Tümünü Gör
