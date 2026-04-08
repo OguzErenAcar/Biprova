@@ -78,7 +78,7 @@ function TickerAnimation() {
       {CHUNKS.map((chunk) => (
         <p
           key={chunk}
-          style={{ color: "rgba(55,100,236)", transform: "translateY(100%)" }}
+          style={{ color: "rgba(55,100,236)" }}
           className="absolute left-1/2 -translate-x-1/2 text-2xl font-semibold whitespace-nowrap"
         >
           {chunk}
