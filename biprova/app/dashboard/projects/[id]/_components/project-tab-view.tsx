@@ -19,7 +19,18 @@ interface Props {
 
 export function ProjectTabView({ project }: Props) {
   const [activeTab, setActiveTab] = useState<Tab>('genel');
+  const contentRef = useRef<HTMLDivElement>(null);
   const hasTeam = !!project.team_id;
+
+  useEffect(() => {
+    if (!contentRef.current) return;
+    animate(contentRef.current, {
+      opacity: [0, 1],
+      translateY: [8, 0],
+      duration: 220,
+      easing: 'easeOutQuad',
+    });
+  }, [activeTab]);
   const isLeader = project.viewer.is_project_leader;
   const pendingCount = project.applications.filter((a) => a.status === 'pending').length;
 
