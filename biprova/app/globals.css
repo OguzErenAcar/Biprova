@@ -122,6 +122,12 @@
     --shadow-brand:    0 4px 16px rgba(124,58,237,0.25);
     --shadow-brand-lg: 0 6px 18px rgba(124,58,237,0.35);
 
+    /* ─── Font Ailesi ───────────────────────────
+       DEĞİŞTİRMEK İÇİN: var(--font-nunito) veya var(--font-jakarta) yaz
+    ──────────────────────────────────────────── */
+    --font-display: var(--font-nunito);  /* başlık, logo, kalın yazılar */
+    --font-body:    var(--font-jakarta); /* genel metin, formlar */
+
     /* ─── Tipografi Skalası ──────────────────────
        Tüm font boyutları buradan
     ──────────────────────────────────────────── */
