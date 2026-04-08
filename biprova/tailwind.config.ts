@@ -123,6 +123,7 @@ export default {
         brand:   { DEFAULT: "var(--p-brand)", hover: "var(--p-brand-hover)", surface: "var(--p-brand-surface)" },
         ink:     { DEFAULT: "var(--p-ink)", muted: "var(--p-ink-muted)", subtle: "var(--p-ink-subtle)" },
         canvas:  "var(--p-canvas)",
+        surface: "var(--p-surface)",
         edge:    "var(--p-ink-border)",
         success: { DEFAULT: "var(--p-success)", surface: "var(--p-success-surface)" },
         danger:  { DEFAULT: "var(--p-danger)",  surface: "var(--p-danger-surface)" },
