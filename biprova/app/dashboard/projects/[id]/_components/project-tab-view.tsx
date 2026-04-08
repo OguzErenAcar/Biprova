@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from 'react';
-import anime from 'animejs';
+import { animate } from 'animejs';
 import type { ProjectDetail } from '@/features/projects/actions';
 import { PanelGenel } from './panel-genel';
 import { PanelGorevler } from './panel-gorevler';
