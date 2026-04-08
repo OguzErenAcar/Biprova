@@ -31,7 +31,7 @@ export async function SuggestedPeople() {
   const users = await getRecentUsers();
 
   return (
-    <div className="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden w-[272]">
+    <div className="bg-surface border border-slate-200 rounded-2xl shadow-sm overflow-hidden w-[272]">
       <div className="px-[1.2rem] py-[1rem] border-b border-slate-200">
         <span className="font-nunito text-body font-black">Önerilenler</span>
       </div>
