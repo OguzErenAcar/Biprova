@@ -75,19 +75,6 @@ export default {
           "600": "var(--p-brand)",
         },
 
-        /* Metin/yüzey → tüm slate-* class'ları --p-ink'i izler */
-        slate: {
-          "50":  "var(--p-canvas)",
-          "100": "var(--p-canvas)",
-          "200": "var(--p-ink-border)",
-          "300": "var(--p-ink-subtle)",
-          "400": "var(--p-ink-subtle)",
-          "500": "var(--p-ink-muted)",
-          "600": "var(--p-ink-muted)",
-          "700": "var(--p-ink-muted)",
-          "800": "var(--p-ink)",
-          "900": "var(--p-ink)",
-        },
 
         /* Success → tüm green-* */
         green: {
