@@ -6,7 +6,6 @@ import { createTimeline, splitText, stagger } from 'animejs';
 import { NotificationBell } from "@/components/shared/notification-bell";
 import { SearchBar } from "@/components/shared/search-bar";
 
-const SENTENCES = ['Hello World', 'Lorem Ipsum'];
 
 function HelloWorldAnimation() {
   const p1Ref = useRef<HTMLParagraphElement>(null);
