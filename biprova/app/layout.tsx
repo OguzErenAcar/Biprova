@@ -29,7 +29,7 @@ export default function RootLayout({
   return (
     <html lang="tr">
       <body
-        className={`${nunito.variable} ${jakarta.variable} font-jakarta antialiased`}
+        className={`${nunito.variable} ${jakarta.variable} antialiased`}
       >
         {children}
       </body>
