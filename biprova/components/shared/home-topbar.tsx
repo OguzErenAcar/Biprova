@@ -6,31 +6,41 @@ import { animate, createTimeline, splitText, stagger } from 'animejs';
 import { NotificationBell } from "@/components/shared/notification-bell";
 import { SearchBar } from "@/components/shared/search-bar";
 
+const SENTENCES = ['Hello World', 'Lorem Ipsum'];
+
 function HelloWorldAnimation() {
-  const pRef = useRef<HTMLParagraphElement>(null);
+  const refs = [useRef<HTMLParagraphElement>(null), useRef<HTMLParagraphElement>(null)];
 
   useEffect(() => {
-    if (!pRef.current) return;
+    const els = refs.map((r) => r.current).filter(Boolean) as HTMLParagraphElement[];
+    if (els.length < 2) return;
 
-    const { chars } = splitText(pRef.current, {
-      chars: { wrap: 'clip' },
-    });
+    const splitResults = els.map((el) => splitText(el, { chars: { wrap: 'clip' } }));
 
-    animate(chars, {
-      y: [
-        { to: ['100%', '0%'] },
-        { to: '-100%', delay: 750, ease: 'in(3)' }
-      ],
-      duration: 750,
-      ease: 'out(3)',
-      delay: stagger(50),
-      loop: true,
+    const tl = createTimeline({ loop: true });
+
+    splitResults.forEach(({ chars }, i) => {
+      tl.add(chars, {
+        y: [{ to: ['100%', '0%'] }, { to: '-100%', delay: 1200, ease: 'in(3)' }],
+        duration: 750,
+        ease: 'out(3)',
+        delay: stagger(50),
+      }, i === 0 ? 0 : '+=0');
     });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    <div className="absolute left-1/2 -translate-x-1/2 flex items-center">
-      <p ref={pRef} className="text-sm font-semibold text-slate-700">Hello World</p>
+    <div className="absolute left-1/2 -translate-x-1/2 overflow-hidden flex items-center h-6">
+      {SENTENCES.map((text, i) => (
+        <p
+          key={text}
+          ref={refs[i]}
+          className="absolute text-sm font-semibold text-slate-700 whitespace-nowrap"
+        >
+          {text}
+        </p>
+      ))}
     </div>
   );
 }
