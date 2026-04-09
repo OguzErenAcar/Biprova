@@ -72,7 +72,7 @@ export default function WaitlistPage() {
         </div>
 
         {/* Perks */}
-        <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-4 max-w-[680px] w-full animate-[fadeUp_0.4s_0.25s_ease_both]">
+        <div className="grid grid-cols-[repeat(auto-fit,minmax(min(200px,100%),1fr))] gap-4 max-w-[680px] w-full animate-[fadeUp_0.4s_0.25s_ease_both]">
           {PERKS.map((p) => (
             <div key={p.title} className="bg-white border-[1.5px] border-slate-200 rounded-[16px] px-5 py-5 flex items-start gap-3">
               <span className="text-[1.3rem] shrink-0">{p.icon}</span>
