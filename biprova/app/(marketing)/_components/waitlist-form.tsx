@@ -16,11 +16,37 @@ interface ToastState {
 }
 
 function WaitlistToast({ toast, onClose }: { toast: ToastState; onClose: () => void }) {
+  const ref        = useRef<HTMLDivElement>(null);
   const isFirst100 = toast.position <= 100;
   const isAlready  = toast.status === "already";
 
+  useEffect(() => {
+    if (!ref.current) return;
+
+    import("animejs").then(({ animate }) => {
+      animate(ref.current!, {
+        opacity:    [0, 1],
+        translateY: [20, 0],
+        duration:   400,
+        easing:     "easeOutCubic",
+      });
+
+      const timer = setTimeout(() => {
+        animate(ref.current!, {
+          opacity:    [1, 0],
+          translateY: [0, -12],
+          duration:   300,
+          easing:     "easeInCubic",
+          onComplete: onClose,
+        });
+      }, 4000);
+
+      return () => clearTimeout(timer);
+    });
+  }, [onClose]);
+
   return (
-    <div className=" absolute left-1/2 -translate-x-1/2 mt-2 max-w-[420px] animate-bp-fade-up">
+    <div ref={ref} style={{ opacity: 0 }} className="absolute left-1/2 -translate-x-1/2 mt-2 w-max max-w-[420px]">
       <div className="flex items-start gap-3 bg-white border border-slate-200 rounded-2xl px-5 py-4 shadow-xl">
         <div className="flex-1">
           <div className="flex items-center gap-2 mb-1">
