@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useTransition, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { z } from 'zod';
 import { Field } from './field';
 import { searchSkills } from '@/features/auth/actions';
