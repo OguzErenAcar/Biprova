@@ -46,8 +46,8 @@ function WaitlistToast({ toast, onClose }: { toast: ToastState; onClose: () => v
   }, [onClose]);
 
   return (
-    <div ref={ref} style={{ opacity: 0 }} className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[440px]">
-      <div className="flex items-start gap-3 bg-white border border-slate-200 rounded-2xl px-5 py-4 shadow-xl">
+    <div ref={ref} style={{ opacity: 0 }} className="absolute top-full left-0 right-0 mt-2">
+      <div className="max-w-[440px] mx-auto flex items-start gap-3 bg-white border border-slate-200 rounded-2xl px-5 py-4 shadow-xl">
         <div className="flex-1">
           <div className="flex items-center gap-2 mb-1">
             <span className={`w-2 h-2 rounded-full flex-shrink-0 ${isAlready ? "bg-amber-400" : "bg-green-500"}`} />
