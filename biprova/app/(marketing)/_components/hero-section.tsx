@@ -10,7 +10,7 @@ const FLOATING_CARDS = [
 
 export function HeroSection() {
   return (
-    <section className="relative min-h-screen flex flex-col justify-center px-8 pt-32 pb-20 overflow-hidden">
+    <section className="relative min-h-screen flex flex-col justify-center px-4 sm:px-8 pt-24 sm:pt-32 pb-16 sm:pb-20 overflow-hidden">
       {/* Blobs */}
       <div className="absolute top-[-100px] right-[-100px] w-[500px] h-[500px] rounded-full bg-blue-300 blur-[80px] opacity-25 pointer-events-none animate-bp-float" />
       <div className="absolute bottom-[-80px] left-[-80px] w-[400px] h-[400px] rounded-full bg-violet-300 blur-[80px] opacity-25 pointer-events-none animate-bp-float-reverse" />
