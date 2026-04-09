@@ -69,7 +69,7 @@ export async function signup(data: {
     if (skillsError) return { error: skillsError.message };
   }
 
-  return { success: true };
+  return { success: true, userId };
 }
 
 export async function getCities(): Promise<{ id: string; name: string }[]> {
