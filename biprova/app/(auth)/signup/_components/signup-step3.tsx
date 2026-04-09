@@ -46,10 +46,8 @@ export function SignupStep3({ allData, onBack, onNext }: Props) {
   const [results, setResults]               = useState<{ id: string; name: string }[]>([]);
   const [showDropdown, setShowDropdown]     = useState(false);
   const [linkedin, setLinkedin]             = useState('');
-  const [errors, setErrors]                 = useState<Errors>({});
-  const [serverError, setServerError]       = useState('');
-  const [isPending, startTransition]        = useTransition();
-  const debounceRef                         = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [errors, setErrors]   = useState<Errors>({});
+  const debounceRef           = useRef<ReturnType<typeof setTimeout> | null>(null);
   const containerRef                        = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
