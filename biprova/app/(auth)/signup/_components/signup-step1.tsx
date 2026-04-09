@@ -23,10 +23,49 @@ interface Props {
   onNext: (values: Values) => void;
 }
 
+type EmailStatus = 'idle' | 'checking' | 'available' | 'taken';
+
 export function SignupStep1({ initial, onNext }: Props) {
-  const [values, setValues] = useState<Values>(initial);
-  const [errors, setErrors] = useState<Errors>({});
-  const [isPending, startTransition] = useTransition();
+  const [values, setValues]           = useState<Values>(initial);
+  const [errors, setErrors]           = useState<Errors>({});
+  const [isPending, startTransition]  = useTransition();
+  const [emailStatus, setEmailStatus] = useState<EmailStatus>('idle');
+  const debounceRef                   = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const checkedEmailRef               = useRef<string>('');
+
+  const checkEmail = useCallback(async (email: string) => {
+    const emailSchema = z.string().email();
+    if (!emailSchema.safeParse(email).success) return;
+
+    setEmailStatus('checking');
+    setErrors((prev) => ({ ...prev, email: undefined }));
+
+    const res = await checkEmailAvailable(email);
+    checkedEmailRef.current = email;
+
+    if ('error' in res) {
+      setEmailStatus('taken');
+      setErrors((prev) => ({ ...prev, email: res.error }));
+    } else {
+      setEmailStatus('available');
+    }
+  }, []);
+
+  function handleEmailChange(email: string) {
+    setValues((prev) => ({ ...prev, email }));
+    setEmailStatus('idle');
+    setErrors((prev) => ({ ...prev, email: undefined }));
+
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    debounceRef.current = setTimeout(() => checkEmail(email), 700);
+  }
+
+  function handleEmailBlur() {
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    if (values.email && values.email !== checkedEmailRef.current) {
+      checkEmail(values.email);
+    }
+  }
 
   function handleNext() {
     const result = schema.safeParse(values);
@@ -41,12 +80,20 @@ export function SignupStep1({ initial, onNext }: Props) {
     }
     setErrors({});
 
+    // Zaten kontrol edildi ve müsaitse direkt ilerle
+    if (emailStatus === 'available' && checkedEmailRef.current === values.email) {
+      onNext(result.data);
+      return;
+    }
+
     startTransition(async () => {
       const res = await checkEmailAvailable(values.email);
       if ('error' in res) {
+        setEmailStatus('taken');
         setErrors({ email: res.error });
         return;
       }
+      setEmailStatus('available');
       onNext(result.data);
     });
   }
