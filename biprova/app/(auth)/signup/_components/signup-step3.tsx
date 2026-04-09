@@ -40,7 +40,7 @@ function toDisplayName(name: string): string {
   return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
 }
 
-export function SignupStep3({ allData, onBack, onSuccess }: Props) {
+export function SignupStep3({ allData, onBack, onNext }: Props) {
   const [selectedSkills, setSelectedSkills] = useState<{ id: string; name: string }[]>([]);
   const [query, setQuery]                   = useState('');
   const [results, setResults]               = useState<{ id: string; name: string }[]>([]);
