@@ -106,20 +106,7 @@ export function SignupStep3({ allData, onBack, onNext }: Props) {
       return;
     }
     setErrors({});
-    setServerError('');
-
-    startTransition(async () => {
-      const res = await signup({
-        ...allData,
-        skill_ids:    selectedSkills.map((s) => s.id),
-        linkedin_url: linkedin,
-      });
-      if ('error' in res) {
-        setServerError(res.error);
-      } else {
-        onSuccess();
-      }
-    });
+    onNext({ skill_ids: selectedSkills.map((s) => s.id), linkedin_url: linkedin });
   }
 
   const canAddMore = selectedSkills.length < MAX_SKILLS;
