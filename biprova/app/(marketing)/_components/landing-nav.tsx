@@ -6,7 +6,7 @@ export async function LandingNav() {
   const { data: { user } } = await supabase.auth.getUser();
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-[100] flex items-center justify-between px-8 py-4 bg-white/85 backdrop-blur-[16px] border-b border-slate-200">
+    <nav className="fixed top-0 left-0 right-0 z-[100] flex items-center justify-between px-4 sm:px-8 py-4 bg-white/85 backdrop-blur-[16px] border-b border-slate-200">
       <Link href="/" className="font-nunito font-black text-[1.4rem] tracking-[-0.5px] text-blue-600 no-underline">
         bir<span className="text-slate-900">prova</span>
       </Link>
