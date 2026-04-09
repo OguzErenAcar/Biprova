@@ -4,7 +4,7 @@ export function CtaSection() {
   return (
     <div
       id="waitlist"
-      className="relative mx-4 mb-20 rounded-[28px] overflow-hidden text-center px-8 py-16"
+      className="relative mx-2 sm:mx-4 mb-16 sm:mb-20 rounded-[20px] sm:rounded-[28px] overflow-hidden text-center px-5 sm:px-8 py-12 sm:py-16"
       style={{ background: "linear-gradient(135deg, #2563eb 0%, #6366f1 100%)" }}
     >
       {/* Dot pattern */}
