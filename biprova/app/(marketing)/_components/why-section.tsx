@@ -34,7 +34,7 @@ export function WhySection() {
       <h2 className="font-nunito font-black text-[clamp(1.8rem,4vw,2.8rem)] tracking-[-1px] leading-[1.15] mb-12">
         Yalnız proje zordur 😅
       </h2>
-      <div className="grid grid-cols-[repeat(auto-fit,minmax(230px,1fr))] gap-5">
+      <div className="grid grid-cols-[repeat(auto-fit,minmax(min(230px,100%),1fr))] gap-5">
         {WHY_CARDS.map((card) => (
           <div
             key={card.title}
