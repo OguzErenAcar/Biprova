@@ -25,10 +25,15 @@ interface AllData {
   is_remote: boolean;
 }
 
+interface StepData {
+  skill_ids:    string[];
+  linkedin_url: string;
+}
+
 interface Props {
   allData: AllData;
   onBack: () => void;
-  onSuccess: () => void;
+  onNext: (values: StepData) => void;
 }
 
 function toDisplayName(name: string): string {
