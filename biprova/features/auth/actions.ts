@@ -22,7 +22,8 @@ export async function signup(data: {
   city:         string;
   is_remote:    boolean;
   skill_ids:    string[];
-}): Promise<ActionResult> {
+  bio?:         string;
+}): Promise<SignupResult> {
   // signUp → Supabase confirmation mailini otomatik gönderir
   const supabase = await createClient();
   const { data: authData, error } = await supabase.auth.signUp({
