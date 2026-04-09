@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useState, useTransition, useEffect, useRef } from "react";
 import { z } from "zod";
 import { joinWaitlist } from "@/features/waitlist/actions";
 
