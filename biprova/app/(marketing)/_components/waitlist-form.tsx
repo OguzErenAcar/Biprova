@@ -20,7 +20,7 @@ function WaitlistToast({ toast, onClose }: { toast: ToastState; onClose: () => v
   const isAlready  = toast.status === "already";
 
   return (
-    <div className="fixed top-[65px] left-1/2 -translate-x-1/2 z-[200] w-[calc(100%-2rem)] max-w-[420px] animate-bp-fade-up">
+    <div className=" absolute left-1/2 -translate-x-1/2 mt-2 max-w-[420px] animate-bp-fade-up">
       <div className="flex items-start gap-3 bg-white border border-slate-200 rounded-2xl px-5 py-4 shadow-xl">
         <div className="flex-1">
           <div className="flex items-center gap-2 mb-1">
@@ -89,9 +89,7 @@ export function WaitlistForm({ variant = "hero" }: WaitlistFormProps) {
   }
 
   return (
-    <>
-      {toast && <WaitlistToast toast={toast} onClose={() => setToast(null)} />}
-
+    <div className="relative"> 
       <div className="flex max-w-[440px] mx-auto rounded-[14px] overflow-hidden shadow-[0_8px_30px_rgba(37,99,235,0.18)]">
         <input
           type="email"
@@ -111,9 +109,10 @@ export function WaitlistForm({ variant = "hero" }: WaitlistFormProps) {
         </button>
       </div>
 
+       {toast && <WaitlistToast toast={toast} onClose={() => setToast(null)} />}
       {serverError && (
         <p className="text-[0.8rem] text-red-500 text-center mt-2">{serverError}</p>
       )}
-    </>
+    </div>
   );
 }

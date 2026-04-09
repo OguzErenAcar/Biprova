@@ -82,9 +82,14 @@ export default {
           from: { opacity: '0', transform: 'translateY(20px)' },
           to:   { opacity: '1', transform: 'translateY(0)' },
         },
+        'bp-fade-up': {
+          from: { opacity: '0', transform: 'translateY(24px)' },
+          to:   { opacity: '1', transform: 'translateY(0)' },
+        },
       },
       animation: {
-        fadeUp: 'fadeUp 0.4s ease both',
+        fadeUp:       'fadeUp 0.4s ease both',
+        'bp-fade-up': 'bp-fade-up 0.35s ease both',
       },
       borderRadius: {
         lg: "var(--radius)",
