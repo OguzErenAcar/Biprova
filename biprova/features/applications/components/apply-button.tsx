@@ -35,7 +35,7 @@ export function RoleJoinButton({ projectId, roleId }: RoleJoinButtonProps) {
             }
           })
         }
-        className=" border text-ink-muted rounded-lg font-nunito font-extrabold text-meta px-3 py-1.5 cursor-pointer   transition-colors duration-150 whitespace-nowrap disabled:opacity-60 disabled:cursor-not-allowed"
+        className="  bg-brand-surface  text-brand  hover:text-black hover:border-black rounded-lg text-meta px-3 py-1.5 cursor-pointer   transition-colors duration-150 whitespace-nowrap disabled:opacity-60 disabled:cursor-not-allowed"
       >
         {isPending ? "…" : "Başvur →"}
       </button>

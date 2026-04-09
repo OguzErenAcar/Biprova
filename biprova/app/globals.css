@@ -67,7 +67,7 @@
     --p-canvas:         #FAFAFF;   /* sayfa arkaplanı */
     
     --p-ink:            #ffffff;   /* koyu metin */
-    --p-ink-muted:      #d4d4d4;   /* ikincil metin */
+    --p-ink-muted:      #ffffff;   /* ikincil metin */
     --p-ink-subtle:     #d4d4d4;   /* placeholder / soluk */
     --p-ink-border:     #08090a;   /* kenarlık */
     
@@ -123,10 +123,10 @@
     /* ─── Tipografi Skalası ──────────────────────
        Tüm font boyutları buradan
     ──────────────────────────────────────────── */
-    --text-label:   0.70rem;   /* rozet, küçük etiket */
-    --text-meta:    0.75rem;   /* meta bilgi, zaman damgası */
-    --text-caption: 0.82rem;   /* açıklama, ikincil */
-    --text-body:    0.88rem;   /* genel gövde metni */
+    --text-label:   1.1rem;   /* rozet, küçük etiket */
+    --text-meta:    0.9rem;   /* meta bilgi, zaman damgası */
+    --text-caption: 0.9rem;   /* açıklama, ikincil */
+    --text-body:    0.98rem;   /* genel gövde metni */
     --text-lead:    0.95rem;   /* öne çıkan metin */
     --text-title:   1.10rem;   /* bölüm başlığı */
     --text-h2:      1.30rem;   /* sayfa başlığı */
@@ -150,7 +150,8 @@
   }
   body {
     @apply text-foreground;
-    background: linear-gradient(to bottom, rgb(55 100 236), rgb(196, 203, 223)) fixed;
+     background: linear-gradient(to bottom, rgb(55 100 236), rgb(196, 203, 223)) fixed;   
+    /* background: #b5b5b5; */
     font-family: "Arial", cursive !important;
   }
 
@@ -163,7 +164,8 @@
 }
   .g-bg{
     
-    background-color: rgba(15, 40, 84,0.3);
+    background-color: rgba(12, 12, 12, 0.2);
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   }
 
 /* ══════════════════════════════════════════════

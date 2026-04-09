@@ -29,20 +29,20 @@ interface ProjectCardProps {
   postedAt: string;
   title: string;
   description: string;
-  poster: { id: string; name: string; initials: string;color:string  };
+  poster: { id: string; name: string; initials: string; color: string };
   roles: Role[];
 }
 
 const STATUS_STYLES: Record<ProjectStatus, string> = {
-  open:   "bg-success-surface text-success border-success-surface",
+  open: "bg-success-surface text-success border-success-surface",
   almost: "bg-warning-surface text-warning border-warning-surface",
-  full:   "bg-danger-surface text-danger border-danger-surface",
+  full: "bg-danger-surface text-danger border-danger-surface",
 };
 
 const STATUS_LABELS: Record<ProjectStatus, string> = {
-  open:   "Açık",
+  open: "Açık",
   almost: "Neredeyse Doldu",
-  full:   "Doldu",
+  full: "Doldu",
 };
 
 export function ProjectCard({
@@ -90,10 +90,16 @@ export function ProjectCard({
           </Link>
 
           <div className="flex items-center gap-2 flex-wrap">
-            <Badge variant="outline" className="bg-brand-surface text-brand border-brand-surface font-bold">
+            <Badge
+              variant="outline"
+              className="bg-brand-surface text-brand border-brand-surface font-bold"
+            >
               {isRemote ? "🌐 Remote" : `📍 ${city}`}
             </Badge>
-            <Badge variant="outline" className={`font-bold ${STATUS_STYLES[status]}`}>
+            <Badge
+              variant="outline"
+              className={`font-bold ${STATUS_STYLES[status]}`}
+            >
               {STATUS_LABELS[status]}
             </Badge>
           </div>
@@ -118,9 +124,13 @@ export function ProjectCard({
               onClick={() => setRolesOpen((prev) => !prev)}
               className="w-full justify-between px-0 h-auto py-1 mb-2 hover:bg-transparent"
             >
-              <span className="text-label font-bold text-ink uppercase tracking-wider">
-                Aranan Pozisyonlar ({openRoles.length})
-              </span>
+              <div className="block">
+                <span className=" font-bold text-ink uppercase tracking-wider">
+                  Aranan Pozisyonlar ({openRoles.length})
+                </span>
+                <div className="h-[1px] mt-2 bg-white w-full"></div>
+              </div>
+
               <ChevronDown
                 className={`w-3.5 h-3.5 text-ink transition-transform duration-200 ${rolesOpen ? "rotate-180" : ""}`}
               />
@@ -130,7 +140,8 @@ export function ProjectCard({
                 {openRoles.map((role, i) => (
                   <div
                     key={i}
-                    className="rounded-xl border text-black   px-3 py-2.5 flex items-center gap-3"
+                    style={{ backgroundColor: "rgba(55,100,236,0.8)" }}
+                    className="rounded-xl  text-black   px-3 py-2.5 flex items-center gap-3"
                   >
                     <div className="flex-1 min-w-0  w-[100px]">
                       <div className="flex items-center gap-2 mb-1.5">

@@ -33,11 +33,11 @@ export async function SuggestedPeople() {
   return (
     <div className="bg-surface border g-bg border-slate-400 rounded-2xl shadow-sm overflow-hidden w-[272]">
       <div className="px-[1.2rem] py-[1rem] border-b border-slate-200">
-        <span className="font-display text-body font-black text-ink">Önerilenler</span>
+        <span className="font-display text-lg font-black text-ink">Önerilenler</span>
       </div>
 
       {users.length === 0 ? (
-        <div className="px-[1.2rem] py-[1rem] text-caption text-ink text-center">
+        <div className="px-[1.2rem] py-[1rem] text-label text-ink text-center">
           Önerilecek kimse yok.
         </div>
       ) : (

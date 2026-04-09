@@ -5,6 +5,7 @@ import { createClient } from '@/lib/supabase/server';
 import { createClient as createAdminClient } from '@supabase/supabase-js';
 
 type ActionResult = { error: string } | { success: true };
+type SignupResult = { error: string } | { success: true; userId: string };
 
 function getAdminClient() {
   return createAdminClient(

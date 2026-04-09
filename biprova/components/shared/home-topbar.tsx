@@ -90,7 +90,7 @@ function TickerAnimation() {
 
 export function HomeTopbar() {
   return (
-    <div id="dashboard-topbar" className="relative my-5 g-topbar shadow-lg shadow-black/10 rounded-md mx-auto w-[90%] border border-slate-400 px-4 sm:px-6 lg:px-8 py-[0.9rem] flex items-center gap-4">
+    <div id="dashboard-topbar" className="relative my-5 g-topbar shadow-lg shadow-black/10 rounded-md mx-auto w-[90%] border border-black px-4 sm:px-6 lg:px-8 py-[0.9rem] flex items-center gap-4">
       <Link
         href="/dashboard"
         className="font-display font-black text-h2 text-blue-600 px-2 no-underline"
