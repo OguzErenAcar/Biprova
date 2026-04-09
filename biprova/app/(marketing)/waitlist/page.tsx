@@ -62,7 +62,7 @@ export default function WaitlistPage() {
         <WaitlistFormCard />
 
         {/* Stats */}
-        <div className="flex justify-center gap-12 mb-12 animate-[fadeUp_0.4s_0.2s_ease_both] flex-wrap">
+        <div className="flex justify-center gap-6 sm:gap-12 mb-12 animate-[fadeUp_0.4s_0.2s_ease_both] flex-wrap">
           {STATS.map((s) => (
             <div key={s.label} className="text-center">
               <div className="font-nunito font-black text-[2rem] text-blue-600 leading-none">{s.num}</div>
