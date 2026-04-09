@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useTransition } from 'react';
+import { useState, useTransition, useRef, useCallback } from 'react';
 import { z } from 'zod';
 import { Field } from './field';
 import { checkEmailAvailable } from '@/features/auth/actions';
