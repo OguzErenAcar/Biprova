@@ -37,7 +37,7 @@ export default function WaitlistPage() {
       </nav>
 
       {/* Main */}
-      <main className="flex-1 flex flex-col items-center justify-center px-6 pt-32 pb-16 relative z-10">
+      <main className="flex-1 flex flex-col items-center justify-center px-4 sm:px-6 pt-28 sm:pt-32 pb-12 sm:pb-16 relative z-10">
 
         {/* Badge */}
         <div className="inline-flex items-center gap-2 bg-green-50 border-[1.5px] border-green-200 rounded-full px-4 py-1.5 text-[0.8rem] font-bold text-green-700 mb-8 animate-[fadeUp_0.4s_ease_both]">
