@@ -5,7 +5,7 @@ export function SignupCard() {
   return (
     <div className="
       bg-white border-[1.5px] border-slate-200
-      rounded-[28px] px-10 py-12
+      rounded-[20px] sm:rounded-[28px] px-5 py-8 sm:px-10 sm:py-12
       w-full max-w-[420px]
       shadow-[0_8px_40px_rgba(0,0,0,0.08)]
       relative z-10
