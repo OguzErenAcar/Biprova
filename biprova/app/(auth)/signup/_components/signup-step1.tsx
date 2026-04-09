@@ -116,12 +116,21 @@ export function SignupStep1({ initial, onNext }: Props) {
       />
       <Field
         id="email"
-        label="E-posta"
+        label={
+          <span className="flex items-center gap-1.5">
+            E-posta
+            {emailStatus === 'checking' && (
+              <span className="text-[0.7rem] text-slate-400 font-normal">Kontrol ediliyor...</span>
+            )}
+          </span>
+        }
         type="email"
         placeholder="ornek@mail.com"
         value={values.email}
         error={errors.email}
-        onChange={(v) => setValues({ ...values, email: v })}
+        hint={emailStatus === 'available' ? '✓ Kullanılabilir' : undefined}
+        onChange={handleEmailChange}
+        onBlur={handleEmailBlur}
       />
 
       <div className="flex flex-col gap-1.5">
