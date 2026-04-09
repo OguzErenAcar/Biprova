@@ -201,24 +201,18 @@ export function SignupStep3({ allData, onBack, onNext }: Props) {
         onChange={(v) => setLinkedin(v)}
       />
 
-      {serverError && (
-        <p className="text-[0.8rem] text-red-500 text-center">{serverError}</p>
-      )}
-
       <div className="flex gap-2 mt-1">
         <button
           onClick={onBack}
-          disabled={isPending}
-          className="flex-none px-5 py-4 rounded-[14px] border-[1.5px] border-slate-200 text-slate-600 font-nunito font-bold text-base hover:bg-slate-50 transition-colors cursor-pointer bg-transparent disabled:opacity-50"
+          className="flex-none px-5 py-4 rounded-[14px] border-[1.5px] border-slate-200 text-slate-600 font-nunito font-bold text-base hover:bg-slate-50 transition-colors cursor-pointer bg-transparent"
         >
           ← Geri
         </button>
         <button
           onClick={handleSubmit}
-          disabled={isPending}
-          className="flex-1 py-4 rounded-[14px] bg-blue-600 hover:bg-blue-700 disabled:opacity-60 text-white font-nunito font-extrabold text-base transition-colors cursor-pointer border-none"
+          className="flex-1 py-4 rounded-[14px] bg-blue-600 hover:bg-blue-700 text-white font-nunito font-extrabold text-base transition-colors cursor-pointer border-none"
         >
-          {isPending ? 'Kaydediliyor...' : 'Kayıt Ol →'}
+          İleri →
         </button>
       </div>
     </div>
