@@ -43,14 +43,17 @@ export async function signup(data: {
   const admin = getAdminClient();
 
   // Trigger name, linkedin_url, city, is_remote bilmez — bunları güncelliyoruz
+  const updatePayload: Record<string, unknown> = {
+    name:         data.name,
+    linkedin_url: data.linkedin_url,
+    city:         data.city,
+    is_remote:    data.is_remote,
+  };
+  if (data.bio) updatePayload.bio = data.bio;
+
   const { error: updateError } = await admin
     .from('users')
-    .update({
-      name:         data.name,
-      linkedin_url: data.linkedin_url,
-      city:         data.city,
-      is_remote:    data.is_remote,
-    })
+    .update(updatePayload)
     .eq('id', userId);
 
   if (updateError) {
