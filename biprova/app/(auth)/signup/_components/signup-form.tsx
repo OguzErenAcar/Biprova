@@ -93,6 +93,17 @@ export function SignupForm() {
         <SignupStep3
           allData={data}
           onBack={() => setStep(2)}
+          onNext={(values) => {
+            setData({ ...data, ...values });
+            setStep(4);
+          }}
+        />
+      )}
+
+      {step === 4 && (
+        <SignupStep4
+          allData={data}
+          onBack={() => setStep(3)}
           onSuccess={() => setSuccess(true)}
         />
       )}
