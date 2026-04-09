@@ -8,23 +8,27 @@ import { SignupStep4 } from './signup-step4';
 import { getCities } from '@/features/auth/actions';
 
 interface FormData {
-  name: string;
-  email: string;
-  password: string;
-  city: string;
-  is_remote: boolean;
+  name:         string;
+  email:        string;
+  password:     string;
+  city:         string;
+  is_remote:    boolean;
+  skill_ids:    string[];
+  linkedin_url: string;
 }
 
 const INITIAL: FormData = {
-  name: '',
-  email: '',
-  password: '',
-  city: '',
-  is_remote: false,
+  name:         '',
+  email:        '',
+  password:     '',
+  city:         '',
+  is_remote:    false,
+  skill_ids:    [],
+  linkedin_url: '',
 };
 
 export function SignupForm() {
-  const [step, setStep]       = useState<1 | 2 | 3>(1);
+  const [step, setStep]       = useState<1 | 2 | 3 | 4>(1);
   const [data, setData]       = useState<FormData>(INITIAL);
   const [success, setSuccess] = useState(false);
   const [cities, setCities]   = useState<{ id: string; name: string }[]>([]);
