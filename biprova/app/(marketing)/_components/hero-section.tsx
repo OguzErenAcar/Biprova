@@ -46,7 +46,7 @@ export function HeroSection() {
         </p>
 
         {/* Waitlist form */}
-        <div className="animate-bp-fade-up" style={{ animationDelay: "0.3s" }}>
+        <div className="animate-bp-fade-up relative z-10" style={{ animationDelay: "0.3s" }}>
           <WaitlistForm variant="hero" />
         </div>
 
