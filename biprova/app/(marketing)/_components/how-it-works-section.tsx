@@ -1,29 +1,35 @@
+import { LottieIcon } from '@/components/shared/lottie-icon'
+import editDocumentIcon from '@/app/icons/wired-outline-245-edit-document-hover-pinch.json'
+import avatarManIcon from '@/app/icons/wired-outline-268-avatar-man-hover-glance.json'
+import consultationIcon from '@/app/icons/wired-outline-981-consultation-hover-conversation.json'
+import alarmClockIcon from '@/app/icons/wired-outline-236-alarm-clock-hover-pinch.json'
+
 const STEPS = [
   {
     num: "1",
-    emoji: "📌",
+    icon: editDocumentIcon,
     title: "Proje Başlığı Aç",
     desc: "Fikrinin detayını değil, ihtiyacını paylaş. Kim lazım, hangi şehirde, ne amaçla.",
   },
   {
     num: "2",
-    emoji: "🙋",
+    icon: avatarManIcon,
     title: "Başvurular Gelir",
     desc: 'İlgilenenler "ben şunu yapabilirim" diye başvurur. Ekip barı dolmaya başlar.',
   },
   {
     num: "3",
-    emoji: "💬",
+    icon: consultationIcon,
     title: "Özel Grup Açılır",
     desc: "Bar dolduğunda sadece ekibinize özel alan oluşur. Fikrin detayları orada paylaşılır.",
   },
   {
     num: "4",
-    emoji: "⚡",
+    icon: alarmClockIcon,
     title: "24 Saat Kuralı",
     desc: "Team leader ilk buluşmayı 24 saat içinde başlatmalı — yoksa ekip dağılır!",
   },
-];
+]
 
 export function HowItWorksSection() {
   return (
@@ -43,7 +49,9 @@ export function HowItWorksSection() {
             <span className="absolute top-[-10px] right-2.5 font-nunito font-black text-[5rem] text-slate-100 leading-none pointer-events-none select-none">
               {step.num}
             </span>
-            <span className="text-[2rem] mb-4 block relative">{step.emoji}</span>
+            <div className="mb-4 relative">
+              <LottieIcon animationData={step.icon} size={48} />
+            </div>
             <h3 className="relative font-nunito font-extrabold text-[1.05rem] mb-2">
               {step.title}
             </h3>
@@ -54,5 +62,5 @@ export function HowItWorksSection() {
         ))}
       </div>
     </section>
-  );
+  )
 }
