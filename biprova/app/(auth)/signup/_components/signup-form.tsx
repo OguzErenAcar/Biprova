@@ -53,7 +53,7 @@ export function SignupForm() {
     <div className="flex flex-col gap-5">
       {/* Progress dots */}
       <div className="flex items-center justify-center gap-2">
-        {([1, 2, 3] as const).map((s) => (
+        {([1, 2, 3, 4] as const).map((s) => (
           <div
             key={s}
             className={`rounded-full transition-all duration-300 ${
