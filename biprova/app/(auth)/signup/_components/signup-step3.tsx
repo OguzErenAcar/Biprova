@@ -3,7 +3,7 @@
 import { useState, useTransition, useRef, useEffect } from 'react';
 import { z } from 'zod';
 import { Field } from './field';
-import { signup, searchSkills } from '@/features/auth/actions';
+import { searchSkills } from '@/features/auth/actions';
 
 const MAX_SKILLS = 3;
 
