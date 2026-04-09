@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { SignupStep1 } from './signup-step1';
 import { SignupStep2 } from './signup-step2';
 import { SignupStep3 } from './signup-step3';
+import { SignupStep4 } from './signup-step4';
 import { getCities } from '@/features/auth/actions';
 
 interface FormData {
