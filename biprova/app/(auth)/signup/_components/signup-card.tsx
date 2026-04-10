@@ -3,7 +3,8 @@ import { SignupForm } from './signup-form';
 
 export function SignupCard() {
   return (
-    <div className="
+    <div 
+    className="
       bg-white border-[1.5px] border-slate-200
       rounded-[20px] sm:rounded-[28px] px-5 py-8 sm:px-10 sm:py-12
       w-full max-w-[420px]
