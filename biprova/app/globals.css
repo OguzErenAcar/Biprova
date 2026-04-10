@@ -205,7 +205,7 @@
    SONNER TOAST
    ══════════════════════════════════════════════ */
 [data-sonner-toaster] {
-  --offset: 80px !important;
+  --offset: 280px !important;
 }
 
 [data-sonner-toast][data-type="error"] {
