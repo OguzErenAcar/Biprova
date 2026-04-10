@@ -61,16 +61,15 @@ export function ProjectCard({
   const filled = roles.filter((r) => r.filled).length;
   const total = roles.length;
   const openRoles = roles.filter((r) => !r.filled);
-  //const filledRoles = roles.filter((r) => r.filled);
 
   return (
     <Card
       id={`project-card-${projectId}`}
-      className="hover:-translate-y-0.5  transition-all duration-150 cursor-pointer"
+      className="hover:-translate-y-0.5 transition-all duration-150 cursor-pointer"
     >
-      <CardContent className="p-[1.4rem]">
+      <CardContent className="p-3 sm:p-[1.4rem]">
         {/* Üst satır: poster + etiketler */}
-        <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center justify-between mb-2 sm:mb-4">
           <Link
             href={`/dashboard/profile/${poster.id}`}
             className="flex items-center gap-2 hover:opacity-75 transition-opacity"
@@ -89,16 +88,16 @@ export function ProjectCard({
             </span>
           </Link>
 
-          <div className="flex items-center gap-2 flex-wrap">
+          <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap justify-end">
             <Badge
               variant="outline"
-              className="bg-brand-surface text-brand border-brand-surface font-bold"
+              className="bg-brand-surface text-brand border-brand-surface font-bold text-[0.7rem] sm:text-xs px-1.5 sm:px-2"
             >
               {isRemote ? "🌐 Remote" : `📍 ${city}`}
             </Badge>
             <Badge
               variant="outline"
-              className={`font-bold ${STATUS_STYLES[status]}`}
+              className={`font-bold text-[0.7rem] sm:text-xs px-1.5 sm:px-2 ${STATUS_STYLES[status]}`}
             >
               {STATUS_LABELS[status]}
             </Badge>
@@ -106,18 +105,18 @@ export function ProjectCard({
         </div>
 
         {/* Başlık */}
-        <div className="font-nunito font-black text-title leading-[1.3] text-ink mb-[0.35rem]">
+        <div className="font-nunito font-black text-[1rem] sm:text-title leading-[1.3] text-ink mb-1 sm:mb-[0.35rem]">
           {title}
         </div>
 
-        {/* Açıklama */}
-        <div className="text-body text-ink-muted mb-4 leading-[1.55]">
+        {/* Açıklama — mobilde 2 satırla sınırlı */}
+        <div className="text-[0.8rem] sm:text-body text-ink-muted mb-2 sm:mb-4 leading-[1.5] line-clamp-2 sm:line-clamp-none">
           {description}
         </div>
 
         {/* Aranan pozisyonlar */}
         {openRoles.length > 0 && (
-          <div className="mb-4">
+          <div className="mb-2 sm:mb-4">
             <Button
               variant="ghost"
               size="sm"
@@ -125,30 +124,27 @@ export function ProjectCard({
               className="w-full justify-between px-0 h-auto py-1 mb-2 hover:bg-transparent"
             >
               <div className="block">
-                <span className=" font-bold text-ink uppercase tracking-wider">
+                <span className="font-bold text-ink uppercase tracking-wider text-[0.72rem] sm:text-sm">
                   Aranan Pozisyonlar ({openRoles.length})
                 </span>
-                <div className="h-[1px] mt-2 bg-white w-full"></div>
+                <div className="h-[1px] mt-2 bg-white w-full" />
               </div>
-
               <ChevronDown
                 className={`w-3.5 h-3.5 text-ink transition-transform duration-200 ${rolesOpen ? "rotate-180" : ""}`}
               />
             </Button>
             {rolesOpen && (
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-1.5 sm:gap-2">
                 {openRoles.map((role, i) => (
                   <div
                     key={i}
                     style={{ backgroundColor: "rgba(55,100,236,0.8)" }}
-                    className="rounded-xl  text-black   px-3 py-2.5 flex items-center gap-3"
+                    className="rounded-xl text-black px-3 py-2 sm:py-2.5 flex items-center gap-3"
                   >
-                    <div className="flex-1 min-w-0  w-[100px]">
-                      <div className="flex items-center gap-2 mb-1.5">
-                        <span className="text-caption   text-ink-muted">
-                          {role.name}
-                        </span>
-                      </div>
+                    <div className="flex-1 min-w-0">
+                      <span className="text-caption text-ink-muted">
+                        {role.name}
+                      </span>
                     </div>
                     {!isOwnProject && (
                       <RoleJoinButton projectId={projectId} roleId={role.id} />
@@ -159,22 +155,6 @@ export function ProjectCard({
             )}
           </div>
         )}
-
-        {/* Dolu roller */}
-        {/* {filledRoles.length > 0 && (
-          <div className="flex flex-wrap gap-1.5 mb-4">
-            {filledRoles.map((role, i) => (
-              <Badge
-                key={i}
-                variant="outline"
-                className="bg-success-surface text-success border-success-surface font-semibold gap-1.5"
-              >
-                <span className="w-1.5 h-1.5 rounded-full bg-success flex-shrink-0" />
-                {role.name}
-              </Badge>
-            ))}
-          </div>
-        )} */}
 
         {/* Ekip doluluk barı */}
         <div className="mb-0">
