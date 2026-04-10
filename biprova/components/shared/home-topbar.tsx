@@ -74,7 +74,7 @@ function TickerAnimation() {
   return (
     <div
       ref={containerRef}
-      className="absolute right-10 lg:right-auto lg:left-1/2 lg:-translate-x-1/2 h-8 overflow-hidden flex items-center min-w-[140px] lg:min-w-[350px]"
+      className="lg:inline hidden absolute right-10 lg:right-auto lg:left-1/2 lg:-translate-x-1/2 h-8 overflow-hidden flex items-center min-w-[140px] lg:min-w-[350px]"
     >
       {CHUNKS.map((chunk) => (
         <p
@@ -154,7 +154,7 @@ export function HomeTopbar() {
 
   return (
     <>
-      <div id="dashboard-topbar" className="relative my-5 g-topbar shadow-lg shadow-black/10 rounded-md mx-auto w-[90%] border border-black px-4 sm:px-6 lg:px-8 py-[0.9rem] flex items-center gap-4">
+      <div id="dashboard-topbar" className="relative my-5 g-topbar shadow-lg shadow-black/10 md:rounded-md mx-auto w-100 md:w-[90%] md:border border-black px-4 sm:px-6 lg:px-8 py-[0.9rem] flex items-center gap-4">
         <Link
           href="/dashboard"
           className="font-display font-black text-h2 text-blue-600 px-2 no-underline"

@@ -57,6 +57,7 @@ export function ProjectCard({
   roles,
 }: ProjectCardProps) {
   const [rolesOpen, setRolesOpen] = useState(false);
+  const [desOpen, setDesOpen] = useState(false);
 
   const filled = roles.filter((r) => r.filled).length;
   const total = roles.length;
@@ -67,7 +68,7 @@ export function ProjectCard({
       id={`project-card-${projectId}`}
       className="hover:-translate-y-0.5 transition-all duration-150 cursor-pointer"
     >
-      <CardContent className="p-3 sm:p-[1.4rem]">
+      <CardContent className="px-3 sm:p-[1.4rem]">
         {/* Üst satır: poster + etiketler */}
         <div className="flex items-center justify-between mb-2 sm:mb-4">
           <Link
@@ -105,13 +106,22 @@ export function ProjectCard({
         </div>
 
         {/* Başlık */}
-        <div className="font-nunito font-black text-[1rem] sm:text-title leading-[1.3] text-ink mb-1 sm:mb-[0.35rem]">
-          {title}
-        </div>
+        <button
+          className="hover:bg-transparent w-full"
+          onClick={() => setDesOpen(!desOpen)}
+        >
+          <div className="flex justify-between font-nunito font-black text-[1rem] sm:text-title leading-[1.3] text-ink mb-1 sm:mb-[0.35rem]">
+            {title}
+
+            <ChevronDown
+              className={` w-4.5 h-4.5 text-ink transition-transform duration-200 ${desOpen ? "rotate-180" : ""}`}
+            />
+          </div>
+        </button>
 
         {/* Açıklama — mobilde 2 satırla sınırlı */}
         <div className="text-[0.8rem] sm:text-body text-ink-muted mb-2 sm:mb-4 leading-[1.5] line-clamp-2 sm:line-clamp-none">
-          {description}
+          {desOpen && description}
         </div>
 
         {/* Aranan pozisyonlar */}
@@ -123,15 +133,11 @@ export function ProjectCard({
               onClick={() => setRolesOpen((prev) => !prev)}
               className="w-full justify-between px-0 h-auto py-1 mb-2 hover:bg-transparent"
             >
-              <div className="block">
-                <span className="font-bold text-ink uppercase tracking-wider text-[0.72rem] sm:text-sm">
+              <div className="block border px-2 py-1 rounded-lg">
+                <span className=" font-bold text-ink uppercase tracking-wider text-[0.72rem] sm:text-sm">
                   Aranan Pozisyonlar ({openRoles.length})
                 </span>
-                <div className="h-[1px] mt-2 bg-white w-full" />
               </div>
-              <ChevronDown
-                className={`w-3.5 h-3.5 text-ink transition-transform duration-200 ${rolesOpen ? "rotate-180" : ""}`}
-              />
             </Button>
             {rolesOpen && (
               <div className="flex flex-col gap-1.5 sm:gap-2">

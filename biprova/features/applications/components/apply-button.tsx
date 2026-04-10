@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { toast } from "sonner";
 import { applyToProject } from "@/features/applications/actions";
 
 interface RoleJoinButtonProps {
@@ -35,12 +36,14 @@ export function RoleJoinButton({ projectId, roleId }: RoleJoinButtonProps) {
             }
           })
         }
-        className="  bg-brand-surface  text-brand  hover:text-black hover:border-black rounded-lg text-meta px-3 py-1.5 cursor-pointer   transition-colors duration-150 whitespace-nowrap disabled:opacity-60 disabled:cursor-not-allowed"
+          // open: "bg-success-surface text-success border-success-surface",
+
+        className=" bg-brand-surface font-semibold text-success hover:text-black hover:border-black rounded-lg text-xs px-3 py-1.5 cursor-pointer   transition-colors duration-150 whitespace-nowrap disabled:opacity-60 disabled:cursor-not-allowed"
       >
         {isPending ? "…" : "Başvur →"}
       </button>
       {error && (
-        <span className="text-label text-danger font-semibold text-right">{error}</span>
+        <span className="text-xs  text-danger font-semibold text-right">{error}</span>
       )}
     </div>
   );

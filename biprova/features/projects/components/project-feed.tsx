@@ -72,7 +72,7 @@ export async function ProjectFeed({ searchParams }: ProjectFeedProps) {
 
   return (
     <div id="project-feed">
-      <div className="flex items-center justify-between mb-4 md:mx-0 mx-4">
+      <div className="flex items-center justify-between mb-4 md:mx-0 mx-2">
         <h1 className="text-3xl   text-ink">
            Projeler
         </h1>
@@ -80,7 +80,7 @@ export async function ProjectFeed({ searchParams }: ProjectFeedProps) {
       </div>
 
       {projects.length === 0 ? (
-        <Card className="rounded-none md:rounded-xl">
+        <Card  >
           <CardContent className="p-10 text-center text-ink-subtle text-lead">
             Henüz aktif proje yok.
           </CardContent>
