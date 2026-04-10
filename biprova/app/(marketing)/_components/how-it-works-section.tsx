@@ -35,10 +35,10 @@ export function HowItWorksSection() {
   return (
     <section className="py-16 sm:py-20 px-4 sm:px-8 max-w-[1080px] mx-auto">
       <p className="text-[0.75rem] font-bold tracking-[3px] uppercase text-blue-600 mb-2">
-        Nasıl Çalışır
+        Nasıl Çalışır ?
       </p>
       <h2 className="font-nunito font-black text-[clamp(1.8rem,4vw,2.8rem)] tracking-[-1px] leading-[1.15] mb-12">
-        4 adımda ekibini kur 🙌
+        4 adımda ekibini kur  
       </h2>
       <div className="grid grid-cols-[repeat(auto-fit,minmax(220px,1fr))] gap-5">
         {STEPS.map((step) => (

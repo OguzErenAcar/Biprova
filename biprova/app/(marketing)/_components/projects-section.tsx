@@ -53,7 +53,7 @@ export function ProjectsSection() {
         Örnek Projeler
       </p>
       <h2 className="font-nunito font-black text-[clamp(1.8rem,4vw,2.8rem)] tracking-[-1px] leading-[1.15] mb-12">
-        Her alandan, her şehirden 🌍
+        Her alandan, her şehirden  
       </h2>
       <div className="grid grid-cols-[repeat(auto-fill,minmax(min(280px,100%),1fr))] gap-5">
         {MOCK_PROJECTS.map((project) => (

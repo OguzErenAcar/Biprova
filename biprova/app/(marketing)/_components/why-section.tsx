@@ -35,10 +35,10 @@ export function WhySection() {
   return (
     <section className="pt-0 pb-16 sm:pb-20 px-4 sm:px-8 max-w-[1080px] mx-auto">
       <p className="text-[0.75rem] font-bold tracking-[3px] uppercase text-blue-600 mb-2">
-        Neden biprova
+        Neden biprova ?
       </p>
       <h2 className="font-nunito font-black text-[clamp(1.8rem,4vw,2.8rem)] tracking-[-1px] leading-[1.15] mb-12">
-        Yalnız proje zordur 😅
+        Yalnız proje zordur. 
       </h2>
       <div className="grid grid-cols-[repeat(auto-fit,minmax(min(230px,100%),1fr))] gap-5">
         {WHY_CARDS.map((card) => (

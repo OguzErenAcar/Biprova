@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { Viewport } from "next";
 import { Nunito, Plus_Jakarta_Sans } from "next/font/google";
 
 const nunito = Nunito({

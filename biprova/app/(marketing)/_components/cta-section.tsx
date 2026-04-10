@@ -17,7 +17,7 @@ export function CtaSection() {
 
       <div className="relative">
         <h2 className="font-nunito font-black text-[clamp(1.8rem,4vw,3rem)] tracking-[-1px] text-white mb-3">
-          Hazır olunca seni arayalım 👋
+          Hazır olunca seni arayalım 
         </h2>
         <p className="text-white/75 mb-8">
           Şimdi kayıt ol, platform açıldığında ilk sen öğren.
