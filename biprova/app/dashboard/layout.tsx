@@ -27,7 +27,7 @@ export default function DashboardLayout({
         </DashboardGrid>
       </div>
       <TabBar />
-      <Toaster position="bottom-center" style={{ bottom: "120px" }} />
+      <Toaster position="bottom-center" offset="80px" />
     </div>
   );
 }
