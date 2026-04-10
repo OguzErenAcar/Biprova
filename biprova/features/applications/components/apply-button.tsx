@@ -41,9 +41,6 @@ export function RoleJoinButton({ projectId, roleId }: RoleJoinButtonProps) {
       >
         {isPending ? "…" : "Başvur →"}
       </button>
-      {error && (
-        <span className="text-xs  text-danger font-semibold text-right">{error}</span>
-      )}
     </div>
   );
 }
