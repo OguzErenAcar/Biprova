@@ -204,10 +204,6 @@
 /* ══════════════════════════════════════════════
    SONNER TOAST
    ══════════════════════════════════════════════ */
-[data-sonner-toaster] {
-  --offset: 280px !important;
-}
-
 [data-sonner-toast][data-type="error"] {
   background: #3764ec !important;
   border-color: #2a52d4 !important;
