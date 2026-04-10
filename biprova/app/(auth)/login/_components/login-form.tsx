@@ -13,6 +13,7 @@ const loginSchema = z.object({
 type FieldKey = 'email' | 'password';
 
 export function LoginForm() {
+  const router = useRouter();
   const [values, setValues]           = useState({ email: '', password: '' });
   const [errors, setErrors]           = useState<Partial<Record<FieldKey, string>>>({});
   const [serverError, setServerError] = useState('');
