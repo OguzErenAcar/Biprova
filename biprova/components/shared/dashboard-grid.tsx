@@ -2,28 +2,28 @@
 
 import { usePathname } from "next/navigation";
 
-export function DashboardGrid({ sidebar, children, suggestedPeople }: {
+interface DashboardGridProps {
   sidebar: React.ReactNode;
   children: React.ReactNode;
-  suggestedPeople: React.ReactNode;
-}) {
+}
+
+export function DashboardGrid({ sidebar, children }: DashboardGridProps) {
   const pathname = usePathname();
   const isProjectDetail = /^\/dashboard\/projects\/[^/]+/.test(pathname);
 
   if (isProjectDetail) {
     return (
-      <div className="grid h-full grid-cols-[1fr_4fr] gap-4 m-[40]">
-        <div>{sidebar}</div>
-        <div className="mx-4">{children}</div>
+      <div className="h-full grid grid-cols-1 lg:grid-cols-[240px_1fr] gap-4 p-4 pb-[calc(1rem+56px)] lg:pb-4 lg:m-10">
+        <div className="hidden lg:block">{sidebar}</div>
+        <div className="lg:mx-4">{children}</div>
       </div>
     );
   }
 
   return (
-    <div className="grid  grid-cols-[1fr_3fr_1fr] gap-4 m-[40]">
-      <div>{sidebar}</div>
-      <div className="mx-4">{children}</div>
-      <div className="self-start">{suggestedPeople}</div>
+    <div className="grid grid-cols-1 lg:grid-cols-[240px_1fr] gap-4 p-4 pb-[calc(1rem+56px)] lg:pb-4 lg:m-10">
+      <div className="hidden lg:block">{sidebar}</div>
+      <div className="lg:mx-4">{children}</div>
     </div>
   );
 }
