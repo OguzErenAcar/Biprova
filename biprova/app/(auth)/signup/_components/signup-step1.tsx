@@ -147,13 +147,14 @@ export function SignupStep1({ initial, onNext }: Props) {
       </div>
 
       <button
-        type="submit"
+        type="button"
+        onClick={handleNext}
         disabled={isPending}
         className="w-full mt-1 py-4 rounded-[14px] bg-blue-600 hover:bg-blue-700 active:bg-blue-800 disabled:opacity-60 text-white font-nunito font-extrabold text-base transition-colors cursor-pointer border-none touch-manipulation"
       >
         {isPending ? 'Kontrol ediliyor...' : 'Devam Et →'}
       </button>
-    </form>
+    </div>
   );
 }
 
