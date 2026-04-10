@@ -74,13 +74,13 @@ function TickerAnimation() {
   return (
     <div
       ref={containerRef}
-      className="absolute left-1/2 -translate-x-1/2 h-8 overflow-hidden flex items-center min-w-[350px]"
+      className="absolute right-10 lg:right-auto lg:left-1/2 lg:-translate-x-1/2 h-8 overflow-hidden flex items-center min-w-[140px] lg:min-w-[350px]"
     >
       {CHUNKS.map((chunk) => (
         <p
           key={chunk}
           style={{ color: "rgba(55,100,236)" }}
-          className="absolute left-1/2 -translate-x-1/2 text-lg font-semibold whitespace-nowrap"
+          className="absolute left-1/2 -translate-x-1/2 text-sm lg:text-lg font-semibold whitespace-nowrap"
         >
           {chunk}
         </p>
