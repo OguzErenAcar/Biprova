@@ -55,7 +55,7 @@ export function ProjectsSection() {
       <h2 className="font-nunito font-black text-[clamp(1.8rem,4vw,2.8rem)] tracking-[-1px] leading-[1.15] mb-12">
         Her alandan, her şehirden  
       </h2>
-      <div className="grid grid-cols-[repeat(auto-fill,minmax(min(280px,100%),1fr))] gap-5">
+      <div className="grid grid-cols-1 sm:grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-0 sm:gap-5 sm:px-0 px-0 divide-y sm:divide-y-0">
         {MOCK_PROJECTS.map((project) => (
           <ProjectCard key={project.title} {...project} />
         ))}
