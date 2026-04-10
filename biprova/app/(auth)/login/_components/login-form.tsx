@@ -9,20 +9,20 @@ const loginSchema = z.object({
   password: z.string().min(1, 'Şifre gerekli'),
 });
 
-type Field = 'email' | 'password';
+type FieldKey = 'email' | 'password';
 
 export function LoginForm() {
   const [values, setValues]           = useState({ email: '', password: '' });
-  const [errors, setErrors]           = useState<Partial<Record<Field, string>>>({});
+  const [errors, setErrors]           = useState<Partial<Record<FieldKey, string>>>({});
   const [serverError, setServerError] = useState('');
   const [isPending, startTransition]  = useTransition();
 
   function handleSubmit() {
     const result = loginSchema.safeParse(values);
     if (!result.success) {
-      const fieldErrors: Partial<Record<Field, string>> = {};
+      const fieldErrors: Partial<Record<FieldKey, string>> = {};
       for (const issue of result.error.issues) {
-        const field = issue.path[0] as Field;
+        const field = issue.path[0] as FieldKey;
         if (!fieldErrors[field]) fieldErrors[field] = issue.message;
       }
       setErrors(fieldErrors);
@@ -36,13 +36,12 @@ export function LoginForm() {
       if (res && 'error' in res) {
         setServerError(res.error);
       }
-      // başarılı girişte middleware /dashboard'a yönlendirir
     });
   }
 
   return (
     <div className="flex flex-col gap-4">
-      <Field
+      <FieldInput
         id="email"
         label="E-posta"
         type="email"
@@ -51,7 +50,7 @@ export function LoginForm() {
         error={errors.email}
         onChange={(v) => setValues({ ...values, email: v })}
       />
-      <Field
+      <FieldInput
         id="password"
         label="Şifre"
         type="password"
@@ -67,6 +66,7 @@ export function LoginForm() {
 
       <button
         type="button"
+        onClick={handleSubmit}
         disabled={isPending}
         className="
           w-full mt-1 py-4 rounded-[14px]
@@ -77,11 +77,11 @@ export function LoginForm() {
       >
         {isPending ? 'Giriş yapılıyor...' : 'Giriş Yap →'}
       </button>
-    </form>
+    </div>
   );
 }
 
-function Field({
+function FieldInput({
   id, label, type, placeholder, value, error, onChange,
 }: {
   id: string;
@@ -115,5 +115,3 @@ function Field({
     </div>
   );
 }
-
-function Field({
