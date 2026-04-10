@@ -66,7 +66,7 @@ export function LoginForm() {
       )}
 
       <button
-        type="submit"
+        type="button"
         disabled={isPending}
         className="
           w-full mt-1 py-4 rounded-[14px]
