@@ -19,6 +19,12 @@ export const metadata: Metadata = {
   description: "Ekibini bul, birlikte üret. Türkiye'nin proje ekibi platformu.",
 };
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+};
+
 export default function MarketingLayout({
   children,
 }: {
