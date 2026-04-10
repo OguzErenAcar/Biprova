@@ -144,16 +144,22 @@ export function ProjectCard({
                 {openRoles.map((role, i) => (
                   <div
                     key={i}
-                    className="rounded-xl text-black px-3 py-2 sm:py-2.5 flex items-center gap-3"
                   >
-                    <div className="flex-1 min-w-0">
-                      <span className="text-caption text-ink-muted">
-                        {role.name}
-                      </span>
+                    <div 
+                    className="rounded-xl text-black px-3 py-2 sm:py-2.5 flex items-center gap-3"
+                    >
+                      <div className="flex-1 min-w-0">
+                        <span className="text-caption text-ink-muted">
+                          {role.name}
+                        </span>
+                      </div>
+                      {!isOwnProject && (
+                        <RoleJoinButton
+                          projectId={projectId}
+                          roleId={role.id}
+                        />
+                      )}
                     </div>
-                    {!isOwnProject && (
-                      <RoleJoinButton projectId={projectId} roleId={role.id} />
-                    )}
                   </div>
                 ))}
               </div>
