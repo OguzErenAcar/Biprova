@@ -40,7 +40,7 @@ export function HowItWorksSection() {
       <h2 className="font-nunito font-black text-[clamp(1.8rem,4vw,2.8rem)] tracking-[-1px] leading-[1.15] mb-12">
         4 adımda ekibini kur  
       </h2>
-      <div className="grid grid-cols-[repeat(auto-fit,minmax(220px,1fr))] gap-5">
+      <div className="grid grid-cols-[repeat(auto-fit,minmax(min(220px,100%),1fr))] gap-5">
         {STEPS.map((step) => (
           <div
             key={step.num}
