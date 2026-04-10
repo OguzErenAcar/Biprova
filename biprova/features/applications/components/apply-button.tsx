@@ -12,7 +12,6 @@ interface RoleJoinButtonProps {
 export function RoleJoinButton({ projectId, roleId }: RoleJoinButtonProps) {
   const [isPending, startTransition] = useTransition();
   const [done, setDone] = useState(false);
-  const [error, setError] = useState("");
 
   if (done) {
     return (
