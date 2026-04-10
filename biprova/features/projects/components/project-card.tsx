@@ -144,7 +144,6 @@ export function ProjectCard({
                 {openRoles.map((role, i) => (
                   <div
                     key={i}
-                    style={{ backgroundColor: "rgba(55,100,236,0.8)" }}
                     className="rounded-xl text-black px-3 py-2 sm:py-2.5 flex items-center gap-3"
                   >
                     <div className="flex-1 min-w-0">
