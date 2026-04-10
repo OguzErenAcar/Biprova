@@ -91,14 +91,6 @@ function TickerAnimation() {
 }
 
 function MobileDrawer({ open, onClose }: { open: boolean; onClose: () => void }) {
-  const pathname = usePathname();
-
-  function isActive(href: string, exact?: boolean) {
-    return exact
-      ? pathname === href
-      : pathname === href || pathname.startsWith(href + '/');
-  }
-
   return (
     <>
       {/* Overlay */}
@@ -131,23 +123,20 @@ function MobileDrawer({ open, onClose }: { open: boolean; onClose: () => void })
           </button>
         </div>
 
-        {/* Nav */}
-        <nav className="flex flex-col gap-1 px-3 py-4 flex-1 overflow-y-auto">
-          {NAV_ITEMS.map(({ href, label, exact }) => (
+        {/* İçerik */}
+        <div className="flex flex-col gap-3 px-5 py-5">
+          <SearchBar />
+          <div className="flex items-center gap-3">
+            <NotificationBell />
             <Link
-              key={href}
-              href={href}
+              href="/dashboard/settings"
               onClick={onClose}
-              className={`px-4 py-3 rounded-[10px] font-semibold text-[0.95rem] transition-colors no-underline ${
-                isActive(href, exact)
-                  ? 'bg-blue-50 text-slate-900'
-                  : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
-              }`}
+              className="w-9 h-9 flex items-center justify-center rounded-[10px] border-[1.5px] border-slate-200 text-slate-600 hover:bg-slate-100 transition-colors no-underline"
             >
-              {label}
+              ⚙️
             </Link>
-          ))}
-        </nav>
+          </div>
+        </div>
       </div>
     </>
   );
