@@ -12,14 +12,6 @@ const TICKER_TEXT = "Takım kur. Proje bul. Hayalini gerçeğe dönüştür. Bip
 const CHARS_PER_CHUNK = 30; // her seferinde kaç karakter gösterilsin (boşlukta bölmez)
 // ─────────────────────────────────────────────────────────────
 
-const NAV_ITEMS = [
-  { href: "/dashboard",              label: "Projeler",      exact: true },
-  { href: "/dashboard/posts/teams",  label: "Gönderiler" },
-  { href: "/dashboard/createProject",label: "Proje Oluştur" },
-  { href: "/dashboard/posts/news",   label: "Haberler" },
-  { href: "/dashboard/profile",      label: "Profilim" },
-  { href: "/dashboard/settings",     label: "Ayarlar" },
-];
 
 function chunkText(text: string, maxChars: number): string[] {
   const words = text.split(' ');
