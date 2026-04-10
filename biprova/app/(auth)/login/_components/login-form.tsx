@@ -71,6 +71,7 @@ export function LoginForm() {
       <button
         type="button"
         onClick={handleSubmit}
+        onTouchEnd={(e) => { e.preventDefault(); handleSubmit(); }}
         disabled={isPending}
         className="
           w-full mt-1 py-4 rounded-[14px]
