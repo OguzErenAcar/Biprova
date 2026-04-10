@@ -37,6 +37,8 @@ export function LoginForm() {
       const res = await login(values);
       if (res && 'error' in res) {
         setServerError(res.error);
+      } else {
+        router.push('/dashboard');
       }
     });
   }
