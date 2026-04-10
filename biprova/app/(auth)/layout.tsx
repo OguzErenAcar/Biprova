@@ -1,3 +1,4 @@
+import type { Viewport } from 'next';
 import { Nunito, Plus_Jakarta_Sans } from 'next/font/google';
 
 const nunito = Nunito({
@@ -11,6 +12,12 @@ const jakartaSans = Plus_Jakarta_Sans({
   subsets: ['latin'],
   weight: ['400', '500', '600', '700'],
 });
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+};
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
