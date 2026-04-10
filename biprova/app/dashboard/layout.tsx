@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import { Toaster } from "@/components/ui/sonner";
 import { Sidebar } from "@/components/shared/sidebar";
 import { SidebarLoader } from "@/components/shared/sidebar-loader";
 import { HomeTopbar } from "@/components/shared/home-topbar";
