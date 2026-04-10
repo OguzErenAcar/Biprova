@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { animate, createTimeline, splitText, stagger } from 'animejs';
 import { NotificationBell } from "@/components/shared/notification-bell";
 import { SearchBar } from "@/components/shared/search-bar";
@@ -10,6 +11,15 @@ import { SearchBar } from "@/components/shared/search-bar";
 const TICKER_TEXT = "Takım kur. Proje bul. Hayalini gerçeğe dönüştür. Biprova ile başla.";
 const CHARS_PER_CHUNK = 30; // her seferinde kaç karakter gösterilsin (boşlukta bölmez)
 // ─────────────────────────────────────────────────────────────
+
+const NAV_ITEMS = [
+  { href: "/dashboard",              label: "Projeler",      exact: true },
+  { href: "/dashboard/posts/teams",  label: "Gönderiler" },
+  { href: "/dashboard/createProject",label: "Proje Oluştur" },
+  { href: "/dashboard/posts/news",   label: "Haberler" },
+  { href: "/dashboard/profile",      label: "Profilim" },
+  { href: "/dashboard/settings",     label: "Ayarlar" },
+];
 
 function chunkText(text: string, maxChars: number): string[] {
   const words = text.split(' ');
@@ -88,26 +98,114 @@ function TickerAnimation() {
   );
 }
 
-export function HomeTopbar() {
+function MobileDrawer({ open, onClose }: { open: boolean; onClose: () => void }) {
+  const pathname = usePathname();
+
+  function isActive(href: string, exact?: boolean) {
+    return exact
+      ? pathname === href
+      : pathname === href || pathname.startsWith(href + '/');
+  }
+
   return (
-    <div id="dashboard-topbar" className="relative my-5 g-topbar shadow-lg shadow-black/10 rounded-md mx-auto w-[90%] border border-black px-4 sm:px-6 lg:px-8 py-[0.9rem] flex items-center gap-4">
-      <Link
-        href="/dashboard"
-        className="font-display font-black text-h2 text-blue-600 px-2 no-underline"
+    <>
+      {/* Overlay */}
+      <div
+        className={`fixed inset-0 bg-black/40 z-40 lg:hidden transition-opacity duration-300 ${
+          open ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+        }`}
+        onClick={onClose}
+      />
+
+      {/* Drawer panel */}
+      <div
+        className={`fixed right-0 top-0 h-full w-72 bg-white z-50 lg:hidden shadow-xl flex flex-col transition-transform duration-300 ease-in-out ${
+          open ? 'translate-x-0' : 'translate-x-full'
+        }`}
       >
-        Bi<span className="text-slate-900">prova</span>
-      </Link>
+        {/* Header */}
+        <div className="flex items-center justify-between px-5 py-5 border-b border-slate-100">
+          <span className="font-black text-xl text-blue-600">
+            Bi<span className="text-slate-900">prova</span>
+          </span>
+          <button
+            onClick={onClose}
+            className="w-8 h-8 flex items-center justify-center rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors"
+            aria-label="Kapat"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+              <path d="M18 6L6 18M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
 
-      <TickerAnimation />
-
-      <div className="ml-auto flex items-center gap-[0.6rem]">
-        <SearchBar />
-        <button className="rounded-[10px] border-[1.5px] h-8 w-8">
-          <Link href="/dashboard/settings">⚙️</Link>
-        </button>
-
-        <NotificationBell />
+        {/* Nav */}
+        <nav className="flex flex-col gap-1 px-3 py-4 flex-1 overflow-y-auto">
+          {NAV_ITEMS.map(({ href, label, exact }) => (
+            <Link
+              key={href}
+              href={href}
+              onClick={onClose}
+              className={`px-4 py-3 rounded-[10px] font-semibold text-[0.95rem] transition-colors no-underline ${
+                isActive(href, exact)
+                  ? 'bg-blue-50 text-slate-900'
+                  : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+              }`}
+            >
+              {label}
+            </Link>
+          ))}
+        </nav>
       </div>
-    </div>
+    </>
+  );
+}
+
+export function HomeTopbar() {
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
+  useEffect(() => {
+    function handleKey(e: KeyboardEvent) {
+      if (e.key === 'Escape') setDrawerOpen(false);
+    }
+    document.addEventListener('keydown', handleKey);
+    return () => document.removeEventListener('keydown', handleKey);
+  }, []);
+
+  return (
+    <>
+      <div id="dashboard-topbar" className="relative my-5 g-topbar shadow-lg shadow-black/10 rounded-md mx-auto w-[90%] border border-black px-4 sm:px-6 lg:px-8 py-[0.9rem] flex items-center gap-4">
+        <Link
+          href="/dashboard"
+          className="font-display font-black text-h2 text-blue-600 px-2 no-underline"
+        >
+          Bi<span className="text-slate-900">prova</span>
+        </Link>
+
+        <TickerAnimation />
+
+        <div className="ml-auto flex items-center gap-[0.6rem]">
+          <SearchBar />
+          <button className="rounded-[10px] border-[1.5px] h-8 w-8 hidden lg:flex items-center justify-center">
+            <Link href="/dashboard/settings">⚙️</Link>
+          </button>
+
+          <NotificationBell />
+
+          {/* Mobil menü butonu — sadece lg altında görünür */}
+          <button
+            className="lg:hidden w-8 h-8 flex items-center justify-center rounded-[10px] border-[1.5px] border-slate-300 text-slate-600 hover:bg-slate-100 transition-colors"
+            onClick={() => setDrawerOpen(true)}
+            aria-label="Menüyü aç"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+              <path d="M3 6h18M3 12h18M3 18h18" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <MobileDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} />
+    </>
   );
 }
