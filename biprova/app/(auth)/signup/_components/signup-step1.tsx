@@ -99,7 +99,11 @@ export function SignupStep1({ initial, onNext }: Props) {
   }
 
   return (
-    <div className="flex flex-col gap-4">
+    <form
+      onSubmit={(e) => { e.preventDefault(); handleNext(); }}
+      className="flex flex-col gap-4"
+      noValidate
+    >
       <div className="mb-1">
         <p className="font-nunito font-black text-[1.1rem] text-slate-900">Hesap bilgilerin</p>
         <p className="text-[0.8rem] text-slate-500 mt-0.5">Temel bilgilerle başlayalım.</p>
