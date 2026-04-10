@@ -30,7 +30,7 @@ export function ProjectCard({ city, status, title, roles }: ProjectCardProps) {
   const filled = roles.filter((r) => r.filled).length;
 
   return (
-    <div className="bg-white border border-slate-200 rounded-none sm:rounded-[20px] w-screen sm:w-auto -mx-[calc((100vw-100%)/2)] sm:mx-0 px-[1.6rem] py-[1.6rem] hover:-translate-y-0.5 hover:shadow-[0_10px_28px_rgba(37,99,235,0.1)] transition-all duration-200 cursor-pointer">
+    <div className="bg-white border-y border-x-0 sm:border-x border-slate-200 rounded-none sm:rounded-[20px] p-[1.6rem] hover:-translate-y-0.5 hover:shadow-[0_10px_28px_rgba(37,99,235,0.1)] transition-all duration-200 cursor-pointer">
       <div className="flex justify-between items-start mb-3">
         <span className="text-[0.72rem] font-bold tracking-[1.5px] uppercase bg-sky-100 text-blue-800 px-3 py-1 rounded-full">
           {city}
