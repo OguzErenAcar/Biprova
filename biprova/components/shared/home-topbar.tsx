@@ -165,12 +165,13 @@ export function HomeTopbar() {
         <TickerAnimation />
 
         <div className="ml-auto flex items-center gap-[0.6rem]">
-          <SearchBar />
-          <button className="rounded-[10px] border-[1.5px] h-8 w-8 hidden lg:flex items-center justify-center">
-            <Link href="/dashboard/settings">⚙️</Link>
-          </button>
-
-          <NotificationBell />
+          <div className="hidden lg:flex items-center gap-[0.6rem]">
+            <SearchBar />
+            <button className="rounded-[10px] border-[1.5px] h-8 w-8 flex items-center justify-center">
+              <Link href="/dashboard/settings">⚙️</Link>
+            </button>
+            <NotificationBell />
+          </div>
 
           {/* Mobil menü butonu — sadece lg altında görünür */}
           <button
