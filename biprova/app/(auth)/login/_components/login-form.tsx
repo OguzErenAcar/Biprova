@@ -41,7 +41,11 @@ export function LoginForm() {
   }
 
   return (
-    <div className="flex flex-col gap-4">
+    <form
+      onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}
+      className="flex flex-col gap-4"
+      noValidate
+    >
       <Field
         id="email"
         label="E-posta"
@@ -66,18 +70,18 @@ export function LoginForm() {
       )}
 
       <button
-        onClick={handleSubmit}
+        type="submit"
         disabled={isPending}
         className="
           w-full mt-1 py-4 rounded-[14px]
-          bg-blue-600 hover:bg-blue-700 disabled:opacity-60
+          bg-blue-600 hover:bg-blue-700 active:bg-blue-800 disabled:opacity-60
           text-white font-nunito font-extrabold text-base
-          transition-colors cursor-pointer border-none
+          transition-colors cursor-pointer border-none touch-manipulation
         "
       >
         {isPending ? 'Giriş yapılıyor...' : 'Giriş Yap →'}
       </button>
-    </div>
+    </form>
   );
 }
 
