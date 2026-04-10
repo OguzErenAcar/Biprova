@@ -126,7 +126,7 @@ export async function login(data: {
 
   if (error) return { error: error.message };
 
-  redirect('/dashboard');
+  return { success: true };
 }
 
 export async function logout(): Promise<void> {
