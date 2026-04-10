@@ -41,11 +41,7 @@ export function LoginForm() {
   }
 
   return (
-    <form
-      onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}
-      className="flex flex-col gap-4"
-      noValidate
-    >
+    <div className="flex flex-col gap-4">
       <Field
         id="email"
         label="E-posta"
