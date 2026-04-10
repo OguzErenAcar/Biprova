@@ -48,7 +48,7 @@ const MOCK_PROJECTS = [
 
 export function ProjectsSection() {
   return (
-    <section className="pt-0 pb-16 sm:pb-20 px-4 sm:px-8 max-w-[1080px] mx-auto">
+    <section className="pt-0 pb-16 sm:pb-20 px-0 sm:px-8 max-w-[1080px] mx-auto">
       <p className="text-[0.75rem] font-bold tracking-[3px] uppercase text-blue-600 mb-2">
         Örnek Projeler
       </p>
