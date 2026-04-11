@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+@import "lightgallery/css/lightgallery.css";
+@import "lightgallery/css/lg-zoom.css";
+@import "lightgallery/css/lg-share.css";
+
 @layer base {
   :root {
     /* ─────────────────────────────────────────

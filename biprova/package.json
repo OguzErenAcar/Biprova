@@ -16,6 +16,7 @@
     "animejs": "^4.3.6",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "lightgallery": "^2.9.0",
     "lottie-react": "^2.4.1",
     "lucide-react": "^0.511.0",
     "next": "latest",
