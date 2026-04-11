@@ -143,7 +143,7 @@ export function TeamPostCard({
           {imageUrls.map((url, i) => (
             <a key={i} href={url} target="_blank" rel="noopener noreferrer" className="w-1/3">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={url} alt="" className="w-full h-auto rounded-[8px]" />
+              <img src={url} alt="" className="w-full h-auto max-h-[420px] object-cover rounded-[8px]" />
             </a>
           ))}
         </div>
