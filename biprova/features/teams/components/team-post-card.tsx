@@ -139,9 +139,9 @@ export function TeamPostCard({
 
       {/* Görseller */}
       {imageUrls && imageUrls.length > 0 && (
-        <div className="flex flex-wrap gap-2 mb-4">
+        <div className="flex flex-col gap-2 mb-4">
           {imageUrls.map((url, i) => (
-            <a key={i} href={url} target="_blank" rel="noopener noreferrer" className="w-1/3">
+            <a key={i} href={url} target="_blank" rel="noopener noreferrer" className="block w-full">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={url} alt="" className="w-full h-auto max-h-[420px] object-cover rounded-[8px]" />
             </a>
