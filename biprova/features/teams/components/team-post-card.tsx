@@ -21,8 +21,6 @@ interface Member {
 
 interface TeamPostCardProps {
   postId: string;
-  teamEmoji: string;
-  teamAvatarBg: string;
   teamName: string;
   location: string;
   memberCount: number;
