@@ -39,8 +39,6 @@ interface TeamPostCardProps {
 
 export function TeamPostCard({
   postId,
-  teamEmoji,
-  teamAvatarBg,
   teamName,
   location,
   memberCount,
