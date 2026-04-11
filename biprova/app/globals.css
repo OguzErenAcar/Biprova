@@ -10,46 +10,46 @@
     ───────────────────────────────────────── */
 
     /* Sayfa arkaplanı & genel metin */
-    --background:         #020617;
-    --foreground:         #0a0a0a;
+    --background: #020617;
+    --foreground: #0a0a0a;
 
     /* Card */
-    --card:               #ffffff;
-    --card-foreground:    #0a0a0a;
+    --card: #ffffff;
+    --card-foreground: #0a0a0a;
 
     /* Popover / Dropdown */
-    --popover:            #ffffff;
+    --popover: #ffffff;
     --popover-foreground: #0a0a0a;
 
     /* Primary buton, badge, aktif eleman */
-    --primary:            #171717;
+    --primary: #171717;
     --primary-foreground: #fafafa;
 
     /* Secondary buton, chip */
-    --secondary:          #f5f5f5;
+    --secondary: #f5f5f5;
     --secondary-foreground: #171717;
 
     /* Muted: placeholder, tab bg, soluk alanlar */
-    --muted:              #f5f5f5;
-    --muted-foreground:   #737373;
+    --muted: #f5f5f5;
+    --muted-foreground: #737373;
 
     /* Accent: hover state, selected item */
-    --accent:             #f5f5f5;
-    --accent-foreground:  #171717;
+    --accent: #f5f5f5;
+    --accent-foreground: #171717;
 
     /* Destructive: hata/silme butonları */
-    --destructive:        #ef4444;
+    --destructive: #ef4444;
     --destructive-foreground: #fafafa;
 
     /* Border & Input kenarı */
-    --border:             #e5e5e5;
-    --input:              #e5e5e5;
+    --border: #e5e5e5;
+    --input: #e5e5e5;
 
     /* Focus ring (erişilebilirlik halkası) */
-    --ring:               #0a0a0a;
+    --ring: #0a0a0a;
 
     /* Tüm component'lerin köşe yuvarlaklığı */
-    --radius:             0.5rem;
+    --radius: 0.5rem;
 
     /* ══════════════════════════════════════════════
        DASHBOARD DESIGN TOKENS
@@ -59,27 +59,25 @@
        DEĞİŞTİRMEK İSTEDİĞİNDE SADECE BU BLOĞU DÜZENLE
        ══════════════════════════════════════════════ */
 
- 
-    --p-brand:          #000000;   /* violet  */
-    --p-brand-hover:    #6D28D9;   /* brand koyu hover */
-    --p-brand-surface:  #f0fff9;   /* brand çok açık bg */
+    --p-brand: #000000; /* violet  */
+    --p-brand-hover: #6d28d9; /* brand koyu hover */
+    --p-brand-surface: #f0fff9; /* brand çok açık bg */
 
-    --p-canvas:         #FAFAFF;   /* sayfa arkaplanı */
-    
-    --p-ink:            #ffffff;   /* koyu metin */
-    --p-ink-muted:      #ffffff;   /* ikincil metin */
-    --p-ink-subtle:     #d4d4d4;   /* placeholder / soluk */
-    --p-ink-border:     #08090a;   /* kenarlık */
-    
-    --p-success:        #16A34A;   /* yeşil */
-    --p-success-surface:#F0FDF4;   /* success açık bg */
-    --p-surface:        #FFFFFF;   /* kart & panel arkaplanı — DEĞİŞTİR */
+    --p-canvas: #fafaff; /* sayfa arkaplanı */
 
+    --p-ink: #ffffff; /* koyu metin */
+    --p-ink-muted: #ffffff; /* ikincil metin */
+    --p-ink-subtle: #d4d4d4; /* placeholder / soluk */
+    --p-ink-border: #08090a; /* kenarlık */
 
-    --p-danger:         #DC2626;   /* kırmızı */
-    --p-danger-surface: #FEF2F2;   /* danger açık bg */
-    --p-warning:        #D97706;   /* amber — uyarı */
-    --p-warning-surface:#FFFBEB;   /* warning açık bg */
+    --p-success: #16a34a; /* yeşil */
+    --p-success-surface: #f0fdf4; /* success açık bg */
+    --p-surface: #ffffff; /* kart & panel arkaplanı — DEĞİŞTİR */
+
+    --p-danger: #dc2626; /* kırmızı */
+    --p-danger-surface: #fef2f2; /* danger açık bg */
+    --p-warning: #d97706; /* amber — uyarı */
+    --p-warning-surface: #fffbeb; /* warning açık bg */
 
     /* ─── Semantic Tokenlar ──────────────────────
        Tailwind class'larına bunlar bağlı.
@@ -87,34 +85,34 @@
     ──────────────────────────────────────────── */
 
     /* Brand */
-    --color-brand:         var(--p-brand);
-    --color-brand-hover:   var(--p-brand-hover);
+    --color-brand: var(--p-brand);
+    --color-brand-hover: var(--p-brand-hover);
     --color-brand-surface: var(--p-brand-surface);
 
     /* Metin */
-    --color-ink:           var(--p-ink);
-    --color-ink-muted:     var(--p-ink-muted);
-    --color-ink-subtle:    var(--p-ink-subtle);
+    --color-ink: var(--p-ink);
+    --color-ink-muted: var(--p-ink-muted);
+    --color-ink-subtle: var(--p-ink-subtle);
 
     /* Yüzey & kenarlık */
-    --color-canvas:        var(--p-canvas);
-    --color-edge:          var(--p-ink-border);
+    --color-canvas: var(--p-canvas);
+    --color-edge: var(--p-ink-border);
 
     /* Durum */
-    --color-success:         var(--p-success);
+    --color-success: var(--p-success);
     --color-success-surface: var(--p-success-surface);
-    --color-danger:          var(--p-danger);
-    --color-danger-surface:  var(--p-danger-surface);
-    --color-warning:         var(--p-warning);
+    --color-danger: var(--p-danger);
+    --color-danger-surface: var(--p-danger-surface);
+    --color-warning: var(--p-warning);
     --color-warning-surface: var(--p-warning-surface);
 
     /* ─── Gölgeler ───────────────────────────────
        --shadow-brand otomatik olarak --p-brand rengini kullanır
     ──────────────────────────────────────────── */
-    --shadow-card:     0 8px 24px rgba(0,0,0,0.07);
-    --shadow-feature:  0 8px 28px rgba(0,0,0,0.08);
-    --shadow-brand:    0 4px 16px rgba(124,58,237,0.25);
-    --shadow-brand-lg: 0 6px 18px rgba(124,58,237,0.35);
+    --shadow-card: 0 8px 24px rgba(0, 0, 0, 0.07);
+    --shadow-feature: 0 8px 28px rgba(0, 0, 0, 0.08);
+    --shadow-brand: 0 4px 16px rgba(124, 58, 237, 0.25);
+    --shadow-brand-lg: 0 6px 18px rgba(124, 58, 237, 0.35);
 
     /* ─── Font Ailesi ───────────────────────────
        DEĞİŞTİRMEK İÇİN: var(--font-nunito) veya var(--font-jakarta) yaz
@@ -123,69 +121,100 @@
     /* ─── Tipografi Skalası ──────────────────────
        Tüm font boyutları buradan
     ──────────────────────────────────────────── */
-    --text-label:   1.1rem;   /* rozet, küçük etiket */
-    --text-meta:    0.9rem;   /* meta bilgi, zaman damgası */
-    --text-caption: 0.9rem;   /* açıklama, ikincil */
-    --text-body:    0.98rem;   /* genel gövde metni */
-    --text-lead:    0.95rem;   /* öne çıkan metin */
-    --text-title:   1.10rem;   /* bölüm başlığı */
-    --text-h2:      1.30rem;   /* sayfa başlığı */
-    --text-hero:    1.70rem;   /* istatistik, hero rakamı */
-
+    --text-label: 1.1rem; /* rozet, küçük etiket */
+    --text-meta: 0.9rem; /* meta bilgi, zaman damgası */
+    --text-caption: 0.9rem; /* açıklama, ikincil */
+    --text-body: 0.98rem; /* genel gövde metni */
+    --text-lead: 0.95rem; /* öne çıkan metin */
+    --text-title: 1.1rem; /* bölüm başlığı */
+    --text-h2: 1.3rem; /* sayfa başlığı */
+    --text-hero: 1.7rem; /* istatistik, hero rakamı */
   }
-
- 
 }
-
-
-
 
 /*All */
 @layer base {
   * {
     @apply border-border;
   }
-  html, body {
+  html,
+  body {
     min-height: 100%;
   }
   body {
     @apply text-foreground;
-     background: linear-gradient(to bottom, rgb(55 100 236), rgb(196, 203, 223)) fixed;   
+    background: linear-gradient(to bottom, #3764ec, rgb(196, 203, 223)) fixed;
     /* background: #b5b5b5; */
     font-family: "Arial", cursive !important;
   }
-
-
 }
 
-.g-topbar{
+.g-topbar {
   backdrop-filter: blur(30px);
-  background-color: rgba(255, 255, 255,0.8);
+  background-color: rgba(255, 255, 255, 0.8);
 }
-  .g-bg{
-    
-    background-color: rgba(12, 12, 12, 0.2);
-    
-  }
+.g-bg {
+  background-color: rgba(12, 12, 12, 0.2);
+}
 
+.dashheader {
+  font-size: 40px; 
+  font-weight: semibold;
+  color: #000000;
+  background-image: linear-gradient(135deg, #cfcfcf 40%, #a3a3a3 60%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+}
+.shadow1 {
+  box-shadow:
+    rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+}
+.shadow2 {
+  box-shadow:
+    rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset,
+    rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+}
+.shadow3 {
+  box-shadow:
+    rgba(17, 17, 26, 0.1) 0px 4px 16px,
+    rgba(17, 17, 26, 0.05) 0px 8px 32px;
+}
 /* ══════════════════════════════════════════════
    ANİMASYONLAR
    ══════════════════════════════════════════════ */
 @keyframes bp-float {
-  0%, 100% { transform: translateY(0px) scale(1); }
-  50%       { transform: translateY(-30px) scale(1.05); }
+  0%,
+  100% {
+    transform: translateY(0px) scale(1);
+  }
+  50% {
+    transform: translateY(-30px) scale(1.05);
+  }
 }
 
 @keyframes bp-fade-up {
-  from { opacity: 0; transform: translateY(24px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes bp-pulse-dot {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0.4; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
 }
-
 
 /* ══════════════════════════════════════════════
    FORM UTİLİTİES

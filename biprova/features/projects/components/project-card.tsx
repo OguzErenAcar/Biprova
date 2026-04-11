@@ -140,9 +140,10 @@ export function ProjectCard({
               </div>
             </Button>
             {rolesOpen && (
-              <div className="flex flex-col gap-1.5 sm:gap-2">
+              <div className="flex flex-col gap-1.5 sm:gap-2 ">
                 {openRoles.map((role, i) => (
                   <div
+                    className="shadow3 rounded-lg"
                     key={i}
                   >
                     <div 

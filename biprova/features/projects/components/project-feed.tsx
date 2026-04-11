@@ -73,7 +73,7 @@ export async function ProjectFeed({ searchParams }: ProjectFeedProps) {
   return (
     <div id="project-feed">
       <div className="flex items-center justify-between mb-4 md:mx-0 mx-2">
-        <h1 className="text-3xl   text-ink">
+        <h1 className="dashheader text-ink">
            Projeler
         </h1>
         <FeedFilterDropdown activeFilter={activeFilter} />

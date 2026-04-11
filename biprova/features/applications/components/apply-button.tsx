@@ -22,7 +22,7 @@ export function RoleJoinButton({ projectId, roleId }: RoleJoinButtonProps) {
   }
 
   return (
-    <div className="flex flex-col items-end gap-0.5 flex-shrink-0">
+    <div className="flex  flex-col items-end gap-0.5 flex-shrink-0">
       <button
         disabled={isPending}
         onClick={() =>
