@@ -4,6 +4,9 @@ import { useTransition, useState } from "react";
 import dynamic from "next/dynamic";
 import lgZoom from "lightgallery/plugins/zoom";
 import lgShare from "lightgallery/plugins/share";
+import "lightgallery/css/lightgallery.css";
+import "lightgallery/css/lg-zoom.css";
+import "lightgallery/css/lg-share.css";
 import { toggleTeamPostLike } from "@/features/teams/actions";
 import { Card, CardContent } from "@/components/ui/card";
 
