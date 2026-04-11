@@ -138,10 +138,10 @@ export function TeamPostFeedClient({ posts }: Props) {
             const teamEmoji = CATEGORY_EMOJIS[category ?? ""] ?? "🚀";
             const teamAvatarBg = AVATAR_BG_COLORS[hashIndex(post.team.id, AVATAR_BG_COLORS.length)];
             const location = post.team.isRemote
-              ? "🌐 Remote"
+              ? "Remote"
               : post.team.city
-              ? `📍 ${post.team.city}`
-              : "📍 Belirtilmemiş";
+              ? post.team.city
+              : "Belirtilmemiş";
 
             const tags = [
               ...(category ? [{ type: "category" as const, label: category }] : []),
