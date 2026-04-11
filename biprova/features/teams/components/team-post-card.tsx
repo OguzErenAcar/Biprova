@@ -144,14 +144,18 @@ export function TeamPostCard({
 
       {/* Görseller */}
       {imageUrls && imageUrls.length > 0 && (
-        <div className="flex flex-col gap-2 mb-4">
+        <LightGallery
+          elementClassNames="flex flex-col gap-2 mb-4"
+          plugins={[lgZoom, lgShare]}
+          speed={300}
+        >
           {imageUrls.map((url, i) => (
-            <a key={i} href={url} target="_blank" rel="noopener noreferrer" className="block w-full">
+            <a key={i} data-src={url} className="block w-full cursor-zoom-in">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={url} alt="" className="w-full h-auto max-h-[420px] object-cover rounded-[8px]" />
             </a>
           ))}
-        </div>
+        </LightGallery>
       )}
       {!imageUrls && hasImage && (
         <div className="w-full h-[180px] rounded-xl bg-gradient-to-br from-brand-surface to-brand-surface flex items-center justify-center text-[2.5rem] mb-4">
