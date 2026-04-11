@@ -1,8 +1,13 @@
 "use client";
 
 import { useTransition, useState } from "react";
+import dynamic from "next/dynamic";
+import lgZoom from "lightgallery/plugins/zoom";
+import lgShare from "lightgallery/plugins/share";
 import { toggleTeamPostLike } from "@/features/teams/actions";
 import { Card, CardContent } from "@/components/ui/card";
+
+const LightGallery = dynamic(() => import("lightgallery/react"), { ssr: false });
  
 const BODY_TRUNCATE_THRESHOLD = 180;
 
