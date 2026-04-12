@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import Lottie from "lottie-react";
 import { animate } from "animejs";
-import iconData from "@/app/icons/wired-outline-1827-growing-plant-hover-pinch.json";
+import iconData from "@/app/icons/wired-outline-45-clock-time-hover-pinch (1).json";
 
 export function SplashWrapper({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();

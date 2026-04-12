@@ -57,7 +57,7 @@ export function FeaturedNewsCard({ title, excerpt, tags, date }: FeaturedNewsCar
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-1.5 text-meta text-ink-muted font-semibold">
             biprova Ekibi
-            <Badge variant="outline" className="bg-brand-surface text-brand border-brand-surface text-label font-extrabold">
+            <Badge variant="outline" className="bg-brand-surface border-brand-surface text-black font-extrabold">
               Admin
             </Badge>
           </div>
