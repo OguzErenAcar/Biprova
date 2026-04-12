@@ -61,7 +61,7 @@ function chunkText(text: string, maxChars: number): string[] {
 
 const CHUNKS = chunkText(TICKER_TEXT, CHARS_PER_CHUNK);
 
-function TickerAnimation() {
+function TickerAnimation({ variant = "topbar" }: { variant?: "topbar" | "drawer" }) {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -99,6 +99,22 @@ function TickerAnimation() {
       splits.forEach((s) => s.revert());
     };
   }, []);
+
+  if (variant === "drawer") {
+    return (
+      <div ref={containerRef} className="relative h-5 overflow-hidden flex items-center w-full">
+        {CHUNKS.map((chunk) => (
+          <p
+            key={chunk}
+            style={{ color: "rgba(55,100,236)" }}
+            className="absolute left-0 text-[11px] font-semibold whitespace-nowrap"
+          >
+            {chunk}
+          </p>
+        ))}
+      </div>
+    );
+  }
 
   return (
     <div
