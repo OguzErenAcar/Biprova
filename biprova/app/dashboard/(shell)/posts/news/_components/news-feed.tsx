@@ -18,8 +18,6 @@ const LATEST_POSTS: NewsCardProps[] = [
     tag: "başarı",
     date: "22 Mart 2026",
     readTime: "4 dk okuma",
-    emoji: "🏆",
-    thumbBg: "#dcfce7",
   },
   {
     title: "İstanbul Buluşması — 5 Nisan'da bir aradayız",
@@ -28,8 +26,6 @@ const LATEST_POSTS: NewsCardProps[] = [
     tag: "etkinlik",
     date: "20 Mart 2026",
     readTime: "2 dk okuma",
-    emoji: "🎤",
-    thumbBg: "#fef3c7",
   },
   {
     title: "Yeni özellik: Ekip gönderileri artık ana akışta görünüyor",
@@ -38,8 +34,6 @@ const LATEST_POSTS: NewsCardProps[] = [
     tag: "platform",
     date: "18 Mart 2026",
     readTime: "2 dk okuma",
-    emoji: "✨",
-    thumbBg: "#ede9fe",
   },
 ];
 
