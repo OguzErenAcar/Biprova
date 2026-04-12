@@ -104,7 +104,7 @@ export function TeamPostCard({
           <img src="/images/432-4329071_team-icon-png-transparent-png.png" alt="team" className="w-8 h-8 object-contain" />
         </div>
         <div className="flex-1 min-w-0">
-          <div style={{fontSize:24}} className=" font-black text-lead text-ink flex items-center gap-1 flex-wrap">
+          <div className="text-xl sm:text-2xl font-black text-lead text-ink flex items-center gap-1 flex-wrap">
             {teamName}
             {isOwnTeam && (
               <span className="text-brand font-bold text-meta">· Senin ekibin</span>
