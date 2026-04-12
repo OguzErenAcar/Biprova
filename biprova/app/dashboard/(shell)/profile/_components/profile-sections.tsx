@@ -195,7 +195,7 @@ export function ProfileSections({
                 >
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
-                      <Users size={18} className="text-ink-muted flex-shrink-0" />
+                      <LottieIcon animationData={avatarIcon} size={22} />
                       <div className="text-lead font-bold text-ink">{t.name ?? t.projectTitle ?? "Ekip"}</div>
                     </div>
                     <div className="flex  gap-4.5 text-meta text-ink-muted justify-between">
