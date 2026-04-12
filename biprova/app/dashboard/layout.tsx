@@ -14,7 +14,7 @@ export default function DashboardLayout({
 }) {
   return (
     <div>
-      <HomeTopbar />
+      <HomeTopbarLoader />
       <div className="h-screen">
         <DashboardGrid
           sidebar={
