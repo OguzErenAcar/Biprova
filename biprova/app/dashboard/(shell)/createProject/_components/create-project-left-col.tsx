@@ -112,7 +112,7 @@ export function CreateProjectLeftCol({  cities, skills, userTeams }: Props) {
       {/* KONUM & KATEGORİ */}
       <FormCard id="section-location" title="📍 Konum & Kategori" sub="Ekibini nerede ve hangi alanda arıyorsun?">
         <FormGroup label="">
-          <div className="flex items-center justify-between bg-slate-50 border-[1.5px] border-slate-200 rounded-[11px] px-4 py-3">
+          <div className="flex items-center justify-between bg-slate-50 border-[1.5px] border-slate-200 rounded-[11px] px-3 py-2.5 md:px-4 md:py-3">
             <div>
               <div className="text-[0.88rem] font-bold text-slate-900">🌐 Remote Uyumlu</div>
               <div className="text-[0.74rem] text-slate-400 mt-0.5">Uzaktan çalışmaya açıksanız işaretle</div>
