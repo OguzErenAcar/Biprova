@@ -193,7 +193,7 @@ export function CreateProjectLeftCol({  cities, skills, userTeams }: Props) {
                   key={team.id}
                   type="button"
                   onClick={() => setSelectedTeamId(team.id)}
-                  className={`flex items-center gap-3 rounded-[11px] px-4 py-3 border-[1.5px] text-left transition-all ${
+                  className={`flex items-center gap-2.5 rounded-[11px] px-3 py-2.5 md:px-4 md:py-3 border-[1.5px] text-left transition-all ${
                     isSelected
                       ? "border-blue-600 bg-blue-50"
                       : "border-slate-200 bg-slate-50 hover:border-slate-300"
