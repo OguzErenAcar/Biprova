@@ -227,7 +227,7 @@ export function CreateProjectLeftCol({  cities, skills, userTeams }: Props) {
                 {roles.map((role) => (
                   <div
                     key={role.id}
-                    className="flex items-center gap-2.5 bg-slate-50 border-[1.5px] border-slate-200 rounded-[11px] px-4 py-3 transition-colors hover:border-slate-300"
+                    className="flex items-center gap-2 bg-slate-50 border-[1.5px] border-slate-200 rounded-[11px] px-3 py-2.5 md:px-4 md:py-3 transition-colors hover:border-slate-300"
                   >
                     <span className="text-slate-300 cursor-grab text-base">⠿</span>
                     <span className="flex-1 text-[0.88rem] font-bold text-slate-900">{role.name}</span>
