@@ -126,6 +126,7 @@ export function ProjectTabView({ project }: Props) {
                       : 'border-transparent hover:text-slate-700 cursor-pointer'
                   }`}
                 >
+                  <tab.icon size={14} strokeWidth={2.2} />
                   {tab.label}
                   {tab.count !== undefined && tab.count > 0 && (
                     <span className="bg-blue-600 text-white rounded-full text-[0.6rem] px-[0.4rem] py-[0.1rem] font-extrabold">
