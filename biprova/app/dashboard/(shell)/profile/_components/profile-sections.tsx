@@ -108,7 +108,7 @@ export function ProfileSections({ projects, applications, teams, projectsPublic,
               return (
                 <div
                   key={p.id}
-                  className={`flex gap-4 items-start py-3.5 ${i < projects.length - 1 ? "border-b border-edge" : ""} ${i === 0 ? "pt-0" : ""}`}
+                  className={`flex gap-4 items-start py-3.5 ${i < projects.length - 1 ? "border-b border-edge border-white" : ""} ${i === 0 ? "pt-0" : ""}`}
                 >
                   <div className="w-10 h-10 rounded-[11px] flex items-center justify-center text-title flex-shrink-0" style={{ background: bg }}>
                     📁
@@ -146,7 +146,7 @@ export function ProfileSections({ projects, applications, teams, projectsPublic,
               return (
                 <div
                   key={t.id}
-                  className={`flex gap-4 items-start py-3.5 ${i < teams.length - 1 ? "border-b border-edge" : ""} ${i === 0 ? "pt-0" : ""}`}
+                  className={`flex gap-4 items-start py-3.5 ${i < teams.length - 1 ? "border-b border-edge border-white" : ""} ${i === 0 ? "pt-0" : ""}`}
                 >
                   <div className="w-10 h-10 rounded-[11px] flex items-center justify-center text-title flex-shrink-0" style={{ background: TEAM_BG_COLORS[i % TEAM_BG_COLORS.length] }}>
                     👥
