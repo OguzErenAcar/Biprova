@@ -45,8 +45,6 @@ const STARTUP_POSTS: NewsCardProps[] = [
     tag: "girişim",
     date: "15 Mart 2026",
     readTime: "5 dk okuma",
-    emoji: "💡",
-    thumbBg: "#fce7f3",
   },
   {
     title: "Sosyal girişimcilik: Kar gütmeden büyük etki yaratmanın 5 yolu",
@@ -55,8 +53,6 @@ const STARTUP_POSTS: NewsCardProps[] = [
     tag: "girişim",
     date: "12 Mart 2026",
     readTime: "6 dk okuma",
-    emoji: "🌱",
-    thumbBg: "#ecfdf5",
   },
   {
     title: 'Ankara\'da "Projen Var mı?" buluşması — 12 Nisan',
@@ -65,8 +61,6 @@ const STARTUP_POSTS: NewsCardProps[] = [
     tag: "etkinlik",
     date: "8 Mart 2026",
     readTime: "3 dk okuma",
-    emoji: "🎬",
-    thumbBg: "#fef9c3",
   },
 ];
 
