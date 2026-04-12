@@ -59,7 +59,7 @@ export function ProjectTabView({ project }: Props) {
       {/* Tabs */}
       <div
         id="project-tabs"
-        className="flex border-b text-white px-6 sticky top-[53px] z-30"
+        className="flex border-b text-white px-2 sm:px-6 sticky top-[53px] z-30 overflow-x-auto scrollbar-hide"
       >
         {visibleTabs.map((tab) => {
           const disabled = tab.comingSoon || (tab.requiresTeam && !hasTeam);

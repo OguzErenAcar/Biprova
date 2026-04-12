@@ -44,7 +44,7 @@ export function SidebarAccountActions() {
         variant="ghost"
         onClick={handleLogout}
         disabled={isLoading}
-        className="justify-start gap-[0.65rem] px-3 py-[0.65rem] text-body font-semibold text-slate-500 hover:text-slate-900 h-auto rounded-[10px]"
+        className="justify-start gap-[0.65rem] px-3 py-[0.65rem] text-body font-semibold text-white hover:text-slate-900 h-auto rounded-[10px]"
       >
         <span className="text-[1.1rem] w-5 text-center">🚪</span>
         Çıkış Yap
