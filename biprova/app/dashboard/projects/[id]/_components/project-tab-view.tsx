@@ -120,8 +120,8 @@ export function ProjectTabView({ project }: Props) {
                       ? 'text-slate-300 border-transparent cursor-not-allowed'
                       : activeTab === tab.key
                       ? tab.key === 'admin'
-                        ? 'text-indigo-600 border-indigo-600 cursor-pointer'
-                        : 'text-blue-600 border-blue-600 cursor-pointer'
+                        ? 'text-slate-900 border-indigo-600 cursor-pointer'
+                        : 'text-slate-900 border-blue-600 cursor-pointer'
                       : 'border-transparent hover:text-slate-700 cursor-pointer'
                   }`}
                 >
