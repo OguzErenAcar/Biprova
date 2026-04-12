@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import { Toaster } from "@/components/ui/sonner";
 import { Sidebar } from "@/components/shared/sidebar";
 import { SidebarLoader } from "@/components/shared/sidebar-loader";
-import { HomeTopbar } from "@/components/shared/home-topbar";
+import { HomeTopbarLoader } from "@/components/shared/home-topbar-loader";
 import { TabBar } from "@/components/shared/tab-bar";
 import { DashboardGrid } from "@/components/shared/dashboard-grid";
 import { SplashWrapper } from "@/components/shared/splash-overlay";
