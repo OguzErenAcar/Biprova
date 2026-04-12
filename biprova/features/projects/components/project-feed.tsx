@@ -3,6 +3,7 @@ import { FeedFilterDropdown } from "@/features/projects/components/feed-filter-d
 import { getProjectFeed, type FeedFilter } from "@/features/projects/actions";
 import { createClient } from "@/lib/supabase/server";
 import { Card, CardContent } from "@/components/ui/card";
+import { ContentHeader } from "@/components/shared/content-header";
 
 const POSTER_COLORS = [
   "#3b82f6", "#8b5cf6", "#22c55e", "#f59e0b",
@@ -72,12 +73,10 @@ export async function ProjectFeed({ searchParams }: ProjectFeedProps) {
 
   return (
     <div id="project-feed">
-      <div className="flex items-center justify-between mb-4 md:mx-0 mx-2">
-        <h1 className="dashheader text-ink">
-           Projeler
-        </h1>
+      <ContentHeader title="Projeler">
         <FeedFilterDropdown activeFilter={activeFilter} />
-      </div>
+
+      </ContentHeader>
 
       {projects.length === 0 ? (
         <Card  >

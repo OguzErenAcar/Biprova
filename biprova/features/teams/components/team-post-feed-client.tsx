@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { TeamPostCard } from "./team-post-card";
 import type { TeamPostFeedItem } from "@/features/teams/actions";
+import { ContentHeader } from "@/components/shared/content-header";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -104,10 +106,8 @@ export function TeamPostFeedClient({ posts }: Props) {
 
   return (
     <div id="team-post-feed">
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center justify-between mb-4">
-          <h1 className="dashheader text-ink">Gönderiler</h1>
-        </div>
+
+      <ContentHeader title="Gönderiler">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <button className="gap-1.5   text-ink rounded-[9px]">
@@ -132,7 +132,7 @@ export function TeamPostFeedClient({ posts }: Props) {
             ))}
           </DropdownMenuContent>
         </DropdownMenu>
-      </div>
+      </ContentHeader>
 
       {sorted.length === 0 ? (
         <div className="bg-canvas border-[1.5px] border-edge rounded-2xl p-10 text-center text-ink-subtle text-lead">

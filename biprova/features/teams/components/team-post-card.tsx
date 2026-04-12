@@ -93,13 +93,13 @@ export function TeamPostCard({
   return (
     <Card
       id={`team-post-card-${postId}`}
-      className={`hover:-translate-y-0.5 hover:shadow-card transition-all duration-150 cursor-pointer mb-4 ${
+      className={`hover:-translate-y-0.5 hover:shadow-card transition-all duration-150 cursor-pointer mb-2 sm:mb-4 ${
         isOwnTeam ? "bg-[#f8faff] border-brand-surface" : ""
       }`}
-    ><CardContent className="p-[1.4rem]">
+    ><CardContent className="p-3 sm:p-[1.4rem]">
       {/* Ekip kimlik satırı */}
-      <div className="flex items-center gap-3 mb-4">
-        <div className="w-11 h-11 rounded-full flex items-center justify-center bg-white flex-shrink-0 border border-gray-100 overflow-hidden">
+      <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
+        <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-full flex items-center justify-center bg-white flex-shrink-0 border border-gray-100 overflow-hidden">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/images/432-4329071_team-icon-png-transparent-png.png" alt="team" className="w-8 h-8 object-contain" />
         </div>
