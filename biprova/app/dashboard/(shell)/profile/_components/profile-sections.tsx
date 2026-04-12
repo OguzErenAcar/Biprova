@@ -234,12 +234,10 @@ export function ProfileSections({
                 key={a.id}
                 className={`flex gap-4 items-center py-3.5 ${i < applications.length - 1 ? "border-b border-edge border-white" : ""} ${i === 0 ? "pt-0" : ""}`}
               >
-                <div className="w-10 h-10 rounded-[11px] flex items-center justify-center flex-shrink-0">
-                  <Send size={18} className="text-ink-muted" />
-                </div>
                 <div className="flex-1 min-w-0">
-                  <div className="text-body font-bold text-ink mb-0.5">
-                    {a.projectTitle}
+                  <div className="flex items-center gap-2 mb-0.5">
+                    <Send size={18} className="text-ink-muted flex-shrink-0" />
+                    <div className="text-body font-bold text-ink">{a.projectTitle}</div>
                   </div>
                   <div className="text-caption text-ink-muted flex justify-between">
                     {a.roleName ? `Rol: ${a.roleName} · ` : ""}
