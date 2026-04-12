@@ -251,7 +251,7 @@ export function ProfileSections({
       {(isOwner || applicationsPublic) && (
         <SectionCard
           id="profile-applications"
-          title="📨 Başvurularım"
+          title="Başvurularım"
           action={
             isOwner ? (
               <VisibilityToggle
