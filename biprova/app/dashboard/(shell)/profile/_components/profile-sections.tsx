@@ -169,7 +169,7 @@ export function ProfileSections({
                     className="w-10 h-10 rounded-[11px] flex items-center justify-center text-title flex-shrink-0"
                     style={{ background: bg }}
                   >
-                    📁
+                    <FolderOpen size={18} className="text-ink-muted" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="text-lead font-bold text-ink mb-1">
