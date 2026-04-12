@@ -87,7 +87,7 @@ export function ProjectTabView({ project }: Props) {
       {/* Tabs */}
       <div
         id="project-tabs"
-        className="sticky top-[53px] z-30 backdrop-blur-[12px] border-b text-white"
+        className="sticky top-0 z-30 backdrop-blur-[12px] border-b text-white"
       >
         <div className="relative flex items-center">
           {/* Left scroll button */}
