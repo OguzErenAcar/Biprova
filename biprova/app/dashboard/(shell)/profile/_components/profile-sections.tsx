@@ -200,7 +200,7 @@ export function ProfileSections({
       {(isOwner || teamsPublic) && (
         <SectionCard
           id="profile-teams"
-          title="👥 Ekiplerim"
+          title="Ekiplerim"
           action={
             isOwner ? (
               <VisibilityToggle section="teams" initialValue={teamsPublic} />
