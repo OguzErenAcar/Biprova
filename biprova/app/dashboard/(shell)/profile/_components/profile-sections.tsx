@@ -275,7 +275,7 @@ export function ProfileSections({
                     background: APP_BG_COLORS[i % APP_BG_COLORS.length],
                   }}
                 >
-                  📨
+                  <Send size={18} className="text-ink-muted" />
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="text-body font-bold text-ink mb-0.5">
