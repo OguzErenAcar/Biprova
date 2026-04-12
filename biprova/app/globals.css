@@ -220,7 +220,7 @@
    FORM UTİLİTİES
    ══════════════════════════════════════════════ */
 .form-input {
-  @apply w-full border-[1.5px] border-slate-200 rounded-[11px] px-4 py-[0.72rem] font-[inherit] text-[0.9rem] text-slate-900 outline-none transition-[border-color,box-shadow] bg-white placeholder:text-slate-400;
+  @apply w-full border-[1.5px] border-slate-200 rounded-[11px] px-3 py-[0.55rem] md:px-4 md:py-[0.72rem] font-[inherit] text-[0.84rem] md:text-[0.9rem] text-slate-900 outline-none transition-[border-color,box-shadow] bg-white placeholder:text-slate-400;
 }
 .form-input:focus {
   @apply border-blue-600 shadow-[0_0_0_3px_rgba(37,99,235,0.08)];
