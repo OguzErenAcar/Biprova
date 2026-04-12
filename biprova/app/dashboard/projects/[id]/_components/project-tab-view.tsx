@@ -66,18 +66,19 @@ export function ProjectTabView({ project }: Props) {
   const TABS: {
     key: Tab;
     label: string;
+    icon: React.ElementType;
     count?: number;
     requiresTeam: boolean;
     comingSoon?: boolean;
     leaderOnly?: boolean;
   }[] = [
-    { key: 'genel',      label: '📋 Genel',      requiresTeam: false },
-    { key: 'admin',      label: '🛡️ Admin',       requiresTeam: false, leaderOnly: true, count: isLeader ? pendingCount : undefined },
-    { key: 'ekip',       label: '👥 Ekip',        requiresTeam: false },
-    { key: 'chat',       label: '💬 Chat',        requiresTeam: true,  count: project.messages.length },
-    { key: 'gonderiler', label: '📢 Gönderiler',  requiresTeam: false },
-    { key: 'dosyalar',   label: '📁 Dosyalar',    requiresTeam: true,  comingSoon: true },
-    { key: 'gorevler',   label: '✅ Görevler',    requiresTeam: true,  comingSoon: true },
+    { key: 'genel',      label: 'Genel',      icon: LayoutList,    requiresTeam: false },
+    { key: 'admin',      label: 'Admin',      icon: Shield,        requiresTeam: false, leaderOnly: true, count: isLeader ? pendingCount : undefined },
+    { key: 'ekip',       label: 'Ekip',       icon: Users,         requiresTeam: false },
+    { key: 'chat',       label: 'Chat',       icon: MessageCircle, requiresTeam: true,  count: project.messages.length },
+    { key: 'gonderiler', label: 'Gönderiler', icon: Megaphone,     requiresTeam: false },
+    { key: 'dosyalar',   label: 'Dosyalar',   icon: Folder,        requiresTeam: true,  comingSoon: true },
+    { key: 'gorevler',   label: 'Görevler',   icon: ListTodo,      requiresTeam: true,  comingSoon: true },
   ];
 
   const visibleTabs = TABS.filter((tab) => !tab.leaderOnly || isLeader);
