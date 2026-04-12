@@ -190,12 +190,7 @@ export function ProfileSections({
                   key={t.id}
                   className={`relative flex gap-4 items-start py-3.5 ${i < teams.length - 1 ? "border-b border-edge border-white" : ""} ${i === 0 ? "pt-0" : ""}`}
                 >
-                  <div
-                    className="w-10 h-10 rounded-[11px] flex items-center justify-center text-title flex-shrink-0"
-                    style={{
-                      background: TEAM_BG_COLORS[i % TEAM_BG_COLORS.length],
-                    }}
-                  >
+                  <div className="w-10 h-10 rounded-[11px] flex items-center justify-center flex-shrink-0">
                     <Users size={18} className="text-ink-muted" />
                   </div>
                   <div className="flex-1 min-w-0">
