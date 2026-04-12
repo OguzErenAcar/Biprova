@@ -236,12 +236,7 @@ export function ProfileSections({
                 key={a.id}
                 className={`flex gap-4 items-center py-3.5 ${i < applications.length - 1 ? "border-b border-edge border-white" : ""} ${i === 0 ? "pt-0" : ""}`}
               >
-                <div
-                  className="w-10 h-10 rounded-[11px] flex items-center justify-center text-title flex-shrink-0"
-                  style={{
-                    background: APP_BG_COLORS[i % APP_BG_COLORS.length],
-                  }}
-                >
+                <div className="w-10 h-10 rounded-[11px] flex items-center justify-center flex-shrink-0">
                   <Send size={18} className="text-ink-muted" />
                 </div>
                 <div className="flex-1 min-w-0">
