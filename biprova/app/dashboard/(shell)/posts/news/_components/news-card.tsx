@@ -1,5 +1,14 @@
+"use client";
+
+import Lottie from "lottie-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+
+import starIcon       from "@/app/icons/wired-outline-237-star-rating-hover-pinch.json";
+import confettiIcon   from "@/app/icons/wired-outline-1103-confetti-hover-pinch.json";
+import magicWandIcon  from "@/app/icons/wired-outline-2844-magic-wand-hover-pinch.json";
+import documentIcon   from "@/app/icons/wired-outline-3090-document-letter-hover-pinch.json";
+import plantIcon      from "@/app/icons/wired-outline-1827-growing-plant-hover-pinch.json";
 
 type NewsTag = "platform" | "girişim" | "etkinlik" | "duyuru" | "başarı";
 
@@ -19,25 +28,33 @@ const TAG_LABELS: Record<NewsTag, string> = {
   başarı:   "Başarı Hikayesi",
 };
 
+const TAG_ICONS: Record<NewsTag, object> = {
+  başarı:   starIcon,
+  etkinlik: confettiIcon,
+  platform: magicWandIcon,
+  duyuru:   documentIcon,
+  girişim:  plantIcon,
+};
+
 export interface NewsCardProps {
   title: string;
   excerpt: string;
   tag: NewsTag;
   date: string;
   readTime: string;
-  emoji: string;
-  thumbBg: string;
 }
 
-export function NewsCard({ title, excerpt, tag, date, readTime, emoji, thumbBg }: NewsCardProps) {
+export function NewsCard({ title, excerpt, tag, date, readTime }: NewsCardProps) {
   return (
     <Card className="mb-3.5 cursor-pointer hover:-translate-y-0.5 hover:shadow-card transition-all duration-150">
       <CardContent className="p-[1.3rem] flex gap-4 items-start">
-        <div
-          className="w-20 h-20 rounded-[12px] flex-shrink-0 flex items-center justify-center text-hero"
-          style={{ background: thumbBg }}
-        >
-          {emoji}
+        <div className="w-20 h-20 rounded-[12px] flex-shrink-0 flex items-center justify-center">
+          <Lottie
+            animationData={TAG_ICONS[tag]}
+            loop
+            autoplay
+            style={{ width: 56, height: 56 }}
+          />
         </div>
 
         <div className="flex-1 min-w-0">
@@ -59,7 +76,7 @@ export function NewsCard({ title, excerpt, tag, date, readTime, emoji, thumbBg }
           <div className="flex items-center gap-2.5">
             <div className="flex items-center gap-1.5 text-meta text-ink-muted font-semibold">
               biprova Ekibi
-              <Badge variant="outline" className="bg-brand-surface text-brand border-brand-surface text-label font-extrabold">
+              <Badge variant="outline" className="bg-brand-surface border-brand-surface text-black font-extrabold">
                 Admin
               </Badge>
             </div>

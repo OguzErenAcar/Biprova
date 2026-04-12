@@ -164,8 +164,7 @@
     120deg,
     #0f172a 0%,
     #1d4ed8 35%,
-    #3764ec 55%,
-    #7c3aed 80%,
+    #5611cb 80%,
     #4f46e5 100%
   );
   background-clip: text;
@@ -180,7 +179,7 @@
   bottom: 0;
   left: 0;
   right: 0;
-  height: 1px;
+  height: 3px;
   background: linear-gradient(
     to right,
     transparent,
@@ -191,7 +190,7 @@
     #c7d2fe 85%,
     transparent
   );
-  opacity: 0.7;
+  opacity: 1;
 }
 
 .shadow1 {
