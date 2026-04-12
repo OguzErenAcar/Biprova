@@ -98,9 +98,9 @@ export function ProfileHero({ user, isOwner = false }: ProfileHeroProps) {
         )}
 
         <div className="flex flex-wrap gap-4 text-caption text-ink-muted">
-          {user.city && <span>📍 {user.city}</span>}
-          {user.is_remote && <span>🌐 Remote uyumlu</span>}
-          <span>📅 {formatMemberSince(user.created_at)}&apos;den beri üye</span>
+          {user.city && <span className="flex items-center gap-1"><MapPin size={13} /> {user.city}</span>}
+          {user.is_remote && <span className="flex items-center gap-1"><Globe size={13} /> Remote uyumlu</span>}
+          <span className="flex items-center gap-1"><CalendarDays size={13} /> {formatMemberSince(user.created_at)}&apos;den beri üye</span>
         </div>
       </div>
     </Card>
