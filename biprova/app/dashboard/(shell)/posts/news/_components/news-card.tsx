@@ -46,14 +46,21 @@ export interface NewsCardProps {
 }
 
 export function NewsCard({ title, excerpt, tag, date, readTime }: NewsCardProps) {
+  const lottieRef = useRef<LottieRefCurrentProps>(null);
+
   return (
     <Card className="mb-3.5 cursor-pointer hover:-translate-y-0.5 hover:shadow-card transition-all duration-150">
       <CardContent className="p-[1.3rem] flex gap-4 items-start">
-        <div className="w-20 h-20 rounded-[12px] flex-shrink-0 flex items-center justify-center">
+        <div
+          className="w-20 h-20 rounded-[12px] flex-shrink-0 flex items-center justify-center"
+          onMouseEnter={() => lottieRef.current?.play()}
+          onMouseLeave={() => lottieRef.current?.stop()}
+        >
           <Lottie
+            lottieRef={lottieRef}
             animationData={TAG_ICONS[tag]}
-            loop
-            autoplay
+            loop={false}
+            autoplay={false}
             style={{ width: 56, height: 56 }}
           />
         </div>
