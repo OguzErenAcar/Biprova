@@ -20,7 +20,10 @@ interface Props {
 
 export function ProjectTabView({ project }: Props) {
   const [activeTab, setActiveTab] = useState<Tab>('genel');
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
+  const tabsRef = useRef<HTMLDivElement>(null);
   const hasTeam = !!project.team_id;
 
   useEffect(() => {
@@ -32,6 +35,31 @@ export function ProjectTabView({ project }: Props) {
       easing: 'easeOutQuad',
     });
   }, [activeTab]);
+
+  const updateScrollState = useCallback(() => {
+    const el = tabsRef.current;
+    if (!el) return;
+    setCanScrollLeft(el.scrollLeft > 4);
+    setCanScrollRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 4);
+  }, []);
+
+  useEffect(() => {
+    const el = tabsRef.current;
+    if (!el) return;
+    updateScrollState();
+    el.addEventListener('scroll', updateScrollState, { passive: true });
+    const ro = new ResizeObserver(updateScrollState);
+    ro.observe(el);
+    return () => {
+      el.removeEventListener('scroll', updateScrollState);
+      ro.disconnect();
+    };
+  }, [updateScrollState]);
+
+  const scroll = (dir: 'left' | 'right') => {
+    tabsRef.current?.scrollBy({ left: dir === 'left' ? -120 : 120, behavior: 'smooth' });
+  };
+
   const isLeader = project.viewer.is_project_leader;
   const pendingCount = project.applications.filter((a) => a.status === 'pending').length;
 
@@ -56,40 +84,69 @@ export function ProjectTabView({ project }: Props) {
 
   return (
     <>
- 
       {/* Tabs */}
       <div
         id="project-tabs"
-        className="flex border-b text-white px-2 sm:px-6 sticky top-[53px] z-30 overflow-x-auto scrollbar-hide"
+        className="sticky top-[53px] z-30 backdrop-blur-[12px] border-b text-white"
       >
-        {visibleTabs.map((tab) => {
-          const disabled = tab.comingSoon || (tab.requiresTeam && !hasTeam);
-          const title = tab.comingSoon ? 'Yakında' : disabled ? 'Ekip kurulduktan sonra aktif olur' : undefined;
-          return (
+        <div className="relative flex items-center">
+          {/* Left scroll button */}
+          {canScrollLeft && (
             <button
-              key={tab.key}
-              onClick={() => !disabled && setActiveTab(tab.key)}
-              disabled={disabled}
-              title={title}
-              className={`text-[0.82rem] font-bold px-4 py-3 border-b-2 transition-all whitespace-nowrap flex items-center gap-1 bg-transparent ${
-                disabled
-                  ? 'text-slate-300 border-transparent cursor-not-allowed'
-                  : activeTab === tab.key
-                  ? tab.key === 'admin'
-                    ? 'text-indigo-600 border-indigo-600 cursor-pointer'
-                    : 'text-blue-600 border-blue-600 cursor-pointer'
-                  : 'border-transparent hover:text-slate-700 cursor-pointer'
-              }`}
+              onClick={() => scroll('left')}
+              className="absolute left-0 z-10 h-full px-1 flex items-center bg-gradient-to-r from-white/80 to-transparent text-slate-500 hover:text-slate-700 transition-colors"
+              aria-label="Sola kaydır"
             >
-              {tab.label}
-              {tab.count !== undefined && tab.count > 0 && (
-                <span className="bg-blue-600 text-white rounded-full text-[0.6rem] px-[0.4rem] py-[0.1rem] font-extrabold">
-                  {tab.count}
-                </span>
-              )}
+              <ChevronLeft size={16} />
             </button>
-          );
-        })}
+          )}
+
+          {/* Scrollable tab list */}
+          <div
+            ref={tabsRef}
+            className="flex overflow-x-auto scrollbar-hide px-2 sm:px-6"
+          >
+            {visibleTabs.map((tab) => {
+              const disabled = tab.comingSoon || (tab.requiresTeam && !hasTeam);
+              const title = tab.comingSoon ? 'Yakında' : disabled ? 'Ekip kurulduktan sonra aktif olur' : undefined;
+              return (
+                <button
+                  key={tab.key}
+                  onClick={() => !disabled && setActiveTab(tab.key)}
+                  disabled={disabled}
+                  title={title}
+                  className={`text-[0.82rem] font-bold px-4 py-3 border-b-2 transition-all whitespace-nowrap flex items-center gap-1 bg-transparent ${
+                    disabled
+                      ? 'text-slate-300 border-transparent cursor-not-allowed'
+                      : activeTab === tab.key
+                      ? tab.key === 'admin'
+                        ? 'text-indigo-600 border-indigo-600 cursor-pointer'
+                        : 'text-blue-600 border-blue-600 cursor-pointer'
+                      : 'border-transparent hover:text-slate-700 cursor-pointer'
+                  }`}
+                >
+                  {tab.label}
+                  {tab.count !== undefined && tab.count > 0 && (
+                    <span className="bg-blue-600 text-white rounded-full text-[0.6rem] px-[0.4rem] py-[0.1rem] font-extrabold">
+                      {tab.count}
+                    </span>
+                  )}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Right scroll button */}
+          {canScrollRight && (
+            <button
+              onClick={() => scroll('right')}
+              className="absolute right-0 z-10 h-full px-1 flex items-center bg-gradient-to-l from-white/80 to-transparent text-slate-500 hover:text-slate-700 transition-colors"
+              aria-label="Sağa kaydır"
+            >
+              <ChevronRight size={16} />
+            </button>
+          )}
+        </div>
       </div>
 
       {/* Content */}
