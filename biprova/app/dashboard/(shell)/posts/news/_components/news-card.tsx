@@ -1,6 +1,7 @@
 "use client";
 
-import Lottie from "lottie-react";
+import { useRef } from "react";
+import Lottie, { type LottieRefCurrentProps } from "lottie-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
