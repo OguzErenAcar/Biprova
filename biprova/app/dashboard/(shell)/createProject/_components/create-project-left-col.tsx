@@ -1,7 +1,22 @@
 "use client";
 
 import { useActionState, useState } from "react";
-import { Pencil, Link2, Plus, ClipboardList, MapPin, Users, Clock, Crown, User, Handshake, Sparkles } from "lucide-react";
+import {
+  Pencil,
+  Link2,
+  Plus,
+  ClipboardList,
+  MapPin,
+  Users,
+  Clock,
+  Crown,
+  User,
+  Handshake,
+  Sparkles,
+  Globe,
+  GripVertical,
+  X,
+} from "lucide-react";
 import { createProject } from "@/features/projects/actions";
 import type { CategoryOption, CityOption, SkillOption, UserTeamOption } from "@/features/projects/actions";
 
@@ -35,7 +50,7 @@ interface Props {
   userTeams: UserTeamOption[];
 }
 
-export function CreateProjectLeftCol({  cities, skills, userTeams }: Props) {
+export function CreateProjectLeftCol({ cities, skills, userTeams }: Props) {
   const [state, formAction] = useActionState(createProject, null);
   const [isRemote, setIsRemote] = useState(false);
   const [selectedCategoryId] = useState<string | null>(null);
@@ -87,11 +102,16 @@ export function CreateProjectLeftCol({  cities, skills, userTeams }: Props) {
       <input type="hidden" name="team_id" value={teamMode === "existing" ? (selectedTeamId ?? "") : ""} />
 
       {/* TEMEL BİLGİLER */}
-      <FormCard id="section-basics" title="📋 Temel Bilgiler" sub="Projenin ne olduğunu ve ne aradığını kısaca anlat.">
+      <FormCard
+        id="section-basics"
+        icon={<ClipboardList size={15} />}
+        title="Temel Bilgiler"
+        sub="Projenin ne olduğunu ve ne aradığını kısaca anlat."
+      >
         <FormGroup label="Proje Başlığı" required>
-          <InputWithIcon icon="✏️">
+          <InputWithIcon icon={<Pencil size={13} className="text-slate-400" />}>
             <input
-              className="flex-1 outline-none text-[0.88rem] text-slate-900 bg-transparent placeholder:text-slate-400"
+              className="flex-1 outline-none text-[0.82rem] md:text-[0.88rem] text-slate-900 bg-transparent placeholder:text-[0.78rem] md:placeholder:text-[0.84rem] placeholder:text-slate-400"
               type="text"
               name="title"
               placeholder="örn. İklim Değişikliği Farkındalık Belgeseli"
@@ -102,7 +122,7 @@ export function CreateProjectLeftCol({  cities, skills, userTeams }: Props) {
 
         <FormGroup label="Ne İhtiyacın Var?" required hint="— Fikir değil, ihtiyaç yaz">
           <textarea
-            className="form-input resize-y min-h-[80px] md:min-h-[100px] leading-relaxed"
+            className="form-input resize-y min-h-[80px] md:min-h-[100px] leading-relaxed placeholder:text-[0.78rem] md:placeholder:text-[0.84rem]"
             name="description"
             placeholder="Hangi sorunu çözüyorsun, ekiple ne yapmak istiyorsun? İnsanlar başvurmadan önce bunu okuyacak."
             maxLength={500}
@@ -111,14 +131,22 @@ export function CreateProjectLeftCol({  cities, skills, userTeams }: Props) {
       </FormCard>
 
       {/* KONUM & KATEGORİ */}
-      <FormCard id="section-location" title="📍 Konum & Kategori" sub="Ekibini nerede ve hangi alanda arıyorsun?">
+      <FormCard
+        id="section-location"
+        icon={<MapPin size={15} />}
+        title="Konum & Kategori"
+        sub="Ekibini nerede ve hangi alanda arıyorsun?"
+      >
         <FormGroup label="">
           <div className="flex items-center justify-between bg-slate-50 border-[1.5px] border-slate-200 rounded-[11px] px-3 py-2.5 md:px-4 md:py-3">
-            <div>
-              <div className="text-[0.88rem] font-bold text-slate-900">🌐 Remote Uyumlu</div>
-              <div className="text-[0.74rem] text-slate-400 mt-0.5">Uzaktan çalışmaya açıksanız işaretle</div>
+            <div className="flex items-center gap-2">
+              <Globe size={14} className="text-slate-400 shrink-0" />
+              <div>
+                <div className="text-[0.84rem] md:text-[0.88rem] font-bold text-slate-900">Remote Uyumlu</div>
+                <div className="text-[0.72rem] md:text-[0.74rem] text-slate-400 mt-0.5">Uzaktan çalışmaya açıksanız işaretle</div>
+              </div>
             </div>
-            <label className="relative w-11 h-6 cursor-pointer">
+            <label className="relative w-11 h-6 cursor-pointer shrink-0">
               <input
                 type="checkbox"
                 className="opacity-0 w-0 h-0 absolute"
@@ -143,13 +171,14 @@ export function CreateProjectLeftCol({  cities, skills, userTeams }: Props) {
             </select>
             <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-[0.8rem]">▾</span>
           </div>
-        </FormGroup> 
+        </FormGroup>
       </FormCard>
 
       {/* EKİBİ BELİRLE */}
       <FormCard
         id="section-roles"
-        title="👥 Ekibi Belirle"
+        icon={<Users size={15} />}
+        title="Ekibi Belirle"
         sub={
           teamMode === "existing"
             ? "Projeyi mevcut ekiplerinden biriyle başlat."
@@ -162,24 +191,26 @@ export function CreateProjectLeftCol({  cities, skills, userTeams }: Props) {
             <button
               type="button"
               onClick={() => setTeamMode("existing")}
-              className={`flex-1 text-[0.82rem] font-bold rounded-[8px] py-2 transition-all ${
+              className={`flex-1 flex items-center justify-center gap-1.5 text-[0.78rem] md:text-[0.82rem] font-bold rounded-[8px] py-2 transition-all ${
                 teamMode === "existing"
                   ? "bg-white text-slate-900 shadow-sm"
                   : "text-slate-400 hover:text-slate-600"
               }`}
             >
-              🤝 Mevcut Ekiplerimden
+              <Handshake size={13} />
+              Mevcut Ekiplerimden
             </button>
             <button
               type="button"
               onClick={() => setTeamMode("new")}
-              className={`flex-1 text-[0.82rem] font-bold rounded-[8px] py-2 transition-all ${
+              className={`flex-1 flex items-center justify-center gap-1.5 text-[0.78rem] md:text-[0.82rem] font-bold rounded-[8px] py-2 transition-all ${
                 teamMode === "new"
                   ? "bg-white text-slate-900 shadow-sm"
                   : "text-slate-400 hover:text-slate-600"
               }`}
             >
-              ✨ Sıfırdan Belirle
+              <Sparkles size={13} />
+              Sıfırdan Belirle
             </button>
           </div>
         )}
@@ -200,14 +231,17 @@ export function CreateProjectLeftCol({  cities, skills, userTeams }: Props) {
                       : "border-slate-200 bg-slate-50 hover:border-slate-300"
                   }`}
                 >
-                  <div className={`w-9 h-9 rounded-full flex items-center justify-center text-base shrink-0 ${isSelected ? "bg-blue-100" : "bg-white border-[1.5px] border-slate-200"}`}>
-                    {team.is_leader ? "👑" : "👤"}
+                  <div className={`w-8 h-8 md:w-9 md:h-9 rounded-full flex items-center justify-center shrink-0 ${isSelected ? "bg-blue-100" : "bg-white border-[1.5px] border-slate-200"}`}>
+                    {team.is_leader
+                      ? <Crown size={14} className={isSelected ? "text-blue-600" : "text-slate-400"} />
+                      : <User size={14} className={isSelected ? "text-blue-600" : "text-slate-400"} />
+                    }
                   </div>
                   <div className="flex-1 min-w-0">
-                    <div className={`text-[0.88rem] font-bold truncate ${isSelected ? "text-blue-700" : "text-slate-900"}`}>
+                    <div className={`text-[0.84rem] md:text-[0.88rem] font-bold truncate ${isSelected ? "text-blue-700" : "text-slate-900"}`}>
                       {team.name}
                     </div>
-                    <div className="text-[0.74rem] text-slate-400 mt-0.5">
+                    <div className="text-[0.72rem] md:text-[0.74rem] text-slate-400 mt-0.5">
                       {team.is_leader ? "Lider" : "Üye"} · {TEAM_STATUS_LABEL[team.status] ?? team.status}
                     </div>
                   </div>
@@ -230,8 +264,8 @@ export function CreateProjectLeftCol({  cities, skills, userTeams }: Props) {
                     key={role.id}
                     className="flex items-center gap-2 bg-slate-50 border-[1.5px] border-slate-200 rounded-[11px] px-3 py-2.5 md:px-4 md:py-3 transition-colors hover:border-slate-300"
                   >
-                    <span className="text-slate-300 cursor-grab text-base">⠿</span>
-                    <span className="flex-1 text-[0.88rem] font-bold text-slate-900">{role.name}</span>
+                    <GripVertical size={14} className="text-slate-300 cursor-grab shrink-0" />
+                    <span className="flex-1 text-[0.84rem] md:text-[0.88rem] font-bold text-slate-900">{role.name}</span>
                     <div className="flex items-center gap-1 bg-white border-[1.5px] border-slate-200 rounded-[8px] p-0.5">
                       <button
                         type="button"
@@ -240,7 +274,7 @@ export function CreateProjectLeftCol({  cities, skills, userTeams }: Props) {
                       >
                         −
                       </button>
-                      <span className="font-nunito font-black text-[0.88rem] min-w-[18px] text-center">
+                      <span className="font-nunito font-black text-[0.84rem] md:text-[0.88rem] min-w-[18px] text-center">
                         {role.count}
                       </span>
                       <button
@@ -254,9 +288,9 @@ export function CreateProjectLeftCol({  cities, skills, userTeams }: Props) {
                     <button
                       type="button"
                       onClick={() => removeRole(role.id)}
-                      className="w-7 h-7 rounded-[7px] border-none bg-transparent cursor-pointer text-slate-300 flex items-center justify-center text-base transition-all hover:bg-red-50 hover:text-red-500"
+                      className="w-7 h-7 rounded-[7px] border-none bg-transparent cursor-pointer text-slate-300 flex items-center justify-center transition-all hover:bg-red-50 hover:text-red-500"
                     >
-                      ✕
+                      <X size={14} />
                     </button>
                   </div>
                 ))}
@@ -284,9 +318,10 @@ export function CreateProjectLeftCol({  cities, skills, userTeams }: Props) {
                 type="button"
                 onClick={addRole}
                 disabled={!selectedSkillId || roles.length >= 6}
-                className="bg-blue-50 text-blue-600 border-[1.5px] border-blue-200 rounded-[10px] font-nunito font-extrabold text-[0.86rem] px-4 py-[0.7rem] cursor-pointer whitespace-nowrap transition-all flex items-center gap-1 hover:bg-blue-600 hover:text-white hover:border-blue-600 disabled:opacity-40 disabled:cursor-not-allowed"
+                className="bg-blue-50 text-blue-600 border-[1.5px] border-blue-200 rounded-[10px] font-nunito font-extrabold text-[0.82rem] md:text-[0.86rem] px-3.5 md:px-4 cursor-pointer whitespace-nowrap transition-all flex items-center gap-1.5 hover:bg-blue-600 hover:text-white hover:border-blue-600 disabled:opacity-40 disabled:cursor-not-allowed"
               >
-                ＋ Ekle
+                <Plus size={13} />
+                Ekle
               </button>
             </div>
           </>
@@ -294,7 +329,12 @@ export function CreateProjectLeftCol({  cities, skills, userTeams }: Props) {
       </FormCard>
 
       {/* ZAMAN DİLİMİ */}
-      <FormCard id="section-timeline" title="⏳ Zaman Dilimi" sub="Projenin ne zaman başlayacağını belirt. Bu ekip bulmayı hızlandırır.">
+      <FormCard
+        id="section-timeline"
+        icon={<Clock size={15} />}
+        title="Zaman Dilimi"
+        sub="Projenin ne zaman başlayacağını belirt. Bu ekip bulmayı hızlandırır."
+      >
         <div className="grid grid-cols-2 gap-3.5">
           <FormGroup label="Tahmini Başlangıç">
             <input className="form-input" type="date" name="start_date" />
@@ -312,9 +352,9 @@ export function CreateProjectLeftCol({  cities, skills, userTeams }: Props) {
         </div>
 
         <FormGroup label="Bağlantı" hint="— opsiyonel">
-          <InputWithIcon icon="🔗">
+          <InputWithIcon icon={<Link2 size={13} className="text-slate-400" />}>
             <input
-              className="flex-1 outline-none text-[0.88rem] text-slate-900 bg-transparent placeholder:text-slate-400"
+              className="flex-1 outline-none text-[0.82rem] md:text-[0.88rem] text-slate-900 bg-transparent placeholder:text-[0.78rem] md:placeholder:text-[0.84rem] placeholder:text-slate-400"
               type="url"
               name="link"
               placeholder="Proje dosyası, Notion, Drive linki..."
@@ -329,14 +369,14 @@ export function CreateProjectLeftCol({  cities, skills, userTeams }: Props) {
 /* ---- Alt bileşenler ---- */
 
 interface InputWithIconProps {
-  icon: string;
+  icon: React.ReactNode;
   children: React.ReactNode;
 }
 
 function InputWithIcon({ icon, children }: InputWithIconProps) {
   return (
     <div className="flex items-center gap-2 border-[1.5px] border-slate-200 rounded-[11px] px-3 py-[0.52rem] md:px-3.5 md:py-[0.65rem] bg-white focus-within:border-blue-600 transition-colors">
-      <span className="shrink-0 text-base pointer-events-none select-none">{icon}</span>
+      <span className="shrink-0 pointer-events-none select-none">{icon}</span>
       {children}
     </div>
   );
@@ -344,15 +384,17 @@ function InputWithIcon({ icon, children }: InputWithIconProps) {
 
 interface FormCardProps {
   id?: string;
+  icon: React.ReactNode;
   title: string;
   sub: React.ReactNode;
   children: React.ReactNode;
 }
 
-function FormCard({ id, title, sub, children }: FormCardProps) {
+function FormCard({ id, icon, title, sub, children }: FormCardProps) {
   return (
     <div id={id} className="bg-white border-[1.5px] border-slate-200 rounded-[14px] lg:rounded-[18px] p-4 md:p-[1.8rem]">
       <div className="font-nunito font-black text-[0.95rem] md:text-[1.05rem] text-slate-900 mb-0.5 flex items-center gap-[0.45rem]">
+        <span className="text-slate-500">{icon}</span>
         {title}
       </div>
       <div className="text-[0.78rem] md:text-[0.81rem] text-slate-400 mb-3.5 md:mb-5">{sub}</div>
