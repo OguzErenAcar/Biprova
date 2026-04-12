@@ -18,7 +18,7 @@ export default function CreateProjectPage() {
   return (
     <div>
       <CreateProjectTopbar />
-      <div className="px-2 md:p-8">
+      <div className="px-2 pb-4 md:p-8">
         <Suspense>
           <CreateProjectContent />
         </Suspense>
