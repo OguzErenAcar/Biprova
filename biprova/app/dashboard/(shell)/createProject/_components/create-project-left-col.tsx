@@ -334,7 +334,7 @@ interface InputWithIconProps {
 
 function InputWithIcon({ icon, children }: InputWithIconProps) {
   return (
-    <div className="flex items-center gap-2.5 border-[1.5px] border-slate-200 rounded-[11px] px-3.5 py-[0.65rem] bg-white focus-within:border-blue-600 transition-colors">
+    <div className="flex items-center gap-2 border-[1.5px] border-slate-200 rounded-[11px] px-3 py-[0.52rem] md:px-3.5 md:py-[0.65rem] bg-white focus-within:border-blue-600 transition-colors">
       <span className="shrink-0 text-base pointer-events-none select-none">{icon}</span>
       {children}
     </div>
