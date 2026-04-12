@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { animate } from 'animejs';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, LayoutList, Shield, Users, MessageCircle, Megaphone, Folder, ListTodo } from 'lucide-react';
 import type { ProjectDetail } from '@/features/projects/actions';
 import { PanelGenel } from './panel-genel';
 import { PanelGorevler } from './panel-gorevler';
