@@ -12,7 +12,7 @@ import type { FeedFilter } from "@/features/projects/actions";
 
 const FILTER_OPTIONS: { label: string; value: FeedFilter }[] = [
   { label: "Tümü", value: "all" },
-  { label: "Şehrim", value: "sehrim" },
+  { label: "Yakın", value: "sehrim" },
   { label: "Remote", value: "remote" },
 ];
 
