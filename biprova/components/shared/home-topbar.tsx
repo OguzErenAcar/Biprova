@@ -4,10 +4,13 @@ import { useEffect, useRef, useState } from 'react';
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { animate, createTimeline, splitText, stagger } from 'animejs';
+import Lottie, { LottieRefCurrentProps } from "lottie-react";
 import { NotificationBell } from "@/components/shared/notification-bell";
 import { SearchBar } from "@/components/shared/search-bar";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import bellIcon from "@/app/icons/wired-outline-236-alarm-clock-hover-pinch.json";
+import settingsIcon from "@/app/icons/wired-outline-409-tool-hover-oscillate.json";
 
 interface DrawerProject {
   id: string;
