@@ -1,39 +1,51 @@
 "use client";
 
-import { useState } from 'react';
-import { TeamPostCard } from './team-post-card';
-import type { TeamPostFeedItem } from '@/features/teams/actions';
+import { useState } from "react";
+import { TeamPostCard } from "./team-post-card";
+import type { TeamPostFeedItem } from "@/features/teams/actions";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+} from "@/components/ui/dropdown-menu";
 //import { Button } from '@/components/ui/button';
 
 const AVATAR_BG_COLORS = [
-  "#ede9fe", "#dbeafe", "#dcfce7", "#fef3c7",
-  "#fee2e2", "#cffafe", "#fce7f3", "#ffedd5",
+  "#ede9fe",
+  "#dbeafe",
+  "#dcfce7",
+  "#fef3c7",
+  "#fee2e2",
+  "#cffafe",
+  "#fce7f3",
+  "#ffedd5",
 ];
 
 const MEMBER_COLORS = [
-  "#3b82f6", "#8b5cf6", "#22c55e", "#f59e0b",
-  "#ef4444", "#06b6d4", "#ec4899", "#f97316",
+  "#3b82f6",
+  "#8b5cf6",
+  "#22c55e",
+  "#f59e0b",
+  "#ef4444",
+  "#06b6d4",
+  "#ec4899",
+  "#f97316",
 ];
 
 const CATEGORY_EMOJIS: Record<string, string> = {
-  Sosyal:     "🤝",
-  Medya:      "🎙️",
-  Çevre:      "🌱",
-  Sanat:      "🎬",
-  Teknoloji:  "💻",
-  Eğitim:     "📚",
-  Sağlık:     "🏥",
-  Spor:       "⚽",
-  Müzik:      "🎵",
+  Sosyal: "🤝",
+  Medya: "🎙️",
+  Çevre: "🌱",
+  Sanat: "🎬",
+  Teknoloji: "💻",
+  Eğitim: "📚",
+  Sağlık: "🏥",
+  Spor: "⚽",
+  Müzik: "🎵",
 };
 
-type SortKey = 'date' | 'popular';
+type SortKey = "date" | "popular";
 
 function hashIndex(str: string, len: number): number {
   let hash = 0;
@@ -81,42 +93,38 @@ interface Props {
 }
 
 export function TeamPostFeedClient({ posts }: Props) {
-  const [sortKey, setSortKey] = useState<SortKey>('date');
+  const [sortKey, setSortKey] = useState<SortKey>("date");
 
   const sorted = [...posts].sort((a, b) => {
-    if (sortKey === 'popular') return b.likeCount - a.likeCount;
+    if (sortKey === "popular") return b.likeCount - a.likeCount;
     return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
   });
 
-  const sortLabel = sortKey === 'date' ? 'Tarih' : 'Popülerlik';
+  const sortLabel = sortKey === "date" ? "Tarih" : "Popülerlik";
 
   return (
     <div id="team-post-feed">
       <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center justify-between mb-4">
-                <h1 className="text-3xl   text-ink">
-                   Gönderiler
-                </h1>
-              </div>
+        <div className="flex items-center justify-between mb-4">
+          <h1 className="dashheader text-ink">Gönderiler</h1>
+        </div>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <button  
-              className="gap-1.5   text-ink rounded-[9px]"
-            >
+            <button className="gap-1.5   text-ink rounded-[9px]">
               {sortLabel}
               <span className="text-label text-ink">▼</span>
             </button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="min-w-[160px]">
-            {([
-              { key: 'date' as SortKey, label: 'Tarihe göre sırala' },
-              { key: 'popular' as SortKey, label: 'Popülerlik' },
-            ]).map(({ key, label }) => (
+            {[
+              { key: "date" as SortKey, label: "Tarihe göre sırala" },
+              { key: "popular" as SortKey, label: "Popülerlik" },
+            ].map(({ key, label }) => (
               <DropdownMenuItem
                 key={key}
                 onClick={() => setSortKey(key)}
                 className={`text-caption font-semibold cursor-pointer ${
-                  sortKey === key ? 'text-brand ' : ''
+                  sortKey === key ? "text-brand " : ""
                 }`}
               >
                 {label}
@@ -135,21 +143,26 @@ export function TeamPostFeedClient({ posts }: Props) {
           {sorted.map((post) => {
             const { title, body } = parseContent(post.content);
             const category = post.team.category;
-            const teamEmoji = CATEGORY_EMOJIS[category ?? ""] ?? "🚀";
-            const teamAvatarBg = AVATAR_BG_COLORS[hashIndex(post.team.id, AVATAR_BG_COLORS.length)];
+            // const teamEmoji = CATEGORY_EMOJIS[category ?? ""] ?? "🚀";
+            // const teamAvatarBg =
+            //   AVATAR_BG_COLORS[
+            //     hashIndex(post.team.id, AVATAR_BG_COLORS.length)
+            //   ];
             const location = post.team.isRemote
               ? "Remote"
               : post.team.city
-              ? post.team.city
-              : "Belirtilmemiş";
+                ? post.team.city
+                : "Belirtilmemiş";
 
             const tags = [
-              ...(category ? [{ type: "category" as const, label: category }] : []),
+              ...(category
+                ? [{ type: "category" as const, label: category }]
+                : []),
               ...(post.team.isRemote
                 ? [{ type: "city" as const, label: "🌐 Remote" }]
                 : post.team.city
-                ? [{ type: "city" as const, label: `📍 ${post.team.city}` }]
-                : []),
+                  ? [{ type: "city" as const, label: `📍 ${post.team.city}` }]
+                  : []),
             ];
 
             const members = post.team.members.map((m) => ({
@@ -162,8 +175,6 @@ export function TeamPostFeedClient({ posts }: Props) {
               <TeamPostCard
                 key={post.id}
                 postId={post.id}
-                teamEmoji={teamEmoji}
-                teamAvatarBg={teamAvatarBg}
                 teamName={post.team.projectTitle}
                 location={location}
                 memberCount={post.team.members.length}
@@ -172,7 +183,9 @@ export function TeamPostFeedClient({ posts }: Props) {
                 title={title}
                 body={body}
                 members={members}
-                imageUrls={post.imageUrls.length > 0 ? post.imageUrls : undefined}
+                imageUrls={
+                  post.imageUrls.length > 0 ? post.imageUrls : undefined
+                }
                 likes={post.likeCount}
                 comments={0}
                 liked={post.isLiked}

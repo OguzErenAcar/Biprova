@@ -136,7 +136,7 @@ export function TeamPostCard({
               {" "}
               <button
                 onClick={(e) => { e.stopPropagation(); setExpanded((v) => !v); }}
-                className="text-brand font-semibold cursor-pointer bg-transparent border-none p-0"
+                className="text-white font-semibold cursor-pointer bg-transparent border-none p-0"
               >
                 {expanded ? "Daha az" : "Devamını oku"}
               </button>
