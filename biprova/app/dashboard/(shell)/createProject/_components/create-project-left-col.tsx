@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState, useState } from "react";
+import { Pencil, Link, Plus } from "lucide-react";
 import { createProject } from "@/features/projects/actions";
 import type { CategoryOption, CityOption, SkillOption, UserTeamOption } from "@/features/projects/actions";
 
