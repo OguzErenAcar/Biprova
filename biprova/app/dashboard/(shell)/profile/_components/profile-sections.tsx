@@ -10,7 +10,10 @@ import { VisibilityToggle } from "./visibility-toggle";
 import { WithdrawApplicationButton } from "./withdraw-application-button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { FolderOpen, Users, Send } from "lucide-react";
+import { LottieIcon } from "@/components/shared/lottie-icon";
+import layersIcon from "@/app/icons/wired-outline-12-layers-hover-slide.json";
+import avatarIcon from "@/app/icons/wired-outline-268-avatar-man-hover-glance.json";
+import documentIcon from "@/app/icons/wired-outline-245-edit-document-hover-pinch.json";
 
 interface ProfileSectionsProps {
   projects: UserProjectEntry[];
