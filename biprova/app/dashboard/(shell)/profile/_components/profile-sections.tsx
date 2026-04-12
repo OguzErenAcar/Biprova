@@ -46,7 +46,6 @@ const APP_STATUS_LABELS: Record<ApplicationStatus, string> = {
   rejected: "Reddedildi",
 };
 
-
 const TEAM_STATUS_STYLES: Record<TeamStatus, string> = {
   pending: "bg-warning-surface text-warning border-warning-surface",
   active: "bg-success-surface text-success border-success-surface",
@@ -140,22 +139,23 @@ export function ProfileSections({
                   key={p.id}
                   className={`flex gap-4 items-start py-3.5 ${i < projects.length - 1 ? "border-b border-edge border-white" : ""} ${i === 0 ? "pt-0" : ""}`}
                 >
-                  <div className="w-10 h-10 rounded-[11px] flex items-center justify-center flex-shrink-0">
-                    <FolderOpen size={18} className="text-ink-muted" />
-                  </div>
                   <div className="flex-1 min-w-0">
-                    <div className="text-lead font-bold text-ink mb-1">
-                      {p.title}
+                    <div className="flex items-center gap-2 mb-1">
+                      <FolderOpen size={18} className="text-ink-muted flex-shrink-0" />
+                      <div className="text-lead font-bold text-ink">{p.title}</div>
                     </div>
                     <div className="flex   text-meta text-ink-muted justify-between">
                       <div>
                         {meta.map((m, i) => (
-                          <span key={m}>{m}{i < meta.length - 1 && " - "}</span>
+                          <span key={m}>
+                            {m}
+                            {i < meta.length - 1 && " - "}
+                          </span>
                         ))}
                       </div>
                       <Badge
                         variant="outline"
-                        className={`text-meta font-bold whitespace-nowrap self-start mt-0.5 ${PROJECT_STATUS_STYLES[p.status as ProjectStatus] ?? PROJECT_STATUS_STYLES.active}`}
+                        className={`text-meta font-bold whitespace-nowrap self-start mt-0.5 ms-2 ${PROJECT_STATUS_STYLES[p.status as ProjectStatus] ?? PROJECT_STATUS_STYLES.active}`}
                       >
                         {PROJECT_STATUS_LABELS[p.status as ProjectStatus] ??
                           p.status}
@@ -197,7 +197,7 @@ export function ProfileSections({
                     <div className="text-lead font-bold text-ink mb-1">
                       {t.name ?? t.projectTitle ?? "Ekip"}
                     </div>
-                    <div className="flex  gap-2.5 text-meta text-ink-muted justify-between">
+                    <div className="flex  gap-4.5 text-meta text-ink-muted justify-between">
                       {title}
                       {/* rol de belirtilebilir */}
                       <Badge
