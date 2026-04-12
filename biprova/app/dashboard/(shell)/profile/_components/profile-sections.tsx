@@ -239,7 +239,7 @@ export function ProfileSections({
               >
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-0.5">
-                    <Send size={18} className="text-ink-muted flex-shrink-0" />
+                    <LottieIcon animationData={documentIcon} size={22} />
                     <div className="text-body font-bold text-ink">{a.projectTitle}</div>
                   </div>
                   <div className="text-caption text-ink-muted flex justify-between">
