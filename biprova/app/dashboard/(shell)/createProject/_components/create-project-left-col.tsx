@@ -101,7 +101,7 @@ export function CreateProjectLeftCol({  cities, skills, userTeams }: Props) {
 
         <FormGroup label="Ne İhtiyacın Var?" required hint="— Fikir değil, ihtiyaç yaz">
           <textarea
-            className="form-input resize-y min-h-[100px] leading-relaxed"
+            className="form-input resize-y min-h-[80px] md:min-h-[100px] leading-relaxed"
             name="description"
             placeholder="Hangi sorunu çözüyorsun, ekiple ne yapmak istiyorsun? İnsanlar başvurmadan önce bunu okuyacak."
             maxLength={500}
