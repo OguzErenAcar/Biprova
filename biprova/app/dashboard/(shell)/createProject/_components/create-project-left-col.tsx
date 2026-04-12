@@ -392,7 +392,7 @@ interface FormCardProps {
 
 function FormCard({ id, icon, title, sub, children }: FormCardProps) {
   return (
-    <div id={id} className="bg-white border-[1.5px] border-slate-200 rounded-[14px] lg:rounded-[18px] p-4 md:p-[1.8rem]">
+    <div id={id} className="bg-white border-[1.5px] border-slate-200  lg:rounded-[18px] p-4 md:p-[1.8rem]">
       <div className="font-nunito font-black text-[0.95rem] md:text-[1.05rem] text-slate-900 mb-0.5 flex items-center gap-[0.45rem]">
         <span className="text-slate-500">{icon}</span>
         {title}

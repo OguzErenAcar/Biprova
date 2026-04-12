@@ -2,9 +2,35 @@
 
 import { useEffect, useRef, useState } from 'react';
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { animate, createTimeline, splitText, stagger } from 'animejs';
 import { NotificationBell } from "@/components/shared/notification-bell";
 import { SearchBar } from "@/components/shared/search-bar";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
+
+interface DrawerProject {
+  id: string;
+  title: string;
+  status: "open" | "full" | "active" | "completed" | "cancelled";
+}
+
+const STATUS_CONFIG: Record<DrawerProject["status"], { label: string; className: string }> = {
+  open:      { label: "Açık",       className: "text-blue-600 bg-blue-50 border-blue-100" },
+  full:      { label: "Dolu",       className: "text-amber-600 bg-amber-50 border-amber-100" },
+  active:    { label: "Aktif",      className: "text-emerald-600 bg-emerald-50 border-emerald-100" },
+  completed: { label: "Tamamlandı", className: "text-slate-400 bg-slate-100 border-slate-200" },
+  cancelled: { label: "İptal",      className: "text-red-400 bg-red-50 border-red-100" },
+};
+
+function StatusBadge({ status }: { status: DrawerProject["status"] }) {
+  const { label, className } = STATUS_CONFIG[status];
+  return (
+    <Badge variant="outline" className={`ml-auto text-[10px] font-bold flex-shrink-0 ${className}`}>
+      {label}
+    </Badge>
+  );
+}
 
 // ─── Buraya yaz ───────────────────────────────────────────────
 const TICKER_TEXT = "Takım kur. Proje bul. Hayalini gerçeğe dönüştür. Biprova ile başla.";
