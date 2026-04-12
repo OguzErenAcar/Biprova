@@ -20,10 +20,10 @@ export function WithdrawApplicationButton({ applicationId }: WithdrawApplication
   return (
     <Button
       variant="outline"
-      size="sm"
+      size="xs"
       onClick={handleWithdraw}
       disabled={isPending}
-      className="text-meta font-semibold text-danger border-danger-surface bg-danger-surface hover:bg-danger-surface hover:text-danger h-auto px-2.5 py-1 rounded-[6px] whitespace-nowrap"
+      className="text-meta font-semibold text-danger border-danger-surface bg-danger-surface hover:bg-danger-surface hover:text-danger h-auto px-2.5 py-[2.5px] rounded-[10px] whitespace-nowrap"
     >
       {isPending ? "..." : "Geri Al"}
     </Button>
