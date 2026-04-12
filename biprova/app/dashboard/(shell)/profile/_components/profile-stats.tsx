@@ -9,7 +9,7 @@ interface StatCardProps {
 function StatCard({ value, label }: StatCardProps) {
   return (
     <Card>
-      <CardContent className="p-[1.1rem] text-center">
+      <CardContent className="md:p-[1.1rem] text-center">
         <div className=" text-hero text-ink leading-none mb-1.5">
           {value}
         </div>
@@ -21,10 +21,9 @@ function StatCard({ value, label }: StatCardProps) {
 
 export function ProfileStats({ stats }: { stats: UserStats }) {
   return (
-    <div id="profile-stats" className="grid grid-cols-3 gap-3 mb-5">
+    <div id="profile-stats" className="grid grid-cols-2 gap-3 mb-5">
       <StatCard value={stats.projectCount} label="Açılan Proje" />
       <StatCard value={stats.teamCount} label="Kurulan Ekip" />
-      <StatCard value={stats.completedCount} label="Tamamlanan" />
     </div>
   );
 }

@@ -7,6 +7,7 @@ import { ImageUploadButton } from "./image-upload-button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { MapPin, Globe, CalendarDays } from "lucide-react";
 
 interface ProfileHeroProps {
   user: UserProfile;
@@ -47,7 +48,7 @@ export function ProfileHero({ user, isOwner = false }: ProfileHeroProps) {
         )}
       </div>
 
-      <div className="px-4 sm:px-6 pb-5 sm:pb-6 relative">
+      <div className="px-4 sm:px-6 pb-5 sm:pb-6 py-4 sm:py-0 relative">
         {/* Avatar — mobil: ortada (transform yok → fixed modal çalışsın), desktop: sol absolute */}
         <div className="absolute -top-[50px] left-[calc(50%-50px)] sm:-top-[60px] sm:left-6 w-[100px] h-[100px] sm:w-[120px] sm:h-[120px] rounded-full border-4 border-white shadow-brand overflow-hidden">
           <div className="relative w-full h-full">
@@ -84,7 +85,7 @@ export function ProfileHero({ user, isOwner = false }: ProfileHeroProps) {
 
         {/* İsim + rozet */}
         <div className="flex items-center justify-between sm:pt-20 mb-2 flex-col sm:flex-row gap-1 sm:gap-0 text-center sm:text-left">
-          <div className="font-nunito font-black text-h2 text-ink">{user.name}</div>
+          <div className="mt-4 sm:mt-4 font-black text-h2 text-ink">{user.name}</div>
           {user.badge && (
             <Badge variant="outline" className="bg-warning-surface text-warning border-warning-surface font-bold gap-1.5">
               🏅 {user.badge}

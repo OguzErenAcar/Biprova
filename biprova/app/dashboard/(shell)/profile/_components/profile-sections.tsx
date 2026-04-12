@@ -124,7 +124,7 @@ export function ProfileSections({
           ) : (
             projects.map((p, i) => {
               const meta: string[] = [];
-              if (p.city) meta.push(`📍 ${p.city}`);
+              if (p.city) meta.push(`${p.city}`);
               else if (p.is_remote) meta.push("🌐 Remote");
               meta.push(
                 p.isLeader
