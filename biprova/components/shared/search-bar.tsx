@@ -51,7 +51,7 @@ export function SearchBar({ className }: { className?: string }) {
   }
 
   return (
-    <div ref={containerRef} className="relative flex-1 min-w-0 max-w-[200px]">
+    <div ref={containerRef} className={`relative flex-1 min-w-0 max-w-[200px] ${className ?? ""}`}>
       <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-[0.9rem] pointer-events-none">
         🔍
       </span>
