@@ -115,7 +115,11 @@ function TickerAnimation() {
   );
 }
 
-function MobileDrawer({ open, onClose }: { open: boolean; onClose: () => void }) {
+function MobileDrawer({ open, onClose, projects }: { open: boolean; onClose: () => void; projects: DrawerProject[] }) {
+  const pathname = usePathname();
+  const [projectsOpen, setProjectsOpen] = useState(true);
+  const [savedOpen, setSavedOpen] = useState(true);
+
   return (
     <>
       {/* Overlay */}
@@ -161,6 +165,69 @@ function MobileDrawer({ open, onClose }: { open: boolean; onClose: () => void })
               ⚙️
             </Link>
           </div>
+        </div>
+
+        <Separator />
+
+        {/* Projelerim */}
+        <div className="flex flex-col px-5 py-4 overflow-y-auto flex-1">
+          <button
+            onClick={() => setProjectsOpen((prev) => !prev)}
+            className="flex items-center justify-between w-full mb-2 group"
+          >
+            <span className="text-xs font-bold tracking-[2px] text-slate-500">Projelerim</span>
+            <svg
+              className={`w-3 h-3 text-slate-400 transition-transform duration-200 ${projectsOpen ? "rotate-180" : ""}`}
+              fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+
+          {projectsOpen && (
+            <nav className="mb-4">
+              {projects.length === 0 ? (
+                <div className="py-2 text-sm text-slate-400">Henüz proje yok</div>
+              ) : (
+                projects.map((project) => {
+                  const active = pathname.startsWith(`/dashboard/projects/${project.id}`);
+                  return (
+                    <Link
+                      key={project.id}
+                      href={`/dashboard/projects/${project.id}`}
+                      onClick={onClose}
+                      className={`flex items-center gap-2 px-2 py-2 rounded-lg text-sm font-semibold mb-0.5 transition-colors no-underline min-w-0 ${
+                        active ? "bg-blue-50 text-blue-600" : "text-slate-600 hover:bg-slate-100"
+                      }`}
+                    >
+                      <span className="truncate">{project.title.length > 19 ? project.title.substring(0, 19) + "..." : project.title}</span>
+                      <StatusBadge status={project.status} />
+                    </Link>
+                  );
+                })
+              )}
+            </nav>
+          )}
+
+          {/* Kaydettiklerim */}
+          <button
+            onClick={() => setSavedOpen((prev) => !prev)}
+            className="flex items-center justify-between w-full mb-2 group"
+          >
+            <span className="text-xs font-bold tracking-[2px] text-slate-500">Kaydettiklerim</span>
+            <svg
+              className={`w-3 h-3 text-slate-400 transition-transform duration-200 ${savedOpen ? "rotate-180" : ""}`}
+              fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+
+          {savedOpen && (
+            <nav>
+              <div className="py-2 text-sm text-slate-400">Henüz kaydedilen yok</div>
+            </nav>
+          )}
         </div>
       </div>
     </>
