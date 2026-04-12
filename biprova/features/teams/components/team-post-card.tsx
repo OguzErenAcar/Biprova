@@ -181,7 +181,7 @@ export function TeamPostCard({
       )}
 
       {/* Aksiyon butonları */}
-      <div className="flex items-center gap-2 pt-4 border-t ">
+      <div className="flex items-center gap-2 pt-2.5 sm:pt-4 border-t">
         {/* Beğeni */}
         <button 
           onClick={(e) => { e.stopPropagation(); handleLike(); }}
