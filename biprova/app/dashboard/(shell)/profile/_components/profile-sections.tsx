@@ -10,6 +10,7 @@ import { VisibilityToggle } from "./visibility-toggle";
 import { WithdrawApplicationButton } from "./withdraw-application-button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { FolderOpen, Users, Send } from "lucide-react";
 
 interface ProfileSectionsProps {
   projects: UserProjectEntry[];
