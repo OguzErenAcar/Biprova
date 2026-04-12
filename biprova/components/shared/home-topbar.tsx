@@ -157,15 +157,20 @@ function MobileDrawer({ open, onClose, projects }: { open: boolean; onClose: () 
 
         {/* İçerik */}
         <div className="flex flex-col gap-3 px-5 py-5">
-          <SearchBar />
-          <div className="flex items-center gap-3">
-            <NotificationBell />
+          <SearchBar className="max-w-full w-full" />
+          <div className="flex gap-2">
+            <DrawerIconButton
+              icon={bellIcon}
+              label="Bildirim"
+              onClick={onClose}
+            />
             <Link
               href="/dashboard/settings"
               onClick={onClose}
-              className="w-9 h-9 flex items-center justify-center rounded-[10px] border-[1.5px] border-slate-200 text-slate-600 hover:bg-slate-100 transition-colors no-underline"
+              className="flex-1 flex items-center justify-center gap-2 py-2 rounded-[10px] border-[1.5px] border-slate-200 text-slate-600 hover:bg-slate-100 transition-colors no-underline font-semibold text-sm"
             >
-              ⚙️
+              <DrawerLottieIcon icon={settingsIcon} />
+              Ayarlar
             </Link>
           </div>
         </div>
