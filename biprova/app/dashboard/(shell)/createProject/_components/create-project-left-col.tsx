@@ -75,7 +75,7 @@ export function CreateProjectLeftCol({  cities, skills, userTeams }: Props) {
   );
 
   return (
-    <form id="create-project-form" action={formAction} className="flex flex-col gap-5">
+    <form id="create-project-form" action={formAction} className="flex flex-col gap-3 md:gap-5">
       {state?.error && (
         <div className="bg-red-50 border-[1.5px] border-red-200 rounded-[12px] px-4 py-3 text-[0.84rem] font-semibold text-red-600">
           {state.error}
@@ -350,7 +350,7 @@ interface FormCardProps {
 
 function FormCard({ id, title, sub, children }: FormCardProps) {
   return (
-    <div id={id} className="bg-white border-[1.5px] border-slate-200 rounded-[18px] p-[1.8rem]">
+    <div id={id} className="bg-white border-[1.5px] border-slate-200 lg:rounded-[18px] p-[1.8rem]">
       <div className="font-nunito font-black text-[1.05rem] text-slate-900 mb-1 flex items-center gap-[0.45rem]">
         {title}
       </div>
