@@ -198,7 +198,7 @@ function MobileDrawer({ open, onClose, projects }: { open: boolean; onClose: () 
               </svg>
             </button>
           </div>
-          <TickerAnimation />
+          <TickerAnimation variant="drawer" />
         </div>
 
         {/* İçerik */}
