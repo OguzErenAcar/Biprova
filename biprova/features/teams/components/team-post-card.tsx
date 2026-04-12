@@ -122,7 +122,7 @@ export function TeamPostCard({
       </div>
 
       {/* Başlık */}
-      <div className=" py-3 text-title leading-[1.35] text-ink mb-[0.45rem]">
+      <div className="py-1.5 sm:py-3 text-title leading-[1.35] text-ink mb-1 sm:mb-[0.45rem]">
         {title}
       </div>
 
