@@ -128,7 +128,7 @@ export function TeamPostCard({
 
       {/* Açıklama */}
       {body && (
-        <div className="text-body text-ink-muted leading-[1.6] mb-4">
+        <div className="text-body text-ink-muted leading-[1.6] mb-3 sm:mb-4">
           
           {displayBody}
           {isLong && (
