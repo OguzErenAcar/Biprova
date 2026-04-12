@@ -158,15 +158,42 @@
 }
 
 .dashheader {
-  font-size: 30px; 
+  font-size: 30px;
   font-weight: semibold;
-  color: #000000;
-  background-image: linear-gradient(135deg, #cfcfcf 40%, #a3a3a3 60%);
+  background-image: linear-gradient(
+    120deg,
+    #0f172a 0%,
+    #1d4ed8 35%,
+    #3764ec 55%,
+    #7c3aed 80%,
+    #4f46e5 100%
+  );
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   display: inline-block;
 }
+
+.content-header-divider {
+  margin-bottom: 10px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    #c7d2fe 15%,
+    #818cf8 40%,
+    #3764ec 50%,
+    #818cf8 60%,
+    #c7d2fe 85%,
+    transparent
+  );
+  opacity: 0.7;
+}
+
 .shadow1 {
   box-shadow:
     rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
@@ -216,24 +243,7 @@
   }
 }
 
-/* ══════════════════════════════════════════════
-   CONTENT HEADER DİVİDER
-   ══════════════════════════════════════════════ */
-.content-header-divider {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(
-    to right,
-    transparent,
-    #cbd5e1 20%,
-    #94a3b8 50%,
-    #cbd5e1 80%,
-    transparent
-  );
-}
+
 
 /* ══════════════════════════════════════════════
    FORM UTİLİTİES
