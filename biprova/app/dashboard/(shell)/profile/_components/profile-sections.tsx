@@ -124,7 +124,6 @@ export function ProfileSections({
             <p className="text-body text-ink-subtle">Henüz proje yok.</p>
           ) : (
             projects.map((p, i) => {
-              const bg = PROJECT_BG_COLORS[i % PROJECT_BG_COLORS.length];
               const meta: string[] = [];
               if (p.city) meta.push(`📍 ${p.city}`);
               else if (p.is_remote) meta.push("🌐 Remote");
