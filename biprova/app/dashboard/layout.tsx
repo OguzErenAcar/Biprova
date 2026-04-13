@@ -23,9 +23,7 @@ export default function DashboardLayout({
             </Suspense>
           }
         >
-          <SwipeNavigator>
-            <SplashWrapper>{children}</SplashWrapper>
-          </SwipeNavigator>
+          <SplashWrapper>{children}</SplashWrapper>
         </DashboardGrid>
       </div>
       <TabBar />
