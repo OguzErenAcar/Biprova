@@ -79,21 +79,27 @@ function TabItem({ tab, active, onNavigate }: { tab: Tab; active: boolean; onNav
 
 export function TabBar() {
   const pathname = usePathname();
+  const [navigating, setNavigating] = useState(false);
+
+  useEffect(() => {
+    setNavigating(false);
+  }, [pathname]);
 
   function isActive(href: string, exact?: boolean) {
     return exact ? pathname === href : pathname === href || pathname.startsWith(href + "/");
   }
 
   const isProjectChat = /^\/dashboard\/projects\/[^/]+$/.test(pathname);
+  const isHidden = isProjectChat || navigating;
 
   return (
     <nav
       id="dashboard-tab-bar"
-      className={`lg:hidden fixed bottom-0 left-0 right-0 bg-surface border-t border-slate-200 z-[100] pt-[0.4rem] pb-[calc(0.4rem+env(safe-area-inset-bottom))] transition-transform duration-200 ${isProjectChat ? 'translate-y-full' : ''}`}
+      className={`lg:hidden fixed bottom-0 left-0 right-0 bg-surface border-t border-slate-200 z-[100] pt-[0.4rem] pb-[calc(0.4rem+env(safe-area-inset-bottom))] transition-transform duration-200 ${isHidden ? 'translate-y-full' : ''}`}
     >
       <div className="flex justify-around items-end">
         {TABS.map((tab) => (
-          <TabItem key={tab.href} tab={tab} active={isActive(tab.href, tab.exact)} />
+          <TabItem key={tab.href} tab={tab} active={isActive(tab.href, tab.exact)} onNavigate={() => setNavigating(true)} />
         ))}
       </div>
     </nav>
