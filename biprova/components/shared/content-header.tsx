@@ -1,5 +1,7 @@
 "use client";
 
+import { animate, stagger } from "animejs";
+import { TextSplitter } from "animejs/text";
 import { ReactNode, useEffect, useRef } from "react";
 
 interface ContentHeaderProps {
@@ -11,41 +13,29 @@ export function ContentHeader({ title, children }: ContentHeaderProps) {
   const titleRef = useRef<HTMLHeadingElement>(null);
 
   useEffect(() => {
-    if (!titleRef.current) return;
+    const el = titleRef.current;
+    if (!el) return;
 
-    let cleanup: (() => void) | undefined;
+    const splitter = new TextSplitter(el, {
+      chars: { wrap: "clip" },
+    });
 
-    const runAnimation = async () => {
-      const [{ animate, stagger }, { TextSplitter }] = await Promise.all([
-        import("animejs"),
-        import("animejs/text"),
-      ]);
+    if (!splitter.chars.length) return;
 
-      if (!titleRef.current) return;
+    const anim = animate(splitter.chars, {
+      opacity: [0, 1],
+      y: ["100%", "0%"],
+      duration: 600,
+      delay: stagger(50),
+      ease: "outExpo",
+      loop: 3,
+      loopDelay: 3400,
+    });
 
-      const splitter = new TextSplitter(titleRef.current);
-
-      if (!splitter.chars.length) return;
-
-      const anim = animate(splitter.chars, {
-        opacity: [0, 1],
-        translateY: ["0.6em", "0em"],
-        duration: 600,
-        delay: stagger(60),
-        ease: "outExpo",
-        loop: 3,
-        loopDelay: 3400,
-      });
-
-      cleanup = () => {
-        anim.pause();
-        splitter.revert();
-      };
+    return () => {
+      anim.cancel();
+      splitter.revert();
     };
-
-    runAnimation();
-
-    return () => cleanup?.();
   }, [title]);
 
   return (
