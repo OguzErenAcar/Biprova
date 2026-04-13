@@ -146,22 +146,23 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
             <p className="text-[0.75rem] text-red-500">{error}</p>
           )}
           <div className="flex gap-2 items-center">
-          <input
-            className="flex-1 border-[1.5px] border-slate-200 rounded-[10px] px-4 py-[0.65rem] font-[inherit] text-[0.88rem] outline-none transition-colors bg-slate-50 focus:border-blue-600 focus:bg-white"
-            placeholder="Mesaj yaz..."
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') handleSend();
-            }}
-          />
-          <button
-            onClick={handleSend}
-            disabled={isPending || !text.trim()}
-            className="bg-blue-600 text-white border-none rounded-[10px] w-9 h-9 flex items-center justify-center cursor-pointer hover:bg-blue-700 transition-colors disabled:opacity-50"
-          >
-            →
-          </button>
+            <input
+              className="flex-1 border-[1.5px] border-slate-200 rounded-[10px] px-4 py-[0.65rem] font-[inherit] text-[0.88rem] outline-none transition-colors bg-slate-50 focus:border-blue-600 focus:bg-white"
+              placeholder="Mesaj yaz..."
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') handleSend();
+              }}
+            />
+            <button
+              onClick={handleSend}
+              disabled={isPending || !text.trim()}
+              className="bg-blue-600 text-white border-none rounded-[10px] w-9 h-9 flex items-center justify-center cursor-pointer hover:bg-blue-700 transition-colors disabled:opacity-50"
+            >
+              →
+            </button>
+          </div>
         </div>
       </div>
     </div>
