@@ -91,8 +91,8 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
   return (
     <div id="panel-chat">
       <div
-        className="bg-white border-[1.5px] border-slate-200 overflow-hidden flex flex-col relative"
-        style={{ height: 'calc(100vh-200px)', minHeight: '430px' }}
+        className="bg-white border-[1.5px] border-slate-200 flex flex-col relative"
+        style={{ height: 'calc(100vh - 200px)', minHeight: '430px' }}
       >
         {/* Messages */}
         <div
