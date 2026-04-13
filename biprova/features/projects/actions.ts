@@ -802,20 +802,34 @@ export async function deleteProject(projectId: string): Promise<{ error?: string
   return {};
 }
 
-export async function sendProjectMessage(teamId: string, content: string, senderName: string): Promise<void> {
+export async function sendProjectMessage(
+  teamId: string,
+  content: string,
+  senderName: string,
+): Promise<{ error?: string }> {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return;
-  const trimmed = content.trim();
-  if (!trimmed) return;
+  if (!user) return { error: 'Oturum açmanız gerekiyor.' };
 
-  const { data: inserted } = await supabase
+  const trimmed = content.trim();
+  if (!trimmed) return { error: 'Mesaj boş olamaz.' };
+
+  const { data: membership } = await supabase
+    .from('team_members')
+    .select('user_id')
+    .eq('team_id', teamId)
+    .eq('user_id', user.id)
+    .maybeSingle();
+
+  if (!membership) return { error: 'Bu ekibin üyesi değilsiniz.' };
+
+  const { data: inserted, error: insertError } = await supabase
     .from('messages')
     .insert({ team_id: teamId, sender_id: user.id, content: trimmed })
     .select('id, created_at')
     .single();
 
-  if (!inserted) return;
+  if (insertError || !inserted) return { error: 'Mesaj gönderilemedi.' };
 
   const { createAdminClient } = await import('@/lib/supabase/admin');
   const admin = createAdminClient();
@@ -831,6 +845,8 @@ export async function sendProjectMessage(teamId: string, content: string, sender
       created_at: inserted.created_at,
     },
   });
+
+  return {};
 }
 
 export async function createProjectPost(teamId: string, content: string, imageUrls: string[] = []): Promise<void> {
