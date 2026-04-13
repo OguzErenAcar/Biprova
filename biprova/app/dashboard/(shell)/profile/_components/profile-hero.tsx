@@ -100,7 +100,7 @@ export function ProfileHero({ user, isOwner = false }: ProfileHeroProps) {
           <p className="text-body text-ink-muted leading-relaxed mb-6 mt-6 text-center sm:text-left">{user.bio}</p>
         )}
 
-        <div className="flex flex-wrap gap-4 text-caption text-ink-muted">
+        <div className="flex flex-wrap gap-4 text-caption text-ink-muted justify-center sm:justify-start">
           {user.city && <span className="flex items-center gap-1"><LottieIcon animationData={cityIcon} size={20} /> {user.city}</span>}
           {user.is_remote && <span className="flex items-center gap-1"><LottieIcon animationData={globeIcon} size={20} /> Remote uyumlu</span>}
           <span className="flex items-center gap-1"><LottieIcon animationData={clockIcon} size={20} /> {formatMemberSince(user.created_at)}&apos;den beri üye</span>
