@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter, usePathname } from "next/navigation";
-import { useRef, useState, useCallback } from "react";
+import { useRef, useState, useEffect, useTransition } from "react";
 
 const TABS = [
   "/dashboard",
@@ -11,8 +11,8 @@ const TABS = [
   "/dashboard/profile",
 ];
 
-const THRESHOLD = 80;       // px — this much drag confirms navigation
-const RESISTANCE = 0.35;    // how much the drag is dampened
+const THRESHOLD = 80;
+const RESISTANCE = 0.35;
 
 function getCurrentTabIndex(pathname: string): number {
   const exact = TABS.findIndex((t) => t === pathname);
@@ -35,86 +35,104 @@ interface SwipeNavigatorProps {
 export function SwipeNavigator({ children }: SwipeNavigatorProps) {
   const router = useRouter();
   const pathname = usePathname();
+  const [isPending, startTransition] = useTransition();
 
   const touchStartX = useRef<number | null>(null);
   const [translateX, setTranslateX] = useState(0);
-  const [transitioning, setTransitioning] = useState(false);
-  const animatingRef = useRef(false);
+  const [animated, setAnimated] = useState(false);
+  const isNavigatingRef = useRef(false);
+  const directionRef = useRef<"left" | "right">("left");
 
-  const navigate = useCallback(
-    (direction: "left" | "right") => {
-      if (animatingRef.current) return;
-      const currentIndex = getCurrentTabIndex(pathname);
-      if (currentIndex === -1) return;
+  // Prefetch adjacent tabs for instant navigation
+  useEffect(() => {
+    const currentIndex = getCurrentTabIndex(pathname);
+    if (currentIndex > 0) router.prefetch(TABS[currentIndex - 1]);
+    if (currentIndex < TABS.length - 1) router.prefetch(TABS[currentIndex + 1]);
+  }, [pathname, router]);
 
-      const nextIndex =
-        direction === "left"
-          ? Math.min(currentIndex + 1, TABS.length - 1)
-          : Math.max(currentIndex - 1, 0);
+  // When the new page is ready (isPending → false), slide it in
+  useEffect(() => {
+    if (!isPending && isNavigatingRef.current) {
+      const fromX =
+        directionRef.current === "left" ? window.innerWidth : -window.innerWidth;
 
-      if (nextIndex === currentIndex) {
-        // Edge — spring back
-        setTransitioning(true);
-        setTranslateX(0);
-        return;
-      }
+      // Position new content off-screen without animation
+      setAnimated(false);
+      setTranslateX(fromX);
 
-      animatingRef.current = true;
-      const exitTo = direction === "left" ? -window.innerWidth : window.innerWidth;
-
-      setTransitioning(true);
-      setTranslateX(exitTo);
-
-      setTimeout(() => {
-        router.push(TABS[nextIndex]);
-        // Reset without transition so the incoming page starts from the other side
-        setTransitioning(false);
-        setTranslateX(direction === "left" ? window.innerWidth : -window.innerWidth);
-
-        // Then slide into view
+      // Two rAF frames ensure the browser paints the off-screen position first
+      requestAnimationFrame(() => {
         requestAnimationFrame(() => {
-          requestAnimationFrame(() => {
-            setTransitioning(true);
-            setTranslateX(0);
-            setTimeout(() => {
-              animatingRef.current = false;
-            }, 320);
-          });
+          setAnimated(true);
+          setTranslateX(0);
+          setTimeout(() => {
+            isNavigatingRef.current = false;
+          }, 320);
         });
-      }, 280);
-    },
-    [pathname, router]
-  );
+      });
+    }
+  }, [isPending]);
+
+  function triggerNavigate(direction: "left" | "right") {
+    if (isNavigatingRef.current) return;
+    const currentIndex = getCurrentTabIndex(pathname);
+    if (currentIndex === -1) return;
+
+    const nextIndex =
+      direction === "left"
+        ? Math.min(currentIndex + 1, TABS.length - 1)
+        : Math.max(currentIndex - 1, 0);
+
+    if (nextIndex === currentIndex) {
+      // Edge: spring back
+      setAnimated(true);
+      setTranslateX(0);
+      return;
+    }
+
+    isNavigatingRef.current = true;
+    directionRef.current = direction;
+
+    // Slide current content off screen
+    const exitTo =
+      direction === "left" ? -window.innerWidth : window.innerWidth;
+    setAnimated(true);
+    setTranslateX(exitTo);
+
+    // Navigate inside startTransition — React defers re-render until new page is ready
+    startTransition(() => {
+      router.push(TABS[nextIndex]);
+    });
+  }
 
   function handleTouchStart(e: React.TouchEvent) {
-    if (animatingRef.current) return;
+    if (isNavigatingRef.current) return;
     touchStartX.current = e.touches[0].clientX;
-    setTransitioning(false);
+    setAnimated(false);
   }
 
   function handleTouchMove(e: React.TouchEvent) {
-    if (touchStartX.current === null || animatingRef.current) return;
+    if (touchStartX.current === null || isNavigatingRef.current) return;
     const delta = e.touches[0].clientX - touchStartX.current;
     const currentIndex = getCurrentTabIndex(pathname);
 
-    // Apply resistance at edges
     const atStart = currentIndex <= 0 && delta > 0;
     const atEnd = currentIndex >= TABS.length - 1 && delta < 0;
-    const dampened = (atStart || atEnd) ? delta * 0.15 : delta * RESISTANCE;
+    const dampened =
+      atStart || atEnd ? delta * 0.12 : delta * RESISTANCE;
 
     setTranslateX(dampened);
   }
 
   function handleTouchEnd(e: React.TouchEvent) {
-    if (touchStartX.current === null || animatingRef.current) return;
+    if (touchStartX.current === null || isNavigatingRef.current) return;
     const delta = e.changedTouches[0].clientX - touchStartX.current;
     touchStartX.current = null;
 
     if (Math.abs(delta) >= THRESHOLD) {
-      navigate(delta < 0 ? "left" : "right");
+      triggerNavigate(delta < 0 ? "left" : "right");
     } else {
-      // Spring back
-      setTransitioning(true);
+      setAnimated(true);
       setTranslateX(0);
     }
   }
@@ -129,7 +147,9 @@ export function SwipeNavigator({ children }: SwipeNavigatorProps) {
       <div
         style={{
           transform: `translateX(${translateX}px)`,
-          transition: transitioning ? "transform 300ms cubic-bezier(0.25, 0.46, 0.45, 0.94)" : "none",
+          transition: animated
+            ? "transform 300ms cubic-bezier(0.25, 0.46, 0.45, 0.94)"
+            : "none",
           height: "100%",
           willChange: "transform",
         }}
