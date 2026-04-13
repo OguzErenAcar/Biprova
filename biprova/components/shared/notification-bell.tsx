@@ -48,7 +48,7 @@ export function NotificationBell() {
         <div className="absolute right-0 top-full w-[320px] z-50 pt-2">
           <div className="bg-surface border-[1.5px] border-slate-200 rounded-2xl shadow-xl p-[1.1rem]">
             <div className="font-display font-black text-body text-slate-900 mb-3 flex items-center justify-between">
-              🔔 Bildirimler
+              <span className="flex items-center gap-2"><Bell size={15} strokeWidth={2.5} /> Bildirimler</span>
 
               <Link
                 href="/dashboard/notifications"
