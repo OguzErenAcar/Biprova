@@ -43,10 +43,6 @@ export function PanelChat({ teamId, messages: initialMessages, members, viewerId
 
     const channel = supabase
       .channel(`team-chat-${teamId}`)
-      .on('system' as 'postgres_changes', {} as never, (status: unknown) => {
-        // eslint-disable-next-line no-console
-        console.log('[Realtime] system:', status);
-      })
       .on(
         'postgres_changes',
         {
