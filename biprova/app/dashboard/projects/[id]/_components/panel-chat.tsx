@@ -31,8 +31,8 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
   const [messages, setMessages] = useState<ProjectMessage[]>(initialMessages);
   const [text, setText] = useState('');
   const [error, setError] = useState<string | null>(null);
-  const [selectedMsgIds, setSelectedMsgIds] = useState<Set<string>>(new Set());
   const [isSelecting, setIsSelecting] = useState(false);
+  const [selectedMsgIds, setSelectedMsgIds] = useState<Set<string>>(new Set());
   const [isPending, startTransition] = useTransition();
   const bottomRef = useRef<HTMLDivElement>(null);
 
@@ -91,21 +91,33 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
     });
   }
 
-  function handlePressStart(msgId: string) {
-    pressTimerRef.current = setTimeout(() => {
-      setSelectedMsgIds((prev) => {
-        const next = new Set(prev);
-        next.add(msgId);
-        return next;
-      });
-    }, 2000);
+  function toggleSelectMode() {
+    if (isSelecting) {
+      setIsSelecting(false);
+      setSelectedMsgIds(new Set());
+    } else {
+      setIsSelecting(true);
+    }
   }
 
-  function handlePressEnd() {
-    if (pressTimerRef.current) {
-      clearTimeout(pressTimerRef.current);
-      pressTimerRef.current = null;
-    }
+  function toggleMessage(msgId: string) {
+    if (!isSelecting) return;
+    setSelectedMsgIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(msgId)) {
+        next.delete(msgId);
+      } else {
+        next.add(msgId);
+      }
+      return next;
+    });
+  }
+
+  function handleDelete() {
+    // TODO: silme action'ı eklenecek
+    setMessages((prev) => prev.filter((m) => !selectedMsgIds.has(m.id)));
+    setSelectedMsgIds(new Set());
+    setIsSelecting(false);
   }
 
   return (
@@ -115,14 +127,32 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
         style={{ height: 'calc(100vh - 100px)', minHeight: '430px' }}
       >
         {/* Top bar */}
-        <div id="chat-topbar" className="absolute top-0 left-0 right-0 h-[35px] bg-white z-10 flex items-center px-3">
-          {selectedMsgIds.size > 0 && (
+        <div id="chat-topbar" className="absolute top-0 left-0 right-0 h-[35px] bg-white z-10 flex items-center justify-between px-3">
+          {isSelecting ? (
+            <>
+              <button
+                onClick={toggleSelectMode}
+                className="text-[0.75rem] text-slate-400 hover:text-slate-600 transition-colors"
+              >
+                İptal
+              </button>
+              <button
+                onClick={handleDelete}
+                disabled={selectedMsgIds.size === 0}
+                className="flex items-center gap-1.5 text-red-500 hover:text-red-600 transition-colors disabled:opacity-30"
+              >
+                <Trash2 size={15} strokeWidth={2} />
+                <span className="text-[0.75rem] font-semibold">
+                  {selectedMsgIds.size > 0 ? `Sil (${selectedMsgIds.size})` : 'Sil'}
+                </span>
+              </button>
+            </>
+          ) : (
             <button
-              onClick={() => setSelectedMsgIds(new Set())}
-              className="flex items-center gap-1.5 text-red-500 hover:text-red-600 transition-colors"
+              onClick={toggleSelectMode}
+              className="ml-auto flex items-center gap-1.5 text-slate-400 hover:text-red-500 transition-colors"
             >
-              <Trash2 size={16} strokeWidth={2} />
-              <span className="text-[0.75rem] font-semibold">Sil ({selectedMsgIds.size})</span>
+              <Trash2 size={15} strokeWidth={2} />
             </button>
           )}
         </div>
@@ -131,7 +161,6 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
         <div
           id="chat-messages"
           className="flex-1 overflow-y-scroll p-4 pt-[46px] flex flex-col gap-3"
-          onClick={() => setSelectedMsgIds(new Set())}
         >
           {messages.length === 0 && (
             <div className="text-center text-[0.82rem] text-slate-400 mt-8">
@@ -144,12 +173,8 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
             return (
               <div
                 key={msg.id}
-                className={`flex gap-2 items-start ${isMine ? 'flex-row-reverse' : ''}`}
-                onMouseDown={(e) => { e.stopPropagation(); handlePressStart(msg.id); }}
-                onMouseUp={handlePressEnd}
-                onMouseLeave={handlePressEnd}
-                onTouchStart={(e) => { e.stopPropagation(); handlePressStart(msg.id); }}
-                onTouchEnd={handlePressEnd}
+                className={`flex gap-2 items-start ${isMine ? 'flex-row-reverse' : ''} ${isSelecting ? 'cursor-pointer' : ''}`}
+                onClick={() => toggleMessage(msg.id)}
               >
                 <div className="w-[30px] h-[30px] rounded-full bg-blue-500 flex items-center justify-center font-nunito font-black text-[0.68rem] text-white shrink-0">
                   {getInitials(msg.sender_name)}
@@ -160,7 +185,7 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
                   </div>
                   <div
                     className={`rounded-[12px] px-[0.9rem] py-[0.65rem] text-[0.85rem] leading-relaxed border transition-opacity ${
-                      isSelected ? 'opacity-50' : ''
+                      isSelected ? 'opacity-40' : ''
                     } ${
                       isMine
                         ? 'bg-green-200 text-black border-green-300'
