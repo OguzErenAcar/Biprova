@@ -44,33 +44,22 @@ export function PanelChat({ teamId, messages: initialMessages, members, viewerId
     const channel = supabase
       .channel(`team-chat-${teamId}`)
       .on(
-        'postgres_changes',
-        {
-          event: 'INSERT',
-          schema: 'public',
-          table: 'messages',
-        },
+        'broadcast',
+        { event: 'new_message' },
         (payload) => {
-          // eslint-disable-next-line no-console
-          console.log('[Realtime] payload:', payload);
-          const row = payload.new as {
+          const row = payload.payload as {
             id: string;
-            team_id: string;
             sender_id: string;
+            sender_name: string;
             content: string;
             created_at: string;
           };
-          if (row.team_id !== teamId) return;
-          const senderName =
-            row.sender_id === viewerId
-              ? viewerName
-              : (memberMap.get(row.sender_id) ?? 'Kullanıcı');
           setMessages((prev) => [
             ...prev,
             {
               id: row.id,
               sender_id: row.sender_id,
-              sender_name: senderName,
+              sender_name: row.sender_name,
               sender_avatar: null,
               content: row.content,
               created_at: row.created_at,
@@ -78,10 +67,7 @@ export function PanelChat({ teamId, messages: initialMessages, members, viewerId
           ]);
         }
       )
-      .subscribe((status, err) => {
-        // eslint-disable-next-line no-console
-        console.log('[Realtime] status:', status, err);
-      });
+      .subscribe();
 
     return () => {
       supabase.removeChannel(channel);
