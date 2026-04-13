@@ -76,7 +76,10 @@ export function PanelChat({ teamId, messages: initialMessages, members, viewerId
           ]);
         }
       )
-      .subscribe();
+      .subscribe((status, err) => {
+        // eslint-disable-next-line no-console
+        console.log('[Realtime] status:', status, err);
+      });
 
     return () => {
       supabase.removeChannel(channel);
