@@ -82,10 +82,12 @@ export function TabBar() {
     return exact ? pathname === href : pathname === href || pathname.startsWith(href + "/");
   }
 
+  const isProjectChat = /^\/dashboard\/projects\/[^/]+$/.test(pathname);
+
   return (
     <nav
       id="dashboard-tab-bar"
-      className="lg:hidden fixed bottom-0 left-0 right-0 bg-surface border-t border-slate-200 z-[100] pt-[0.4rem] pb-[calc(0.4rem+env(safe-area-inset-bottom))]"
+      className={`lg:hidden fixed bottom-0 left-0 right-0 bg-surface border-t border-slate-200 z-[100] pt-[0.4rem] pb-[calc(0.4rem+env(safe-area-inset-bottom))] transition-transform duration-200 ${isProjectChat ? 'translate-y-full' : ''}`}
     >
       <div className="flex justify-around items-end">
         {TABS.map((tab) => (
