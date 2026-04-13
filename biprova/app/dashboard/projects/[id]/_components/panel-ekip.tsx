@@ -54,9 +54,7 @@ function MembersSection({ members }: { members: ProjectDetail['members'] }) {
         ) : (
           members.map((member) => (
             <div key={member.user_id} className="flex items-center gap-3 px-[1.4rem] py-[0.9rem]">
-              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-400 to-indigo-500 flex items-center justify-center font-nunito font-black text-[0.72rem] text-white shrink-0">
-                {getInitials(member.name)}
-              </div>
+              <UserAvatar initials={getInitials(member.name)} className="w-8 h-8 text-[0.72rem]" />
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-1.5 flex-wrap">
                   <span className="text-[0.84rem] font-bold text-slate-900">{member.name}</span>
