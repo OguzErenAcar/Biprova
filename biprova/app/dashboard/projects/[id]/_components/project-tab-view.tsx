@@ -173,6 +173,7 @@ export function ProjectTabView({ project }: Props) {
             teamId={project.team_id}
             messages={project.messages}
             viewerId={project.viewer.id}
+            viewerName={project.viewer.name}
           />
         ) : activeTab === 'chat' ? (
           <div className="text-[0.84rem] text-slate-400 text-center py-12">
