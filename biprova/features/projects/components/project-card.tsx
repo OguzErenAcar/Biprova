@@ -85,9 +85,9 @@ export function ProjectCard({
           <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap justify-end">
             <Badge
               variant="outline"
-              className="bg-brand-surface text-brand border-brand-surface font-bold text-[0.7rem] sm:text-xs px-1.5 sm:px-2"
+              className="bg-brand-surface text-gray-800 border-brand-surface font-bold text-[0.7rem] sm:text-xs px-1.5 sm:px-2"
             >
-              {isRemote ? "🌐 Remote" : `📍 ${city}`}
+              {isRemote ? "Remote" : `📍 ${city}`}
             </Badge>
             <Badge
               variant="outline"

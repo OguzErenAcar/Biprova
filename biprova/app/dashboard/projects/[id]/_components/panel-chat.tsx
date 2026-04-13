@@ -49,7 +49,7 @@ export function PanelChat({ teamId, messages, viewerId }: Props) {
     <div id="panel-chat">
       <div
         className="bg-white border-[1.5px] border-slate-200 rounded-2xl overflow-hidden flex flex-col"
-        style={{ height: 'calc(100vh - 200px)', minHeight: '400px' }}
+        style={{ height: 'calc(100vh - 280px)', minHeight: '400px' }}
       >
         {/* Messages */}
         <div
