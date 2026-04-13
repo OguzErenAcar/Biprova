@@ -91,16 +91,16 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
   return (
     <div id="panel-chat">
       <div
-        className="bg-gray-200 border-[1.5px] border-slate-200 overflow-hidden flex flex-col"
+        className="bg-white border-[1.5px] border-slate-200 overflow-hidden flex flex-col relative"
         style={{ height: 'calc(100vh-200px)', minHeight: '430px' }}
       >
         {/* Top bar */}
-        <div id="chat-topbar" className="h-[50px] shrink-0" />
+        <div id="chat-topbar" className="absolute bottom-0 left-0 right-0 h-[50px] bg-white z-10" />
 
         {/* Messages */}
         <div
           id="chat-messages"
-          className="flex-1 overflow-y-auto p-4 flex flex-col gap-3"
+          className="flex-1 overflow-y-scroll p-4 flex flex-col gap-3"
         >
           {messages.length === 0 && (
             <div className="text-center text-[0.82rem] text-slate-400 mt-8">
