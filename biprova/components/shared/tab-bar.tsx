@@ -80,17 +80,36 @@ function TabItem({ tab, active, onNavigate }: { tab: Tab; active: boolean; onNav
 export function TabBar() {
   const pathname = usePathname();
   const [navigating, setNavigating] = useState(false);
+  const [scrolledDown, setScrolledDown] = useState(false);
+  const lastScrollY = useRef(0);
 
   useEffect(() => {
     setNavigating(false);
+    setScrolledDown(false);
+    lastScrollY.current = 0;
   }, [pathname]);
+
+  useEffect(() => {
+    function handleScroll() {
+      const currentY = window.scrollY;
+      if (currentY > lastScrollY.current && currentY > 60) {
+        setScrolledDown(true);
+      } else if (currentY < lastScrollY.current) {
+        setScrolledDown(false);
+      }
+      lastScrollY.current = currentY;
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   function isActive(href: string, exact?: boolean) {
     return exact ? pathname === href : pathname === href || pathname.startsWith(href + "/");
   }
 
   const isProjectChat = /^\/dashboard\/projects\/[^/]+$/.test(pathname);
-  const isHidden = isProjectChat || navigating;
+  const isHidden = isProjectChat || navigating || scrolledDown;
 
   return (
     <nav
