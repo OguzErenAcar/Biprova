@@ -132,28 +132,13 @@ function TickerAnimation({ variant = "topbar" }: { variant?: "topbar" | "drawer"
   );
 }
 
-function DrawerLottieIcon({ icon }: { icon: object }) {
-  const ref = useRef<LottieRefCurrentProps>(null);
-  return (
-    <span
-      onMouseEnter={() => ref.current?.play()}
-      onMouseLeave={() => ref.current?.stop()}
-    >
-      <Lottie lottieRef={ref} animationData={icon} loop={false} autoplay={false} style={{ width: 20, height: 20 }} />
-    </span>
-  );
-}
-
-function DrawerIconButton({ icon, label, onClick }: { icon: object; label: string; onClick: () => void }) {
-  const ref = useRef<LottieRefCurrentProps>(null);
+function DrawerIconButton({ icon: Icon, label, onClick }: { icon: React.ElementType; label: string; onClick: () => void }) {
   return (
     <button
       onClick={onClick}
-      onMouseEnter={() => ref.current?.play()}
-      onMouseLeave={() => ref.current?.stop()}
       className="flex-1 flex items-center justify-center gap-2 py-2 rounded-[10px] border-[1.5px] border-slate-200 text-slate-600 hover:bg-slate-100 transition-colors font-semibold text-sm"
     >
-      <Lottie lottieRef={ref} animationData={icon} loop={false} autoplay={false} style={{ width: 20, height: 20 }} />
+      <Icon size={16} strokeWidth={2} />
       {label}
     </button>
   );
