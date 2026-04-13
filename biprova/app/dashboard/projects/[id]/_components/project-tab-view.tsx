@@ -172,6 +172,7 @@ export function ProjectTabView({ project }: Props) {
           <PanelChat
             teamId={project.team_id}
             messages={project.messages}
+            members={project.members}
             viewerId={project.viewer.id}
             viewerName={project.viewer.name}
           />
