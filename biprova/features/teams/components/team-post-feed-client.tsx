@@ -107,7 +107,7 @@ export function TeamPostFeedClient({ posts }: Props) {
   return (
     <div id="team-post-feed">
 
-      <ContentHeader title="Gönderiler">
+      <ContentHeader title="Ekip Gönderileri">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <button className="gap-1.5   text-ink rounded-[9px]">

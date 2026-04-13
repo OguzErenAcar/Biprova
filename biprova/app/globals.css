@@ -166,15 +166,9 @@
 .dashheader {
   margin-left: 3px;
   margin-right: 2px;
-  font-size: 30px;
-  font-weight: semibold;
-  background-image: linear-gradient(
-    120deg,
-    #0f172a 0%,
-    #1d4ed8 35%,
-    #5611cb 80%,
-    #4f46e5 100%
-  );
+  font-size: 16px;
+  font-weight: 900;
+  background-color: #ffffff ;
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
