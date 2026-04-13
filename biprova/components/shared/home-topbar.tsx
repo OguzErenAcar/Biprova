@@ -297,9 +297,9 @@ export function HomeTopbar({ projects = [] }: { projects?: DrawerProject[] }) {
         <div className="ml-auto flex items-center gap-[0.6rem]">
           <div className="hidden lg:flex items-center gap-[0.6rem]">
             <SearchBar />
-            <button className="rounded-[10px] border-[1.5px] h-8 w-8 flex items-center justify-center">
-              <Link href="/dashboard/settings">⚙️</Link>
-            </button>
+            <Link href="/dashboard/settings" className="rounded-[10px] border-[1.5px] h-8 w-8 flex items-center justify-center text-slate-600 hover:bg-slate-100 transition-colors">
+              <Settings size={16} strokeWidth={2} />
+            </Link>
             <NotificationBell />
           </div>
 
