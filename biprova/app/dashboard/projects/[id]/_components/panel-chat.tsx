@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition, useRef, useEffect } from 'react';
-import type { ProjectMember, ProjectMessage } from '@/features/projects/actions';
+import type { ProjectMessage } from '@/features/projects/actions';
 import { sendProjectMessage } from '@/features/projects/actions';
 import { createClient } from '@/lib/supabase/client';
 
