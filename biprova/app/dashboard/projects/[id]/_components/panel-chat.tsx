@@ -40,19 +40,20 @@ export function PanelChat({ teamId, messages: initialMessages, members, viewerId
   useEffect(() => {
     const supabase = createClient();
 
+    interface ChatBroadcastPayload {
+      id: string;
+      sender_id: string;
+      sender_name: string;
+      content: string;
+      created_at: string;
+    }
+
     const channel = supabase
       .channel(`team-chat-${teamId}`)
-      .on(
-        'broadcast' as 'postgres_changes',
-        { event: 'new_message' } as never,
-        (payload) => {
-          const row = payload.payload as {
-            id: string;
-            sender_id: string;
-            sender_name: string;
-            content: string;
-            created_at: string;
-          };
+      .on<ChatBroadcastPayload>(
+        'broadcast',
+        { event: 'new_message' },
+        ({ payload: row }) => {
           setMessages((prev) => [
             ...prev,
             {
