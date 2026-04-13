@@ -189,7 +189,7 @@ function MobileDrawer({ open, onClose, projects }: { open: boolean; onClose: () 
           <SearchBar className="max-w-full w-full" />
           <div className="flex gap-2">
             <DrawerIconButton
-              icon={bellIcon}
+              icon={Bell}
               label="Bildirim"
               onClick={onClose}
             />
@@ -198,7 +198,7 @@ function MobileDrawer({ open, onClose, projects }: { open: boolean; onClose: () 
               onClick={onClose}
               className="flex-1 flex items-center justify-center gap-2 py-2 rounded-[10px] border-[1.5px] border-slate-200 text-slate-600 hover:bg-slate-100 transition-colors no-underline font-semibold text-sm"
             >
-              <DrawerLottieIcon icon={settingsIcon} />
+              <Settings size={16} strokeWidth={2} />
               Ayarlar
             </Link>
           </div>
