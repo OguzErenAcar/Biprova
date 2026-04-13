@@ -22,7 +22,6 @@ function formatTime(dateStr: string) {
 interface Props {
   teamId: string;
   messages: ProjectMessage[];
-  members: ProjectMember[];
   viewerId: string;
   viewerName: string;
 }
