@@ -205,9 +205,7 @@ function MobileDrawer({ open, onClose, projects }: { open: boolean; onClose: () 
         {/* Header */}
         <div className="flex flex-col px-5 py-5 border-b border-slate-100 gap-2">
           <div className="flex items-center justify-between">
-            <span className="font-black text-xl text-blue-600">
-              Bi<span className="text-slate-900">prova</span>
-            </span>
+            <AnimatedBrand />
             <button
               onClick={onClose}
               className="w-8 h-8 flex items-center justify-center rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors"
