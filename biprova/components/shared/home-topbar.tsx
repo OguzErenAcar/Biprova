@@ -132,6 +132,43 @@ function TickerAnimation({ variant = "topbar" }: { variant?: "topbar" | "drawer"
   );
 }
 
+function AnimatedBrand() {
+  const ref = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    const split = splitText(el, { chars: true });
+    if (!split.chars.length) return;
+
+    const anim = animate(split.chars, {
+      opacity: [0, 1],
+      duration: 800,
+      delay: stagger(60),
+      ease: "outExpo",
+      loop: 3,
+      loopDelay: 3500,
+      onComplete: () => {
+        split.chars.forEach((c) => {
+          (c as HTMLElement).style.opacity = "1";
+        });
+      },
+    });
+
+    return () => {
+      anim.cancel();
+      split.revert();
+    };
+  }, []);
+
+  return (
+    <span ref={ref} className="font-black text-xl text-blue-600">
+      Biprova
+    </span>
+  );
+}
+
 function DrawerIconButton({ icon: Icon, label, onClick }: { icon: ElementType; label: string; onClick: () => void }) {
   return (
     <button
