@@ -47,7 +47,6 @@ export async function proxy(request: NextRequest) {
 
     console.log('[proxy] dbUser:', dbUser, '| dbError:', dbError?.message ?? 'none')
     if (!dbUser) {
-      await supabase.auth.signOut()
       return NextResponse.redirect(new URL('/login', request.url))
     }
   }
