@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition, useRef, useEffect } from 'react';
-import type { ProjectMessage } from '@/features/projects/actions';
+import type { ProjectMember, ProjectMessage } from '@/features/projects/actions';
 import { sendProjectMessage } from '@/features/projects/actions';
 import { createClient } from '@/lib/supabase/client';
 
@@ -22,11 +22,12 @@ function formatTime(dateStr: string) {
 interface Props {
   teamId: string;
   messages: ProjectMessage[];
+  members: ProjectMember[];
   viewerId: string;
   viewerName: string;
 }
 
-export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerName }: Props) {
+export function PanelChat({ teamId, messages: initialMessages, members, viewerId, viewerName }: Props) {
   const [messages, setMessages] = useState<ProjectMessage[]>(initialMessages);
   const [text, setText] = useState('');
   const [isPending, startTransition] = useTransition();
@@ -38,6 +39,7 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
 
   useEffect(() => {
     const supabase = createClient();
+    const memberMap = new Map(members.map((m) => [m.user_id, m.name]));
 
     const channel = supabase
       .channel(`team-chat-${teamId}`)
@@ -56,12 +58,16 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
             content: string;
             created_at: string;
           };
+          const senderName =
+            row.sender_id === viewerId
+              ? viewerName
+              : (memberMap.get(row.sender_id) ?? 'Kullanıcı');
           setMessages((prev) => [
             ...prev,
             {
               id: row.id,
               sender_id: row.sender_id,
-              sender_name: row.sender_id === viewerId ? viewerName : 'Kullanıcı',
+              sender_name: senderName,
               sender_avatar: null,
               content: row.content,
               created_at: row.created_at,
@@ -74,7 +80,7 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [teamId, viewerId, viewerName]);
+  }, [teamId, viewerId, viewerName, members]);
 
   function handleSend() {
     if (!text.trim() || isPending) return;
