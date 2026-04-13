@@ -67,6 +67,7 @@ export function TeamPostCard({
   const [isLiked, setIsLiked] = useState(initialLiked);
   const [likeCount, setLikeCount] = useState(initialLikes);
   const [isPending, startTransition] = useTransition();
+  const heartRef = useRef<LottieRefCurrentProps>(null);
 
   const isLong = body.length > BODY_TRUNCATE_THRESHOLD;
   const displayBody = isLong && !expanded ? body.slice(0, BODY_TRUNCATE_THRESHOLD).trimEnd() + "…" : body;
