@@ -76,14 +76,7 @@ export function ProjectCard({
             className="flex items-center gap-2 hover:opacity-75 transition-opacity"
             onClick={(e) => e.stopPropagation()}
           >
-            <Avatar className="w-6 h-6 flex-shrink-0">
-              <AvatarFallback
-                className="text-label text-white"
-                style={{ backgroundColor: poster.color }}
-              >
-                {poster.initials}
-              </AvatarFallback>
-            </Avatar>
+            <UserAvatar initials={poster.initials} className="w-7 h-7 text-[0.72rem]" />
             <span className="text-caption font-semibold text-ink">
               {poster.name}
             </span>
