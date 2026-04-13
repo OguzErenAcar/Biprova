@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, ElementType } from 'react';
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { animate, createTimeline, splitText, stagger } from 'animejs';
