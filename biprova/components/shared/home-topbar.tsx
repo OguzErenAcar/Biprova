@@ -132,7 +132,7 @@ function TickerAnimation({ variant = "topbar" }: { variant?: "topbar" | "drawer"
   );
 }
 
-function DrawerIconButton({ icon: Icon, label, onClick }: { icon: React.ElementType; label: string; onClick: () => void }) {
+function DrawerIconButton({ icon: Icon, label, onClick }: { icon: ElementType; label: string; onClick: () => void }) {
   return (
     <button
       onClick={onClick}
