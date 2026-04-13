@@ -93,7 +93,11 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
 
   function handlePressStart(msgId: string) {
     pressTimerRef.current = setTimeout(() => {
-      setSelectedMsgId(msgId);
+      setSelectedMsgIds((prev) => {
+        const next = new Set(prev);
+        next.add(msgId);
+        return next;
+      });
     }, 2000);
   }
 
@@ -112,13 +116,13 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
       >
         {/* Top bar */}
         <div id="chat-topbar" className="absolute top-0 left-0 right-0 h-[35px] bg-white z-10 flex items-center px-3">
-          {selectedMsgId && (
+          {selectedMsgIds.size > 0 && (
             <button
-              onClick={() => setSelectedMsgId(null)}
+              onClick={() => setSelectedMsgIds(new Set())}
               className="flex items-center gap-1.5 text-red-500 hover:text-red-600 transition-colors"
             >
               <Trash2 size={16} strokeWidth={2} />
-              <span className="text-[0.75rem] font-semibold">Sil</span>
+              <span className="text-[0.75rem] font-semibold">Sil ({selectedMsgIds.size})</span>
             </button>
           )}
         </div>
@@ -127,7 +131,7 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
         <div
           id="chat-messages"
           className="flex-1 overflow-y-scroll p-4 pt-[46px] flex flex-col gap-3"
-          onClick={() => setSelectedMsgId(null)}
+          onClick={() => setSelectedMsgIds(new Set())}
         >
           {messages.length === 0 && (
             <div className="text-center text-[0.82rem] text-slate-400 mt-8">
@@ -136,15 +140,15 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
           )}
           {messages.map((msg) => {
             const isMine = msg.sender_id === viewerId;
-            const isSelected = msg.id === selectedMsgId;
+            const isSelected = selectedMsgIds.has(msg.id);
             return (
               <div
                 key={msg.id}
                 className={`flex gap-2 items-start ${isMine ? 'flex-row-reverse' : ''}`}
-                onMouseDown={() => handlePressStart(msg.id)}
+                onMouseDown={(e) => { e.stopPropagation(); handlePressStart(msg.id); }}
                 onMouseUp={handlePressEnd}
                 onMouseLeave={handlePressEnd}
-                onTouchStart={() => handlePressStart(msg.id)}
+                onTouchStart={(e) => { e.stopPropagation(); handlePressStart(msg.id); }}
                 onTouchEnd={handlePressEnd}
               >
                 <div className="w-[30px] h-[30px] rounded-full bg-blue-500 flex items-center justify-center font-nunito font-black text-[0.68rem] text-white shrink-0">
