@@ -143,7 +143,7 @@
   }
   body {
     @apply text-foreground;
-    background: linear-gradient( #d6d6d6,#3764ec, #4a6fdd,#000000) fixed;
+    background: linear-gradient( #d6d6d6,#3764ec, #4a6fdd,#4d4d4d) fixed;
     /* background: #b5b5b5; */
     font-family: "Arial", cursive !important;
   }
