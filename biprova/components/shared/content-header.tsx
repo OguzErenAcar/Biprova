@@ -20,7 +20,7 @@ export function ContentHeader({ title, children }: ContentHeaderProps) {
     let anim: ReturnType<typeof animate> | null = null;
 
     try {
-      splitter = new TextSplitter(el);
+      splitter = new TextSplitter(el, { chars: true });
 
       if (!splitter.chars.length) return;
 
