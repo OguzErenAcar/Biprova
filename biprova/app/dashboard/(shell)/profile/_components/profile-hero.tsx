@@ -33,8 +33,6 @@ function formatMemberSince(dateStr: string): string {
 }
 
 export function ProfileHero({ user, isOwner = false }: ProfileHeroProps) {
-  const initials = getInitials(user.name);
-
   return (
     <Card id="profile-hero" className="mb-5 overflow-hidden">
       {/* Cover */}
