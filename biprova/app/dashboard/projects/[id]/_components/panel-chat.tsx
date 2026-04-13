@@ -29,6 +29,7 @@ interface Props {
 export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerName }: Props) {
   const [messages, setMessages] = useState<ProjectMessage[]>(initialMessages);
   const [text, setText] = useState('');
+  const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
   const bottomRef = useRef<HTMLDivElement>(null);
 
