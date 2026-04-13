@@ -173,7 +173,7 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
             return (
               <div
                 key={msg.id}
-                className={`flex gap-2 items-start ${isMine ? 'flex-row-reverse' : ''} ${isSelecting ? 'cursor-pointer' : ''}`}
+                className={`flex gap-2 items-start rounded-xl px-2 py-1 transition-colors ${isMine ? 'flex-row-reverse' : ''} ${isSelecting ? 'cursor-pointer' : ''} ${isSelected ? 'bg-red-100' : ''}`}
                 onClick={() => toggleMessage(msg.id)}
               >
                 <div className="w-[30px] h-[30px] rounded-full bg-blue-500 flex items-center justify-center font-nunito font-black text-[0.68rem] text-white shrink-0">
