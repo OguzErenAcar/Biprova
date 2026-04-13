@@ -18,11 +18,11 @@ export function SplashWrapper({ children }: { children: React.ReactNode }) {
       if (!splashRef.current) return;
       animate(splashRef.current, {
         opacity: [1, 0],
-        duration: 500,
+        duration: 250,
         ease: "out(2)",
         onComplete: () => setShowSplash(false),
       });
-    }, 1000);
+    }, 500);
 
     return () => clearTimeout(timer);
   }, [pathname]);
