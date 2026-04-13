@@ -188,15 +188,22 @@ export function TeamPostCard({
       <div className="flex items-center gap-2 pt-2.5 sm:pt-4 border-t">
         {/* Beğeni */}
         <button 
-          onClick={(e) => { e.stopPropagation(); handleLike(); }}
+          onClick={(e) => { e.stopPropagation(); handleLike(); heartRef.current?.play(); }}
           disabled={isPending}
-          className={`gap-[0.35rem] border rounded-md font-jakarta text-caption font-semibold h-auto px-[0.85rem] py-[0.4rem] transition-all duration-150 ${
+          className={`flex items-center gap-[0.35rem] border rounded-md font-jakarta text-caption font-semibold h-auto px-[0.85rem] py-[0.4rem] transition-all duration-150 ${
             isLiked
               ? "border-danger-surface text-danger bg-danger-surface hover:bg-danger-surface hover:text-danger"
               : "text-white hover:border-brand hover:text-brand hover:bg-brand-surface"
           }`}
         >
-          👍 {likeCount}
+          <Lottie
+            lottieRef={heartRef}
+            animationData={heartIcon}
+            loop={false}
+            autoplay={false}
+            style={{ width: 18, height: 18 }}
+          />
+          {likeCount}
         </button>
 
         {/* Yorum — devre dışı */}
