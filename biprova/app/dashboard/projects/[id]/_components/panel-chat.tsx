@@ -95,7 +95,7 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
         style={{ height: 'calc(100vh - 100px)', minHeight: '430px' }}
       >
         {/* Top bar */}
-        <div id="chat-topbar" className="absolute top-0 left-0 right-0 h-[50px] bg-white z-10 border-b border-black" />
+        <div id="chat-topbar" className="absolute top-0 left-0 right-0 h-[50px] bg-white z-10" />
 
         {/* Messages */}
         <div
