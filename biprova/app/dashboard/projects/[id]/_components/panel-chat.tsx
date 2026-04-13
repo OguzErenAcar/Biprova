@@ -31,7 +31,7 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
   const [messages, setMessages] = useState<ProjectMessage[]>(initialMessages);
   const [text, setText] = useState('');
   const [error, setError] = useState<string | null>(null);
-  const [selectedMsgId, setSelectedMsgId] = useState<string | null>(null);
+  const [selectedMsgIds, setSelectedMsgIds] = useState<Set<string>>(new Set());
   const [isPending, startTransition] = useTransition();
   const bottomRef = useRef<HTMLDivElement>(null);
   const pressTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
