@@ -55,13 +55,11 @@ export function ProfileHero({ user, isOwner = false }: ProfileHeroProps) {
         {/* Avatar — mobil: ortada (transform yok → fixed modal çalışsın), desktop: sol absolute */}
         <div className="absolute -top-[50px] left-[calc(50%-50px)] sm:-top-[60px] sm:left-6 w-[100px] h-[100px] sm:w-[120px] sm:h-[120px] rounded-full border-4 border-white shadow-brand overflow-hidden">
           <div className="relative w-full h-full">
-            {user.avatar_url ? (
-              <img src={user.avatar_url} alt={user.name} className="w-full h-full object-cover" />
-            ) : (
-              <div className="w-full h-full bg-gradient-to-br from-brand to-indigo-500 flex items-center justify-center font-nunito font-black text-hero text-white">
-                {initials}
-              </div>
-            )}
+            <img
+              src={user.avatar_url ?? "/images/432-4329071_team-icon-png-transparent-png.png"}
+              alt={user.name}
+              className="w-full h-full object-cover"
+            />
             {isOwner && (
               <ImageUploadButton type="avatar" userId={user.id} currentUrl={user.avatar_url}>
                 <></>
