@@ -78,8 +78,13 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
     if (!text.trim() || isPending) return;
     const content = text.trim();
     setText('');
+    setError(null);
     startTransition(async () => {
-      await sendProjectMessage(teamId, content, viewerName);
+      const result = await sendProjectMessage(teamId, content, viewerName);
+      if (result.error) {
+        setText(content);
+        setError(result.error);
+      }
     });
   }
 
