@@ -140,8 +140,12 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
         {/* Input */}
         <div
           id="chat-input-wrap"
-          className="border-t border-slate-200 px-4 py-[0.8rem] flex gap-2 items-center"
+          className="border-t border-slate-200 px-4 py-[0.8rem] flex flex-col gap-1.5"
         >
+          {error && (
+            <p className="text-[0.75rem] text-red-500">{error}</p>
+          )}
+          <div className="flex gap-2 items-center">
           <input
             className="flex-1 border-[1.5px] border-slate-200 rounded-[10px] px-4 py-[0.65rem] font-[inherit] text-[0.88rem] outline-none transition-colors bg-slate-50 focus:border-blue-600 focus:bg-white"
             placeholder="Mesaj yaz..."
