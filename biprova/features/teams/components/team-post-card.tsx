@@ -1,7 +1,9 @@
 "use client";
 
-import { useTransition, useState } from "react";
+import { useTransition, useState, useRef } from "react";
 import dynamic from "next/dynamic";
+import Lottie, { LottieRefCurrentProps } from "lottie-react";
+import heartIcon from "@/app/icons/wired-outline-20-love-heart-hover-heartbeat.json";
 import lgZoom from "lightgallery/plugins/zoom";
 import lgShare from "lightgallery/plugins/share";
 import "lightgallery/css/lightgallery.css";
