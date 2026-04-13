@@ -1,9 +1,9 @@
 "use client";
 
 import { useState, useTransition, useRef, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
 import type { ProjectMessage } from '@/features/projects/actions';
 import { sendProjectMessage } from '@/features/projects/actions';
+import { createClient } from '@/lib/supabase/client';
 
 function getInitials(name: string) {
   return name
@@ -23,10 +23,11 @@ interface Props {
   teamId: string;
   messages: ProjectMessage[];
   viewerId: string;
+  viewerName: string;
 }
 
-export function PanelChat({ teamId, messages, viewerId }: Props) {
-  const router = useRouter();
+export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerName }: Props) {
+  const [messages, setMessages] = useState<ProjectMessage[]>(initialMessages);
   const [text, setText] = useState('');
   const [isPending, startTransition] = useTransition();
   const bottomRef = useRef<HTMLDivElement>(null);
@@ -35,20 +36,59 @@ export function PanelChat({ teamId, messages, viewerId }: Props) {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
+  useEffect(() => {
+    const supabase = createClient();
+
+    const channel = supabase
+      .channel(`team-chat-${teamId}`)
+      .on(
+        'postgres_changes',
+        {
+          event: 'INSERT',
+          schema: 'public',
+          table: 'messages',
+          filter: `team_id=eq.${teamId}`,
+        },
+        (payload) => {
+          const row = payload.new as {
+            id: string;
+            sender_id: string;
+            content: string;
+            created_at: string;
+          };
+          setMessages((prev) => [
+            ...prev,
+            {
+              id: row.id,
+              sender_id: row.sender_id,
+              sender_name: row.sender_id === viewerId ? viewerName : 'Kullanıcı',
+              sender_avatar: null,
+              content: row.content,
+              created_at: row.created_at,
+            },
+          ]);
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [teamId, viewerId, viewerName]);
+
   function handleSend() {
     if (!text.trim() || isPending) return;
     const content = text.trim();
     setText('');
     startTransition(async () => {
       await sendProjectMessage(teamId, content);
-      router.refresh();
     });
   }
 
   return (
     <div id="panel-chat">
       <div
-        className="bg-white border-[1.5px] border-slate-200   overflow-hidden flex flex-col"
+        className="bg-white border-[1.5px] border-slate-200 overflow-hidden flex flex-col"
         style={{ height: 'calc(100vh -200px)', minHeight: '430px' }}
       >
         {/* Messages */}
