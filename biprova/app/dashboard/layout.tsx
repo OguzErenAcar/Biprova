@@ -15,7 +15,7 @@ export default function DashboardLayout({
   return (
     <div>
       <HomeTopbarLoader />
-      <div className="h-screen">
+      <div className="">
         <DashboardGrid
           sidebar={
             <Suspense fallback={<Sidebar />}>

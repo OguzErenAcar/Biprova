@@ -48,8 +48,8 @@ export function PanelChat({ teamId, messages, viewerId }: Props) {
   return (
     <div id="panel-chat">
       <div
-        className="bg-white border-[1.5px] border-slate-200 rounded-2xl overflow-hidden flex flex-col"
-        style={{ height: 'calc(100vh - 200px)', minHeight: '400px' }}
+        className="bg-white border-[1.5px] border-slate-200   overflow-hidden flex flex-col"
+        style={{ height: 'calc(100vh -200px)', minHeight: '430px' }}
       >
         {/* Messages */}
         <div
