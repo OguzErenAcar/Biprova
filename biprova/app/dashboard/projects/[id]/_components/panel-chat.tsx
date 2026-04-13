@@ -72,7 +72,7 @@ export function PanelChat({ teamId, messages: initialMessages, members, viewerId
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [teamId, viewerId, viewerName, members]);
+  }, [teamId]);
 
   function handleSend() {
     if (!text.trim() || isPending) return;
