@@ -114,7 +114,7 @@ export function ProjectCard({
             {title}
 
             <ChevronDown
-              className={` w-4.5 h-4.5 text-ink transition-transform duration-200 ${desOpen ? "rotate-180" : ""}`}
+              className={` w-4.5 pl-[4px] h-4.5 text-ink transition-transform duration-200 ${desOpen ? "rotate-180" : ""}`}
             />
           </div>
         </button>

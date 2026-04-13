@@ -158,6 +158,8 @@
 }
 
 .dashheader {
+  margin-left: 3px;
+  margin-right: 2px;
   font-size: 30px;
   font-weight: semibold;
   background-image: linear-gradient(

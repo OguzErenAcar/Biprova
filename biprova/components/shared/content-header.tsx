@@ -13,7 +13,7 @@ export function ContentHeader({ title, children }: ContentHeaderProps) {
       <div className="flex items-between w-full justify-between mb-4 md:mx-0 mx-2">
         <h1 className="dashheader text-ink">{title}</h1>
         {children && (
-          <div className="ml-auto flex items-center gap-2.5">{children}</div>
+          <div className="   flex items-center  ">{children}</div>
         )}
       </div>
       <div className="content-header-divider" />

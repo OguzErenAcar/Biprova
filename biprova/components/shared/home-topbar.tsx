@@ -301,10 +301,10 @@ export function HomeTopbar({ projects = [] }: { projects?: DrawerProject[] }) {
 
   return (
     <>
-      <div id="dashboard-topbar" className="relative mb-5 md:my-5 g-topbar shadow-lg shadow-black/10 md:rounded-md mx-auto w-100 md:w-[90%] md:border border-black px-4 sm:px-6 lg:px-8 py-[0.9rem] flex items-center gap-4">
+      <div id="dashboard-topbar" className="relative mb-5 md:my-5 g-topbar shadow-lg shadow-black/10 md:rounded-md mx-auto w-100 md:w-[90%] md:border border-black px-[12px] sm:px-6 lg:px-8 py-[0.9rem] flex items-center gap-4">
         <Link
           href="/dashboard"
-          className="font-display font-black text-h2 text-blue-600 px-2 no-underline"
+          className="font-display font-black text-h2 text-blue-600  no-underline"
         >
           Bi<span className="text-slate-900">prova</span>
         </Link>
