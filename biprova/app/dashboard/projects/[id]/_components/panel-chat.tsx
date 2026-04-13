@@ -91,9 +91,12 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
   return (
     <div id="panel-chat">
       <div
-        className="bg-white border-[1.5px] border-slate-200 overflow-hidden flex flex-col"
-        style={{ height: 'calc(100vh - 180px)', minHeight: '430px' }}
+        className="bg-gray-200 border-[1.5px] border-slate-200 overflow-hidden flex flex-col"
+        style={{ height: 'calc(100vh-200px)', minHeight: '430px' }}
       >
+        {/* Top bar */}
+        <div id="chat-topbar" className="h-[50px] shrink-0" />
+
         {/* Messages */}
         <div
           id="chat-messages"
@@ -121,8 +124,8 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
                   <div
                     className={`rounded-[12px] px-[0.9rem] py-[0.65rem] text-[0.85rem] leading-relaxed border ${
                       isMine
-                        ? 'bg-blue-600 text-white border-blue-600'
-                        : 'bg-slate-100 text-slate-900 border-slate-200'
+                        ? 'bg-green-200 text-black border-green-300'
+                        : 'bg-slate-100 text-slate-900 border-slate-300'
                     }`}
                   >
                     {msg.content}
