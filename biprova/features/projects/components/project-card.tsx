@@ -5,9 +5,9 @@ import Link from "next/link";
 import { ChevronDown } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { TeamBar } from "@/components/shared/team-bar";
+import { UserAvatar } from "@/components/shared/user-avatar";
 import { RoleJoinButton } from "@/features/applications/components/apply-button";
 
 type ProjectStatus = "open" | "almost" | "full";
