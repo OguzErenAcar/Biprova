@@ -16,27 +16,34 @@ export function ContentHeader({ title, children }: ContentHeaderProps) {
     const el = titleRef.current;
     if (!el) return;
 
-    const splitter = new TextSplitter(el);
+    let splitter: InstanceType<typeof TextSplitter> | null = null;
+    let anim: ReturnType<typeof animate> | null = null;
 
-    if (!splitter.chars.length) return;
+    try {
+      splitter = new TextSplitter(el);
 
-    const anim = animate(splitter.chars, {
-      opacity: [0, 1],
-      duration: 800,
-      delay: stagger(60),
-      ease: "outExpo",
-      loop: 3,
-      loopDelay: 3500,
-      onComplete: () => {
-        splitter.chars.forEach((c) => {
-          (c as HTMLElement).style.opacity = "1";
-        });
-      },
-    });
+      if (!splitter.chars.length) return;
+
+      anim = animate(splitter.chars, {
+        opacity: [0, 1],
+        duration: 800,
+        delay: stagger(60),
+        ease: "outExpo",
+        loop: 3,
+        loopDelay: 3500,
+        onComplete: () => {
+          splitter?.chars.forEach((c) => {
+            (c as HTMLElement).style.opacity = "1";
+          });
+        },
+      });
+    } catch {
+      splitter?.revert();
+    }
 
     return () => {
-      anim.cancel();
-      splitter.revert();
+      anim?.cancel();
+      splitter?.revert();
     };
   }, [title]);
 
