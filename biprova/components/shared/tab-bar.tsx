@@ -27,13 +27,14 @@ const TABS: Tab[] = [
   { href: "/dashboard/profile", animationData: profileIcon, label: "Profil" },
 ];
 
-function TabItem({ tab, active }: { tab: Tab; active: boolean }) {
+function TabItem({ tab, active, onNavigate }: { tab: Tab; active: boolean; onNavigate: () => void }) {
   const lottieRef = useRef<LottieRefCurrentProps>(null);
 
   if (tab.isCreate) {
     return (
       <Link
         href={tab.href}
+        onClick={onNavigate}
         className="flex flex-col items-center flex-1 no-underline"
         onMouseEnter={() => lottieRef.current?.play()}
         onMouseLeave={() => lottieRef.current?.stop()}
