@@ -105,7 +105,7 @@ function TickerAnimation({ variant = "topbar" }: { variant?: "topbar" | "drawer"
           <p
             key={chunk}
             style={{ color: "rgba(55,100,236)" }}
-            className="absolute left-0 text-[11px] font-semibold whitespace-nowrap"
+            className="absolute left-0 text-sm font-semibold whitespace-nowrap"
           >
             {chunk}
           </p>
