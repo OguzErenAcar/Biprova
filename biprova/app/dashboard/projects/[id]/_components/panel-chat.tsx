@@ -51,6 +51,8 @@ export function PanelChat({ teamId, messages: initialMessages, members, viewerId
           table: 'messages',
         },
         (payload) => {
+          // eslint-disable-next-line no-console
+          console.log('[Realtime] payload:', payload);
           const row = payload.new as {
             id: string;
             team_id: string;
