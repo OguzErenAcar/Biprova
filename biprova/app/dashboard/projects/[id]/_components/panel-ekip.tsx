@@ -4,6 +4,7 @@ import { useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import type { ProjectDetail } from '@/features/projects/actions';
 import { leaveProject, transferProjectLeader } from '@/features/projects/actions';
+import { UserAvatar } from '@/components/shared/user-avatar';
 
 function getInitials(name: string) {
   return name
