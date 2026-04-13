@@ -16,20 +16,22 @@ export function ContentHeader({ title, children }: ContentHeaderProps) {
     const el = titleRef.current;
     if (!el) return;
 
-    const splitter = new TextSplitter(el, {
-      chars: { wrap: "clip" },
-    });
+    const splitter = new TextSplitter(el);
 
     if (!splitter.chars.length) return;
 
     const anim = animate(splitter.chars, {
       opacity: [0, 1],
-      y: ["100%", "0%"],
-      duration: 600,
-      delay: stagger(50),
+      duration: 800,
+      delay: stagger(60),
       ease: "outExpo",
       loop: 3,
-      loopDelay: 3400,
+      loopDelay: 3500,
+      onComplete: () => {
+        splitter.chars.forEach((c) => {
+          (c as HTMLElement).style.opacity = "1";
+        });
+      },
     });
 
     return () => {
