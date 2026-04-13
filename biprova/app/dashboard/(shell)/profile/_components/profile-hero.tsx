@@ -17,14 +17,6 @@ interface ProfileHeroProps {
   isOwner?: boolean;
 }
 
-function getInitials(name: string): string {
-  return name
-    .split(" ")
-    .slice(0, 2)
-    .map((n) => n[0]?.toUpperCase() ?? "")
-    .join("");
-}
-
 function formatMemberSince(dateStr: string): string {
   return new Date(dateStr).toLocaleDateString("tr-TR", {
     month: "long",
