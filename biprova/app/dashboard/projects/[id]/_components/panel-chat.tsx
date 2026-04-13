@@ -27,7 +27,7 @@ interface Props {
   viewerName: string;
 }
 
-export function PanelChat({ teamId, messages: initialMessages, members, viewerId, viewerName }: Props) {
+export function PanelChat({ teamId, messages: initialMessages, viewerId }: Props) {
   const [messages, setMessages] = useState<ProjectMessage[]>(initialMessages);
   const [text, setText] = useState('');
   const [isPending, startTransition] = useTransition();
