@@ -38,3 +38,4 @@ alter table team_posts add column if not exists image_urls text[] not null defau
 alter table users add column if not exists projects_public  boolean not null default true;
 alter table users add column if not exists teams_public     boolean not null default true;
 alter table users add column if not exists applications_public boolean not null default false;
+ALTER TABLE messages REPLICA IDENTITY FULL;

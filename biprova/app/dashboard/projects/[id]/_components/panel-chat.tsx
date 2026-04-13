@@ -49,15 +49,16 @@ export function PanelChat({ teamId, messages: initialMessages, members, viewerId
           event: 'INSERT',
           schema: 'public',
           table: 'messages',
-          filter: `team_id=eq.${teamId}`,
         },
         (payload) => {
           const row = payload.new as {
             id: string;
+            team_id: string;
             sender_id: string;
             content: string;
             created_at: string;
           };
+          if (row.team_id !== teamId) return;
           const senderName =
             row.sender_id === viewerId
               ? viewerName
