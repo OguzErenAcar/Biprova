@@ -100,12 +100,12 @@ function TickerAnimation({ variant = "topbar" }: { variant?: "topbar" | "drawer"
 
   if (variant === "drawer") {
     return (
-      <div ref={containerRef} className="relative h-5 overflow-hidden flex items-center w-full justify-center">
+      <div ref={containerRef} className="relative h-5 overflow-hidden flex items-center w-full">
         {CHUNKS.map((chunk) => (
           <p
             key={chunk}
             style={{ color: "rgba(55,100,236)" }}
-            className="absolute left-1/2 -translate-x-1/2 text-[11px] font-semibold whitespace-nowrap"
+            className="absolute left-0 text-[11px] font-semibold whitespace-nowrap"
           >
             {chunk}
           </p>
