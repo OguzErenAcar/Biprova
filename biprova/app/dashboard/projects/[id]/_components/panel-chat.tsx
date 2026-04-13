@@ -79,7 +79,7 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
     const content = text.trim();
     setText('');
     startTransition(async () => {
-      await sendProjectMessage(teamId, content);
+      await sendProjectMessage(teamId, content, viewerName);
     });
   }
 
