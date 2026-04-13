@@ -43,8 +43,7 @@ export function TeamBar({ filled, total }: TeamBarProps) {
         <div
           ref={fillRef}
           className="h-full rounded-full bg-green-400"
-          style={{ transitionProperty: "width", transitionDuration: "1200ms", transitionTimingFunction: "cubic-bezier(.4,0,.2,1)" }}
-          style={{ width: "0%" }}
+          style={{ width: "0%", transitionProperty: "width", transitionDuration: "1200ms", transitionTimingFunction: "cubic-bezier(.4,0,.2,1)" }}
         />
       </div>
     </div>
