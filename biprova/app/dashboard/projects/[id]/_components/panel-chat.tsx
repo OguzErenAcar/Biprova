@@ -92,15 +92,16 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
     <div id="panel-chat">
       <div
         className="bg-white border-[1.5px] border-slate-200 flex flex-col relative"
-        style={{ height: 'calc(100vh - 200px)', minHeight: '430px' }}
+        style={{ height: 'calc(100vh - 100px)', minHeight: '430px' }}
       >
+        {/* Top bar */}
+        <div id="chat-topbar" className="absolute top-0 left-0 right-0 h-[50px] bg-white z-10" />
+
         {/* Messages */}
         <div
           id="chat-messages"
-          className="flex-1 overflow-y-scroll p-4 flex flex-col gap-3 relative"
+          className="flex-1 overflow-y-scroll p-4 pt-[62px] flex flex-col gap-3"
         >
-          {/* Top bar */}
-          <div id="chat-topbar" className="absolute top-0 left-0 right-0 h-[50px] bg-white z-10" />
           {messages.length === 0 && (
             <div className="text-center text-[0.82rem] text-slate-400 mt-8">
               Henüz mesaj yok. İlk mesajı sen gönder!
