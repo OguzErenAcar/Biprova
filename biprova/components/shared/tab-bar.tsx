@@ -57,7 +57,7 @@ function TabItem({ tab, active }: { tab: Tab; active: boolean }) {
       onMouseEnter={() => lottieRef.current?.play()}
       onMouseLeave={() => lottieRef.current?.stop()}
     >
-      <span className={active ? "opacity-100" : "opacity-50"}>
+      <span className={`rounded-xl px-3 py-1 transition-colors ${active ? "opacity-100 bg-slate-100" : "opacity-50"}`}>
         <Lottie
           lottieRef={lottieRef}
           animationData={tab.animationData}
