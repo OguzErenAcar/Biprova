@@ -802,16 +802,34 @@ export async function deleteProject(projectId: string): Promise<{ error?: string
   return {};
 }
 
-export async function sendProjectMessage(teamId: string, content: string): Promise<void> {
+export async function sendProjectMessage(teamId: string, content: string, senderName: string): Promise<void> {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return;
   const trimmed = content.trim();
   if (!trimmed) return;
-  await supabase.from('messages').insert({
-    team_id: teamId,
-    sender_id: user.id,
-    content: trimmed,
+
+  const { data: inserted } = await supabase
+    .from('messages')
+    .insert({ team_id: teamId, sender_id: user.id, content: trimmed })
+    .select('id, created_at')
+    .single();
+
+  if (!inserted) return;
+
+  const { createAdminClient } = await import('@/lib/supabase/admin');
+  const admin = createAdminClient();
+  await admin.channel(`team-chat-${teamId}`).send({
+    type: 'broadcast',
+    event: 'new_message',
+    payload: {
+      id: inserted.id,
+      team_id: teamId,
+      sender_id: user.id,
+      sender_name: senderName,
+      content: trimmed,
+      created_at: inserted.created_at,
+    },
   });
 }
 
