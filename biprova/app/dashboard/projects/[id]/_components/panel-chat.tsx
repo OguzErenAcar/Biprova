@@ -186,7 +186,7 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
                   <div
                     className={`rounded-[12px] px-[0.9rem] py-[0.65rem] text-[0.85rem] leading-relaxed border ${
                       isMine
-                        ? 'bg-green-200 text-black border-green-300'
+                        ? 'bg-gray-600 text-white border-gray-600'
                         : 'bg-slate-100 text-slate-900 border-slate-300'
                     }`}
                   >
