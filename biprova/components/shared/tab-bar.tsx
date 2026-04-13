@@ -47,6 +47,7 @@ function TabItem({ tab, active }: { tab: Tab; active: boolean }) {
             style={{ width: 26, height: 26, filter: "brightness(0) invert(1)" }}
           />
         </div>
+        <span className="text-[10px] mt-0.5 text-blue-600 font-medium">{tab.label}</span>
       </Link>
     );
   }
@@ -66,6 +67,9 @@ function TabItem({ tab, active }: { tab: Tab; active: boolean }) {
           autoplay={false}
           style={{ width: 28, height: 28 }}
         />
+      </span>
+      <span className={`text-[10px] mt-0.5 font-medium transition-opacity ${active ? "opacity-100 text-slate-700" : "opacity-40 text-slate-500"}`}>
+        {tab.label}
       </span>
     </Link>
   );
