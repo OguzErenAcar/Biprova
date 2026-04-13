@@ -14,16 +14,17 @@ import profileIcon from "@/app/icons/wired-outline-268-avatar-man-hover-glance.j
 interface Tab {
   href: string;
   animationData: object;
+  label: string;
   exact?: boolean;
   isCreate?: boolean;
 }
 
 const TABS: Tab[] = [
-  { href: "/dashboard", animationData: homeIcon, exact: true },
-  { href: "/dashboard/posts/teams", animationData: postsIcon },
-  { href: "/dashboard/createProject", animationData: createIcon, isCreate: true },
-  { href: "/dashboard/posts/news", animationData: newsIcon },
-  { href: "/dashboard/profile", animationData: profileIcon },
+  { href: "/dashboard", animationData: homeIcon, label: "Ana Sayfa", exact: true },
+  { href: "/dashboard/posts/teams", animationData: postsIcon, label: "Ekipler" },
+  { href: "/dashboard/createProject", animationData: createIcon, label: "Oluştur", isCreate: true },
+  { href: "/dashboard/posts/news", animationData: newsIcon, label: "Haberler" },
+  { href: "/dashboard/profile", animationData: profileIcon, label: "Profil" },
 ];
 
 function TabItem({ tab, active }: { tab: Tab; active: boolean }) {
