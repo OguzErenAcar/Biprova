@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { toast } from "sonner";
+import { notify } from "@/lib/notify";
 import { applyToProject } from "@/features/applications/actions";
 
 interface RoleJoinButtonProps {
