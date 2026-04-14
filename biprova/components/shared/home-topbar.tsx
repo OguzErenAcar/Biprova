@@ -203,6 +203,24 @@ function MobileDrawer({ open, onClose, projects }: { open: boolean; onClose: () 
 
         <Separator />
 
+        {/* Konum filtresi */}
+        <div className="px-5 py-4">
+          <div className="flex items-center justify-between mb-1.5">
+            <span className="text-xs font-bold tracking-[2px] text-slate-500">Konum</span>
+            <Switch
+              checked={locationOn}
+              onCheckedChange={setLocationOn}
+            />
+          </div>
+          {locationOn && (
+            <p className="text-[11px] text-slate-400 leading-snug">
+              Yakınımdaki projeler gösteriliyor
+            </p>
+          )}
+        </div>
+
+        <Separator />
+
         {/* Projelerim */}
         <div className="flex flex-col px-5 py-4 overflow-y-auto flex-1">
           <button
