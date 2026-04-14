@@ -394,7 +394,7 @@ export function ProfileEditModal({ user }: ProfileEditModalProps) {
             type="button"
             onClick={handleSubmit}
             disabled={isPending || !name.trim()}
-            className="flex-1 font-bold text-body rounded-[10px]"
+            className="flex-1 font-bold text-white rounded-[10px]"
           >
             {isPending ? 'Kaydediliyor...' : 'Kaydet'}
           </Button>
