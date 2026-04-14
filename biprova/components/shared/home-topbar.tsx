@@ -179,9 +179,9 @@ function MobileDrawer({ open, onClose, projects }: { open: boolean; onClose: () 
         setLocationLoading(false);
         setLocationOn(false);
         if (err.code === err.PERMISSION_DENIED) {
-          toast.warning('Konum izni gerekli. Tarayıcı adres çubuğundaki kilit ikonuna tıklayarak izin verebilirsiniz.');
+          notify.location.denied();
         } else {
-          toast.error('Konum alınamadı. Lütfen tekrar deneyin.');
+          notify.location.unavailable();
         }
       },
       { enableHighAccuracy: true, timeout: 10000, maximumAge: 60_000 }
