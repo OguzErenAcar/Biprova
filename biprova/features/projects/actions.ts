@@ -3,6 +3,7 @@
 import { redirect } from 'next/navigation';
 import { z } from 'zod';
 import { createClient } from '@/lib/supabase/server';
+import { geocodeCity, toGeoPoint } from '@/lib/geocoding';
 
 export interface ProjectFeedItem {
   id: string;
