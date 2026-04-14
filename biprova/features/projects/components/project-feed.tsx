@@ -1,6 +1,6 @@
 import { ProjectCard } from "@/features/projects/components/project-card";
 import { FeedFilterDropdown } from "@/features/projects/components/feed-filter-dropdown";
-import { getProjectFeed, type FeedFilter } from "@/features/projects/actions";
+import { getProjectFeed, getNearbyProjects, type FeedFilter } from "@/features/projects/actions";
 import { createClient } from "@/lib/supabase/server";
 import { Card, CardContent } from "@/components/ui/card";
 import { ContentHeader } from "@/components/shared/content-header";
