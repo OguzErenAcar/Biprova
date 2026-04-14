@@ -68,7 +68,7 @@ export function ProjectCard({
       id={`project-card-${projectId}`}
       className="hover:-translate-y-0.5 transition-all duration-150 cursor-pointer"
     >
-      <CardContent className="px-3 sm:p-[1.4rem]">
+      <CardContent className="px-3 sm:p-3">
         {/* Üst satır: poster + etiketler */}
         <div className="flex items-center justify-between mb-2 sm:mb-4">
           <Link
@@ -82,16 +82,16 @@ export function ProjectCard({
             </span>
           </Link>
 
-          <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap justify-end">
+          <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap justify-end ">
             <Badge
               variant="outline"
-              className="bg-brand-surface text-gray-800 border-brand-surface font-bold text-[0.7rem] sm:text-xs px-1.5 sm:px-2"
+              className="bg-brand-surface text-gray-800 border-brand-surface font-bold text-[0.7rem] sm:text-xs px-2 sm:px-2"
             >
               {isRemote ? "Remote" : `📍 ${city}`}
             </Badge>
             <Badge
               variant="outline"
-              className={`font-bold text-[0.7rem] sm:text-xs px-1.5 sm:px-2 ${STATUS_STYLES[status]}`}
+              className={`font-bold text-[0.7rem] sm:text-xs px-2 sm:px-2 ${STATUS_STYLES[status]}`}
             >
               {STATUS_LABELS[status]}
             </Badge>
@@ -107,7 +107,7 @@ export function ProjectCard({
             {title}
 
             <ChevronDown
-              className={` w-4.5 pl-[4px] h-4.5 text-ink transition-transform duration-200 ${desOpen ? "rotate-180" : ""}`}
+              className={` w-3.5  h-3.5 my-auto text-ink transition-transform duration-200 ${desOpen ? "rotate-180" : ""}`}
             />
           </div>
         </button>

@@ -34,7 +34,7 @@ export function FeedFilterDropdown({ activeFilter }: FeedFilterDropdownProps) {
       <DropdownMenuTrigger asChild>
         <button  className="gap-1.5 flex text-ink font-semibold">
           {activeLabel}
-          <ChevronDown className="w-3.5 h-3.5 text-ink" />
+          <ChevronDown className="w-3.5 h-3.5 text-ink " />
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="min-w-[140px]">

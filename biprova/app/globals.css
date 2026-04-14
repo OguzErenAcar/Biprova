@@ -5,7 +5,7 @@
 @font-face {
   font-family: "Outfit";
   src: url("/fonts/Outfit-VariableFont_wght.ttf") format("truetype");
-  font-weight: 100 900;
+  font-weight: 100 600;
   font-style: normal;
   font-display: swap;
 }
@@ -178,14 +178,14 @@
   font-weight: 900;
   background-image: linear-gradient(
     to top, 
-    #3764ec  10%,
+    #9d9d9d  10%,
     #ffffff 70% 
   );
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   display: inline-block;
-  -webkit-text-stroke: 0.2px black; /* Thickness and color of the border */
+  -webkit-text-stroke: 0.1px black; /* Thickness and color of the border */
 
 }
 .content-header-divider {
