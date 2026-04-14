@@ -36,7 +36,7 @@ type RawProject = {
   project_roles: RawRole[] | null;
 };
 
-export type FeedFilter = 'all' | 'sehrim' | 'remote';
+export type FeedFilter = 'all' | 'sehrim' | 'remote' | 'nearby';
 
 export async function getProjectFeed(
   filter: FeedFilter = 'all',
