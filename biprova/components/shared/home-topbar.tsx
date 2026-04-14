@@ -148,9 +148,32 @@ function DrawerIconButton({ icon: Icon, label, onClick }: { icon: ElementType; l
 
 function MobileDrawer({ open, onClose, projects }: { open: boolean; onClose: () => void; projects: DrawerProject[] }) {
   const pathname = usePathname();
+  const router = useRouter();
   const [projectsOpen, setProjectsOpen] = useState(true);
   const [savedOpen, setSavedOpen] = useState(true);
   const [locationOn, setLocationOn] = useState(false);
+  const [locationLoading, setLocationLoading] = useState(false);
+
+  async function handleLocationToggle(checked: boolean) {
+    if (!checked) {
+      setLocationOn(false);
+      router.push('/dashboard');
+      return;
+    }
+
+    setLocationLoading(true);
+    const { point, error } = await getUserLocation();
+    setLocationLoading(false);
+
+    if (error || !point) {
+      setLocationOn(false);
+      return;
+    }
+
+    setLocationOn(true);
+    onClose();
+    router.push(`/dashboard?filter=nearby&lat=${point.lat}&lng=${point.lng}`);
+  }
 
   return (
     <>
