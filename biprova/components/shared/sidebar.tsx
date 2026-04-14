@@ -6,6 +6,7 @@ import { useRef, useState } from "react";
 import Lottie, { LottieRefCurrentProps } from "lottie-react";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import { Switch } from "@/components/ui/switch";
 
 import homeIcon from "@/app/icons/home.json";
 import postsIcon from "@/app/icons/wired-outline-56-document-hover-swipe.json";
