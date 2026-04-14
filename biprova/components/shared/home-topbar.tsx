@@ -149,6 +149,7 @@ function MobileDrawer({ open, onClose, projects }: { open: boolean; onClose: () 
   const pathname = usePathname();
   const [projectsOpen, setProjectsOpen] = useState(true);
   const [savedOpen, setSavedOpen] = useState(true);
+  const [locationOn, setLocationOn] = useState(false);
 
   return (
     <>
