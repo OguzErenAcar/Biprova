@@ -17,17 +17,6 @@ const MEMBER_COLORS = [
   "#ef4444", "#06b6d4", "#ec4899", "#f97316",
 ];
 
-const CATEGORY_EMOJIS: Record<string, string> = {
-  Sosyal:     "🤝",
-  Medya:      "🎙️",
-  Çevre:      "🌱",
-  Sanat:      "🎬",
-  Teknoloji:  "💻",
-  Eğitim:     "📚",
-  Sağlık:     "🏥",
-  Spor:       "⚽",
-  Müzik:      "🎵",
-};
 
 function hashIndex(str: string, len: number): number {
   let hash = 0;
