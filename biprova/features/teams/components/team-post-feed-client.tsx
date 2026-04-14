@@ -11,6 +11,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { ChevronDown } from "lucide-react";
 //import { Button } from '@/components/ui/button';
 
 const AVATAR_BG_COLORS = [
@@ -112,8 +113,7 @@ export function TeamPostFeedClient({ posts }: Props) {
           <DropdownMenuTrigger asChild>
             <button className="gap-1.5   text-ink rounded-[9px]">
               {sortLabel}
-              <span className="text-label text-ink">▼</span>
-            </button>
+             </button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="min-w-[160px]">
             {[

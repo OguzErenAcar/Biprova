@@ -75,7 +75,6 @@ export async function ProjectFeed({ searchParams }: ProjectFeedProps) {
     <div id="project-feed">
       <ContentHeader title="Güncel biprovalara başvur.">
         <FeedFilterDropdown activeFilter={activeFilter} />
-
       </ContentHeader>
 
       {projects.length === 0 ? (
