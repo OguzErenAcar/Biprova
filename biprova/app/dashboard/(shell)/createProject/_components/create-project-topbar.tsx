@@ -4,7 +4,7 @@ import { ContentHeader } from "@/components/shared/content-header";
 
 export function CreateProjectTopbar() {
   return (
-    <ContentHeader title="Proje Oluştur.">
+    <ContentHeader title="Biprova Oluştur.">
       <button
         type="submit"
         form="create-project-form"
