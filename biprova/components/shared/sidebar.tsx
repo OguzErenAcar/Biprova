@@ -144,7 +144,7 @@ export function Sidebar({ projects = [] }: SidebarProps) {
     }
 
     if (!navigator?.geolocation) {
-      toast.error('Tarayıcınız konum desteklemiyor.');
+      notify.location.unsupported();
       return;
     }
 
