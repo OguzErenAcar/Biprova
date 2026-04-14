@@ -233,10 +233,14 @@ function MobileDrawer({ open, onClose, projects }: { open: boolean; onClose: () 
             <span className="text-xs font-bold tracking-[2px] text-slate-500">Konum</span>
             <Switch
               checked={locationOn}
-              onCheckedChange={setLocationOn}
+              disabled={locationLoading}
+              onCheckedChange={handleLocationToggle}
             />
           </div>
-          {locationOn && (
+          {locationLoading && (
+            <p className="text-[11px] text-slate-400 leading-snug">Konum alınıyor...</p>
+          )}
+          {locationOn && !locationLoading && (
             <p className="text-[11px] text-slate-400 leading-snug">
               Yakınımdaki projeler gösteriliyor
             </p>
