@@ -2,7 +2,8 @@
 
 import { useEffect, useRef, useState, ElementType } from 'react';
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { getUserLocation } from "@/lib/location";
 import { animate, createTimeline, splitText, stagger } from 'animejs';
 import { Bell, Settings } from 'lucide-react';
 import { NotificationBell } from "@/components/shared/notification-bell";
