@@ -119,8 +119,6 @@ export function PanelGonderiler({ teamId, teamName, posts, members, category, ci
     });
   }
 
-  const teamEmoji = CATEGORY_EMOJIS[category ?? ''] ?? '🚀';
-  const teamAvatarBg = AVATAR_BG_COLORS[hashIndex(teamId, AVATAR_BG_COLORS.length)];
   const location = isRemote ? '🌐 Remote' : city ? `📍 ${city}` : '📍 Belirtilmemiş';
   const tags = [
     ...(category ? [{ type: 'category' as const, label: category }] : []),
