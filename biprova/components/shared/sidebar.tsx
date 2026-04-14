@@ -189,10 +189,14 @@ export function Sidebar({ projects = [] }: SidebarProps) {
           <span className="text-label font-bold tracking-[2px] text-ink">Konum</span>
           <Switch
             checked={locationOn}
-            onCheckedChange={setLocationOn}
+            disabled={locationLoading}
+            onCheckedChange={handleLocationToggle}
           />
         </div>
-        {locationOn && (
+        {locationLoading && (
+          <p className="text-[11px] text-slate-400 leading-snug">Konum alınıyor...</p>
+        )}
+        {locationOn && !locationLoading && (
           <p className="text-[11px] text-slate-400 leading-snug">
             Yakınımdaki projeler gösteriliyor
           </p>
