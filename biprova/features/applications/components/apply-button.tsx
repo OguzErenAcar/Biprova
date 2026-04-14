@@ -29,7 +29,7 @@ export function RoleJoinButton({ projectId, roleId }: RoleJoinButtonProps) {
           startTransition(async () => {
             const result = await applyToProject(projectId, roleId);
             if (result.error) {
-              toast.error(result.error);
+              notify.error(result.error);
             } else {
               setDone(true);
             }
