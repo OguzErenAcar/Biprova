@@ -214,8 +214,6 @@ export function PanelGonderiler({ teamId, teamName, posts, members, category, ci
             )}
             <TeamPostCard
               postId={post.id}
-              teamEmoji={teamEmoji}
-              teamAvatarBg={teamAvatarBg}
               teamName={teamName ?? 'Ekip'}
               location={location}
               memberCount={members.length}
