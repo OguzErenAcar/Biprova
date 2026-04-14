@@ -54,6 +54,7 @@ export function ProjectCard({
   status,
   title,
   description,
+  distanceKm,
   poster,
   roles,
 }: ProjectCardProps) {
