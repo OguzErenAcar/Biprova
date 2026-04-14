@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState, ElementType } from 'react';
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { toast } from "sonner";
+import { notify } from "@/lib/notify";
 import { animate, createTimeline, splitText, stagger } from 'animejs';
 import { Bell, Settings } from 'lucide-react';
 import { NotificationBell } from "@/components/shared/notification-bell";
