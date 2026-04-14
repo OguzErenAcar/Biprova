@@ -111,8 +111,9 @@ export function TeamPostFeedClient({ posts }: Props) {
       <ContentHeader title="Ekip Gönderileri">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <button className="gap-1.5   text-ink rounded-[9px]">
+            <button className="flex items-center gap-1.5 text-ink rounded-[9px]">
               {sortLabel}
+              <ChevronDown className="w-3.5 h-3.5" />
              </button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="min-w-[160px]">
