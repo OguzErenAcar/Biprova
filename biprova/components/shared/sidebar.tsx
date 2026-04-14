@@ -160,6 +160,24 @@ export function Sidebar({ projects = [] }: SidebarProps) {
 
       <Separator className="my-4" />
 
+      {/* Konum filtresi */}
+      <div className="px-3 mb-3">
+        <div className="flex items-center justify-between mb-1.5">
+          <span className="text-label font-bold tracking-[2px] text-ink">Konum</span>
+          <Switch
+            checked={locationOn}
+            onCheckedChange={setLocationOn}
+          />
+        </div>
+        {locationOn && (
+          <p className="text-[11px] text-slate-400 leading-snug">
+            Yakınımdaki projeler gösteriliyor
+          </p>
+        )}
+      </div>
+
+      <Separator className="mb-4" />
+
       {/* Projelerim */}
       <button
         onClick={() => setProjectsOpen((prev) => !prev)}
