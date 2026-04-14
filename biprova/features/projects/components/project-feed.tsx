@@ -47,29 +47,40 @@ function formatPostedAt(dateStr: string): string {
 }
 
 interface ProjectFeedProps {
-  searchParams: Promise<{ filter?: string }>;
+  searchParams: Promise<{ filter?: string; lat?: string; lng?: string }>;
 }
 
 export async function ProjectFeed({ searchParams }: ProjectFeedProps) {
-  const { filter } = await searchParams;
+  const { filter, lat, lng } = await searchParams;
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   const currentUserId = user?.id ?? null;
 
   const activeFilter: FeedFilter =
-    filter === "sehrim" || filter === "remote" ? filter : "all";
+    filter === "sehrim" || filter === "remote" || filter === "nearby"
+      ? filter
+      : "all";
 
-  let userCity: string | undefined;
-  if (activeFilter === "sehrim" && user) {
-    const { data } = await supabase
-      .from("users")
-      .select("city")
-      .eq("id", user.id)
-      .single();
-    userCity = data?.city ?? undefined;
+  const isNearby = activeFilter === "nearby" && lat && lng;
+
+  type ProjectWithDistance = Awaited<ReturnType<typeof getProjectFeed>>[number] & { distance_km?: number };
+
+  let projects: ProjectWithDistance[] = [];
+
+  if (isNearby) {
+    projects = await getNearbyProjects(parseFloat(lat), parseFloat(lng));
+  } else {
+    let userCity: string | undefined;
+    if (activeFilter === "sehrim" && user) {
+      const { data } = await supabase
+        .from("users")
+        .select("city")
+        .eq("id", user.id)
+        .single();
+      userCity = data?.city ?? undefined;
+    }
+    projects = await getProjectFeed(activeFilter, userCity);
   }
-
-  const projects = await getProjectFeed(activeFilter, userCity);
 
   return (
     <div id="project-feed">
@@ -78,9 +89,9 @@ export async function ProjectFeed({ searchParams }: ProjectFeedProps) {
       </ContentHeader>
 
       {projects.length === 0 ? (
-        <Card  >
+        <Card>
           <CardContent className="p-10 text-center text-ink-subtle text-lead">
-            Henüz aktif proje yok.
+            {isNearby ? "Yakınında aktif proje bulunamadı." : "Henüz aktif proje yok."}
           </CardContent>
         </Card>
       ) : (
@@ -97,6 +108,7 @@ export async function ProjectFeed({ searchParams }: ProjectFeedProps) {
               postedAt={formatPostedAt(project.created_at)}
               title={project.title}
               description={project.description}
+              distanceKm={project.distance_km}
               poster={{
                 id: project.leader.id,
                 name: project.leader.name,
