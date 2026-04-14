@@ -162,7 +162,7 @@ function MobileDrawer({ open, onClose, projects }: { open: boolean; onClose: () 
     }
 
     if (!navigator?.geolocation) {
-      toast.error('Tarayıcınız konum desteklemiyor.');
+      notify.location.unsupported();
       return;
     }
 
