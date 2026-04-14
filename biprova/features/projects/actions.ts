@@ -307,6 +307,80 @@ export async function createProject(
   redirect('/dashboard');
 }
 
+export interface NearbyProjectItem extends ProjectFeedItem {
+  distance_km: number;
+}
+
+type RawNearbyRow = {
+  id: string;
+  title: string;
+  city: string | null;
+  is_remote: boolean | null;
+  category_id: string | null;
+  status: string;
+  leader_id: string;
+  created_at: string;
+  distance_km: number;
+};
+
+export async function getNearbyProjects(
+  lat: number,
+  lng: number,
+  radiusKm: number = 50,
+): Promise<NearbyProjectItem[]> {
+  const supabase = await createClient();
+
+  const { data: nearbyRows, error } = await supabase.rpc('nearby_projects', {
+    lat,
+    lng,
+    radius_km: radiusKm,
+  });
+
+  if (error || !nearbyRows || nearbyRows.length === 0) return [];
+
+  const ids = (nearbyRows as RawNearbyRow[]).map((r) => r.id);
+
+  const { data: fullData } = await supabase
+    .from('projects')
+    .select(`
+      id, title, description, city, is_remote, created_at,
+      project_categories(name),
+      users!leader_id(id, name),
+      project_roles(id, role_name, is_filled, project_role_skills(skills(name)))
+    `)
+    .in('id', ids)
+    .limit(50);
+
+  if (!fullData) return [];
+
+  const distanceMap = new Map<string, number>(
+    (nearbyRows as RawNearbyRow[]).map((r) => [r.id, r.distance_km])
+  );
+
+  return (fullData as unknown as RawProject[])
+    .filter((p) => p.users !== null)
+    .map((p) => ({
+      id: p.id,
+      title: p.title,
+      description: p.description,
+      city: p.city,
+      is_remote: p.is_remote,
+      category: p.project_categories?.name ?? null,
+      created_at: p.created_at,
+      leader: p.users!,
+      roles: (p.project_roles ?? []).map((r) => ({
+        id: r.id,
+        role_name: r.role_name,
+        is_filled: r.is_filled,
+        skills: (r.project_role_skills ?? [])
+          .map((rs) => rs.skills?.name)
+          .filter((n): n is string => !!n),
+      })),
+      distance_km: distanceMap.get(p.id) ?? 0,
+    }))
+    .sort((a, b) => a.distance_km - b.distance_km);
+}
+
 // ─── Project Detail ────────────────────────────────────────────────────────
 
 export interface ProjectRoleDetail {
