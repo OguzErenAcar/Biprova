@@ -154,11 +154,36 @@ function MobileDrawer({ open, onClose, projects }: { open: boolean; onClose: () 
   const [savedOpen, setSavedOpen] = useState(true);
   const [locationOn, setLocationOn] = useState(false);
   const [locationLoading, setLocationLoading] = useState(false);
+  const [isNative, setIsNative] = useState(false);
+
+  useEffect(() => {
+    import('@capacitor/core')
+      .then(({ Capacitor }) => setIsNative(Capacitor.isNativePlatform()))
+      .catch(() => {});
+  }, []);
 
   function handleLocationToggle(checked: boolean) {
     if (!checked) {
       setLocationOn(false);
       router.push('/dashboard');
+      return;
+    }
+
+    if (isNative) {
+      setLocationLoading(true);
+      getUserLocation().then((result) => {
+        setLocationLoading(false);
+        if (result.error) {
+          setLocationOn(false);
+          if (result.error === 'permission_denied') notify.location.denied();
+          else if (result.error === 'unsupported') notify.location.unsupported();
+          else notify.location.unavailable();
+          return;
+        }
+        setLocationOn(true);
+        onClose();
+        router.push(`/dashboard?filter=nearby&lat=${result.point!.lat}&lng=${result.point!.lng}`);
+      });
       return;
     }
 
