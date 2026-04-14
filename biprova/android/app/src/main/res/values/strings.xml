@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Biprova</string>
+    <string name="title_activity_main">Biprova</string>
+    <string name="package_name">com.biprova.app</string>
+    <string name="custom_url_scheme">com.biprova.app</string>
+</resources>
