@@ -130,9 +130,31 @@ function StatusBadge({ status }: { status: SidebarProject["status"] }) {
 
 export function Sidebar({ projects = [] }: SidebarProps) {
   const pathname = usePathname();
+  const router = useRouter();
   const [projectsOpen, setProjectsOpen] = useState(true);
   const [savedOpen, setSavedOpen] = useState(true);
   const [locationOn, setLocationOn] = useState(false);
+  const [locationLoading, setLocationLoading] = useState(false);
+
+  async function handleLocationToggle(checked: boolean) {
+    if (!checked) {
+      setLocationOn(false);
+      router.push('/dashboard');
+      return;
+    }
+
+    setLocationLoading(true);
+    const { point, error } = await getUserLocation();
+    setLocationLoading(false);
+
+    if (error || !point) {
+      setLocationOn(false);
+      return;
+    }
+
+    setLocationOn(true);
+    router.push(`/dashboard?filter=nearby&lat=${point.lat}&lng=${point.lng}`);
+  }
 
   function isActive(href: string, exact?: boolean) {
     return exact
