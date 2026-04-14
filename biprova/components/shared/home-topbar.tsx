@@ -154,25 +154,38 @@ function MobileDrawer({ open, onClose, projects }: { open: boolean; onClose: () 
   const [locationOn, setLocationOn] = useState(false);
   const [locationLoading, setLocationLoading] = useState(false);
 
-  async function handleLocationToggle(checked: boolean) {
+  function handleLocationToggle(checked: boolean) {
     if (!checked) {
       setLocationOn(false);
       router.push('/dashboard');
       return;
     }
 
-    setLocationLoading(true);
-    const { point, error } = await getUserLocation();
-    setLocationLoading(false);
-
-    if (error || !point) {
-      setLocationOn(false);
+    if (!navigator?.geolocation) {
+      toast.error('Tarayıcınız konum desteklemiyor.');
       return;
     }
 
-    setLocationOn(true);
-    onClose();
-    router.push(`/dashboard?filter=nearby&lat=${point.lat}&lng=${point.lng}`);
+    setLocationLoading(true);
+
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        setLocationLoading(false);
+        setLocationOn(true);
+        onClose();
+        router.push(`/dashboard?filter=nearby&lat=${pos.coords.latitude}&lng=${pos.coords.longitude}`);
+      },
+      (err) => {
+        setLocationLoading(false);
+        setLocationOn(false);
+        if (err.code === err.PERMISSION_DENIED) {
+          toast.warning('Konum izni gerekli. Tarayıcı adres çubuğundaki kilit ikonuna tıklayarak izin verebilirsiniz.');
+        } else {
+          toast.error('Konum alınamadı. Lütfen tekrar deneyin.');
+        }
+      },
+      { enableHighAccuracy: true, timeout: 10000, maximumAge: 60_000 }
+    );
   }
 
   return (
