@@ -91,6 +91,14 @@ export function ProjectCard({
             >
               {isRemote ? "Remote" : `📍 ${city}`}
             </Badge>
+            {distanceKm !== undefined && (
+              <Badge
+                variant="outline"
+                className="bg-blue-50 text-blue-600 border-blue-100 font-bold text-[0.7rem] sm:text-xs px-2 sm:px-2"
+              >
+                ~{distanceKm} km
+              </Badge>
+            )}
             <Badge
               variant="outline"
               className={`font-bold text-[0.7rem] sm:text-xs px-2 sm:px-2 ${STATUS_STYLES[status]}`}
