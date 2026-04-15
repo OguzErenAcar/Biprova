@@ -75,7 +75,8 @@ export async function ProjectFeed({ searchParams }: ProjectFeedProps) {
   let projects: ProjectWithDistance[] = [];
 
   if (isNearby) {
-    projects = await getNearbyProjects(parseFloat(lat), parseFloat(lng));
+    const coords = locationCoords ?? { lat: parseFloat(lat!), lng: parseFloat(lng!) };
+    projects = await getNearbyProjects(coords.lat, coords.lng);
   } else {
     let userCity: string | undefined;
     if (activeFilter === "sehrim" && user) {
