@@ -64,11 +64,9 @@ export async function ProjectFeed({ searchParams }: ProjectFeedProps) {
   const activeFilter: FeedFilter =
     filter === "sehrim" || filter === "remote" || filter === "nearby"
       ? filter
-      : locationCoords
-        ? "nearby"
-        : "all";
+      : "all";
 
-  const isNearby = activeFilter === "nearby" && (locationCoords || (lat && lng));
+  const isNearby = locationCoords !== null || (activeFilter === "nearby" && lat && lng);
 
   type ProjectWithDistance = Awaited<ReturnType<typeof getProjectFeed>>[number] & { distance_km?: number };
 
