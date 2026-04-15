@@ -4,6 +4,7 @@ import { redirect } from 'next/navigation';
 import { z } from 'zod';
 import { createClient } from '@/lib/supabase/server';
 import { geocodeCity, toGeoPoint } from '@/lib/geocoding';
+import { resolveBadgeUrls } from '@/lib/badge';
 
 export interface ProjectFeedItem {
   id: string;
