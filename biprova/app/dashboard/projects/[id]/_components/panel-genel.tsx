@@ -130,7 +130,7 @@ export function PanelGenel({ project, onGoToChat, onGoToFiles }: Props) {
           id: m.user_id,
           name: m.name,
           avatar_url: m.avatar_url,
-          badge: m.badge,
+          badge_url: m.badge_url,
           is_leader: m.is_leader,
         }))
       : [
@@ -138,7 +138,7 @@ export function PanelGenel({ project, onGoToChat, onGoToFiles }: Props) {
             id: project.leader_id,
             name: project.leader_name,
             avatar_url: project.leader_avatar,
-            badge: null,
+            badge_url: null,
             is_leader: true,
           },
           ...project.roles
@@ -147,7 +147,7 @@ export function PanelGenel({ project, onGoToChat, onGoToFiles }: Props) {
               id: r.filled_by!,
               name: r.filled_by_name ?? '?',
               avatar_url: r.filled_by_avatar,
-              badge: null,
+              badge_url: null,
               is_leader: false,
             })),
         ];
