@@ -147,11 +147,10 @@ function DrawerIconButton({ icon: Icon, label, onClick }: { icon: ElementType; l
   );
 }
 
-function MobileDrawer({ open, onClose, projects }: { open: boolean; onClose: () => void; projects: DrawerProject[] }) {
+function MobileDrawer({ open, onClose, projects, initialLocationOn }: { open: boolean; onClose: () => void; projects: DrawerProject[]; initialLocationOn: boolean }) {
   const pathname = usePathname();
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const locationOn = searchParams.get("filter") === "nearby";
+  const [locationOn, setLocationOn] = useState(initialLocationOn);
   const [projectsOpen, setProjectsOpen] = useState(true);
   const [savedOpen, setSavedOpen] = useState(true);
   const [locationLoading, setLocationLoading] = useState(false);
@@ -165,7 +164,12 @@ function MobileDrawer({ open, onClose, projects }: { open: boolean; onClose: () 
 
   function handleLocationToggle(checked: boolean) {
     if (!checked) {
-      router.push('/dashboard');
+      import('@/features/projects/location-actions').then(({ clearLocationFilter }) => {
+        clearLocationFilter().then(() => {
+          setLocationOn(false);
+          router.refresh();
+        });
+      });
       return;
     }
 
@@ -179,8 +183,13 @@ function MobileDrawer({ open, onClose, projects }: { open: boolean; onClose: () 
           else notify.location.unavailable();
           return;
         }
-        onClose();
-        router.push(`/dashboard?filter=nearby&lat=${result.point!.lat}&lng=${result.point!.lng}`);
+        import('@/features/projects/location-actions').then(({ setLocationFilter }) => {
+          setLocationFilter(result.point!.lat, result.point!.lng).then(() => {
+            setLocationOn(true);
+            onClose();
+            router.refresh();
+          });
+        });
       });
       return;
     }
@@ -195,8 +204,13 @@ function MobileDrawer({ open, onClose, projects }: { open: boolean; onClose: () 
     navigator.geolocation.getCurrentPosition(
       (pos) => {
         setLocationLoading(false);
-        onClose();
-        router.push(`/dashboard?filter=nearby&lat=${pos.coords.latitude}&lng=${pos.coords.longitude}`);
+        import('@/features/projects/location-actions').then(({ setLocationFilter }) => {
+          setLocationFilter(pos.coords.latitude, pos.coords.longitude).then(() => {
+            setLocationOn(true);
+            onClose();
+            router.refresh();
+          });
+        });
       },
       (err) => {
         setLocationLoading(false);
