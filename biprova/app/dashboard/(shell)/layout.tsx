@@ -4,7 +4,7 @@ export default function ShellLayout({ children }: { children: React.ReactNode })
     <>
 
       <div id="dashboard-shell" className="">
-        <div id="dashboard-main">
+        <div id="dashboard-main ">
           {children}
         </div>
 

@@ -139,7 +139,7 @@ function DrawerIconButton({ icon: Icon, label, onClick }: { icon: ElementType; l
   return (
     <button
       onClick={onClick}
-      className="flex-1 flex items-center justify-center gap-2 py-2 rounded-[10px] border-[1.5px] border-slate-200 text-slate-600 hover:bg-slate-100 transition-colors font-semibold text-sm"
+      className=" flex-1 flex items-center justify-center gap-2 py-2 rounded-[10px] border-[1.5px] border-slate-200 text-slate-600 hover:bg-slate-100 transition-colors font-semibold text-sm"
     >
       <Icon size={16} strokeWidth={2} />
       {label}
@@ -366,7 +366,9 @@ export function HomeTopbar({ projects = [] }: { projects?: DrawerProject[] }) {
 
   return (
     <>
-      <div id="dashboard-topbar" className="relative z-50 md:my-5 g-topbar shadow-lg shadow-black/10 md:rounded-md mx-auto w-100 md:w-[90%] md:border border-black px-[12px] sm:px-6 lg:px-8 py-[0.9rem] flex items-center gap-4">
+      <div id="dashboard-topbar" className="relative z-50 md:mb-5 g-topbar shadow-xl  
+       mx-auto w-100 md:w-full border-b-[3px] border-b-black px-[12px]   py-[0.9rem] 
+       flex items-center gap-4">
         <Link
           href="/dashboard"
           className="font-display font-black text-h2 text-blue-600  no-underline"
@@ -387,11 +389,11 @@ export function HomeTopbar({ projects = [] }: { projects?: DrawerProject[] }) {
 
           {/* Mobil menü butonu — sadece lg altında görünür */}
           <button
-            className="lg:hidden w-8 h-8 flex items-center justify-center rounded-[10px] border-[1.5px] border-slate-300 text-slate-600 hover:bg-slate-100 transition-colors"
+            className="lg:hidden w-8 h-8 flex items-center justify-center rounded-[10px] border-[1.5px] border-black text-slate-600 hover:bg-slate-100 transition-colors "
             onClick={() => setDrawerOpen(true)}
             aria-label="Menüyü aç"
           >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="2.5" strokeLinecap="round">
               <path d="M3 6h18M3 12h18M3 18h18" />
             </svg>
           </button>

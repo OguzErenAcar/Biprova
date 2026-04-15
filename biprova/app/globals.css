@@ -168,17 +168,19 @@
   background-color: rgba(255, 255, 255, 0.8);
 }
 .g-bg {
-  background-color: rgba(12, 12, 12, 0.2);
+  background-color: rgba(91, 91, 91, 0.702);
 }
 
 .dashheader {
+
   margin-left: 3px;
   margin-right: 2px;
-  font-size: 16px;
+  font-size: 26px;
   font-weight: 900;
+
   background-image: linear-gradient(
     to top, 
-    #9d9d9d  10%,
+    #5b5b5bb3  10%,
     #ffffff 70% 
   );
   background-clip: text;
@@ -188,6 +190,15 @@
   -webkit-text-stroke: 0.1px black; /* Thickness and color of the border */
 
 }
+
+.mobiletabbar{
+    background-image: linear-gradient(
+    to top, 
+    #5b5b5bb3  2%,
+    #ffffff 50% 
+  );
+}
+
 .content-header-divider {
   margin-bottom: 10px;
   position: absolute;

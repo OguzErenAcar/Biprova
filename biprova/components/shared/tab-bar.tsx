@@ -35,10 +35,10 @@ function TabItem({ tab, active, onNavigate }: { tab: Tab; active: boolean; onNav
       <Link
         href={tab.href}
         onClick={onNavigate}
-        className="flex flex-col items-center flex-1 no-underline"
+        className="flex flex-col items-center flex-1  "
         onMouseEnter={() => lottieRef.current?.play()}
-        onMouseLeave={() => lottieRef.current?.stop()}
-      >
+        onMouseLeave={() => lottieRef.current?.stop()}>
+          
         <div className="w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center shadow-[0_4px_14px_rgba(37,99,235,0.4)] -mt-[14px]">
           <Lottie
             lottieRef={lottieRef}
@@ -57,11 +57,11 @@ function TabItem({ tab, active, onNavigate }: { tab: Tab; active: boolean; onNav
     <Link
       href={tab.href}
       onClick={onNavigate}
-      className="flex flex-col items-center px-3 py-[0.3rem] flex-1 no-underline"
+      className={`flex flex-col items-center px-3 h-[60px]  flex-1 no-underline ${active ? " opacity-100 bg-slate-100" : ""}`}
       onMouseEnter={() => lottieRef.current?.play()}
       onMouseLeave={() => lottieRef.current?.stop()}
     >
-      <span className={`rounded-xl px-3 py-1 transition-colors ${active ? "opacity-100 bg-slate-100" : "opacity-50"}`}>
+      <span className={`  px-3 py-1 transition-colors `}>
         <Lottie
           lottieRef={lottieRef}
           animationData={tab.animationData}
@@ -70,7 +70,7 @@ function TabItem({ tab, active, onNavigate }: { tab: Tab; active: boolean; onNav
           style={{ width: 28, height: 28 }}
         />
       </span>
-      <span className={`text-[10px] mt-0.5 font-medium transition-opacity ${active ? "opacity-100 text-slate-700" : "opacity-40 text-slate-500"}`}>
+      <span className={`text-[10px] mt-0.5 font-medium transition-opacity ${active ? "opacity-100 text-slate-700" : ""}`}>
         {tab.label}
       </span>
     </Link>
@@ -114,7 +114,7 @@ export function TabBar() {
   return (
     <nav
       id="dashboard-tab-bar"
-      className={`lg:hidden fixed bottom-0 left-0 right-0 bg-surface border-t border-slate-200 z-[100] pt-[0.4rem] pb-[calc(0.4rem+env(safe-area-inset-bottom))] transition-transform duration-200 ${isHidden ? 'translate-y-full' : ''}`}
+      className={`mobiletabbar lg:hidden fixed bottom-0 left-0 right-0 bg-surface border-t border-slate-200 z-[100] transition-transform duration-200 ${isHidden ? 'translate-y-full' : ''}`}
     >
       <div className="flex justify-around items-end">
         {TABS.map((tab) => (

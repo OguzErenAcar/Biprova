@@ -59,7 +59,7 @@ export function ProjectCard({
   roles,
 }: ProjectCardProps) {
   const [rolesOpen, setRolesOpen] = useState(false);
-  const [desOpen, setDesOpen] = useState(false);
+  const [desOpen, setDesOpen] = useState(true);
 
   const filled = roles.filter((r) => r.filled).length;
   const total = roles.length;

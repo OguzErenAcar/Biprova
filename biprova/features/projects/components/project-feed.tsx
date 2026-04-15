@@ -89,8 +89,8 @@ export async function ProjectFeed({ searchParams }: ProjectFeedProps) {
       </ContentHeader>
 
       {projects.length === 0 ? (
-        <Card>
-          <CardContent className="p-10 text-center text-ink-subtle text-lead">
+        <Card >
+          <CardContent className="p-10  text-center text-ink-subtle text-lead">
             {isNearby ? "Yakınında aktif proje bulunamadı." : "Henüz aktif proje yok."}
           </CardContent>
         </Card>
