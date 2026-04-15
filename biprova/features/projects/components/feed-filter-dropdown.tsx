@@ -42,7 +42,7 @@ export function FeedFilterDropdown({ activeFilter }: FeedFilterDropdownProps) {
   const activeLabel = FILTER_OPTIONS.find((o) => o.value === activeFilter)?.label ?? "Tümü";
 
   function handleSelect(value: FeedFilter) {
-    if (value === "nearby" && activeFilter !== "nearby") {
+    if (value === "nearby") {
       if (coords) {
         router.push(`?filter=nearby&lat=${coords.lat}&lng=${coords.lng}`);
       } else {
