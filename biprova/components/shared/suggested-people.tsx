@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
+import { resolveBadgeUrls } from "@/lib/badge";
 import { UserAvatar } from "@/components/shared/user-avatar";
 
 interface RecentUser {
@@ -7,6 +8,7 @@ interface RecentUser {
   name: string;
   avatar_url: string | null;
   badge: string | null;
+  badge_url: string | null;
 }
 
 function getInitials(name: string) {
@@ -25,7 +27,14 @@ async function getRecentUsers(): Promise<RecentUser[]> {
     .select("id, name, avatar_url, badge")
     .order("created_at", { ascending: false })
     .limit(5);
-  return (data as RecentUser[]) ?? [];
+
+  const rows = (data ?? []) as Omit<RecentUser, "badge_url">[];
+  const badgeMap = await resolveBadgeUrls(supabase, rows.map((u) => u.badge));
+
+  return rows.map((u) => ({
+    ...u,
+    badge_url: badgeMap.get(u.badge ?? "") ?? null,
+  }));
 }
 
 export async function SuggestedPeople() {
@@ -52,7 +61,7 @@ export async function SuggestedPeople() {
               <UserAvatar
                 avatarUrl={u.avatar_url}
                 initials={getInitials(u.name)}
-                badge={u.badge}
+                badge={u.badge_url}
                 size={32}
                 className="text-[0.72rem]"
               />
