@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, ElementType } from 'react';
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useLocation } from "@/contexts/location-context";
 import { notify } from "@/lib/notify";
 import { getUserLocation } from "@/lib/location";
