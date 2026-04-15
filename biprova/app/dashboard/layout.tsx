@@ -6,6 +6,7 @@ import { HomeTopbarLoader } from "@/components/shared/home-topbar-loader";
 import { TabBar } from "@/components/shared/tab-bar";
 import { DashboardGrid } from "@/components/shared/dashboard-grid";
 import { SplashWrapper } from "@/components/shared/splash-overlay";
+import { LocationProvider } from "@/contexts/location-context";
 
 export default function DashboardLayout({
   children,
@@ -13,21 +14,23 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div>
-      <HomeTopbarLoader />
-      <div className="">
-        <DashboardGrid
-          sidebar={
-            <Suspense fallback={<Sidebar />}>
-              <SidebarLoader />
-            </Suspense>
-          }
-        >
-          <SplashWrapper>{children}</SplashWrapper>
-        </DashboardGrid>
+    <LocationProvider>
+      <div>
+        <HomeTopbarLoader />
+        <div className="">
+          <DashboardGrid
+            sidebar={
+              <Suspense fallback={<Sidebar />}>
+                <SidebarLoader />
+              </Suspense>
+            }
+          >
+            <SplashWrapper>{children}</SplashWrapper>
+          </DashboardGrid>
+        </div>
+        <TabBar />
+        <Toaster position="bottom-center" />
       </div>
-      <TabBar />
-      <Toaster position="bottom-center" />
-    </div>
+    </LocationProvider>
   );
 }
