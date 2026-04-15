@@ -128,6 +128,7 @@ export function PanelGenel({ project, onGoToChat, onGoToTasks, onGoToFiles }: Pr
           id: m.user_id,
           name: m.name,
           avatar_url: m.avatar_url,
+          badge: m.badge,
           is_leader: m.is_leader,
         }))
       : [
@@ -135,6 +136,7 @@ export function PanelGenel({ project, onGoToChat, onGoToTasks, onGoToFiles }: Pr
             id: project.leader_id,
             name: project.leader_name,
             avatar_url: project.leader_avatar,
+            badge: null,
             is_leader: true,
           },
           ...project.roles
@@ -143,6 +145,7 @@ export function PanelGenel({ project, onGoToChat, onGoToTasks, onGoToFiles }: Pr
               id: r.filled_by!,
               name: r.filled_by_name ?? '?',
               avatar_url: r.filled_by_avatar,
+              badge: null,
               is_leader: false,
             })),
         ];
