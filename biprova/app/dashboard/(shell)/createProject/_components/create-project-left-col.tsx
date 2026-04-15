@@ -16,6 +16,8 @@ import {
   Globe,
   GripVertical,
   X,
+  Navigation,
+  List,
 } from "lucide-react";
 import { createProject } from "@/features/projects/actions";
 import type {
