@@ -9,14 +9,12 @@ interface UserAvatarProps {
   badge?: string | null;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function UserAvatar({
   initials,
   avatarUrl,
   alt,
   size,
   className = "",
-  badge,
 }: UserAvatarProps) {
   const sizeStyle = size ? { width: size, height: size } : undefined;
   const base = `rounded-full shrink-0 ${className}`;
