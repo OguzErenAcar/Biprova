@@ -32,9 +32,7 @@ type RawProject = {
 
 export type FeedFilter = 'all' | 'nearby';
 
-export async function getProjectFeed(
-  filter: FeedFilter = 'all',
-): Promise<ProjectFeedItem[]> {
+export async function getProjectFeed(): Promise<ProjectFeedItem[]> {
   const supabase = await createClient();
 
   const { data, error } = await supabase
