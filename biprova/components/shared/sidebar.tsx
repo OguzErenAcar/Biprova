@@ -132,9 +132,10 @@ function StatusBadge({ status }: { status: SidebarProject["status"] }) {
 export function Sidebar({ projects = [] }: SidebarProps) {
   const pathname = usePathname();
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const locationOn = searchParams.get("filter") === "nearby";
   const [projectsOpen, setProjectsOpen] = useState(true);
   const [savedOpen, setSavedOpen] = useState(true);
-  const [locationOn, setLocationOn] = useState(false);
   const [locationLoading, setLocationLoading] = useState(false);
   const [isNative, setIsNative] = useState(false);
 
