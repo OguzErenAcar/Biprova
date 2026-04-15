@@ -345,7 +345,7 @@ export async function getNearbyProjects(
     .select(`
       id, title, description, city, is_remote, created_at,
       project_categories(name),
-      users!leader_id(id, name),
+      users!leader_id(id, name, badge),
       project_roles(id, role_name, is_filled, project_role_skills(skills(name)))
     `)
     .in('id', ids)
