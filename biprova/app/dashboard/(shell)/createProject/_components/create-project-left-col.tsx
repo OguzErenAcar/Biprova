@@ -92,8 +92,18 @@ export function CreateProjectLeftCol({ cities, skills, userTeams }: Props) {
     roles.map((r) => ({ name: r.name, count: r.count, skillIds: [r.skillId] }))
   );
 
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    if (!locationEnabled) {
+      e.preventDefault();
+      setLocationError(true);
+      document.getElementById("section-location")?.scrollIntoView({ behavior: "smooth", block: "center" });
+    } else {
+      setLocationError(false);
+    }
+  }
+
   return (
-    <form id="create-project-form" action={formAction} className="flex flex-col gap-3 md:gap-5">
+    <form id="create-project-form" action={formAction} onSubmit={handleSubmit} className="flex flex-col gap-3 md:gap-5">
       {state?.error && (
         <div className="bg-red-50 border-[1.5px] border-red-200 rounded-[12px] px-4 py-3 text-[0.84rem] font-semibold text-red-600">
           {state.error}
