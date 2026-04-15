@@ -50,7 +50,9 @@ export function FeedFilterDropdown({ activeFilter }: FeedFilterDropdownProps) {
   function handleLocationToggle(checked: boolean) {
     if (!checked) {
       setDialogOpen(false);
-      router.push("/dashboard");
+      import("@/features/projects/location-actions").then(({ clearLocationFilter }) => {
+        clearLocationFilter().then(() => router.push("/dashboard"));
+      });
       return;
     }
 
@@ -65,9 +67,13 @@ export function FeedFilterDropdown({ activeFilter }: FeedFilterDropdownProps) {
       (pos) => {
         setLocationLoading(false);
         setDialogOpen(false);
-        router.push(
-          `/dashboard?filter=nearby&lat=${pos.coords.latitude}&lng=${pos.coords.longitude}`
-        );
+        import("@/features/projects/location-actions").then(({ setLocationFilter }) => {
+          setLocationFilter(pos.coords.latitude, pos.coords.longitude).then(() => {
+            router.push(
+              `/dashboard?filter=nearby&lat=${pos.coords.latitude}&lng=${pos.coords.longitude}`
+            );
+          });
+        });
       },
       (err) => {
         setLocationLoading(false);
