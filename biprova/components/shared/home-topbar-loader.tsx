@@ -29,5 +29,5 @@ export async function HomeTopbarLoader() {
     }
   }
 
-  return <HomeTopbar projects={projects} />;
+  return <HomeTopbar projects={projects} locationOn={locationOn} />;
 }
