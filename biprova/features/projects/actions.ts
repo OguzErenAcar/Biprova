@@ -614,14 +614,17 @@ export async function getProjectDetail(id: string): Promise<ProjectDetail | null
     ]);
 
     const activeProjectMemberIds = new Set((rawProjectMembers ?? []).map((m) => m.user_id));
+    const filteredMembers = (rawMembers as unknown as RawMemberRow[] ?? [])
+      .filter((m) => activeProjectMemberIds.has(m.user_id));
 
-    members = (rawMembers as unknown as RawMemberRow[] ?? [])
-      .filter((m) => activeProjectMemberIds.has(m.user_id))
-      .map((m) => ({
+    const memberBadgeMap = await resolveBadgeUrls(supabase, filteredMembers.map((m) => m.users.badge));
+
+    members = filteredMembers.map((m) => ({
       user_id: m.user_id,
       name: m.users.name,
       avatar_url: m.users.avatar_url,
       badge: m.users.badge,
+      badge_url: memberBadgeMap.get(m.users.badge ?? '') ?? null,
       role_name: m.project_roles?.role_name ?? null,
       is_leader: m.user_id === project.leader_id,
       has_biprova: m.has_biprova,
