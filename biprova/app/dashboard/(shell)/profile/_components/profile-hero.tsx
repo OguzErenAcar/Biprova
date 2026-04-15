@@ -10,7 +10,6 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { LottieIcon } from "@/components/shared/lottie-icon";
 import cityIcon from "@/app/icons/wired-outline-1918-city-hall-hover-pinch.json";
-import globeIcon from "@/app/icons/wired-outline-1383-sphere-hover-pinch.json";
 import clockIcon from "@/app/icons/wired-outline-236-alarm-clock-hover-pinch.json";
 
 interface ProfileHeroProps {
