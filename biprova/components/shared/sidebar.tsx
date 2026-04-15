@@ -131,10 +131,10 @@ function StatusBadge({ status }: { status: SidebarProject["status"] }) {
   );
 }
 
-export function Sidebar({ projects = [], locationOn: initialLocationOn = false }: SidebarProps) {
+export function Sidebar({ projects = [] }: SidebarProps) {
   const pathname = usePathname();
+  const { locationOn, setLocation, clearLocation } = useLocation();
 
-  const [locationOn, setLocationOn] = useState(initialLocationOn);
   const [projectsOpen, setProjectsOpen] = useState(true);
   const [savedOpen, setSavedOpen] = useState(true);
   const [locationLoading, setLocationLoading] = useState(false);
@@ -148,9 +148,7 @@ export function Sidebar({ projects = [], locationOn: initialLocationOn = false }
 
   function handleLocationToggle(checked: boolean) {
     if (!checked) {
-      import('@/features/projects/location-actions').then(({ clearLocationFilter }) => {
-        clearLocationFilter().then(() => setLocationOn(false));
-      });
+      clearLocation();
       return;
     }
 
@@ -164,9 +162,7 @@ export function Sidebar({ projects = [], locationOn: initialLocationOn = false }
           else notify.location.unavailable();
           return;
         }
-        import('@/features/projects/location-actions').then(({ setLocationFilter }) => {
-          setLocationFilter(result.point!.lat, result.point!.lng).then(() => setLocationOn(true));
-        });
+        setLocation(result.point!.lat, result.point!.lng);
       });
       return;
     }
@@ -181,9 +177,7 @@ export function Sidebar({ projects = [], locationOn: initialLocationOn = false }
     navigator.geolocation.getCurrentPosition(
       (pos) => {
         setLocationLoading(false);
-        import('@/features/projects/location-actions').then(({ setLocationFilter }) => {
-          setLocationFilter(pos.coords.latitude, pos.coords.longitude).then(() => setLocationOn(true));
-        });
+        setLocation(pos.coords.latitude, pos.coords.longitude);
       },
       (err) => {
         setLocationLoading(false);
