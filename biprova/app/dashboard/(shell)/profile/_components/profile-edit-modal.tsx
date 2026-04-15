@@ -30,7 +30,6 @@ export function ProfileEditModal({ user }: ProfileEditModalProps) {
   const [cityQuery, setCityQuery] = useState(user.city ?? '');
   const [cityOpen, setCityOpen] = useState(false);
   const [cities, setCities] = useState<{ id: string; name: string }[]>([]);
-  const [isRemote, setIsRemote] = useState(user.is_remote ?? false);
   const [bio, setBio] = useState(user.bio ?? '');
   const [formError, setFormError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
