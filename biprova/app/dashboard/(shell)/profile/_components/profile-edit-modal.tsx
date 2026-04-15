@@ -55,7 +55,6 @@ export function ProfileEditModal({ user }: ProfileEditModalProps) {
     setLinkedinUrl(user.linkedin_url ?? '');
     setCity(user.city ?? '');
     setCityQuery(user.city ?? '');
-    setIsRemote(user.is_remote ?? false);
     setBio(user.bio ?? '');
     setFormError(null);
     setCvError(null);
