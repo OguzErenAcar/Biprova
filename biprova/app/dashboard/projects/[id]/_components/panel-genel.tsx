@@ -79,21 +79,16 @@ function MemberStrip({ members }: { members: MemberSlot[] }) {
         <div
           key={m.id}
           title={`${m.name}${m.is_leader ? ' (Lider)' : ''}`}
-          className={`relative w-8 h-8 rounded-full flex items-center justify-center text-[0.7rem] font-extrabold shrink-0 ${
-            m.is_leader
-              ? 'bg-orange-400 ring-2 ring-white'
-              : 'bg-white/20 ring-1 ring-white/40'
-          } text-white`}
+          className={`relative shrink-0 ${m.is_leader ? 'ring-2 ring-white rounded-full' : ''}`}
         >
-          {m.avatar_url ? (
-            <img
-              src={m.avatar_url}
-              alt={m.name}
-              className="w-full h-full rounded-full object-cover"
-            />
-          ) : (
-            getInitials(m.name)
-          )}
+          <UserAvatar
+            avatarUrl={m.avatar_url}
+            initials={getInitials(m.name)}
+            size={32}
+            className={`text-[0.7rem] font-extrabold ${
+              m.is_leader ? 'bg-orange-400' : 'bg-white/20 ring-1 ring-white/40'
+            } text-white`}
+          />
           {m.is_leader && (
             <span className="absolute -top-1 -right-0.5 text-[0.55rem] leading-none">⚡</span>
           )}
