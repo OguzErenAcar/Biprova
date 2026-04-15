@@ -148,10 +148,7 @@ export function Sidebar({ projects = [], locationOn: initialLocationOn = false }
   function handleLocationToggle(checked: boolean) {
     if (!checked) {
       import('@/features/projects/location-actions').then(({ clearLocationFilter }) => {
-        clearLocationFilter().then(() => {
-          setLocationOn(false);
-          router.refresh();
-        });
+        clearLocationFilter().then(() => setLocationOn(false));
       });
       return;
     }
@@ -167,10 +164,7 @@ export function Sidebar({ projects = [], locationOn: initialLocationOn = false }
           return;
         }
         import('@/features/projects/location-actions').then(({ setLocationFilter }) => {
-          setLocationFilter(result.point!.lat, result.point!.lng).then(() => {
-            setLocationOn(true);
-            router.refresh();
-          });
+          setLocationFilter(result.point!.lat, result.point!.lng).then(() => setLocationOn(true));
         });
       });
       return;
@@ -187,10 +181,7 @@ export function Sidebar({ projects = [], locationOn: initialLocationOn = false }
       (pos) => {
         setLocationLoading(false);
         import('@/features/projects/location-actions').then(({ setLocationFilter }) => {
-          setLocationFilter(pos.coords.latitude, pos.coords.longitude).then(() => {
-            setLocationOn(true);
-            router.refresh();
-          });
+          setLocationFilter(pos.coords.latitude, pos.coords.longitude).then(() => setLocationOn(true));
         });
       },
       (err) => {
