@@ -107,7 +107,7 @@ export function CreateProjectLeftCol({ cities, skills, userTeams }: Props) {
         else notify.location.unavailable();
         return;
       }
-      setLocation(result.point!.lat, result.point!.lng);
+      setLocation(result.point!.lat, result.point!.lng, result.city);
     });
   }
 
