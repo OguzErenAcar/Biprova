@@ -165,8 +165,6 @@ const roleItemSchema = z.array(
 const createProjectSchema = z.object({
   title: z.string().min(3, 'Başlık en az 3 karakter olmalı').max(80),
   description: z.string().min(10, 'İhtiyaç açıklaması en az 10 karakter olmalı').max(500),
-  city: z.string().min(1, 'Şehir zorunludur'),
-  is_remote: z.string().optional(),
   category_id: z.string().optional(),
   roles: z.string().optional(),
   team_id: z.string().optional(),
