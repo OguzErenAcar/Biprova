@@ -57,6 +57,7 @@ function MembersSection({ members }: { members: ProjectDetail['members'] }) {
               <UserAvatar
                 avatarUrl={member.avatar_url}
                 initials={getInitials(member.name)}
+                badge={member.badge}
                 size={32}
                 className="text-[0.72rem]"
               />
