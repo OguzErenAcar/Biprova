@@ -46,10 +46,10 @@ export function ProfileHero({ user, isOwner = false }: ProfileHeroProps) {
         {/* Avatar — mobil: ortada (transform yok → fixed modal çalışsın), desktop: sol absolute */}
         <div className="absolute -top-[60px] left-[calc(50%-50px)] sm:-top-[60px] sm:left-6 w-[100px] h-[100px] sm:w-[120px] sm:h-[120px] rounded-full border-4 border-white shadow-brand overflow-hidden">
           <div className="relative w-full h-full">
-            <img
-              src={user.avatar_url ?? "/images/432-4329071_team-icon-png-transparent-png.png"}
+            <UserAvatar
+              avatarUrl={user.avatar_url}
               alt={user.name}
-              className="w-full h-full object-cover"
+              className="w-full h-full"
             />
             {isOwner && (
               <ImageUploadButton type="avatar" userId={user.id} currentUrl={user.avatar_url}>
