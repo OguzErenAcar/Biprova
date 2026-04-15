@@ -52,6 +52,7 @@ export async function SuggestedPeople() {
               <UserAvatar
                 avatarUrl={u.avatar_url}
                 initials={getInitials(u.name)}
+                badge={u.badge}
                 size={32}
                 className="text-[0.72rem]"
               />
