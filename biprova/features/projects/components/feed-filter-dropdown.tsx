@@ -49,7 +49,8 @@ export function FeedFilterDropdown({ activeFilter }: FeedFilterDropdownProps) {
 
   function handleLocationToggle(checked: boolean) {
     if (!checked) {
-      setLocationOn(false);
+      setDialogOpen(false);
+      router.push("/dashboard");
       return;
     }
 
@@ -63,7 +64,6 @@ export function FeedFilterDropdown({ activeFilter }: FeedFilterDropdownProps) {
     navigator.geolocation.getCurrentPosition(
       (pos) => {
         setLocationLoading(false);
-        setLocationOn(true);
         setDialogOpen(false);
         router.push(
           `/dashboard?filter=nearby&lat=${pos.coords.latitude}&lng=${pos.coords.longitude}`
@@ -71,7 +71,6 @@ export function FeedFilterDropdown({ activeFilter }: FeedFilterDropdownProps) {
       },
       (err) => {
         setLocationLoading(false);
-        setLocationOn(false);
         if (err.code === err.PERMISSION_DENIED) {
           notify.location.denied();
         } else {
