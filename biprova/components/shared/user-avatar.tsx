@@ -6,6 +6,7 @@ interface UserAvatarProps {
   alt?: string;
   size?: number;
   className?: string;
+  badge?: string | null;
 }
 
 export function UserAvatar({
