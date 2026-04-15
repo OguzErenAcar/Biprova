@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
+import { UserAvatar } from "@/components/shared/user-avatar";
 
 interface RecentUser {
   id: string;
