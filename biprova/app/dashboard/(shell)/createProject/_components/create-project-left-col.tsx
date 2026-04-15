@@ -92,7 +92,7 @@ export function CreateProjectLeftCol({ cities, skills, userTeams }: Props) {
     roles.map((r) => ({ name: r.name, count: r.count, skillIds: [r.skillId] }))
   );
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  function handleSubmit(e: React.BaseSyntheticEvent) {
     if (!locationEnabled) {
       e.preventDefault();
       setLocationError(true);
