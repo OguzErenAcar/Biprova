@@ -34,14 +34,13 @@ export type FeedFilter = 'all' | 'nearby';
 
 export async function getProjectFeed(
   filter: FeedFilter = 'all',
-  userCity?: string,
 ): Promise<ProjectFeedItem[]> {
   const supabase = await createClient();
 
-  let query = supabase
+  const { data, error } = await supabase
     .from('projects')
     .select(`
-      id, title, description, city, is_remote, created_at,
+      id, title, description, created_at,
       project_categories(name),
       users!leader_id(id, name),
       project_roles(id, role_name, is_filled, project_role_skills(skills(name)))
@@ -49,14 +48,6 @@ export async function getProjectFeed(
     .eq('status', 'open')
     .order('created_at', { ascending: false })
     .limit(20);
-
-  if (filter === 'remote') {
-    query = query.eq('is_remote', true);
-  } else if (filter === 'sehrim' && userCity) {
-    query = query.eq('city', userCity);
-  }
-
-  const { data, error } = await query;
 
   if (error || !data) return [];
 
@@ -66,8 +57,6 @@ export async function getProjectFeed(
       id: p.id,
       title: p.title,
       description: p.description,
-      city: p.city,
-      is_remote: p.is_remote,
       category: p.project_categories?.name ?? null,
       created_at: p.created_at,
       leader: p.users!,
