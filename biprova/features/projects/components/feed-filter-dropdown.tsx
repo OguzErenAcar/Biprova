@@ -33,17 +33,24 @@ interface FeedFilterDropdownProps {
 
 export function FeedFilterDropdown({ activeFilter }: FeedFilterDropdownProps) {
   const router = useRouter();
+  const { coords, setLocation, clearLocation } = useLocation();
   const [dialogOpen, setDialogOpen] = useState(false);
   const [locationLoading, setLocationLoading] = useState(false);
 
   const locationOn = activeFilter === "nearby";
-
   const activeLabel = FILTER_OPTIONS.find((o) => o.value === activeFilter)?.label ?? "Tümü";
 
   function handleSelect(value: FeedFilter) {
     if (value === "nearby" && activeFilter !== "nearby") {
-      setDialogOpen(true);
+      if (coords) {
+        router.push(`?filter=nearby&lat=${coords.lat}&lng=${coords.lng}`);
+      } else {
+        setDialogOpen(true);
+      }
       return;
+    }
+    if (value === "all") {
+      clearLocation();
     }
     router.push(value === "all" ? "/dashboard" : `?filter=${value}`);
   }
@@ -51,9 +58,8 @@ export function FeedFilterDropdown({ activeFilter }: FeedFilterDropdownProps) {
   function handleLocationToggle(checked: boolean) {
     if (!checked) {
       setDialogOpen(false);
-      import("@/features/projects/location-actions").then(({ clearLocationFilter }) => {
-        clearLocationFilter().then(() => router.push("/dashboard"));
-      });
+      clearLocation();
+      router.push("/dashboard");
       return;
     }
 
@@ -68,13 +74,10 @@ export function FeedFilterDropdown({ activeFilter }: FeedFilterDropdownProps) {
       (pos) => {
         setLocationLoading(false);
         setDialogOpen(false);
-        import("@/features/projects/location-actions").then(({ setLocationFilter }) => {
-          setLocationFilter(pos.coords.latitude, pos.coords.longitude).then(() => {
-            router.push(
-              `/dashboard?filter=nearby&lat=${pos.coords.latitude}&lng=${pos.coords.longitude}`
-            );
-          });
-        });
+        setLocation(pos.coords.latitude, pos.coords.longitude);
+        router.push(
+          `/dashboard?filter=nearby&lat=${pos.coords.latitude}&lng=${pos.coords.longitude}`
+        );
       },
       (err) => {
         setLocationLoading(false);
