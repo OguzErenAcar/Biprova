@@ -108,6 +108,7 @@ export function CreateProjectLeftCol({ cities, skills, userTeams }: Props) {
         return;
       }
       setLocation(result.point!.lat, result.point!.lng, result.city);
+      console.log('[location] city:', result.city);
     });
   }
 
