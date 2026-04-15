@@ -148,10 +148,9 @@ function DrawerIconButton({ icon: Icon, label, onClick }: { icon: ElementType; l
   );
 }
 
-function MobileDrawer({ open, onClose, projects, initialLocationOn }: { open: boolean; onClose: () => void; projects: DrawerProject[]; initialLocationOn: boolean }) {
+function MobileDrawer({ open, onClose, projects }: { open: boolean; onClose: () => void; projects: DrawerProject[] }) {
   const pathname = usePathname();
-  const router = useRouter();
-  const [locationOn, setLocationOn] = useState(initialLocationOn);
+  const { locationOn, setLocation, clearLocation } = useLocation();
   const [projectsOpen, setProjectsOpen] = useState(true);
   const [savedOpen, setSavedOpen] = useState(true);
   const [locationLoading, setLocationLoading] = useState(false);
@@ -165,12 +164,7 @@ function MobileDrawer({ open, onClose, projects, initialLocationOn }: { open: bo
 
   function handleLocationToggle(checked: boolean) {
     if (!checked) {
-      import('@/features/projects/location-actions').then(({ clearLocationFilter }) => {
-        clearLocationFilter().then(() => {
-          setLocationOn(false);
-          router.refresh();
-        });
-      });
+      clearLocation();
       return;
     }
 
@@ -184,13 +178,8 @@ function MobileDrawer({ open, onClose, projects, initialLocationOn }: { open: bo
           else notify.location.unavailable();
           return;
         }
-        import('@/features/projects/location-actions').then(({ setLocationFilter }) => {
-          setLocationFilter(result.point!.lat, result.point!.lng).then(() => {
-            setLocationOn(true);
-            onClose();
-            router.refresh();
-          });
-        });
+        setLocation(result.point!.lat, result.point!.lng);
+        onClose();
       });
       return;
     }
@@ -205,13 +194,8 @@ function MobileDrawer({ open, onClose, projects, initialLocationOn }: { open: bo
     navigator.geolocation.getCurrentPosition(
       (pos) => {
         setLocationLoading(false);
-        import('@/features/projects/location-actions').then(({ setLocationFilter }) => {
-          setLocationFilter(pos.coords.latitude, pos.coords.longitude).then(() => {
-            setLocationOn(true);
-            onClose();
-            router.refresh();
-          });
-        });
+        setLocation(pos.coords.latitude, pos.coords.longitude);
+        onClose();
       },
       (err) => {
         setLocationLoading(false);
