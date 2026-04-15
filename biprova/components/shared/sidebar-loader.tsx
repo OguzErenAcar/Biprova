@@ -1,13 +1,7 @@
-import { cookies } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
 import { Sidebar } from "@/components/shared/sidebar";
-import { parseLocationCookie } from "@/features/projects/location-utils";
 
 export async function SidebarLoader() {
-  const cookieStore = await cookies();
-  const locationCookie = cookieStore.get("location-filter")?.value;
-  const locationOn = parseLocationCookie(locationCookie) !== null;
-
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
@@ -29,5 +23,5 @@ export async function SidebarLoader() {
     }
   }
 
-  return <Sidebar projects={projects} locationOn={locationOn} />;
+  return <Sidebar projects={projects} />;
 }
