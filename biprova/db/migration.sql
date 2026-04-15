@@ -115,3 +115,17 @@ alter table users add column if not exists applications_public boolean not null 
 -- ============================================================
 
 alter table messages replica identity full;
+
+
+-- ============================================================
+-- 5. USER LOCATION
+-- ============================================================
+
+-- users: is_remote kaldır (remote kavramı proje seviyesinde)
+alter table users drop column if exists is_remote;
+
+-- users: konum ekle (city reverse geocoding için kullanılır)
+alter table users add column if not exists location geography(Point, 4326);
+
+create index if not exists users_location_idx
+    on users using gist(location);
