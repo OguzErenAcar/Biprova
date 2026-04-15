@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
 import { HomeTopbar } from "@/components/shared/home-topbar";
-import { parseLocationCookie } from "@/features/projects/location-actions";
+import { parseLocationCookie } from "@/features/projects/location-utils";
 
 export async function HomeTopbarLoader() {
   const cookieStore = await cookies();
