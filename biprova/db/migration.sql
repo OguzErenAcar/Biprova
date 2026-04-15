@@ -129,3 +129,15 @@ alter table users add column if not exists location geography(Point, 4326);
 
 create index if not exists users_location_idx
     on users using gist(location);
+
+
+-- ============================================================
+-- 6. BADGES
+-- ============================================================
+
+create table if not exists badges (
+    id         uuid primary key default uuid_generate_v4(),
+    badge_name text not null unique,
+    image_url  text not null,
+    created_at timestamp default now()
+);
