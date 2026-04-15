@@ -83,13 +83,6 @@ export function CreateProjectLeftCol({ cities, skills, userTeams }: Props) {
   const [locationMode, setLocationMode] = useState<LocationMode>("gps");
   const [selectedCity, setSelectedCity] = useState("");
   const [locationLoading, setLocationLoading] = useState(false);
-  const [isNative, setIsNative] = useState(false);
-
-  useEffect(() => {
-    import("@capacitor/core")
-      .then(({ Capacitor }) => setIsNative(Capacitor.isNativePlatform()))
-      .catch(() => {});
-  }, []);
 
   function handleLocationModeChange(mode: LocationMode) {
     setLocationMode(mode);
