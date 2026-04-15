@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
 import { Sidebar } from "@/components/shared/sidebar";
-import { parseLocationCookie } from "@/features/projects/location-actions";
+import { parseLocationCookie } from "@/features/projects/location-utils";
 
 export async function SidebarLoader() {
   const cookieStore = await cookies();
