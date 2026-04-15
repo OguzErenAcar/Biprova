@@ -50,12 +50,7 @@ export function FeedFilterDropdown({ activeFilter }: FeedFilterDropdownProps) {
       }
       return;
     }
-    if (value === "all") {
-      clearLocation();
-      router.push("/dashboard");
-    } else {
-      router.push(`/dashboard?filter=${value}`);
-    }
+    router.push(value === "all" ? "/dashboard" : `/dashboard?filter=${value}`);
   }
 
   function handleLocationToggle(checked: boolean) {
