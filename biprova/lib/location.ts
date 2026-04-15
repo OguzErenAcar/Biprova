@@ -11,11 +11,57 @@ export type LocationError =
 
 export interface LocationResult {
   point: GeoPoint | null;
+  city: string | null;
   error: LocationError | null;
 }
 
+interface NominatimReverseResult {
+  address?: {
+    city?: string;
+    town?: string;
+    county?: string;
+    province?: string;
+  };
+}
+
 /**
- * Kullanıcının konumunu alır.
+ * Koordinatı şehir adına çevirir (Nominatim / OpenStreetMap).
+ * Fallback sırası: city → town → county → province
+ */
+async function reverseGeocode(lat: number, lng: number): Promise<string | null> {
+  try {
+    const params = new URLSearchParams({
+      lat: String(lat),
+      lon: String(lng),
+      format: 'json',
+      zoom: '10',
+      addressdetails: '1',
+    });
+
+    const response = await fetch(
+      `https://nominatim.openstreetmap.org/reverse?${params}`,
+      {
+        headers: {
+          'User-Agent': 'Biprova/1.0 (https://biprova.com)',
+          'Accept-Language': 'tr,en',
+        },
+      }
+    );
+
+    if (!response.ok) return null;
+
+    const result: NominatimReverseResult = await response.json();
+    const addr = result.address;
+    if (!addr) return null;
+
+    return addr.city ?? addr.town ?? addr.county ?? addr.province ?? null;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Kullanıcının konumunu ve şehrini alır.
  * - Native Capacitor build'de → @capacitor/geolocation (GPS)
  * - Web tarayıcısında → navigator.geolocation
  * Her iki durumda da izin popup'ı otomatik gösterilir.
@@ -23,14 +69,22 @@ export interface LocationResult {
 export async function getUserLocation(): Promise<LocationResult> {
   try {
     const isNative = await checkIsNative();
+    const coordsResult = isNative
+      ? await getNativeLocation()
+      : await getWebLocation();
 
-    if (isNative) {
-      return await getNativeLocation();
+    if (coordsResult.error || !coordsResult.point) {
+      return { point: null, city: null, error: coordsResult.error };
     }
 
-    return await getWebLocation();
+    const city = await reverseGeocode(
+      coordsResult.point.lat,
+      coordsResult.point.lng
+    );
+
+    return { point: coordsResult.point, city, error: null };
   } catch {
-    return { point: null, error: 'unavailable' };
+    return { point: null, city: null, error: 'unavailable' };
   }
 }
 
@@ -43,7 +97,7 @@ async function checkIsNative(): Promise<boolean> {
   }
 }
 
-async function getNativeLocation(): Promise<LocationResult> {
+async function getNativeLocation(): Promise<Omit<LocationResult, 'city'>> {
   const { Geolocation } = await import('@capacitor/geolocation');
 
   const permission = await Geolocation.requestPermissions();
@@ -65,7 +119,7 @@ async function getNativeLocation(): Promise<LocationResult> {
   };
 }
 
-function getWebLocation(): Promise<LocationResult> {
+function getWebLocation(): Promise<Omit<LocationResult, 'city'>> {
   return new Promise((resolve) => {
     if (!navigator?.geolocation) {
       resolve({ point: null, error: 'unsupported' });
