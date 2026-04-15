@@ -149,41 +149,87 @@ export function CreateProjectLeftCol({ cities, skills, userTeams }: Props) {
         title="Konum & Kategori"
         sub="Ekibini nerede ve hangi alanda arıyorsun?"
       >
+        {/* Konum switch — zorunlu */}
         <FormGroup label="">
-          <div className="flex items-center justify-between bg-slate-50 border-[1.5px] border-slate-200 rounded-[11px] px-3 py-2.5 md:px-4 md:py-3">
+          <div
+            className={`flex items-center justify-between rounded-[11px] px-3 py-2.5 md:px-4 md:py-3 border-[1.5px] transition-colors ${
+              locationError
+                ? "bg-red-50 border-red-300"
+                : locationEnabled
+                ? "bg-blue-50 border-blue-200"
+                : "bg-slate-50 border-slate-200"
+            }`}
+          >
             <div className="flex items-center gap-2">
-              <Globe size={14} className="text-slate-400 shrink-0" />
+              <MapPin size={14} className={locationError ? "text-red-400 shrink-0" : "text-slate-400 shrink-0"} />
               <div>
-                <div className="text-[0.84rem] md:text-[0.88rem] font-bold text-slate-900">Remote Uyumlu</div>
-                <div className="text-[0.72rem] md:text-[0.74rem] text-slate-400 mt-0.5">Uzaktan çalışmaya açıksanız işaretle</div>
+                <div className={`text-[0.84rem] md:text-[0.88rem] font-bold ${locationError ? "text-red-700" : "text-slate-900"}`}>
+                  Konum Ekle
+                  <span className="text-red-500 ml-0.5">*</span>
+                </div>
+                <div className={`text-[0.72rem] md:text-[0.74rem] mt-0.5 ${locationError ? "text-red-500" : "text-slate-400"}`}>
+                  {locationError
+                    ? "Konum bilgisi zorunludur, lütfen etkinleştir"
+                    : "Yakınındaki ekip üyelerini bulmak için şehrini paylaş"}
+                </div>
               </div>
             </div>
             <label className="relative w-11 h-6 cursor-pointer shrink-0">
               <input
                 type="checkbox"
                 className="opacity-0 w-0 h-0 absolute"
-                name="is_remote"
-                value="on"
-                checked={isRemote}
-                onChange={(e) => setIsRemote(e.target.checked)}
+                checked={locationEnabled}
+                onChange={(e) => {
+                  setLocationEnabled(e.target.checked);
+                  if (e.target.checked) setLocationError(false);
+                }}
               />
-              <div className={`absolute inset-0 rounded-full transition-colors ${isRemote ? "bg-blue-600" : "bg-slate-200"}`} />
-              <div className={`absolute top-[3px] w-[18px] h-[18px] bg-white rounded-full shadow-sm transition-transform ${isRemote ? "translate-x-[23px]" : "translate-x-[3px]"}`} />
+              <div className={`absolute inset-0 rounded-full transition-colors ${locationEnabled ? "bg-blue-600" : locationError ? "bg-red-300" : "bg-slate-200"}`} />
+              <div className={`absolute top-[3px] w-[18px] h-[18px] bg-white rounded-full shadow-sm transition-transform ${locationEnabled ? "translate-x-[23px]" : "translate-x-[3px]"}`} />
             </label>
           </div>
         </FormGroup>
 
-        <FormGroup label="Şehir" required>
-          <div className="relative">
-            <select className="form-input appearance-none pr-8" name="city" defaultValue="">
-              <option value="" disabled>Şehir seçin...</option>
-              {cities.map((c) => (
-                <option key={c.id} value={c.name}>{c.name}</option>
-              ))}
-            </select>
-            <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-[0.8rem]">▾</span>
-          </div>
-        </FormGroup>
+        {/* Şehir seçimi — yalnızca konum etkinleştirilince görünür */}
+        {locationEnabled && (
+          <>
+            <FormGroup label="Şehir" required>
+              <div className="relative">
+                <select className="form-input appearance-none pr-8" name="city" defaultValue="">
+                  <option value="" disabled>Şehir seçin...</option>
+                  {cities.map((c) => (
+                    <option key={c.id} value={c.name}>{c.name}</option>
+                  ))}
+                </select>
+                <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-[0.8rem]">▾</span>
+              </div>
+            </FormGroup>
+
+            <FormGroup label="">
+              <div className="flex items-center justify-between bg-slate-50 border-[1.5px] border-slate-200 rounded-[11px] px-3 py-2.5 md:px-4 md:py-3">
+                <div className="flex items-center gap-2">
+                  <Globe size={14} className="text-slate-400 shrink-0" />
+                  <div>
+                    <div className="text-[0.84rem] md:text-[0.88rem] font-bold text-slate-900">Remote Uyumlu</div>
+                    <div className="text-[0.72rem] md:text-[0.74rem] text-slate-400 mt-0.5">Uzaktan çalışmaya açıksanız işaretle</div>
+                  </div>
+                </div>
+                <label className="relative w-11 h-6 cursor-pointer shrink-0">
+                  <input
+                    type="checkbox"
+                    className="opacity-0 w-0 h-0 absolute"
+                    name="is_remote"
+                    value="on"
+                    checked={isRemote}
+                    onChange={(e) => setIsRemote(e.target.checked)}
+                  />
+                  <div className={`absolute inset-0 rounded-full transition-colors ${isRemote ? "bg-blue-600" : "bg-slate-200"}`} />
+                  <div className={`absolute top-[3px] w-[18px] h-[18px] bg-white rounded-full shadow-sm transition-transform ${isRemote ? "translate-x-[23px]" : "translate-x-[3px]"}`} />
+                </label>
+              </div>
+            </FormGroup>
+          </>
+        )}
       </FormCard>
 
       {/* EKİBİ BELİRLE */}
