@@ -11,7 +11,6 @@ export interface UserProfile {
   email: string;
   bio: string | null;
   city: string | null;
-  is_remote: boolean | null;
   avatar_url: string | null;
   cover_url: string | null;
   linkedin_url: string | null;
