@@ -36,7 +36,7 @@ create table users (
     cv_url       text,
     bio          text,
     city         text,
-    is_remote    boolean default false,
+    location     geography(Point, 4326),
     linkedin_url text,
     badge        text,
     role         text default 'user',         -- 'user' | 'admin'
