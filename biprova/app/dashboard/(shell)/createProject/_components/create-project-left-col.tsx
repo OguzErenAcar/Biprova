@@ -17,7 +17,7 @@ import {
   GripVertical,
   X,
   Navigation,
-  List,
+  ChevronDown,
 } from "lucide-react";
 import { createProject } from "@/features/projects/actions";
 import type {
