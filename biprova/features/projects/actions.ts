@@ -645,7 +645,7 @@ export async function getProjectDetail(id: string): Promise<ProjectDetail | null
     // Ekip kurulmadan önce project_members tablosundan üyeleri çek
     const { data: rawProjMembers } = await supabase
       .from('project_members')
-      .select('user_id, role, users!inner(name, avatar_url)')
+      .select('user_id, role, users!inner(name, avatar_url, badge)')
       .eq('project_id', id)
       .limit(20);
 
