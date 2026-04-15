@@ -1,4 +1,5 @@
 import type { ProjectDetail } from '@/features/projects/actions';
+import { UserAvatar } from '@/components/shared/user-avatar';
 
 function formatDate(iso: string) {
   return new Date(iso).toLocaleDateString('tr-TR', {
