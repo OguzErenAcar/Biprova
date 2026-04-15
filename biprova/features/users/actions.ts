@@ -155,7 +155,6 @@ export async function updateProfile(
       name: parsed.data.name,
       linkedin_url: parsed.data.linkedin_url,
       city: parsed.data.city,
-      is_remote: parsed.data.is_remote,
       bio: parsed.data.bio,
     })
     .eq('id', user.id);
