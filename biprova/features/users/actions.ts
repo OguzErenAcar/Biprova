@@ -132,7 +132,6 @@ const updateProfileSchema = z.object({
   name: z.string().min(1, 'İsim zorunludur').max(100),
   linkedin_url: z.string().max(300).nullable(),
   city: z.string().max(100).nullable(),
-  is_remote: z.boolean(),
   bio: z.string().max(500).nullable(),
 });
 
