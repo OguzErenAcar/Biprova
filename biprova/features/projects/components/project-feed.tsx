@@ -114,7 +114,7 @@ export async function ProjectFeed({ searchParams }: ProjectFeedProps) {
                 name: project.leader.name,
                 initials: getInitials(project.leader.name),
                 color: getPosterColor(project.leader.id),
-                badge: project.leader.badge,
+                badge: project.leader.badge_url,
               }}
               roles={project.roles.map((r) => ({
                 id: r.id,
