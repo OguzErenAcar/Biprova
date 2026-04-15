@@ -79,7 +79,7 @@ export function CreateProjectLeftCol({ cities, skills, userTeams }: Props) {
 
   /* --- Location --- */
 
-  const { locationOn, setLocation, clearLocation } = useLocation();
+  const { locationOn, city, setLocation, clearLocation } = useLocation();
   const [locationMode, setLocationMode] = useState<LocationMode>("gps");
   const [selectedCity, setSelectedCity] = useState("");
   const [locationLoading, setLocationLoading] = useState(false);
