@@ -32,7 +32,7 @@ type RawProject = {
   is_remote: boolean | null;
   created_at: string;
   project_categories: { name: string } | null;
-  users: { id: string; name: string } | null;
+  users: { id: string; name: string; badge: string | null } | null;
   project_roles: RawRole[] | null;
 };
 
