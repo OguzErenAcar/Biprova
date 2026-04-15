@@ -363,7 +363,7 @@ function MobileDrawer({ open, onClose, projects, initialLocationOn }: { open: bo
   );
 }
 
-export function HomeTopbar({ projects = [] }: { projects?: DrawerProject[] }) {
+export function HomeTopbar({ projects = [], locationOn = false }: { projects?: DrawerProject[]; locationOn?: boolean }) {
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   useEffect(() => {
