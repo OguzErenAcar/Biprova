@@ -191,7 +191,7 @@ export function CreateProjectLeftCol({ cities, skills, userTeams }: Props) {
       <input
         type="hidden"
         name="city"
-        value={locationMode === "city" ? selectedCity : ""}
+        value={locationMode === "city" ? selectedCity : (city ?? "")}
       />
 
       {/* TEMEL BİLGİLER */}
