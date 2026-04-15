@@ -29,5 +29,5 @@ export async function SidebarLoader() {
     }
   }
 
-  return <Sidebar projects={projects} />;
+  return <Sidebar projects={projects} locationOn={locationOn} />;
 }
