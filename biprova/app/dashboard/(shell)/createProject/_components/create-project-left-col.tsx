@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import {
   Pencil,
   Link2,
@@ -18,7 +18,16 @@ import {
   X,
 } from "lucide-react";
 import { createProject } from "@/features/projects/actions";
-import type { CategoryOption, CityOption, SkillOption, UserTeamOption } from "@/features/projects/actions";
+import type {
+  CategoryOption,
+  SkillOption,
+  UserTeamOption,
+} from "@/features/projects/actions";
+
+import { Switch } from "@/components/ui/switch";
+import { getUserLocation } from "@/lib/location";
+import { useLocation } from "@/contexts/location-context";
+import { notify } from "@/lib/notify";
 
 interface Role {
   id: number;
@@ -45,31 +54,97 @@ const TEAM_STATUS_LABEL: Record<string, string> = {
 
 interface Props {
   categories: CategoryOption[];
-  cities: CityOption[];
+
   skills: SkillOption[];
   userTeams: UserTeamOption[];
 }
 
-export function CreateProjectLeftCol({ cities, skills, userTeams }: Props) {
+export function CreateProjectLeftCol({ skills, userTeams }: Props) {
   const [state, formAction] = useActionState(createProject, null);
   const [isRemote, setIsRemote] = useState(false);
-  const [locationEnabled, setLocationEnabled] = useState(false);
   const [locationError, setLocationError] = useState(false);
   const [selectedCategoryId] = useState<string | null>(null);
   const [roles, setRoles] = useState<Role[]>([]);
   const [selectedSkillId, setSelectedSkillId] = useState("");
   const [nextId, setNextId] = useState(1);
-  const [teamMode, setTeamMode] = useState<TeamMode>(userTeams.length > 0 ? "existing" : "new");
-  const [selectedTeamId, setSelectedTeamId] = useState<string | null>(
-    userTeams.length > 0 ? userTeams[0].id : null
+  const [teamMode, setTeamMode] = useState<TeamMode>(
+    userTeams.length > 0 ? "existing" : "new",
   );
+  const [selectedTeamId, setSelectedTeamId] = useState<string | null>(
+    userTeams.length > 0 ? userTeams[0].id : null,
+  );
+
+
+  /* ---Location---*/
+
+  const {locationOn, setLocation, clearLocation } = useLocation(); 
+  const [locationLoading, setLocationLoading] = useState(false);
+  const [isNative, setIsNative] = useState(false);
+
+  useEffect(() => {
+    import('@capacitor/core')
+      .then(({ Capacitor }) => setIsNative(Capacitor.isNativePlatform()))
+      .catch(() => {});
+  }, []);
+
+  function handleLocationToggle(checked: boolean) {
+    if (!checked) {
+      clearLocation();
+      return;
+    }
+
+    if (isNative) {
+      setLocationLoading(true);
+      getUserLocation().then((result) => {
+        setLocationLoading(false);
+        if (result.error) {
+          if (result.error === 'permission_denied') notify.location.denied();
+          else if (result.error === 'unsupported') notify.location.unsupported();
+          else notify.location.unavailable();
+          return;
+        }
+        setLocation(result.point!.lat, result.point!.lng);
+      });
+      return;
+    }
+
+    if (!navigator?.geolocation) {
+      notify.location.unsupported();
+      return;
+    }
+
+    setLocationLoading(true);
+
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        setLocationLoading(false);
+        setLocation(pos.coords.latitude, pos.coords.longitude);
+      },
+      (err) => {
+        setLocationLoading(false);
+        if (err.code === err.PERMISSION_DENIED) {
+          notify.location.denied();
+        } else {
+          notify.location.unavailable();
+        }
+      },
+      { enableHighAccuracy: true, timeout: 10000, maximumAge: 60_000 }
+    );
+  }
+
+/*----------*/
+
+
 
   function addRole() {
     if (!selectedSkillId || roles.length >= 6) return;
     if (roles.some((r) => r.skillId === selectedSkillId)) return;
     const skill = skills.find((s) => s.id === selectedSkillId);
     if (!skill) return;
-    setRoles((prev) => [...prev, { id: nextId, skillId: skill.id, name: skill.name, count: 1 }]);
+    setRoles((prev) => [
+      ...prev,
+      { id: nextId, skillId: skill.id, name: skill.name, count: 1 },
+    ]);
     setNextId((n) => n + 1);
     setSelectedSkillId("");
   }
@@ -81,37 +156,58 @@ export function CreateProjectLeftCol({ cities, skills, userTeams }: Props) {
   function changeCount(id: number, delta: number) {
     setRoles((prev) =>
       prev.map((r) =>
-        r.id === id ? { ...r, count: Math.max(1, r.count + delta) } : r
-      )
+        r.id === id ? { ...r, count: Math.max(1, r.count + delta) } : r,
+      ),
     );
   }
 
-  const availableSkills = skills.filter((s) => !roles.some((r) => r.skillId === s.id));
+  const availableSkills = skills.filter(
+    (s) => !roles.some((r) => r.skillId === s.id),
+  );
 
   const serializedRoles = JSON.stringify(
-    roles.map((r) => ({ name: r.name, count: r.count, skillIds: [r.skillId] }))
+    roles.map((r) => ({ name: r.name, count: r.count, skillIds: [r.skillId] })),
   );
 
   function handleSubmit(e: React.BaseSyntheticEvent) {
-    if (!locationEnabled) {
+    if (!locationOn) {
       e.preventDefault();
       setLocationError(true);
-      document.getElementById("section-location")?.scrollIntoView({ behavior: "smooth", block: "center" });
+      document
+        .getElementById("section-location")
+        ?.scrollIntoView({ behavior: "smooth", block: "center" });
     } else {
       setLocationError(false);
     }
   }
 
   return (
-    <form id="create-project-form" action={formAction} onSubmit={handleSubmit} className="flex flex-col gap-3 md:gap-5">
+    <form
+      id="create-project-form"
+      action={formAction}
+      onSubmit={handleSubmit}
+      className="flex flex-col gap-3 md:gap-5"
+    >
       {state?.error && (
         <div className="bg-red-50 border-[1.5px] border-red-200 rounded-[12px] px-4 py-3 text-[0.84rem] font-semibold text-red-600">
           {state.error}
         </div>
       )}
-      <input type="hidden" name="category_id" value={selectedCategoryId ?? ""} />
-      <input type="hidden" name="roles" value={teamMode === "new" ? serializedRoles : ""} />
-      <input type="hidden" name="team_id" value={teamMode === "existing" ? (selectedTeamId ?? "") : ""} />
+      <input
+        type="hidden"
+        name="category_id"
+        value={selectedCategoryId ?? ""}
+      />
+      <input
+        type="hidden"
+        name="roles"
+        value={teamMode === "new" ? serializedRoles : ""}
+      />
+      <input
+        type="hidden"
+        name="team_id"
+        value={teamMode === "existing" ? (selectedTeamId ?? "") : ""}
+      />
 
       {/* TEMEL BİLGİLER */}
       <FormCard
@@ -132,7 +228,11 @@ export function CreateProjectLeftCol({ cities, skills, userTeams }: Props) {
           </InputWithIcon>
         </FormGroup>
 
-        <FormGroup label="Ne İhtiyacın Var?" required hint="— Fikir değil, ihtiyaç yaz">
+        <FormGroup
+          label="Ne İhtiyacın Var?"
+          required
+          hint="— Fikir değil, ihtiyaç yaz"
+        >
           <textarea
             className="form-input resize-y min-h-[80px] md:min-h-[100px] leading-relaxed placeholder:text-[0.78rem] md:placeholder:text-[0.84rem]"
             name="description"
@@ -146,7 +246,7 @@ export function CreateProjectLeftCol({ cities, skills, userTeams }: Props) {
       <FormCard
         id="section-location"
         icon={<MapPin size={15} />}
-        title="Konum & Kategori"
+        title="Konum & Remote"
         sub="Ekibini nerede ve hangi alanda arıyorsun?"
       >
         {/* Konum switch — zorunlu */}
@@ -155,19 +255,30 @@ export function CreateProjectLeftCol({ cities, skills, userTeams }: Props) {
             className={`flex items-center justify-between rounded-[11px] px-3 py-2.5 md:px-4 md:py-3 border-[1.5px] transition-colors ${
               locationError
                 ? "bg-red-50 border-red-300"
-                : locationEnabled
-                ? "bg-blue-50 border-blue-200"
-                : "bg-slate-50 border-slate-200"
+                : locationOn
+                  ? "bg-blue-50 border-blue-200"
+                  : "bg-slate-50 border-slate-200"
             }`}
           >
             <div className="flex items-center gap-2">
-              <MapPin size={14} className={locationError ? "text-red-400 shrink-0" : "text-slate-400 shrink-0"} />
+              <MapPin
+                size={14}
+                className={
+                  locationError
+                    ? "text-red-400 shrink-0"
+                    : "text-slate-400 shrink-0"
+                }
+              />
               <div>
-                <div className={`text-[0.84rem] md:text-[0.88rem] font-bold ${locationError ? "text-red-700" : "text-slate-900"}`}>
+                <div
+                  className={`text-[0.84rem] md:text-[0.88rem] font-bold ${locationError ? "text-red-700" : "text-slate-900"}`}
+                >
                   Konum Ekle
                   <span className="text-red-500 ml-0.5">*</span>
                 </div>
-                <div className={`text-[0.72rem] md:text-[0.74rem] mt-0.5 ${locationError ? "text-red-500" : "text-slate-400"}`}>
+                <div
+                  className={`text-[0.72rem] md:text-[0.74rem] mt-0.5 ${locationError ? "text-red-500" : "text-slate-400"}`}
+                >
                   {locationError
                     ? "Konum bilgisi zorunludur, lütfen etkinleştir"
                     : "Yakınındaki ekip üyelerini bulmak için şehrini paylaş"}
@@ -175,61 +286,57 @@ export function CreateProjectLeftCol({ cities, skills, userTeams }: Props) {
               </div>
             </div>
             <label className="relative w-11 h-6 cursor-pointer shrink-0">
-              <input
-                type="checkbox"
-                className="opacity-0 w-0 h-0 absolute"
-                checked={locationEnabled}
-                onChange={(e) => {
-                  setLocationEnabled(e.target.checked);
-                  if (e.target.checked) setLocationError(false);
-                }}
+              <Switch
+                checked={locationOn}
+                disabled={locationLoading}
+                onCheckedChange={handleLocationToggle}
               />
-              <div className={`absolute inset-0 rounded-full transition-colors ${locationEnabled ? "bg-blue-600" : locationError ? "bg-red-300" : "bg-slate-200"}`} />
-              <div className={`absolute top-[3px] w-[18px] h-[18px] bg-white rounded-full shadow-sm transition-transform ${locationEnabled ? "translate-x-[23px]" : "translate-x-[3px]"}`} />
+        
+              <div
+                className={`absolute inset-0 rounded-full transition-colors ${locationOn ? "bg-blue-600" : locationError ? "bg-red-300" : "bg-slate-200"}`}
+              />
+              <div
+                className={`absolute top-[3px] w-[18px] h-[18px] bg-white rounded-full shadow-sm transition-transform ${locationOn ? "translate-x-[23px]" : "translate-x-[3px]"}`}
+              />
             </label>
           </div>
         </FormGroup>
 
-        {/* Şehir seçimi — yalnızca konum etkinleştirilince görünür */}
-        {locationEnabled && (
-          <>
-            <FormGroup label="Şehir" required>
-              <div className="relative">
-                <select className="form-input appearance-none pr-8" name="city" defaultValue="">
-                  <option value="" disabled>Şehir seçin...</option>
-                  {cities.map((c) => (
-                    <option key={c.id} value={c.name}>{c.name}</option>
-                  ))}
-                </select>
-                <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-[0.8rem]">▾</span>
-              </div>
-            </FormGroup>
+        {/* Remote */}
 
-            <FormGroup label="">
-              <div className="flex items-center justify-between bg-slate-50 border-[1.5px] border-slate-200 rounded-[11px] px-3 py-2.5 md:px-4 md:py-3">
-                <div className="flex items-center gap-2">
-                  <Globe size={14} className="text-slate-400 shrink-0" />
-                  <div>
-                    <div className="text-[0.84rem] md:text-[0.88rem] font-bold text-slate-900">Remote Uyumlu</div>
-                    <div className="text-[0.72rem] md:text-[0.74rem] text-slate-400 mt-0.5">Uzaktan çalışmaya açıksanız işaretle</div>
+        <>
+          <FormGroup label="">
+            <div className="flex items-center justify-between bg-slate-50 border-[1.5px] border-slate-200 rounded-[11px] px-3 py-2.5 md:px-4 md:py-3">
+              <div className="flex items-center gap-2">
+                <Globe size={14} className="text-slate-400 shrink-0" />
+                <div>
+                  <div className="text-[0.84rem] md:text-[0.88rem] font-bold text-slate-900">
+                    Remote Uyumlu
+                  </div>
+                  <div className="text-[0.72rem] md:text-[0.74rem] text-slate-400 mt-0.5">
+                    Uzaktan çalışmaya açıksanız işaretle
                   </div>
                 </div>
-                <label className="relative w-11 h-6 cursor-pointer shrink-0">
-                  <input
-                    type="checkbox"
-                    className="opacity-0 w-0 h-0 absolute"
-                    name="is_remote"
-                    value="on"
-                    checked={isRemote}
-                    onChange={(e) => setIsRemote(e.target.checked)}
-                  />
-                  <div className={`absolute inset-0 rounded-full transition-colors ${isRemote ? "bg-blue-600" : "bg-slate-200"}`} />
-                  <div className={`absolute top-[3px] w-[18px] h-[18px] bg-white rounded-full shadow-sm transition-transform ${isRemote ? "translate-x-[23px]" : "translate-x-[3px]"}`} />
-                </label>
               </div>
-            </FormGroup>
-          </>
-        )}
+              <label className="relative w-11 h-6 cursor-pointer shrink-0">
+                <input
+                  type="checkbox"
+                  className="opacity-0 w-0 h-0 absolute"
+                  name="is_remote"
+                  value="on"
+                  checked={isRemote}
+                  onChange={(e) => setIsRemote(e.target.checked)}
+                />
+                <div
+                  className={`absolute inset-0 rounded-full transition-colors ${isRemote ? "bg-blue-600" : "bg-slate-200"}`}
+                />
+                <div
+                  className={`absolute top-[3px] w-[18px] h-[18px] bg-white rounded-full shadow-sm transition-transform ${isRemote ? "translate-x-[23px]" : "translate-x-[3px]"}`}
+                />
+              </label>
+            </div>
+          </FormGroup>
+        </>
       </FormCard>
 
       {/* EKİBİ BELİRLE */}
@@ -289,22 +396,42 @@ export function CreateProjectLeftCol({ cities, skills, userTeams }: Props) {
                       : "border-slate-200 bg-slate-50 hover:border-slate-300"
                   }`}
                 >
-                  <div className={`w-8 h-8 md:w-9 md:h-9 rounded-full flex items-center justify-center shrink-0 ${isSelected ? "bg-blue-100" : "bg-white border-[1.5px] border-slate-200"}`}>
-                    {team.is_leader
-                      ? <Crown size={14} className={isSelected ? "text-blue-600" : "text-slate-400"} />
-                      : <User size={14} className={isSelected ? "text-blue-600" : "text-slate-400"} />
-                    }
+                  <div
+                    className={`w-8 h-8 md:w-9 md:h-9 rounded-full flex items-center justify-center shrink-0 ${isSelected ? "bg-blue-100" : "bg-white border-[1.5px] border-slate-200"}`}
+                  >
+                    {team.is_leader ? (
+                      <Crown
+                        size={14}
+                        className={
+                          isSelected ? "text-blue-600" : "text-slate-400"
+                        }
+                      />
+                    ) : (
+                      <User
+                        size={14}
+                        className={
+                          isSelected ? "text-blue-600" : "text-slate-400"
+                        }
+                      />
+                    )}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <div className={`text-[0.84rem] md:text-[0.88rem] font-bold truncate ${isSelected ? "text-blue-700" : "text-slate-900"}`}>
+                    <div
+                      className={`text-[0.84rem] md:text-[0.88rem] font-bold truncate ${isSelected ? "text-blue-700" : "text-slate-900"}`}
+                    >
                       {team.name}
                     </div>
                     <div className="text-[0.72rem] md:text-[0.74rem] text-slate-400 mt-0.5">
-                      {team.is_leader ? "Lider" : "Üye"} · {TEAM_STATUS_LABEL[team.status] ?? team.status}
+                      {team.is_leader ? "Lider" : "Üye"} ·{" "}
+                      {TEAM_STATUS_LABEL[team.status] ?? team.status}
                     </div>
                   </div>
-                  <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-all ${isSelected ? "border-blue-600 bg-blue-600" : "border-slate-300"}`}>
-                    {isSelected && <span className="text-white text-[0.6rem]">✓</span>}
+                  <div
+                    className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-all ${isSelected ? "border-blue-600 bg-blue-600" : "border-slate-300"}`}
+                  >
+                    {isSelected && (
+                      <span className="text-white text-[0.6rem]">✓</span>
+                    )}
                   </div>
                 </button>
               );
@@ -322,8 +449,13 @@ export function CreateProjectLeftCol({ cities, skills, userTeams }: Props) {
                     key={role.id}
                     className="flex items-center gap-2 bg-slate-50 border-[1.5px] border-slate-200 rounded-[11px] px-3 py-2.5 md:px-4 md:py-3 transition-colors hover:border-slate-300"
                   >
-                    <GripVertical size={14} className="text-slate-300 cursor-grab shrink-0" />
-                    <span className="flex-1 text-[0.84rem] md:text-[0.88rem] font-bold text-slate-900">{role.name}</span>
+                    <GripVertical
+                      size={14}
+                      className="text-slate-300 cursor-grab shrink-0"
+                    />
+                    <span className="flex-1 text-[0.84rem] md:text-[0.88rem] font-bold text-slate-900">
+                      {role.name}
+                    </span>
                     <div className="flex items-center gap-1 bg-white border-[1.5px] border-slate-200 rounded-[8px] p-0.5">
                       <button
                         type="button"
@@ -364,13 +496,19 @@ export function CreateProjectLeftCol({ cities, skills, userTeams }: Props) {
                   disabled={roles.length >= 6 || availableSkills.length === 0}
                 >
                   <option value="">
-                    {availableSkills.length === 0 ? "Tüm beceriler eklendi" : "Beceri seçin..."}
+                    {availableSkills.length === 0
+                      ? "Tüm beceriler eklendi"
+                      : "Beceri seçin..."}
                   </option>
                   {availableSkills.map((s) => (
-                    <option key={s.id} value={s.id}>{s.name}</option>
+                    <option key={s.id} value={s.id}>
+                      {s.name}
+                    </option>
                   ))}
                 </select>
-                <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-[0.8rem]">▾</span>
+                <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-[0.8rem]">
+                  ▾
+                </span>
               </div>
               <button
                 type="button"
@@ -399,12 +537,17 @@ export function CreateProjectLeftCol({ cities, skills, userTeams }: Props) {
           </FormGroup>
           <FormGroup label="Süre" hint="— opsiyonel">
             <div className="relative">
-              <select className="form-input appearance-none pr-8" name="duration">
+              <select
+                className="form-input appearance-none pr-8"
+                name="duration"
+              >
                 {DURATION_OPTIONS.map((opt) => (
                   <option key={opt}>{opt}</option>
                 ))}
               </select>
-              <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-[0.8rem]">▾</span>
+              <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-[0.8rem]">
+                ▾
+              </span>
             </div>
           </FormGroup>
         </div>
@@ -450,12 +593,17 @@ interface FormCardProps {
 
 function FormCard({ id, icon, title, sub, children }: FormCardProps) {
   return (
-    <div id={id} className="bg-white border-[1.5px] border-slate-200  lg:rounded-[18px] p-4 mx-[4px] md:p-[1.8rem]">
+    <div
+      id={id}
+      className="bg-white border-[1.5px] border-slate-200  lg:rounded-[18px] p-4 mx-[4px] md:p-[1.8rem]"
+    >
       <div className="font-nunito font-black text-[0.95rem] md:text-[1.05rem] text-slate-900 mb-0.5 flex items-center gap-[0.45rem]">
         <span className="text-slate-500">{icon}</span>
         {title}
       </div>
-      <div className="text-[0.78rem] md:text-[0.81rem] text-slate-400 mb-3.5 md:mb-5">{sub}</div>
+      <div className="text-[0.78rem] md:text-[0.81rem] text-slate-400 mb-3.5 md:mb-5">
+        {sub}
+      </div>
       <div className="flex flex-col gap-3 md:gap-4">{children}</div>
     </div>
   );
@@ -475,7 +623,11 @@ function FormGroup({ label, required, hint, children }: FormGroupProps) {
         <label className="block text-[0.78rem] md:text-[0.82rem] font-bold text-slate-900 mb-1">
           {label}
           {required && <span className="text-red-500 ml-0.5">*</span>}
-          {hint && <span className="text-[0.72rem] text-slate-400 font-normal ml-1">{hint}</span>}
+          {hint && (
+            <span className="text-[0.72rem] text-slate-400 font-normal ml-1">
+              {hint}
+            </span>
+          )}
         </label>
       )}
       {children}

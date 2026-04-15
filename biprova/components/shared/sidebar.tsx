@@ -132,10 +132,10 @@ function StatusBadge({ status }: { status: SidebarProject["status"] }) {
 
 export function Sidebar({ projects = [] }: SidebarProps) {
   const pathname = usePathname();
-  const { locationOn, setLocation, clearLocation } = useLocation();
-
-  const [projectsOpen, setProjectsOpen] = useState(true);
   const [savedOpen, setSavedOpen] = useState(true);
+  
+  const {locationOn, setLocation, clearLocation } = useLocation(); 
+  const [projectsOpen, setProjectsOpen] = useState(true);
   const [locationLoading, setLocationLoading] = useState(false);
   const [isNative, setIsNative] = useState(false);
 
