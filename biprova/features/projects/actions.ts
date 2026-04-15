@@ -498,7 +498,7 @@ type RawMemberRow = {
 type RawProjectMemberRow = {
   user_id: string;
   role: string;
-  users: { name: string; avatar_url: string | null };
+  users: { name: string; avatar_url: string | null; badge: string | null };
 };
 
 type RawMessageRow = {
