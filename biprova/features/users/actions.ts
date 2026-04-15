@@ -116,17 +116,16 @@ export async function getCurrentUserProfile(): Promise<UserProfile> {
     throw new Error(`Profil yüklenemedi: ${error?.message ?? 'kullanıcı bulunamadı'}`);
   }
 
-  const { data: skillsData } = await supabase
-    .from('user_skills')
-    .select('skills(id, name)')
-    .eq('user_id', user.id)
-    .limit(50);
+  const [{ data: skillsData }, badgeMap] = await Promise.all([
+    supabase.from('user_skills').select('skills(id, name)').eq('user_id', user.id).limit(50),
+    resolveBadgeUrls(supabase, [data.badge]),
+  ]);
 
   const skills = ((skillsData ?? []) as unknown as SkillRow[])
     .filter((s): s is { skills: { id: string; name: string } } => s.skills !== null)
     .map((s) => s.skills);
 
-  return { ...data, skills };
+  return { ...data, skills, badge_url: badgeMap.get(data.badge ?? '') ?? null };
 }
 
 const updateProfileSchema = z.object({
