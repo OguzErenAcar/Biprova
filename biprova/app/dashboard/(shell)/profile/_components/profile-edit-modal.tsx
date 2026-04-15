@@ -253,18 +253,6 @@ export function ProfileEditModal({ user }: ProfileEditModalProps) {
             </div>
           </div>
 
-          {/* Remote toggle */}
-          <div className="flex items-center justify-between bg-canvas rounded-[10px] px-3.5 py-2.5">
-            <Label htmlFor="edit-remote" className="text-body font-semibold text-ink-muted cursor-pointer">
-              🌐 Remote uyumlu
-            </Label>
-            <Switch
-              id="edit-remote"
-              checked={isRemote}
-              onCheckedChange={setIsRemote}
-            />
-          </div>
-
           {/* Bio */}
           <div className="flex flex-col gap-1">
             <Label htmlFor="edit-bio" className="text-caption font-bold text-ink-muted">
