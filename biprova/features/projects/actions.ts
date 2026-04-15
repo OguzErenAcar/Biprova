@@ -396,6 +396,7 @@ export interface ProjectMember {
   user_id: string;
   name: string;
   avatar_url: string | null;
+  badge: string | null;
   role_name: string | null;
   is_leader: boolean;
   has_biprova: boolean;
