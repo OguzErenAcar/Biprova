@@ -362,8 +362,10 @@ export async function getNearbyProjects(
     (nearbyRows as RawNearbyRow[]).map((r) => [r.id, r.distance_km])
   );
 
-  return (fullData as unknown as RawProject[])
-    .filter((p) => p.users !== null)
+  const rawNearby = (fullData as unknown as RawProject[]).filter((p) => p.users !== null);
+  const nearbyBadgeMap = await resolveBadgeUrls(supabase, rawNearby.map((p) => p.users?.badge));
+
+  return rawNearby
     .map((p) => ({
       id: p.id,
       title: p.title,
@@ -372,7 +374,10 @@ export async function getNearbyProjects(
       is_remote: p.is_remote,
       category: p.project_categories?.name ?? null,
       created_at: p.created_at,
-      leader: p.users!,
+      leader: {
+        ...p.users!,
+        badge_url: nearbyBadgeMap.get(p.users?.badge ?? '') ?? null,
+      },
       roles: (p.project_roles ?? []).map((r) => ({
         id: r.id,
         role_name: r.role_name,
