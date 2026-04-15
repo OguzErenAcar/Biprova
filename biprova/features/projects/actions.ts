@@ -14,7 +14,7 @@ export interface ProjectFeedItem {
   is_remote: boolean | null;
   category: string | null;
   created_at: string;
-  leader: { id: string; name: string; badge: string | null };
+  leader: { id: string; name: string; badge: string | null; badge_url: string | null };
   roles: { id: string; role_name: string; is_filled: boolean; skills: string[] }[];
 }
 
