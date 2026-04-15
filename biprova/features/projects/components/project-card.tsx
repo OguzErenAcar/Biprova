@@ -30,7 +30,7 @@ interface ProjectCardProps {
   title: string;
   description: string;
   distanceKm?: number;
-  poster: { id: string; name: string; initials: string; color: string };
+  poster: { id: string; name: string; initials: string; color: string; badge: string | null };
   roles: Role[];
 }
 
