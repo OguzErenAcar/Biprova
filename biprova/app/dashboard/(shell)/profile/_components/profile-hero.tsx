@@ -4,6 +4,7 @@ import { UserProfile } from "@/features/users/actions";
 import { ProfileEditModal } from "./profile-edit-modal";
 import { CvViewDialog } from "./cv-view-dialog";
 import { ImageUploadButton } from "./image-upload-button";
+import { UserAvatar } from "@/components/shared/user-avatar";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
