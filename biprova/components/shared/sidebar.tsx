@@ -130,11 +130,10 @@ function StatusBadge({ status }: { status: SidebarProject["status"] }) {
   );
 }
 
-export function Sidebar({ projects = [] }: SidebarProps) {
+export function Sidebar({ projects = [], locationOn: initialLocationOn = false }: SidebarProps) {
   const pathname = usePathname();
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const locationOn = searchParams.get("filter") === "nearby";
+  const [locationOn, setLocationOn] = useState(initialLocationOn);
   const [projectsOpen, setProjectsOpen] = useState(true);
   const [savedOpen, setSavedOpen] = useState(true);
   const [locationLoading, setLocationLoading] = useState(false);
@@ -148,7 +147,12 @@ export function Sidebar({ projects = [] }: SidebarProps) {
 
   function handleLocationToggle(checked: boolean) {
     if (!checked) {
-      router.push('/dashboard');
+      import('@/features/projects/location-actions').then(({ clearLocationFilter }) => {
+        clearLocationFilter().then(() => {
+          setLocationOn(false);
+          router.refresh();
+        });
+      });
       return;
     }
 
@@ -162,7 +166,12 @@ export function Sidebar({ projects = [] }: SidebarProps) {
           else notify.location.unavailable();
           return;
         }
-        router.push(`/dashboard?filter=nearby&lat=${result.point!.lat}&lng=${result.point!.lng}`);
+        import('@/features/projects/location-actions').then(({ setLocationFilter }) => {
+          setLocationFilter(result.point!.lat, result.point!.lng).then(() => {
+            setLocationOn(true);
+            router.refresh();
+          });
+        });
       });
       return;
     }
@@ -177,7 +186,12 @@ export function Sidebar({ projects = [] }: SidebarProps) {
     navigator.geolocation.getCurrentPosition(
       (pos) => {
         setLocationLoading(false);
-        router.push(`/dashboard?filter=nearby&lat=${pos.coords.latitude}&lng=${pos.coords.longitude}`);
+        import('@/features/projects/location-actions').then(({ setLocationFilter }) => {
+          setLocationFilter(pos.coords.latitude, pos.coords.longitude).then(() => {
+            setLocationOn(true);
+            router.refresh();
+          });
+        });
       },
       (err) => {
         setLocationLoading(false);
