@@ -86,7 +86,7 @@ function MemberStrip({ members }: { members: MemberSlot[] }) {
           <UserAvatar
             avatarUrl={m.avatar_url}
             initials={getInitials(m.name)}
-            badge={m.badge}
+            badge={m.badge_url}
             size={32}
             className={`text-[0.7rem] font-extrabold ${
               m.is_leader ? 'bg-orange-400' : 'bg-white/20 ring-1 ring-white/40'
