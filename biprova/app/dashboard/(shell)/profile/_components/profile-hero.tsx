@@ -48,7 +48,7 @@ export function ProfileHero({ user, isOwner = false }: ProfileHeroProps) {
             <UserAvatar
               avatarUrl={user.avatar_url}
               alt={user.name}
-              badge={user.badge}
+              badge={user.badge_url}
               className="w-full h-full"
             />
             {isOwner && (
