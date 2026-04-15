@@ -78,7 +78,7 @@ export function ProjectCard({
             className="flex items-center gap-2 hover:opacity-75 transition-opacity"
             onClick={(e) => e.stopPropagation()}
           >
-            <UserAvatar initials={poster.initials} size={28} className="text-[0.72rem]" />
+            <UserAvatar initials={poster.initials} badge={poster.badge} size={28} className="text-[0.72rem]" />
             <span className="text-caption font-semibold text-ink">
               {poster.name}
             </span>
