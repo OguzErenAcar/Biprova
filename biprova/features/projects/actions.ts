@@ -223,20 +223,15 @@ export async function createProject(
       ? parsed.data.category_id
       : null;
 
-  const geoPoint = await geocodeCity(parsed.data.city);
-
   const { data: project, error: projectError } = await supabase
     .from('projects')
     .insert({
       leader_id: user.id,
       title: parsed.data.title,
       description: parsed.data.description,
-      city: parsed.data.city,
-      is_remote: parsed.data.is_remote === 'on',
       category_id: categoryId,
       status: teamId ? 'active' : 'open',
       ...(teamId && { team_id: teamId }),
-      ...(geoPoint && { location: toGeoPoint(geoPoint) }),
     })
     .select('id')
     .single();
