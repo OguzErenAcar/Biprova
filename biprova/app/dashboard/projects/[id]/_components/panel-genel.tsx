@@ -64,6 +64,7 @@ interface MemberSlot {
   id: string;
   name: string;
   avatar_url: string | null;
+  badge: string | null;
   is_leader: boolean;
 }
 
