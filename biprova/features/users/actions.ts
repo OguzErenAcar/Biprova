@@ -16,6 +16,7 @@ export interface UserProfile {
   cover_url: string | null;
   linkedin_url: string | null;
   badge: string | null;
+  badge_url: string | null;
   cv_url: string | null;
   cv_public: boolean;
   projects_public: boolean;
