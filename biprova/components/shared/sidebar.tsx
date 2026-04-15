@@ -33,7 +33,6 @@ interface SidebarProject {
 interface SidebarProps {
   user?: SidebarUser;
   projects?: SidebarProject[];
-  locationOn?: boolean;
 }
 
 const NAV_MAIN = [
