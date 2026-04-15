@@ -655,6 +655,7 @@ export async function getProjectDetail(id: string): Promise<ProjectDetail | null
       user_id: project.leader_id,
       name: project.users?.name ?? '',
       avatar_url: project.users?.avatar_url ?? null,
+      badge: null,
       role_name: 'Lider',
       is_leader: true,
       has_biprova: false,
