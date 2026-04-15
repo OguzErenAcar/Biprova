@@ -66,32 +66,22 @@ export function FeedFilterDropdown({ activeFilter }: FeedFilterDropdownProps) {
       return;
     }
 
-    if (!navigator?.geolocation) {
-      notify.location.unsupported();
-      return;
-    }
-
     setLocationLoading(true);
 
-    navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        setLocationLoading(false);
-        setDialogOpen(false);
-        setLocation(pos.coords.latitude, pos.coords.longitude);
-        router.push(
-          `/dashboard?filter=nearby&lat=${pos.coords.latitude}&lng=${pos.coords.longitude}`
-        );
-      },
-      (err) => {
-        setLocationLoading(false);
-        if (err.code === err.PERMISSION_DENIED) {
-          notify.location.denied();
-        } else {
-          notify.location.unavailable();
-        }
-      },
-      { enableHighAccuracy: true, timeout: 10000, maximumAge: 60_000 }
-    );
+    getUserLocation().then((result) => {
+      setLocationLoading(false);
+      if (result.error) {
+        if (result.error === "permission_denied") notify.location.denied();
+        else if (result.error === "unsupported") notify.location.unsupported();
+        else notify.location.unavailable();
+        return;
+      }
+      setDialogOpen(false);
+      setLocation(result.point!.lat, result.point!.lng, result.city);
+      router.push(
+        `/dashboard?filter=nearby&lat=${result.point!.lat}&lng=${result.point!.lng}`
+      );
+    });
   }
 
   return (
