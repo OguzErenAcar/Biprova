@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, ElementType } from 'react';
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { notify } from "@/lib/notify";
 import { getUserLocation } from "@/lib/location";
 import { animate, createTimeline, splitText, stagger } from 'animejs';
