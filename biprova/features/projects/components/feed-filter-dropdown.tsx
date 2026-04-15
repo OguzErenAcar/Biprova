@@ -19,6 +19,7 @@ import {
 import { Switch } from "@/components/ui/switch";
 import { ChevronDown } from "lucide-react";
 import { notify } from "@/lib/notify";
+import { getUserLocation } from "@/lib/location";
 import type { FeedFilter } from "@/features/projects/actions";
 
 const FILTER_OPTIONS: { label: string; value: FeedFilter }[] = [
