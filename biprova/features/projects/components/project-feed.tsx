@@ -54,9 +54,6 @@ interface ProjectFeedProps {
 
 export async function ProjectFeed({ searchParams }: ProjectFeedProps) {
   const { filter, lat, lng } = await searchParams;
-  const cookieStore = await cookies();
-  const locationCoords = parseLocationCookie(cookieStore.get("location-filter")?.value);
-
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   const currentUserId = user?.id ?? null;
@@ -66,7 +63,7 @@ export async function ProjectFeed({ searchParams }: ProjectFeedProps) {
       ? filter
       : "all";
 
-  const isNearby = locationCoords !== null || (activeFilter === "nearby" && lat && lng);
+  const isNearby = activeFilter === "nearby" && lat && lng;
 
   type ProjectWithDistance = Awaited<ReturnType<typeof getProjectFeed>>[number] & { distance_km?: number };
 
