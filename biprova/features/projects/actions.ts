@@ -3,14 +3,10 @@
 import { redirect } from 'next/navigation';
 import { z } from 'zod';
 import { createClient } from '@/lib/supabase/server';
-import { geocodeCity, toGeoPoint } from '@/lib/geocoding';
-
 export interface ProjectFeedItem {
   id: string;
   title: string;
   description: string;
-  city: string | null;
-  is_remote: boolean | null;
   category: string | null;
   created_at: string;
   leader: { id: string; name: string };
@@ -28,15 +24,13 @@ type RawProject = {
   id: string;
   title: string;
   description: string;
-  city: string | null;
-  is_remote: boolean | null;
   created_at: string;
   project_categories: { name: string } | null;
   users: { id: string; name: string } | null;
   project_roles: RawRole[] | null;
 };
 
-export type FeedFilter = 'all' | 'sehrim' | 'remote' | 'nearby';
+export type FeedFilter = 'all' | 'nearby';
 
 export async function getProjectFeed(
   filter: FeedFilter = 'all',
