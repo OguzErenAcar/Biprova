@@ -113,7 +113,7 @@ interface Props {
   onGoToFiles: () => void;
 }
 
-export function PanelGenel({ project, onGoToChat, onGoToTasks, onGoToFiles }: Props) {
+export function PanelGenel({ project, onGoToChat, onGoToFiles }: Props) {
   const meta = [
     project.city && `📍 ${project.city}`,
     project.is_remote && '🌐 Remote',
