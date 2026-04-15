@@ -410,7 +410,7 @@ export function HomeTopbar({ projects = [], locationOn = false }: { projects?: D
         </div>
       </div>
 
-      <MobileDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} projects={projects} />
+      <MobileDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} projects={projects} initialLocationOn={locationOn} />
     </>
   );
 }
