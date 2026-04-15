@@ -4,6 +4,7 @@ import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 import { createClient } from '@/lib/supabase/server';
+import { resolveBadgeUrls } from '@/lib/badge';
 
 export interface UserProfile {
   id: string;
