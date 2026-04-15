@@ -491,7 +491,7 @@ type RawRoleDetailRow = {
 type RawMemberRow = {
   user_id: string;
   has_biprova: boolean;
-  users: { name: string; avatar_url: string | null };
+  users: { name: string; avatar_url: string | null; badge: string | null };
   project_roles: { role_name: string } | null;
 };
 
