@@ -21,6 +21,7 @@ import {
 import { createProject } from "@/features/projects/actions";
 import type {
   CategoryOption,
+  CityOption,
   SkillOption,
   UserTeamOption,
 } from "@/features/projects/actions";
