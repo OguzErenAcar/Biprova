@@ -41,21 +41,6 @@ interface Role {
 type TeamMode = "existing" | "new";
 type LocationMode = "gps" | "city";
 
-const TURKISH_CITIES = [
-  "Adana", "Adıyaman", "Afyonkarahisar", "Ağrı", "Amasya", "Ankara", "Antalya",
-  "Artvin", "Aydın", "Balıkesir", "Bilecik", "Bingöl", "Bitlis", "Bolu",
-  "Burdur", "Bursa", "Çanakkale", "Çankırı", "Çorum", "Denizli", "Diyarbakır",
-  "Edirne", "Elazığ", "Erzincan", "Erzurum", "Eskişehir", "Gaziantep", "Giresun",
-  "Gümüşhane", "Hakkari", "Hatay", "Isparta", "Mersin", "İstanbul", "İzmir",
-  "Kars", "Kastamonu", "Kayseri", "Kırklareli", "Kırşehir", "Kocaeli", "Konya",
-  "Kütahya", "Malatya", "Manisa", "Kahramanmaraş", "Mardin", "Muğla", "Muş",
-  "Nevşehir", "Niğde", "Ordu", "Rize", "Sakarya", "Samsun", "Siirt", "Sinop",
-  "Sivas", "Tekirdağ", "Tokat", "Trabzon", "Tunceli", "Şanlıurfa", "Uşak",
-  "Van", "Yozgat", "Zonguldak", "Aksaray", "Bayburt", "Karaman", "Kırıkkale",
-  "Batman", "Şırnak", "Bartın", "Ardahan", "Iğdır", "Yalova", "Karabük",
-  "Kilis", "Osmaniye", "Düzce",
-];
-
 const DURATION_OPTIONS = [
   "Belirtilmemiş",
   "1–4 hafta",
@@ -72,12 +57,12 @@ const TEAM_STATUS_LABEL: Record<string, string> = {
 
 interface Props {
   categories: CategoryOption[];
-
+  cities: CityOption[];
   skills: SkillOption[];
   userTeams: UserTeamOption[];
 }
 
-export function CreateProjectLeftCol({ skills, userTeams }: Props) {
+export function CreateProjectLeftCol({ cities, skills, userTeams }: Props) {
   const [state, formAction] = useActionState(createProject, null);
   const [isRemote, setIsRemote] = useState(false);
   const [locationError, setLocationError] = useState(false);
@@ -92,18 +77,26 @@ export function CreateProjectLeftCol({ skills, userTeams }: Props) {
     userTeams.length > 0 ? userTeams[0].id : null,
   );
 
+  /* --- Location --- */
 
-  /* ---Location---*/
-
-  const {locationOn, setLocation, clearLocation } = useLocation(); 
+  const { locationOn, setLocation, clearLocation } = useLocation();
+  const [locationMode, setLocationMode] = useState<LocationMode>("gps");
+  const [selectedCity, setSelectedCity] = useState("");
   const [locationLoading, setLocationLoading] = useState(false);
   const [isNative, setIsNative] = useState(false);
 
   useEffect(() => {
-    import('@capacitor/core')
+    import("@capacitor/core")
       .then(({ Capacitor }) => setIsNative(Capacitor.isNativePlatform()))
       .catch(() => {});
   }, []);
+
+  function handleLocationModeChange(mode: LocationMode) {
+    setLocationMode(mode);
+    setLocationError(false);
+    if (mode === "city") clearLocation();
+    else setSelectedCity("");
+  }
 
   function handleLocationToggle(checked: boolean) {
     if (!checked) {
@@ -111,48 +104,21 @@ export function CreateProjectLeftCol({ skills, userTeams }: Props) {
       return;
     }
 
-    if (isNative) {
-      setLocationLoading(true);
-      getUserLocation().then((result) => {
-        setLocationLoading(false);
-        if (result.error) {
-          if (result.error === 'permission_denied') notify.location.denied();
-          else if (result.error === 'unsupported') notify.location.unsupported();
-          else notify.location.unavailable();
-          return;
-        }
-        setLocation(result.point!.lat, result.point!.lng);
-      });
-      return;
-    }
-
-    if (!navigator?.geolocation) {
-      notify.location.unsupported();
-      return;
-    }
-
     setLocationLoading(true);
 
-    navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        setLocationLoading(false);
-        setLocation(pos.coords.latitude, pos.coords.longitude);
-      },
-      (err) => {
-        setLocationLoading(false);
-        if (err.code === err.PERMISSION_DENIED) {
-          notify.location.denied();
-        } else {
-          notify.location.unavailable();
-        }
-      },
-      { enableHighAccuracy: true, timeout: 10000, maximumAge: 60_000 }
-    );
+    getUserLocation().then((result) => {
+      setLocationLoading(false);
+      if (result.error) {
+        if (result.error === "permission_denied") notify.location.denied();
+        else if (result.error === "unsupported") notify.location.unsupported();
+        else notify.location.unavailable();
+        return;
+      }
+      setLocation(result.point!.lat, result.point!.lng);
+    });
   }
 
-/*----------*/
-
-
+  /* ---------- */
 
   function addRole() {
     if (!selectedSkillId || roles.length >= 6) return;
@@ -188,7 +154,10 @@ export function CreateProjectLeftCol({ skills, userTeams }: Props) {
   );
 
   function handleSubmit(e: React.BaseSyntheticEvent) {
-    if (!locationOn) {
+    const valid =
+      locationMode === "gps" ? locationOn : selectedCity !== "";
+
+    if (!valid) {
       e.preventDefault();
       setLocationError(true);
       document
@@ -226,6 +195,11 @@ export function CreateProjectLeftCol({ skills, userTeams }: Props) {
         name="team_id"
         value={teamMode === "existing" ? (selectedTeamId ?? "") : ""}
       />
+      <input
+        type="hidden"
+        name="city"
+        value={locationMode === "city" ? selectedCity : ""}
+      />
 
       {/* TEMEL BİLGİLER */}
       <FormCard
@@ -260,15 +234,43 @@ export function CreateProjectLeftCol({ skills, userTeams }: Props) {
         </FormGroup>
       </FormCard>
 
-      {/* KONUM & KATEGORİ */}
+      {/* KONUM & REMOTE */}
       <FormCard
         id="section-location"
         icon={<MapPin size={15} />}
         title="Konum & Remote"
         sub="Ekibini nerede ve hangi alanda arıyorsun?"
       >
-        {/* Konum switch — zorunlu */}
-        <FormGroup label="">
+        {/* Mod toggle */}
+        <div className="flex gap-1.5 bg-slate-100 rounded-[11px] p-1">
+          <button
+            type="button"
+            onClick={() => handleLocationModeChange("gps")}
+            className={`flex-1 flex items-center justify-center gap-1.5 text-[0.78rem] md:text-[0.82rem] font-bold rounded-[8px] py-2 transition-all ${
+              locationMode === "gps"
+                ? "bg-white text-slate-900 shadow-sm"
+                : "text-slate-400 hover:text-slate-600"
+            }`}
+          >
+            <Navigation size={13} />
+            Konumumu Kullan
+          </button>
+          <button
+            type="button"
+            onClick={() => handleLocationModeChange("city")}
+            className={`flex-1 flex items-center justify-center gap-1.5 text-[0.78rem] md:text-[0.82rem] font-bold rounded-[8px] py-2 transition-all ${
+              locationMode === "city"
+                ? "bg-white text-slate-900 shadow-sm"
+                : "text-slate-400 hover:text-slate-600"
+            }`}
+          >
+            <MapPin size={13} />
+            Şehir Seç
+          </button>
+        </div>
+
+        {/* GPS modu */}
+        {locationMode === "gps" && (
           <div
             className={`flex items-center justify-between rounded-[11px] px-3 py-2.5 md:px-4 md:py-3 border-[1.5px] transition-colors ${
               locationError
@@ -279,19 +281,17 @@ export function CreateProjectLeftCol({ skills, userTeams }: Props) {
             }`}
           >
             <div className="flex items-center gap-2">
-              <MapPin
+              <Navigation
                 size={14}
                 className={
-                  locationError
-                    ? "text-red-400 shrink-0"
-                    : "text-slate-400 shrink-0"
+                  locationError ? "text-red-400 shrink-0" : "text-slate-400 shrink-0"
                 }
               />
               <div>
                 <div
                   className={`text-[0.84rem] md:text-[0.88rem] font-bold ${locationError ? "text-red-700" : "text-slate-900"}`}
                 >
-                  Konum Ekle
+                  Konum Al
                   <span className="text-red-500 ml-0.5">*</span>
                 </div>
                 <div
@@ -299,62 +299,76 @@ export function CreateProjectLeftCol({ skills, userTeams }: Props) {
                 >
                   {locationError
                     ? "Konum bilgisi zorunludur, lütfen etkinleştir"
-                    : "Yakınındaki ekip üyelerini bulmak için şehrini paylaş"}
+                    : "Yakınındaki ekip üyelerini bulmak için konumunu paylaş"}
                 </div>
               </div>
             </div>
-            <label className="relative w-11 h-6 cursor-pointer shrink-0">
-              <Switch
-                checked={locationOn}
-                disabled={locationLoading}
-                onCheckedChange={handleLocationToggle}
-              />
-        
-              <div
-                className={`absolute inset-0 rounded-full transition-colors ${locationOn ? "bg-blue-600" : locationError ? "bg-red-300" : "bg-slate-200"}`}
-              />
-              <div
-                className={`absolute top-[3px] w-[18px] h-[18px] bg-white rounded-full shadow-sm transition-transform ${locationOn ? "translate-x-[23px]" : "translate-x-[3px]"}`}
-              />
-            </label>
+            <Switch
+              checked={locationOn}
+              disabled={locationLoading}
+              onCheckedChange={handleLocationToggle}
+            />
           </div>
-        </FormGroup>
+        )}
 
-        {/* Remote */}
+        {/* Şehir seçme modu */}
+        {locationMode === "city" && (
+          <div className="relative">
+            <select
+              className={`form-input appearance-none pr-8 w-full ${
+                locationError ? "border-red-300 bg-red-50" : ""
+              }`}
+              value={selectedCity}
+              onChange={(e) => {
+                setSelectedCity(e.target.value);
+                setLocationError(false);
+              }}
+            >
+              <option value="">
+                {locationError ? "Şehir seçimi zorunludur" : "Şehir seçin..."}
+              </option>
+              {cities.map((c) => (
+                <option key={c.id} value={c.name}>
+                  {c.name}
+                </option>
+              ))}
+            </select>
+            <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-[0.8rem]">
+              ▾
+            </span>
+          </div>
+        )}
 
-        <>
-          <FormGroup label="">
-            <div className="flex items-center justify-between bg-slate-50 border-[1.5px] border-slate-200 rounded-[11px] px-3 py-2.5 md:px-4 md:py-3">
-              <div className="flex items-center gap-2">
-                <Globe size={14} className="text-slate-400 shrink-0" />
-                <div>
-                  <div className="text-[0.84rem] md:text-[0.88rem] font-bold text-slate-900">
-                    Remote Uyumlu
-                  </div>
-                  <div className="text-[0.72rem] md:text-[0.74rem] text-slate-400 mt-0.5">
-                    Uzaktan çalışmaya açıksanız işaretle
-                  </div>
-                </div>
+        {/* Remote — her zaman görünür */}
+        <div className="flex items-center justify-between bg-slate-50 border-[1.5px] border-slate-200 rounded-[11px] px-3 py-2.5 md:px-4 md:py-3">
+          <div className="flex items-center gap-2">
+            <Globe size={14} className="text-slate-400 shrink-0" />
+            <div>
+              <div className="text-[0.84rem] md:text-[0.88rem] font-bold text-slate-900">
+                Remote Uyumlu
               </div>
-              <label className="relative w-11 h-6 cursor-pointer shrink-0">
-                <input
-                  type="checkbox"
-                  className="opacity-0 w-0 h-0 absolute"
-                  name="is_remote"
-                  value="on"
-                  checked={isRemote}
-                  onChange={(e) => setIsRemote(e.target.checked)}
-                />
-                <div
-                  className={`absolute inset-0 rounded-full transition-colors ${isRemote ? "bg-blue-600" : "bg-slate-200"}`}
-                />
-                <div
-                  className={`absolute top-[3px] w-[18px] h-[18px] bg-white rounded-full shadow-sm transition-transform ${isRemote ? "translate-x-[23px]" : "translate-x-[3px]"}`}
-                />
-              </label>
+              <div className="text-[0.72rem] md:text-[0.74rem] text-slate-400 mt-0.5">
+                Uzaktan çalışmaya açıksanız işaretle
+              </div>
             </div>
-          </FormGroup>
-        </>
+          </div>
+          <label className="relative w-11 h-6 cursor-pointer shrink-0">
+            <input
+              type="checkbox"
+              className="opacity-0 w-0 h-0 absolute"
+              name="is_remote"
+              value="on"
+              checked={isRemote}
+              onChange={(e) => setIsRemote(e.target.checked)}
+            />
+            <div
+              className={`absolute inset-0 rounded-full transition-colors ${isRemote ? "bg-blue-600" : "bg-slate-200"}`}
+            />
+            <div
+              className={`absolute top-[3px] w-[18px] h-[18px] bg-white rounded-full shadow-sm transition-transform ${isRemote ? "translate-x-[23px]" : "translate-x-[3px]"}`}
+            />
+          </label>
+        </div>
       </FormCard>
 
       {/* EKİBİ BELİRLE */}
@@ -368,7 +382,6 @@ export function CreateProjectLeftCol({ skills, userTeams }: Props) {
             : "Hangi becerilere sahip kişilere ihtiyacın var? En az 1, en fazla 6 rol ekleyebilirsin."
         }
       >
-        {/* Mod toggle — sadece ekibi olan kullanıcılara göster */}
         {userTeams.length > 0 && (
           <div className="flex gap-1.5 bg-slate-100 rounded-[11px] p-1 mb-1">
             <button
@@ -398,7 +411,6 @@ export function CreateProjectLeftCol({ skills, userTeams }: Props) {
           </div>
         )}
 
-        {/* Mevcut ekip seçimi */}
         {teamMode === "existing" && (
           <div className="flex flex-col gap-2.5">
             {userTeams.map((team) => {
@@ -420,16 +432,12 @@ export function CreateProjectLeftCol({ skills, userTeams }: Props) {
                     {team.is_leader ? (
                       <Crown
                         size={14}
-                        className={
-                          isSelected ? "text-blue-600" : "text-slate-400"
-                        }
+                        className={isSelected ? "text-blue-600" : "text-slate-400"}
                       />
                     ) : (
                       <User
                         size={14}
-                        className={
-                          isSelected ? "text-blue-600" : "text-slate-400"
-                        }
+                        className={isSelected ? "text-blue-600" : "text-slate-400"}
                       />
                     )}
                   </div>
@@ -457,7 +465,6 @@ export function CreateProjectLeftCol({ skills, userTeams }: Props) {
           </div>
         )}
 
-        {/* Sıfırdan rol ekleme */}
         {teamMode === "new" && (
           <>
             {roles.length > 0 && (
