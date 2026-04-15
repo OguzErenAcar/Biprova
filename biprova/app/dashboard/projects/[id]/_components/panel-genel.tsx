@@ -80,6 +80,7 @@ function MemberStrip({ members }: { members: MemberSlot[] }) {
         <div
           key={m.id}
           title={`${m.name}${m.is_leader ? ' (Lider)' : ''}`}
+          style={{ zIndex: visible.length - i }}
           className={`relative shrink-0 ${i !== 0 ? '-ml-4' : ''} ${m.is_leader ? 'ring-2 ring-white rounded-full' : ''}`}
         >
           <UserAvatar
