@@ -3,10 +3,14 @@
 import { redirect } from 'next/navigation';
 import { z } from 'zod';
 import { createClient } from '@/lib/supabase/server';
+import { geocodeCity, toGeoPoint } from '@/lib/geocoding';
+
 export interface ProjectFeedItem {
   id: string;
   title: string;
   description: string;
+  city: string | null;
+  is_remote: boolean | null;
   category: string | null;
   created_at: string;
   leader: { id: string; name: string };
@@ -24,21 +28,26 @@ type RawProject = {
   id: string;
   title: string;
   description: string;
+  city: string | null;
+  is_remote: boolean | null;
   created_at: string;
   project_categories: { name: string } | null;
   users: { id: string; name: string } | null;
   project_roles: RawRole[] | null;
 };
 
-export type FeedFilter = 'all' | 'nearby';
+export type FeedFilter = 'all' | 'sehrim' | 'remote' | 'nearby';
 
-export async function getProjectFeed(): Promise<ProjectFeedItem[]> {
+export async function getProjectFeed(
+  filter: FeedFilter = 'all',
+  userCity?: string,
+): Promise<ProjectFeedItem[]> {
   const supabase = await createClient();
 
-  const { data, error } = await supabase
+  let query = supabase
     .from('projects')
     .select(`
-      id, title, description, created_at,
+      id, title, description, city, is_remote, created_at,
       project_categories(name),
       users!leader_id(id, name),
       project_roles(id, role_name, is_filled, project_role_skills(skills(name)))
@@ -46,6 +55,14 @@ export async function getProjectFeed(): Promise<ProjectFeedItem[]> {
     .eq('status', 'open')
     .order('created_at', { ascending: false })
     .limit(20);
+
+  if (filter === 'remote') {
+    query = query.eq('is_remote', true);
+  } else if (filter === 'sehrim' && userCity) {
+    query = query.eq('city', userCity);
+  }
+
+  const { data, error } = await query;
 
   if (error || !data) return [];
 
@@ -55,6 +72,8 @@ export async function getProjectFeed(): Promise<ProjectFeedItem[]> {
       id: p.id,
       title: p.title,
       description: p.description,
+      city: p.city,
+      is_remote: p.is_remote,
       category: p.project_categories?.name ?? null,
       created_at: p.created_at,
       leader: p.users!,
@@ -165,6 +184,8 @@ const roleItemSchema = z.array(
 const createProjectSchema = z.object({
   title: z.string().min(3, 'Başlık en az 3 karakter olmalı').max(80),
   description: z.string().min(10, 'İhtiyaç açıklaması en az 10 karakter olmalı').max(500),
+  city: z.string().min(1, 'Şehir zorunludur'),
+  is_remote: z.string().optional(),
   category_id: z.string().optional(),
   roles: z.string().optional(),
   team_id: z.string().optional(),
@@ -223,15 +244,20 @@ export async function createProject(
       ? parsed.data.category_id
       : null;
 
+  const geoPoint = await geocodeCity(parsed.data.city);
+
   const { data: project, error: projectError } = await supabase
     .from('projects')
     .insert({
       leader_id: user.id,
       title: parsed.data.title,
       description: parsed.data.description,
+      city: parsed.data.city,
+      is_remote: parsed.data.is_remote === 'on',
       category_id: categoryId,
       status: teamId ? 'active' : 'open',
       ...(teamId && { team_id: teamId }),
+      ...(geoPoint && { location: toGeoPoint(geoPoint) }),
     })
     .select('id')
     .single();
