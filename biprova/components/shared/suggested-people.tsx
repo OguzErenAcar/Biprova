@@ -49,13 +49,12 @@ export async function SuggestedPeople() {
               href={`/dashboard/profile/${u.id}`}
               className="flex items-center gap-3 px-[1.2rem] py-[0.75rem] hover:bg-slate-50 hover:text-black transition-colors no-underline"
             >
-              <div className=" w-8 h-8 rounded-full bg-gradient-to-br from-blue-400 to-indigo-500 flex items-center justify-center font-display font-black text-[0.72rem] text-white shrink-0 overflow-hidden">
-                {u.avatar_url ? (
-                  <img src={u.avatar_url} alt={u.name} className="w-full h-full object-cover" />
-                ) : (
-                  getInitials(u.name)
-                )}
-              </div>
+              <UserAvatar
+                avatarUrl={u.avatar_url}
+                initials={getInitials(u.name)}
+                size={32}
+                className="text-[0.72rem]"
+              />
               <div className="flex-1 min-w-0 ">
                 <div className="text-caption font-bold text-ink truncate">{u.name}</div>
                 {u.badge && (
