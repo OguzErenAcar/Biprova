@@ -75,12 +75,12 @@ function MemberStrip({ members }: { members: MemberSlot[] }) {
   const overflow = members.length - MAX;
 
   return (
-    <div className="flex items-center gap-1.5">
-      {visible.map((m) => (
+    <div className="flex items-center">
+      {visible.map((m, i) => (
         <div
           key={m.id}
           title={`${m.name}${m.is_leader ? ' (Lider)' : ''}`}
-          className={`relative shrink-0 ${m.is_leader ? 'ring-2 ring-white rounded-full' : ''}`}
+          className={`relative shrink-0 ${i !== 0 ? '-ml-4' : ''} ${m.is_leader ? 'ring-2 ring-white rounded-full' : ''}`}
         >
           <UserAvatar
             avatarUrl={m.avatar_url}
@@ -97,7 +97,7 @@ function MemberStrip({ members }: { members: MemberSlot[] }) {
         </div>
       ))}
       {overflow > 0 && (
-        <div className="w-8 h-8 rounded-full bg-white/20 ring-1 ring-white/30 flex items-center justify-center text-[0.65rem] font-bold text-white shrink-0">
+        <div className="w-8 h-8 rounded-full bg-white/20 ring-1 ring-white/30 flex items-center justify-center text-[0.65rem] font-bold text-white shrink-0 -ml-4">
           +{overflow}
         </div>
       )}
