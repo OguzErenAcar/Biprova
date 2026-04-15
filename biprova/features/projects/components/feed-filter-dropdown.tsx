@@ -34,11 +34,9 @@ interface FeedFilterDropdownProps {
 
 export function FeedFilterDropdown({ activeFilter }: FeedFilterDropdownProps) {
   const router = useRouter();
-  const { coords, setLocation, clearLocation } = useLocation();
+  const { coords, locationOn, setLocation, clearLocation } = useLocation();
   const [dialogOpen, setDialogOpen] = useState(false);
   const [locationLoading, setLocationLoading] = useState(false);
-
-  const locationOn = activeFilter === "nearby";
   const activeLabel = FILTER_OPTIONS.find((o) => o.value === activeFilter)?.label ?? "Tümü";
 
   function handleSelect(value: FeedFilter) {
