@@ -1,28 +1,32 @@
 "use client";
 
 import { useState } from "react";
+import { UserAvatar } from "@/components/shared/user-avatar";
 
 interface Member {
   initials: string;
-  gradient: string;
   online: boolean;
   title: string;
 }
 
 const members: Member[] = [
-  { initials: "ZK", gradient: "from-blue-600 to-indigo-500", online: true, title: "Zeynep K. — Lider" },
-  { initials: "SK", gradient: "from-cyan-600 to-green-500", online: true, title: "Selin K. — Frontend Dev" },
-  { initials: "AY", gradient: "from-violet-700 to-pink-500", online: false, title: "Ali Y. — Backend Dev" },
-  { initials: "MB", gradient: "from-amber-500 to-red-500", online: true, title: "Merve B. — UI Tasarımcı" },
+  { initials: "ZK", online: true, title: "Zeynep K. — Lider" },
+  { initials: "SK", online: true, title: "Selin K. — Frontend Dev" },
+  { initials: "AY", online: false, title: "Ali Y. — Backend Dev" },
+  { initials: "MB", online: true, title: "Merve B. — UI Tasarımcı" },
 ];
 
 function MemberAvatar({ member, first }: { member: Member; first: boolean }) {
   return (
     <div
-      className={`relative w-7 h-7 rounded-full flex items-center justify-center font-nunito font-black text-[0.65rem] text-white border-2 border-white ${!first ? "-ml-[7px]" : ""} shrink-0 cursor-pointer transition-transform hover:-translate-y-0.5 bg-gradient-to-br ${member.gradient}`}
+      className={`relative ${!first ? "-ml-[7px]" : ""} cursor-pointer transition-transform hover:-translate-y-0.5`}
       title={member.title}
     >
-      {member.initials}
+      <UserAvatar
+        initials={member.initials}
+        size={28}
+        className="text-[0.65rem] border-2 border-white"
+      />
       {member.online && (
         <span className="absolute bottom-0 right-0 w-[7px] h-[7px] bg-green-500 rounded-full border-[1.5px] border-white" />
       )}
