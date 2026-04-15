@@ -15,6 +15,7 @@ export function UserAvatar({
   alt,
   size,
   className = "",
+  badge: _badge,
 }: UserAvatarProps) {
   const sizeStyle = size ? { width: size, height: size } : undefined;
   const base = `rounded-full shrink-0 ${className}`;
