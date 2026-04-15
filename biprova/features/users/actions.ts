@@ -88,17 +88,16 @@ export async function getUserProfileById(id: string): Promise<UserProfile | null
 
   if (error || !data) return null;
 
-  const { data: skillsData } = await supabase
-    .from('user_skills')
-    .select('skills(id, name)')
-    .eq('user_id', id)
-    .limit(50);
+  const [{ data: skillsData }, badgeMap] = await Promise.all([
+    supabase.from('user_skills').select('skills(id, name)').eq('user_id', id).limit(50),
+    resolveBadgeUrls(supabase, [data.badge]),
+  ]);
 
   const skills = ((skillsData ?? []) as unknown as SkillRow[])
     .filter((s): s is { skills: { id: string; name: string } } => s.skills !== null)
     .map((s) => s.skills);
 
-  return { ...data, skills };
+  return { ...data, skills, badge_url: badgeMap.get(data.badge ?? '') ?? null };
 }
 
 export async function getCurrentUserProfile(): Promise<UserProfile> {
