@@ -165,7 +165,6 @@ function MobileDrawer({ open, onClose, projects }: { open: boolean; onClose: () 
 
   function handleLocationToggle(checked: boolean) {
     if (!checked) {
-      setLocationOn(false);
       router.push('/dashboard');
       return;
     }
@@ -175,13 +174,11 @@ function MobileDrawer({ open, onClose, projects }: { open: boolean; onClose: () 
       getUserLocation().then((result) => {
         setLocationLoading(false);
         if (result.error) {
-          setLocationOn(false);
           if (result.error === 'permission_denied') notify.location.denied();
           else if (result.error === 'unsupported') notify.location.unsupported();
           else notify.location.unavailable();
           return;
         }
-        setLocationOn(true);
         onClose();
         router.push(`/dashboard?filter=nearby&lat=${result.point!.lat}&lng=${result.point!.lng}`);
       });
@@ -198,13 +195,11 @@ function MobileDrawer({ open, onClose, projects }: { open: boolean; onClose: () 
     navigator.geolocation.getCurrentPosition(
       (pos) => {
         setLocationLoading(false);
-        setLocationOn(true);
         onClose();
         router.push(`/dashboard?filter=nearby&lat=${pos.coords.latitude}&lng=${pos.coords.longitude}`);
       },
       (err) => {
         setLocationLoading(false);
-        setLocationOn(false);
         if (err.code === err.PERMISSION_DENIED) {
           notify.location.denied();
         } else {
