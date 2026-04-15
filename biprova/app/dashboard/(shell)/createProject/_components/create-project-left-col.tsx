@@ -53,6 +53,8 @@ interface Props {
 export function CreateProjectLeftCol({ cities, skills, userTeams }: Props) {
   const [state, formAction] = useActionState(createProject, null);
   const [isRemote, setIsRemote] = useState(false);
+  const [locationEnabled, setLocationEnabled] = useState(false);
+  const [locationError, setLocationError] = useState(false);
   const [selectedCategoryId] = useState<string | null>(null);
   const [roles, setRoles] = useState<Role[]>([]);
   const [selectedSkillId, setSelectedSkillId] = useState("");
