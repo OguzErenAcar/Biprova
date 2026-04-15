@@ -147,7 +147,6 @@ export function Sidebar({ projects = [] }: SidebarProps) {
 
   function handleLocationToggle(checked: boolean) {
     if (!checked) {
-      setLocationOn(false);
       router.push('/dashboard');
       return;
     }
@@ -157,13 +156,11 @@ export function Sidebar({ projects = [] }: SidebarProps) {
       getUserLocation().then((result) => {
         setLocationLoading(false);
         if (result.error) {
-          setLocationOn(false);
           if (result.error === 'permission_denied') notify.location.denied();
           else if (result.error === 'unsupported') notify.location.unsupported();
           else notify.location.unavailable();
           return;
         }
-        setLocationOn(true);
         router.push(`/dashboard?filter=nearby&lat=${result.point!.lat}&lng=${result.point!.lng}`);
       });
       return;
@@ -179,12 +176,10 @@ export function Sidebar({ projects = [] }: SidebarProps) {
     navigator.geolocation.getCurrentPosition(
       (pos) => {
         setLocationLoading(false);
-        setLocationOn(true);
         router.push(`/dashboard?filter=nearby&lat=${pos.coords.latitude}&lng=${pos.coords.longitude}`);
       },
       (err) => {
         setLocationLoading(false);
-        setLocationOn(false);
         if (err.code === err.PERMISSION_DENIED) {
           notify.location.denied();
         } else {
