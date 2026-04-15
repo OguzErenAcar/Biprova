@@ -148,7 +148,6 @@ export function ProfileEditModal({ user }: ProfileEditModalProps) {
         name,
         linkedin_url: linkedinUrl.trim() || null,
         city: city.trim() || null,
-        is_remote: isRemote,
         bio: bio.trim() || null,
       });
 
