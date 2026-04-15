@@ -67,26 +67,30 @@ export async function getProjectFeed(
 
   if (error || !data) return [];
 
-  return (data as unknown as RawProject[])
-    .filter((p) => p.users !== null)
-    .map((p) => ({
-      id: p.id,
-      title: p.title,
-      description: p.description,
-      city: p.city,
-      is_remote: p.is_remote,
-      category: p.project_categories?.name ?? null,
-      created_at: p.created_at,
-      leader: p.users!,
-      roles: (p.project_roles ?? []).map((r) => ({
-        id: r.id,
-        role_name: r.role_name,
-        is_filled: r.is_filled,
-        skills: (r.project_role_skills ?? [])
-          .map((rs) => rs.skills?.name)
-          .filter((n): n is string => !!n),
-      })),
-    }));
+  const rawProjects = (data as unknown as RawProject[]).filter((p) => p.users !== null);
+  const badgeMap = await resolveBadgeUrls(supabase, rawProjects.map((p) => p.users?.badge));
+
+  return rawProjects.map((p) => ({
+    id: p.id,
+    title: p.title,
+    description: p.description,
+    city: p.city,
+    is_remote: p.is_remote,
+    category: p.project_categories?.name ?? null,
+    created_at: p.created_at,
+    leader: {
+      ...p.users!,
+      badge_url: badgeMap.get(p.users?.badge ?? '') ?? null,
+    },
+    roles: (p.project_roles ?? []).map((r) => ({
+      id: r.id,
+      role_name: r.role_name,
+      is_filled: r.is_filled,
+      skills: (r.project_role_skills ?? [])
+        .map((rs) => rs.skills?.name)
+        .filter((n): n is string => !!n),
+    })),
+  }));
 }
 
 export interface UserTeamOption {
