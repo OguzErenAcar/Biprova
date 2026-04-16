@@ -174,7 +174,7 @@ export function TeamPostCard({
           <div className="flex justify-end mb-3 sm:mb-4">
             <button
               onClick={() => router.push(`/dashboard/posts/teams/${postId}`)}
-              className="flex items-center text-sm text-ink border py-1 px-2 rounded-lg font-bold bg-white"
+              className="flex items-center text-sm text-ink border py-1 px-2 rounded-lg font-bold"
             >
               <span style={{ color: "#3764ec" }}>Detay</span>
               <ChevronRight style={{ color: "#3764ec" }} className="w-3.5 h-3.5 ms-1" />
