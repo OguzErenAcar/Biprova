@@ -57,10 +57,8 @@ export function ProfileHero({ user, isOwner = false }: ProfileHeroProps) {
             )}
           </div>
           {user.badge_url && (
-            <span className="absolute bottom-0 right-0 w-[34%] h-[34%] rounded-full border-2 border-white overflow-hidden bg-slate-200 z-10">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={user.badge_url} alt="badge" className="w-full h-full object-cover" />
-            </span>
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={user.badge_url} alt="badge" className="absolute bottom-0 right-0 w-[34%] h-[34%] object-contain pointer-events-none z-10" />
           )}
         </div>
 
