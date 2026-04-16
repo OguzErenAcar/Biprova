@@ -155,10 +155,9 @@ create policy "team_posts_update" on team_posts for update using (author_id = au
 create policy "team_posts_delete" on team_posts for delete using (author_id = auth.uid());
 
 -- team_post_likes
-create policy "post_likes_read" on team_post_likes for select using (
-    exists (select 1 from team_posts tp where tp.id = post_id and is_team_member(tp.team_id))
-);
-create policy "post_likes_manage" on team_post_likes for all using (user_id = auth.uid());
+-- Postlar herkese açık olduğundan beğeni sayısı da herkese açık
+create policy "post_likes_read"   on team_post_likes for select using (true);
+create policy "post_likes_manage" on team_post_likes for all    using (user_id = auth.uid());
 
 -- news
 create policy "news_read"  on news for select using (is_published = true);
