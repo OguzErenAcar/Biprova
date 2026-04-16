@@ -118,7 +118,12 @@ export function TabBar() {
     >
       <div className="flex justify-around items-end">
         {TABS.map((tab) => (
-          <TabItem key={tab.href} tab={tab} active={isActive(tab.href, tab.exact)} onNavigate={() => setNavigating(true)} />
+          <TabItem
+            key={tab.href}
+            tab={tab}
+            active={isActive(tab.href, tab.exact)}
+            onNavigate={() => { if (!isActive(tab.href, tab.exact)) setNavigating(true); }}
+          />
         ))}
       </div>
     </nav>
