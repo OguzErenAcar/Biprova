@@ -48,7 +48,7 @@ export function ProfileHero({ user, isOwner = false }: ProfileHeroProps) {
             <UserAvatar
               avatarUrl={user.avatar_url}
               alt={user.name}
-              className="w-full h-full"
+              className="w-full h-full text-3xl"
             />
             {isOwner && (
               <ImageUploadButton type="avatar" userId={user.id} currentUrl={user.avatar_url}>
