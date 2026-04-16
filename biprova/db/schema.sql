@@ -34,6 +34,7 @@ create table users (
     avatar_url   text,
     cover_url    text,
     cv_url       text,
+    cv_public    boolean not null default false,
     bio          text,
     city         text,
     location     geography(Point, 4326),
@@ -43,6 +44,9 @@ create table users (
     plan         text default 'free',         -- 'free' | 'paid'
     max_teams        integer default 1,
     max_projects     integer default 1,
+    projects_public     boolean not null default true,
+    teams_public        boolean not null default true,
+    applications_public boolean not null default false,
     last_sign_in_at  timestamp,
     last_sign_out_at timestamp,
     created_at       timestamp default now()
