@@ -54,7 +54,7 @@ export function UserAvatar({
     <img
       src={DEFAULT_FALLBACK}
       alt={alt ?? "Avatar"}
-      className={`object-cover ${base}`}
+      className={`object-cover bg-white ${base}`}
       style={sizeStyle}
     />
   );
