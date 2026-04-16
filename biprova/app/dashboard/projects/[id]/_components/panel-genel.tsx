@@ -172,14 +172,7 @@ export function PanelGenel({ project, onGoToChat, onGoToFiles }: Props) {
         </div>
         <div className="flex gap-3 items-center ml-auto">
           <MemberStrip members={memberSlots} />
-          {project.team_id && (
-            <button
-              onClick={onGoToChat}
-              className="bg-white/15 text-white border border-white/25 rounded-[8px] font-nunito font-extrabold text-[0.8rem] px-4 py-[0.45rem] cursor-pointer hover:bg-white/25 transition-colors"
-            >
-              💬 Gruba Git
-            </button>
-          )}
+
         </div>
       </div>
 
