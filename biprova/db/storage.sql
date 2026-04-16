@@ -156,5 +156,9 @@ create policy "post_images_member_delete"
 on storage.objects for delete
 using (
     bucket_id = 'post-images'
-    and auth.uid()::text = (storage.foldername(name))[2]
+    and exists (
+        select 1 from team_posts
+        where id = (storage.foldername(name))[2]::uuid
+          and author_id = auth.uid()
+    )
 );
