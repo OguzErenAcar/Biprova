@@ -66,6 +66,7 @@ export function TeamPostCard({
   liked: initialLiked = false,
   isOwnTeam,
 }: TeamPostCardProps) {
+  const router = useRouter();
   const [expanded, setExpanded] = useState(false);
   const [isLiked, setIsLiked] = useState(initialLiked);
   const [likeCount, setLikeCount] = useState(initialLikes);
