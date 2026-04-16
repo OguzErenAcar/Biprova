@@ -53,7 +53,7 @@ export function UserAvatar({
       className={`bg-gradient-to-br from-blue-400 to-indigo-500 flex items-center justify-center font-nunito font-black text-white ${base}`}
       style={sizeStyle}
     >
-      {alt ? alt.charAt(0).toUpperCase() : "?"}
+      {alt ? alt.split(" ").slice(0, 2).map((w) => w[0]?.toUpperCase() ?? "").join("") : "?"}
     </div>
   );
 
