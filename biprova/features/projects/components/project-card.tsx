@@ -59,6 +59,7 @@ export function ProjectCard({
   poster,
   roles,
 }: ProjectCardProps) {
+  const router = useRouter();
   const [rolesOpen, setRolesOpen] = useState(false);
   const [desOpen, setDesOpen] = useState(true);
 
