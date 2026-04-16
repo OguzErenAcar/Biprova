@@ -225,4 +225,6 @@ create index on team_posts(team_id);
 create index on notifications(user_id, is_read);
 create index on news(is_published, published_at desc);
 create index on users(plan);
+create index on projects using gist(location);
+create index on users    using gist(location);
 
