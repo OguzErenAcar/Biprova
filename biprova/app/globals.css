@@ -224,11 +224,23 @@ margin-right: 10px;
 
 
 .mobiletabbar{
-    background-image: linear-gradient(
-    to top, 
-    #5b5b5bb3  2%,
-    #ffffff 50% 
+  position: relative;
+}
+
+.mobiletabbar::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  background-image: linear-gradient(
+    to top,
+    #5b5b5bb3 2%,
+    transparent 50%
   );
+  pointer-events: none;
+  z-index: 10;
 }
 
 .content-header-divider {
