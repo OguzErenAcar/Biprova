@@ -143,7 +143,7 @@ export function ProjectCard({
                 onClick={() => setRolesOpen((prev) => !prev)}
                 className="justify-between px-0 h-auto hover:bg-transparent"
               >
-                <div className="flex items-center text-sm md:text-lg text-ink border py-1 px-2 rounded-lg font-bold bg-white">
+                <div className="flex items-center text-sm md:text-lg text-ink border py-1 px-2 rounded-lg font-bold">
                   <span style={{color:"#3764ec"}}>
                     Aranan Pozisyonlar ({openRoles.length})
                   </span>
@@ -168,7 +168,7 @@ export function ProjectCard({
                 rolesOpen ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
               }`}
             >
-              <div className="flex flex-col gap-1.5 sm:gap-2 rounded-md p-2">
+              <div className="flex flex-col gap-1.5 sm:gap-2 rounded-md py-2">
                 {openRoles.map((role, i) => (
                   <div className="shadow3 rounded-lg" key={i}>
                     <div className="rounded-xl border text-black px-3 py-2 sm:py-2.5 flex items-center gap-3">
