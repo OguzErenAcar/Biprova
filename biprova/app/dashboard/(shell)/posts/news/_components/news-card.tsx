@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef } from "react";
+import { useRouter } from "next/navigation";
 import Lottie, { type LottieRefCurrentProps } from "lottie-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -10,8 +11,7 @@ import confettiIcon   from "@/app/icons/wired-outline-1103-confetti-hover-pinch.
 import magicWandIcon  from "@/app/icons/wired-outline-2844-magic-wand-hover-pinch.json";
 import documentIcon   from "@/app/icons/wired-outline-3090-document-letter-hover-pinch.json";
 import plantIcon      from "@/app/icons/wired-outline-1827-growing-plant-hover-pinch.json";
-
-type NewsTag = "platform" | "girişim" | "etkinlik" | "duyuru" | "başarı";
+import type { NewsTag } from "./news-data";
 
 const TAG_STYLES: Record<NewsTag, string> = {
   platform: "bg-brand-surface text-brand border-brand-surface",
@@ -38,6 +38,7 @@ const TAG_ICONS: Record<NewsTag, object> = {
 };
 
 export interface NewsCardProps {
+  id: string;
   title: string;
   excerpt: string;
   tag: NewsTag;
@@ -45,11 +46,15 @@ export interface NewsCardProps {
   readTime: string;
 }
 
-export function NewsCard({ title, excerpt, tag, date, readTime }: NewsCardProps) {
+export function NewsCard({ id, title, excerpt, tag, date, readTime }: NewsCardProps) {
   const lottieRef = useRef<LottieRefCurrentProps>(null);
+  const router = useRouter();
 
   return (
-    <Card className="mb-3.5 cursor-pointer hover:-translate-y-0.5 hover:shadow-card transition-all duration-150">
+    <Card
+      className="mb-3.5 cursor-pointer hover:-translate-y-0.5 hover:shadow-card transition-all duration-150"
+      onClick={() => router.push(`/dashboard/posts/news/${id}`)}
+    >
       <CardContent className="p-[1.3rem] flex gap-4 items-start">
         <div
           className="w-20 h-20 rounded-[12px] flex-shrink-0 flex items-center justify-center"
