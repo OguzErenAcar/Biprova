@@ -67,6 +67,7 @@ export function ProjectCard({
 
 
   return (
+    <Link href={`/dashboard/posts/projects/${projectId}`} className="block">
     <Card
       id={`project-card-${projectId}`}
       className="mb-3.5 hover:-translate-y-0.5 transition-all duration-150 cursor-pointer"
