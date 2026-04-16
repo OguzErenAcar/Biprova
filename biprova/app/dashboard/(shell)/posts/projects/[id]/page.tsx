@@ -78,6 +78,7 @@ export default async function ProjectDetailPage({ params }: Props) {
     <div className="max-w-2xl mx-auto px-4 pt-4">
       <BackButton />
       <ProjectCard
+        defaultOpen
         projectId={raw.id}
         isOwnProject={currentUserId === raw.users.id}
         city={raw.city ?? "Belirtilmemiş"}
