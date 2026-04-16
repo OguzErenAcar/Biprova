@@ -76,8 +76,7 @@ export function ProjectCard({
   return (
     <Card
       id={`project-card-${projectId}`}
-      className="mb-3.5 hover:-translate-y-0.5 transition-all duration-150 cursor-pointer"
-      onClick={() => { if (!disableNavigation) router.push(`/dashboard/posts/projects/${projectId}`); }}
+      className="mb-3.5 hover:-translate-y-0.5 transition-all duration-150"
     >
       <CardContent className="px-3">
         {/* Üst satır: poster + etiketler */}
