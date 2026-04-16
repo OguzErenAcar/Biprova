@@ -173,3 +173,7 @@ create policy "notifications_update" on notifications for update using (user_id 
 
 -- waitlist
 create policy "waitlist_insert" on waitlist for insert with check (true);
+
+-- badges
+create policy "badges_read"  on badges for select using (true);
+create policy "badges_admin" on badges for all    using (is_admin());
