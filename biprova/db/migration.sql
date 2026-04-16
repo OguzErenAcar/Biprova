@@ -2,6 +2,10 @@
 -- FULL MIGRATION
 -- Çalıştır: Supabase Dashboard → SQL Editor
 -- Sıra: schema.sql'den sonra
+--
+-- NOT: Bu dosyadaki kolonların büyük bölümü artık schema.sql'de de
+-- tanımlı (if not exists guards korundu). Canlı DB'de yalnızca
+-- eksik kolonları eklemek için çalıştırılır.
 -- ============================================================
 
 
