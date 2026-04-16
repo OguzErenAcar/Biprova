@@ -34,6 +34,7 @@ interface ProjectCardProps {
   poster: { id: string; name: string; initials: string; color: string; badge: string | null };
   roles: Role[];
   defaultOpen?: boolean;
+  disableNavigation?: boolean;
 }
 
 const STATUS_STYLES: Record<ProjectStatus, string> = {
