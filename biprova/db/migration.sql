@@ -145,7 +145,4 @@ create table if not exists badges (
     image_url  text not null,
     created_at timestamp default now()
 );
-
-grant select on badges to anon, authenticated;
-alter table badges enable row level security;
-create policy "badges_read" on badges for select using (true);
+-- RLS ve policy artık policies.sql'de tanımlanır
