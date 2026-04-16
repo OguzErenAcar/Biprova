@@ -106,6 +106,11 @@ create or replace trigger trg_pm_application_accepted
 create or replace function delete_project_on_empty_members()
 returns trigger language plpgsql security definer as $$
 begin
+    -- Proje zaten siliniyorsa (cascade sonucu bu trigger tetiklendi) tekrar silme
+    if not exists (select 1 from projects where id = old.project_id) then
+        return old;
+    end if;
+
     if not exists (
         select 1 from project_members where project_id = old.project_id
     ) then
