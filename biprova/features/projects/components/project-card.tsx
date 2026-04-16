@@ -59,9 +59,10 @@ export function ProjectCard({
   distanceKm,
   poster,
   roles,
+  defaultOpen = false,
 }: ProjectCardProps) {
   const router = useRouter();
-  const [rolesOpen, setRolesOpen] = useState(false);
+  const [rolesOpen, setRolesOpen] = useState(defaultOpen);
   const [desOpen, setDesOpen] = useState(true);
 
   const filled = roles.filter((r) => r.filled).length;
