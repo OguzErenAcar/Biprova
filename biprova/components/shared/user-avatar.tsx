@@ -1,5 +1,3 @@
-const DEFAULT_FALLBACK = "https://pnrgrugrsarrrlyulosb.supabase.co/storage/v1/object/public/utils/profile.png";
-
 interface UserAvatarProps {
   initials?: string;
   avatarUrl?: string | null;
