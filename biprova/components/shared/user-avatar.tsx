@@ -49,12 +49,12 @@ export function UserAvatar({
       {initials}
     </div>
   ) : (
-    <img
-      src={DEFAULT_FALLBACK}
-      alt={alt ?? "Avatar"}
-      className={`object-cover bg-white ${base}`}
+    <div
+      className={`bg-gradient-to-br from-blue-400 to-indigo-500 flex items-center justify-center font-nunito font-black text-white ${base}`}
       style={sizeStyle}
-    />
+    >
+      {alt ? alt.charAt(0).toUpperCase() : "?"}
+    </div>
   );
 
   if (!badge) return avatar;
