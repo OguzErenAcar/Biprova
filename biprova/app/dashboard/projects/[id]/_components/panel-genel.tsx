@@ -164,13 +164,13 @@ export function PanelGenel({ project, onGoToChat, onGoToFiles }: Props) {
       {/* Project Header */}
       <div
         id="project-header"
-        className="bg-gradient-to-br from-blue-700 to-indigo-500 rounded-2xl px-[1.8rem] py-[1.5rem] mb-[1.2rem] flex items-center justify-between flex-wrap gap-4"
+        className="bg-gradient-to-br from-blue-700 to-indigo-500 rounded-2xl px-[1.8rem] py-[1.5rem] mb-[1.2rem] flex items-center justify-between flex-wrap gap-4 sm:flex-row flex-col text-center sm:text-left"
       >
         <div>
           <h2 className="font-nunito font-black text-[1.2rem] text-white mb-1">{project.title}</h2>
           {meta && <p className="text-[0.82rem] text-white/70">{meta}</p>}
         </div>
-        <div className="flex gap-3 items-center ml-auto">
+        <div className="flex gap-3 items-center sm:ml-auto">
           <MemberStrip members={memberSlots} />
 
         </div>
