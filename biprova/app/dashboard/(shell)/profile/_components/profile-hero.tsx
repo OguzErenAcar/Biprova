@@ -43,12 +43,11 @@ export function ProfileHero({ user, isOwner = false }: ProfileHeroProps) {
 
       <div className="px-[25px] sm:px-6 pb-3 sm:pb-6  sm:py-0 relative">
         {/* Avatar — mobil: ortada (transform yok → fixed modal çalışsın), desktop: sol absolute */}
-        <div className="absolute -top-[60px] left-[calc(50%-50px)] sm:-top-[60px] sm:left-6 w-[100px] h-[100px] sm:w-[120px] sm:h-[120px] rounded-full border-4 border-white shadow-brand overflow-hidden">
-          <div className="relative w-full h-full">
+        <div className="absolute -top-[60px] left-[calc(50%-50px)] sm:-top-[60px] sm:left-6 w-[100px] h-[100px] sm:w-[120px] sm:h-[120px]">
+          <div className="relative w-full h-full rounded-full border-4 border-white shadow-brand overflow-hidden">
             <UserAvatar
               avatarUrl={user.avatar_url}
               alt={user.name}
-              badge={user.badge_url}
               className="w-full h-full"
             />
             {isOwner && (
@@ -57,6 +56,12 @@ export function ProfileHero({ user, isOwner = false }: ProfileHeroProps) {
               </ImageUploadButton>
             )}
           </div>
+          {user.badge_url && (
+            <span className="absolute bottom-0 right-0 w-[34%] h-[34%] rounded-full border-2 border-white overflow-hidden bg-slate-200 z-10">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={user.badge_url} alt="badge" className="w-full h-full object-cover" />
+            </span>
+          )}
         </div>
 
         {/* Aksiyon butonları — mobil: avatar altında ortalı, desktop: sağ absolute */}
