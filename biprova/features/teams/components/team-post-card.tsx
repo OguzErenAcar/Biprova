@@ -109,7 +109,7 @@ export function TeamPostCard({
       className={`mb-3.5 hover:-translate-y-0.5 hover:shadow-card transition-all duration-150 cursor-pointer  ${
         isOwnTeam ? "bg-[#f8faff] border-brand-surface" : ""
       }`}
-      onClick={() => router.push(`/dashboard/posts/teams/${postId}`)}
+      onClick={() => { if (!disableNavigation) router.push(`/dashboard/posts/teams/${postId}`); }}
     >
       <CardContent className="px-3 sm:p-[1.4rem]">
         {/* Ekip kimlik satırı */}
