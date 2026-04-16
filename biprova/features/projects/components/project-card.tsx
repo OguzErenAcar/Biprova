@@ -180,5 +180,6 @@ export function ProjectCard({
         </div>
       </CardContent>
     </Card>
+    </Link>
   );
 }
