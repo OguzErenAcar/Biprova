@@ -1,0 +1,78 @@
+export type NewsTag = "platform" | "girişim" | "etkinlik" | "duyuru" | "başarı";
+
+export interface NewsItem {
+  id: string;
+  title: string;
+  excerpt: string;
+  tag?: NewsTag;
+  tags?: readonly NewsTag[];
+  date: string;
+  readTime?: string;
+  featured?: boolean;
+}
+
+export const NEWS_ITEMS: NewsItem[] = [
+  {
+    id: "biprova-yayinda",
+    title: "biprova resmen yayında! Türkiye'nin ekip bulma platformu açıldı",
+    excerpt:
+      "Uzun beta sürecinin ardından biprova tüm kullanıcılara açıldı. LinkedIn ile saniyeler içinde giriş yap, projenin için doğru ekip arkadaşlarını bul. İlk 100 üyeye özel Kurucu Rozeti kazanma fırsatını kaçırma.",
+    tags: ["platform", "duyuru"],
+    date: "24 Mart 2026",
+    featured: true,
+  },
+  {
+    id: "sokak-hayvanlari-basari",
+    title: "Sokak Hayvanları Yardım ekibi 3 ayda 500 hayvana ulaştı",
+    excerpt:
+      "biprova üzerinden kurulan ilk ekiplerden biri olan Sokak Hayvanları Yardım Grubu, İzmir genelinde büyük bir etki yarattı. Ekip lideri Zeynep K. ile konuştuk.",
+    tag: "başarı",
+    date: "22 Mart 2026",
+    readTime: "4 dk okuma",
+  },
+  {
+    id: "istanbul-bulusmasi",
+    title: "İstanbul Buluşması — 5 Nisan'da bir aradayız",
+    excerpt:
+      "biprova kullanıcılarını bir araya getireceğimiz ilk yüz yüze etkinlik İstanbul Kadıköy'de gerçekleşecek. Katılım ücretsiz, kontenjan sınırlı.",
+    tag: "etkinlik",
+    date: "20 Mart 2026",
+    readTime: "2 dk okuma",
+  },
+  {
+    id: "ekip-gonderileri-akis",
+    title: "Yeni özellik: Ekip gönderileri artık ana akışta görünüyor",
+    excerpt:
+      "Kurulan ekipler artık yaptıkları çalışmaları platforma paylaşabiliyor. Sadece ekip üyeleri gönderi oluşturabilir — bireysel paylaşım yok.",
+    tag: "platform",
+    date: "18 Mart 2026",
+    readTime: "2 dk okuma",
+  },
+  {
+    id: "yan-proje-kulturu",
+    title: "Türkiye'de yan proje kültürü büyüyor: rakamlar ne diyor?",
+    excerpt:
+      "Son araştırmalara göre Türkiye'deki çalışanların %38'i aktif olarak yan proje geliştiriyor. Bu oran 2023'e göre iki katına çıktı.",
+    tag: "girişim",
+    date: "15 Mart 2026",
+    readTime: "5 dk okuma",
+  },
+  {
+    id: "sosyal-girisimcilik",
+    title: "Sosyal girişimcilik: Kar gütmeden büyük etki yaratmanın 5 yolu",
+    excerpt:
+      "Biprova'da en çok proje açılan alan olan sosyal girişimcilik üzerine derlediğimiz ipuçları ve başarılı ekiplerden öğrendiklerimiz.",
+    tag: "girişim",
+    date: "12 Mart 2026",
+    readTime: "6 dk okuma",
+  },
+  {
+    id: "ankara-bulusmasi",
+    title: 'Ankara\'da "Projen Var mı?" buluşması — 12 Nisan',
+    excerpt:
+      "Ankara'daki biprova kullanıcıları için ikinci şehir buluşmasını duyuruyoruz. Kendi projenle gel, ekip arkadaşı bul veya var olan bir projeye katıl.",
+    tag: "etkinlik",
+    date: "8 Mart 2026",
+    readTime: "3 dk okuma",
+  },
+];
