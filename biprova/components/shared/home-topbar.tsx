@@ -194,7 +194,7 @@ function MobileDrawer({ open, onClose, projects }: { open: boolean; onClose: () 
     navigator.geolocation.getCurrentPosition(
       (pos) => {
         setLocationLoading(false);
-        setLocation(pos.coords.latitude, pos.coords.longitude);
+        setLocation(pos.coords.latitude, pos.coords.longitude, null);
         onClose();
       },
       (err) => {
