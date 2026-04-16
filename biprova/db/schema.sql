@@ -195,6 +195,13 @@ create table waitlist (
     created_at timestamp default now()
 );
 
+create table badges (
+    id         uuid primary key default uuid_generate_v4(),
+    badge_name text not null unique,
+    image_url  text not null,
+    created_at timestamp default now()
+);
+
 -- ============================================================
 -- INDEXES
 -- ============================================================
