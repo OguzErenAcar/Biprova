@@ -35,7 +35,7 @@ function TabItem({ tab, active, onNavigate }: { tab: Tab; active: boolean; onNav
       <Link
         href={tab.href}
         onClick={onNavigate}
-        className="flex flex-col items-center flex-1  "
+        className="flex flex-col items-center flex-1 h-[60px]"
         onMouseEnter={() => lottieRef.current?.play()}
         onMouseLeave={() => lottieRef.current?.stop()}>
           

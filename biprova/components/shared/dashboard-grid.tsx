@@ -21,7 +21,7 @@ export function DashboardGrid({ sidebar, children }: DashboardGridProps) {
   }
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-[240px_1fr] gap-4   p-4    ">
+    <div className="grid grid-cols-1 lg:grid-cols-[240px_1fr] gap-4   py-4    ">
       <div className="hidden lg:block">{sidebar}</div>
       <div className="lg:mx-4">{children}</div>
     </div>

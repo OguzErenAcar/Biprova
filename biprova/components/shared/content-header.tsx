@@ -48,8 +48,8 @@ export function ContentHeader({ title, children }: ContentHeaderProps) {
   }, [title]);
 
   return (
-    <div className="relative sticky mb-2 top-0 z-40 backdrop-blur-[42px]  flex items-center gap-4">
-      <div className="flex items-between w-full justify-between my-2 pb-2 border-b-2 px-0">
+    <div className="relative sticky mb-2 top-0 z-40 backdrop-blur-[42px] px-3 flex items-center gap-4">
+      <div className="flex items-between w-full justify-between my-2 pb-2  px-0">
         <h1 ref={titleRef} className="dashheader  ">{title}</h1>
         {children && (
           <div className="flex items-center">{children}</div>

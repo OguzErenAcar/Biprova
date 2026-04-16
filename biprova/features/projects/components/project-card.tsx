@@ -72,7 +72,7 @@ export function ProjectCard({
     >
       <CardContent className="px-3">
         {/* Üst satır: poster + etiketler */}
-        <div className="flex items-center justify-between mb-2 sm:mb-4">
+        <div className="flex items-center justify-between  mb-1 sm:mb-4">
           <Link
             href={`/dashboard/profile/${poster.id}`}
             className="flex items-center gap-2 hover:opacity-75 transition-opacity"
@@ -123,20 +123,20 @@ export function ProjectCard({
         </button>
 
         {/* Açıklama — mobilde 2 satırla sınırlı */}
-        <div className="text-[0.8rem] sm:text-body text-ink-muted mb-2 sm:mb-4 leading-[1.5] line-clamp-2 sm:line-clamp-none">
+        <div className="text-[0.8rem] text-justify sm:text-body text-ink-muted mb-2 sm:mb-4 leading-[1.5] line-clamp-2 sm:line-clamp-none">
           {desOpen && description}
         </div>
 
         {/* Aranan pozisyonlar */}
         {openRoles.length > 0 && (
-          <div className="mb-2 sm:mb-4">
+          <div className="mb-1 sm:mb-4">
             <Button
               variant="ghost"
               size="sm"
               onClick={() => setRolesOpen((prev) => !prev)}
-              className="w-full justify-between px-0 h-auto py-1 mb-2 hover:bg-transparent"
+              className="w-full justify-between px-0 h-auto py-1  hover:bg-transparent"
             >
-              <div className="block border px-2 py-1 rounded-lg">
+              <div className="block border px-2 py-1 rounded-lg mt-2">
                 <span className=" font-bold text-ink uppercase tracking-wider text-[0.72rem] sm:text-sm">
                   Aranan Pozisyonlar ({openRoles.length})
                 </span>
@@ -172,7 +172,7 @@ export function ProjectCard({
         )}
 
         {/* Ekip doluluk barı */}
-        <div className="mb-0">
+        <div className="">
           <TeamBar filled={filled} total={total} />
         </div>
       </CardContent>
