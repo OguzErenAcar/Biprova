@@ -1,7 +1,9 @@
+"use client";
+
+import { useRouter } from "next/navigation";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-
-type NewsTag = "platform" | "girişim" | "etkinlik" | "duyuru" | "başarı";
+import type { NewsTag } from "./news-data";
 
 const TAG_STYLES: Record<NewsTag, string> = {
   platform: "bg-brand-surface text-brand border-brand-surface",
@@ -20,15 +22,22 @@ const TAG_LABELS: Record<NewsTag, string> = {
 };
 
 interface FeaturedNewsCardProps {
+  id: string;
   title: string;
   excerpt: string;
   tags: readonly NewsTag[];
   date: string;
 }
 
-export function FeaturedNewsCard({ title, excerpt, tags, date }: FeaturedNewsCardProps) {
+export function FeaturedNewsCard({ id, title, excerpt, tags, date }: FeaturedNewsCardProps) {
+  const router = useRouter();
+
   return (
-    <Card id="featured-news-card" className="mb-3.5 cursor-pointer hover:-translate-y-0.5 hover:shadow-feature transition-all duration-150 overflow-hidden">
+    <Card
+      id="featured-news-card"
+      className="mb-3.5 cursor-pointer hover:-translate-y-0.5 hover:shadow-feature transition-all duration-150 overflow-hidden"
+      onClick={() => router.push(`/dashboard/posts/news/${id}`)}
+    >
       <div className="h-[200px] bg-gradient-to-br from-brand-hover via-indigo-500 to-violet-500 flex items-center justify-center text-[4rem] relative">
         🚀
         <span className="absolute top-4 left-4 bg-canvas/20 border border-white/30 backdrop-blur-sm text-white text-meta font-extrabold px-3 py-1 rounded-full flex items-center gap-1">
@@ -61,7 +70,7 @@ export function FeaturedNewsCard({ title, excerpt, tags, date }: FeaturedNewsCar
               Admin
             </Badge>
           </div>
-          <button className="text-ink font-bold  p-0 h-auto">
+          <button className="text-ink font-bold p-0 h-auto">
             Devamı →
           </button>
         </div>
