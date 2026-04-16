@@ -49,6 +49,7 @@ interface TeamPostCardProps {
   comments: number;
   liked?: boolean;
   isOwnTeam?: boolean;
+  disableNavigation?: boolean;
 }
 
 export function TeamPostCard({
