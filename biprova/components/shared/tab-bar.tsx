@@ -22,7 +22,7 @@ interface Tab {
 const TABS: Tab[] = [
   { href: "/dashboard", animationData: homeIcon, label: "Ana Sayfa", exact: true },
   { href: "/dashboard/posts/teams", animationData: postsIcon, label: "Ekipler" },
-  { href: "/dashboard/createProject", animationData: createIcon, label: "Oluştur", isCreate: true },
+  { href: "/dashboard/createProject", animationData: createIcon, label: "Biprova", isCreate: true },
   { href: "/dashboard/posts/news", animationData: newsIcon, label: "Haberler" },
   { href: "/dashboard/profile", animationData: profileIcon, label: "Profil" },
 ];
