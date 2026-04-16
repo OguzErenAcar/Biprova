@@ -65,6 +65,7 @@ export function ProjectCard({
 }: ProjectCardProps) {
   const router = useRouter();
   const [rolesOpen, setRolesOpen] = useState(defaultOpen);
+
   const [desOpen, setDesOpen] = useState(true);
 
   const filled = roles.filter((r) => r.filled).length;
