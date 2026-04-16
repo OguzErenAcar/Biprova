@@ -70,6 +70,7 @@ create table projects (
     title       text not null,
     description text,
     city        text,
+    location    geography(Point, 4326),
     is_remote   boolean default false,
     category_id uuid references project_categories(id) on delete set null,
     status      text default 'open',          -- 'open' | 'full' | 'active' | 'completed' | 'cancelled'
