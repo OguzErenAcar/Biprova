@@ -143,7 +143,7 @@ export function ProjectCard({
                 onClick={() => setRolesOpen((prev) => !prev)}
                 className="justify-between px-0 h-auto hover:bg-transparent"
               >
-                <div className="flex items-center text-sm md:text-lg text-ink border py-1 px-2 rounded-lg font-bold">
+                <div className="flex items-center text-sm md:text-lg text-ink border py-1 px-2 rounded-lg font-bold bg-white">
                   <span style={{color:"#3764ec"}}>
                     Aranan Pozisyonlar ({openRoles.length})
                   </span>
