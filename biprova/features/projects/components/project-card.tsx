@@ -65,8 +65,6 @@ export function ProjectCard({
   const total = roles.length;
   const openRoles = roles.filter((r) => !r.filled);
 
-  // DEBUG — remove after badge investigation
-  console.log(`[ProjectCard] poster=${poster.name} badge=${poster.badge}`);
 
   return (
     <Card
