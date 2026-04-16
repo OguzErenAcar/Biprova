@@ -228,3 +228,10 @@ create index on users(plan);
 create index on projects using gist(location);
 create index on users    using gist(location);
 
+-- ============================================================
+-- GRANTS
+-- ============================================================
+
+grant usage on schema public to anon, authenticated;
+grant select, insert, update, delete on all tables in schema public to anon, authenticated;
+grant usage, select on all sequences in schema public to anon, authenticated;
