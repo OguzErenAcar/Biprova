@@ -36,8 +36,8 @@ export function RoleJoinButton({ projectId, roleId }: RoleJoinButtonProps) {
           })
         }
           // open: "bg-success-surface text-success border-success-surface",
-
-        className=" bg-brand-surface font-semibold text-success hover:text-black hover:border-black rounded-lg text-xs px-3 py-1.5 cursor-pointer   transition-colors duration-150 whitespace-nowrap disabled:opacity-60 disabled:cursor-not-allowed"
+        style={{color:"#3764ec"}}
+        className= " bg-white font-semibold  hover:text-black hover:border-black rounded-lg text-xs px-3 py-1.5 cursor-pointer   transition-colors duration-150 whitespace-nowrap disabled:opacity-60 disabled:cursor-not-allowed"
       >
         {isPending ? "…" : "Başvur →"}
       </button>

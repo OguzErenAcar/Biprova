@@ -80,7 +80,7 @@ export function ProjectCard({
             onClick={(e) => e.stopPropagation()}
           >
             <UserAvatar initials={poster.initials} badge={poster.badge} size={28} className="text-[0.72rem]" />
-            <span className="text-caption font-semibold text-ink">
+            <span className=" text-ink-muted">
               {poster.name}
             </span>
           </Link>
@@ -114,38 +114,37 @@ export function ProjectCard({
           className="hover:bg-transparent w-full"
           onClick={() => setDesOpen(!desOpen)}
         >
-          <div className="flex justify-between font-nunito font-black text-[1rem] sm:text-title leading-[1.3] text-ink mb-1 sm:mb-[0.35rem]">
+          <div className="flex justify-between font-semibold text-ink text-xl md:text-2xl mt-2">
             {title}
 
             <ChevronDown
-              className={` w-3.5  h-3.5 my-auto text-ink transition-transform duration-200 ${desOpen ? "rotate-180" : ""}`}
+              className={` w-3.5  h-3.5 my-auto  transition-transform duration-200 ${desOpen ? "rotate-180" : ""}`}
             />
           </div>
         </button>
 
         {/* Açıklama — mobilde 2 satırla sınırlı */}
-        <div className="text-[0.8rem] text-justify sm:text-body text-ink-muted mb-2 sm:mb-4 leading-[1.5] line-clamp-2 sm:line-clamp-none">
+        <div className=" text-justify sm:text-body text-md md:text-lg mt-2 sm:mb-4 text-ink-muted ">
           {desOpen && description}
         </div>
 
         {/* Aranan pozisyonlar */}
         {openRoles.length > 0 && (
           <div className="mb-1 sm:mb-4">
-            <Button
-              variant="ghost"
-              size="sm"
+            <button 
               onClick={() => setRolesOpen((prev) => !prev)}
-              className="w-full justify-between px-0 h-auto py-1  hover:bg-transparent"
+              className="justify-between px-0 h-auto mt-5  hover:bg-transparent"
             >
-              <div className="flex items-center justify-between px-2 py-1 border-b my-2">
-                <span className="font-bold text-ink uppercase tracking-wider text-[0.72rem] sm:text-sm">
+              <div className="flex items-center text-sm md:text-lg text-ink border  py-1 px-2 rounded-lg font-bold bg-white  ">
+                <span style={{color:"#3764ec"}} className="   ">
                   Aranan Pozisyonlar ({openRoles.length})
                 </span>
                 <ChevronDown
-                  className={`w-3.5 h-3.5 text-ink transition-transform duration-300 ${rolesOpen ? "rotate-180" : ""}`}
+                style={{color:"#3764ec"}}
+                  className={`w-3.5 h-3.5  transition-transform duration-300 ms-2  ${rolesOpen ? "rotate-180" : ""}`}
                 />
               </div>
-            </Button>
+            </button>
             <div
               className={`overflow-hidden transition-all duration-300 ease-in-out ${
                 rolesOpen ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
@@ -156,7 +155,7 @@ export function ProjectCard({
                   <div className="shadow3 rounded-lg" key={i}>
                     <div className="rounded-xl border text-black px-3 py-2 sm:py-2.5 flex items-center gap-3">
                       <div className="flex-1 min-w-0">
-                        <span className="text-caption text-ink-muted">
+                        <span className="text-caption text-ink ">
                           {role.name}
                         </span>
                       </div>

@@ -2,7 +2,7 @@
 
 import { animate, stagger } from "animejs";
 import { TextSplitter } from "animejs/text";
-import { ReactNode, useEffect, useRef } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 
 interface ContentHeaderProps {
   title: string;
@@ -11,6 +11,21 @@ interface ContentHeaderProps {
 
 export function ContentHeader({ title, children }: ContentHeaderProps) {
   const titleRef = useRef<HTMLHeadingElement>(null);
+  const sentinelRef = useRef<HTMLDivElement>(null);
+  const [isStuck, setIsStuck] = useState(false);
+
+  useEffect(() => {
+    const sentinel = sentinelRef.current;
+    if (!sentinel) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsStuck(!entry.isIntersecting),
+      { threshold: 0 }
+    );
+
+    observer.observe(sentinel);
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     const el = titleRef.current;
@@ -48,13 +63,16 @@ export function ContentHeader({ title, children }: ContentHeaderProps) {
   }, [title]);
 
   return (
-    <div className="relative sticky mb-2 top-0 z-40 backdrop-blur-[42px]  shell_content flex items-center gap-4">
-      <div className="flex items-between w-full justify-between my-2 pb-2  px-0">
-        <h1 ref={titleRef} className="dashheader  ">{title}</h1>
-        {children && (
-          <div className="flex items-center">{children}</div>
-        )}
+    <>
+      <div ref={sentinelRef} className="h-px" />
+      <div className="relative sticky mb-2 top-0 z-40 backdrop-blur-[42px] md:me-8 flex items-center gap-4">
+        <div className={`flex w-full justify-between mb-2 pb-2 px-0 ${isStuck ? "items-center" : "items-start"}`}>
+          <h1 ref={titleRef} className="dashheader">{title}</h1>
+          {children && (
+            <div className="flex items-center">{children}</div>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 }

@@ -89,7 +89,7 @@ export function TeamPostFeedClient({ posts }: Props) {
       <ContentHeader title="Ekip Gönderileri">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <button className="flex items-center gap-1.5 text-ink rounded-[9px]">
+            <button className="flex   gap-1.5  dropdown">
               {sortLabel}
               <ChevronDown className="w-3.5 h-3.5" />
              </button>
