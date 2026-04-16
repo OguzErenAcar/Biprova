@@ -46,6 +46,7 @@ alter table news                enable row level security;
 alter table news_likes          enable row level security;
 alter table notifications       enable row level security;
 alter table waitlist            enable row level security;
+alter table badges              enable row level security;
 
 -- ============================================================
 -- POLICIES
