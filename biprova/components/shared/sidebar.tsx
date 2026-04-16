@@ -38,7 +38,7 @@ interface SidebarProps {
 const NAV_MAIN = [
   { href: "/dashboard", animationData: homeIcon, label: "Projeler", exact: true },
   { href: "/dashboard/posts/teams", animationData: postsIcon, label: "Gönderiler" },
-  { href: "/dashboard/createProject", animationData: createIcon, label: "Proje Oluştur" },
+  { href: "/dashboard/createProject", animationData: createIcon, label: "Biprova" },
   { href: "/dashboard/posts/news", animationData: newsIcon, label: "Haberler" },
   { href: "/dashboard/profile", animationData: profileIcon, label: "Profilim" },
 ];
