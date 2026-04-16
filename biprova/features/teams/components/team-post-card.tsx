@@ -97,7 +97,7 @@ export function TeamPostCard({
   return (
     <Card
       id={`team-post-card-${postId}`}
-      className={`hover:-translate-y-0.5 hover:shadow-card transition-all duration-150 cursor-pointer mb-2 sm:mb-4 ${
+      className={`mb-3.5 hover:-translate-y-0.5 hover:shadow-card transition-all duration-150 cursor-pointer  ${
         isOwnTeam ? "bg-[#f8faff] border-brand-surface" : ""
       }`}
     ><CardContent className="px-3 sm:p-[1.4rem]">

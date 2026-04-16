@@ -1,4 +1,4 @@
-const DEFAULT_FALLBACK = "/images/432-4329071_team-icon-png-transparent-png.png";
+const DEFAULT_FALLBACK = "https://pnrgrugrsarrrlyulosb.supabase.co/storage/v1/object/public/utils/profile.png";
 
 interface UserAvatarProps {
   initials?: string;

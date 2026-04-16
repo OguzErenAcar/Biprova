@@ -69,7 +69,7 @@ export function ProjectCard({
   return (
     <Card
       id={`project-card-${projectId}`}
-      className=" hover:-translate-y-0.5 transition-all duration-150 cursor-pointer"
+      className="mb-3.5 hover:-translate-y-0.5 transition-all duration-150 cursor-pointer"
     >
       <CardContent className="px-3">
         {/* Üst satır: poster + etiketler */}
@@ -90,7 +90,7 @@ export function ProjectCard({
               variant="outline"
               className="bg-brand-surface text-gray-800 border-brand-surface font-bold text-[0.7rem] sm:text-xs px-2 sm:px-2"
             >
-              {isRemote ? "Remote" : `📍 ${city}`}
+              {isRemote ? "Remote" : `${city}`}
             </Badge>
             {distanceKm !== undefined && (
               <Badge
@@ -137,22 +137,21 @@ export function ProjectCard({
               onClick={() => setRolesOpen((prev) => !prev)}
               className="w-full justify-between px-0 h-auto py-1  hover:bg-transparent"
             >
-              <div className="block border px-2 py-1 rounded-lg mt-2">
+              <div className="block  px-2 py-1  border-b my-2">
                 <span className=" font-bold text-ink uppercase tracking-wider text-[0.72rem] sm:text-sm">
                   Aranan Pozisyonlar ({openRoles.length})
                 </span>
               </div>
             </Button>
-            {rolesOpen && (
-              <div className="flex flex-col gap-1.5 sm:gap-2 ">
+            <div
+              className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                rolesOpen ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
+              }`}
+            >
+              <div className="flex flex-col gap-1.5 sm:gap-2 rounded-md p-2">
                 {openRoles.map((role, i) => (
-                  <div
-                    className="shadow3 rounded-lg"
-                    key={i}
-                  >
-                    <div 
-                    className="rounded-xl text-black px-3 py-2 sm:py-2.5 flex items-center gap-3"
-                    >
+                  <div className="shadow3 rounded-lg" key={i}>
+                    <div className="rounded-xl border text-black px-3 py-2 sm:py-2.5 flex items-center gap-3">
                       <div className="flex-1 min-w-0">
                         <span className="text-caption text-ink-muted">
                           {role.name}
@@ -168,7 +167,7 @@ export function ProjectCard({
                   </div>
                 ))}
               </div>
-            )}
+            </div>
           </div>
         )}
 

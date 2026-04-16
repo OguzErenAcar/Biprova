@@ -28,7 +28,7 @@ interface FeaturedNewsCardProps {
 
 export function FeaturedNewsCard({ title, excerpt, tags, date }: FeaturedNewsCardProps) {
   return (
-    <Card id="featured-news-card" className="mb-5 cursor-pointer hover:-translate-y-0.5 hover:shadow-feature transition-all duration-150 overflow-hidden">
+    <Card id="featured-news-card" className="mb-3.5 cursor-pointer hover:-translate-y-0.5 hover:shadow-feature transition-all duration-150 overflow-hidden">
       <div className="h-[200px] bg-gradient-to-br from-brand-hover via-indigo-500 to-violet-500 flex items-center justify-center text-[4rem] relative">
         🚀
         <span className="absolute top-4 left-4 bg-canvas/20 border border-white/30 backdrop-blur-sm text-white text-meta font-extrabold px-3 py-1 rounded-full flex items-center gap-1">

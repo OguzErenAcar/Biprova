@@ -66,7 +66,7 @@ const STARTUP_POSTS: NewsCardProps[] = [
 
 export function NewsFeed() {
   return (
-    <div id="news-feed">
+    <div id="news-feed" className="shell_content">
       <FeaturedNewsCard {...FEATURED_POST} />
 
       {LATEST_POSTS.map((post) => (

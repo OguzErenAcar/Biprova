@@ -21,7 +21,7 @@ async function MyProfileContent() {
   ]);
 
   return (
-    <div>
+    <div className='shell_content'>
       <ProfileHero user={user} isOwner={authUser?.id === user.id} />
       <ProfileStats stats={stats} />
       <ProfileSections

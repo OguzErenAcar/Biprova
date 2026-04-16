@@ -12,18 +12,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ChevronDown } from "lucide-react";
-//import { Button } from '@/components/ui/button';
-
-const AVATAR_BG_COLORS = [
-  "#ede9fe",
-  "#dbeafe",
-  "#dcfce7",
-  "#fef3c7",
-  "#fee2e2",
-  "#cffafe",
-  "#fce7f3",
-  "#ffedd5",
-];
+ 
 
 const MEMBER_COLORS = [
   "#3b82f6",
@@ -36,18 +25,7 @@ const MEMBER_COLORS = [
   "#f97316",
 ];
 
-const CATEGORY_EMOJIS: Record<string, string> = {
-  Sosyal: "🤝",
-  Medya: "🎙️",
-  Çevre: "🌱",
-  Sanat: "🎬",
-  Teknoloji: "💻",
-  Eğitim: "📚",
-  Sağlık: "🏥",
-  Spor: "⚽",
-  Müzik: "🎵",
-};
-
+ 
 type SortKey = "date" | "popular";
 
 function hashIndex(str: string, len: number): number {
@@ -140,7 +118,7 @@ export function TeamPostFeedClient({ posts }: Props) {
           Henüz ekip gönderisi yok.
         </div>
       ) : (
-        <div>
+        <div className="shell_content">
           {sorted.map((post) => {
             const { title, body } = parseContent(post.content);
             const category = post.team.category;
