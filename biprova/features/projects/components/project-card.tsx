@@ -138,7 +138,7 @@ export function ProjectCard({
         {/* Aranan pozisyonlar */}
         {openRoles.length > 0 && (
           <div className="mb-1 sm:mb-4">
-            <div className="flex items-center gap-2 mt-5">
+            <div className="flex items-center justify-between mt-5">
               <button
                 onClick={() => setRolesOpen((prev) => !prev)}
                 className="justify-between px-0 h-auto hover:bg-transparent"
