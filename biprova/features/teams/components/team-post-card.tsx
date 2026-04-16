@@ -150,7 +150,7 @@ export function TeamPostCard({
 
         {/* Açıklama */}
         {body && (
-          <div className="text-body text-md md:text-lg text-ink text-justify  leading-[1.6] mb-3 sm:mb-4">
+          <div className="text-body text-md md:text-lg text-ink text-justify leading-[1.6] mb-2 sm:mb-3">
             {displayBody}
             {isLong && (
               <>
@@ -160,13 +160,25 @@ export function TeamPostCard({
                     e.stopPropagation();
                     setExpanded((v) => !v);
                   }}
-                   style={{color:"#3764ec"}}
+                  style={{color:"#3764ec"}}
                   className="font-semibold cursor-pointer bg-transparent border-none ms-2"
                 >
                   {expanded ? "Daha az" : "Devamını oku"}
                 </button>
               </>
             )}
+          </div>
+        )}
+        {/* Detay butonu — sağ alt */}
+        {!disableNavigation && (
+          <div className="flex justify-end mb-3 sm:mb-4">
+            <button
+              onClick={() => router.push(`/dashboard/posts/teams/${postId}`)}
+              className="flex items-center text-sm text-ink border py-1 px-2 rounded-lg font-bold bg-white"
+            >
+              <span style={{ color: "#3764ec" }}>Detay</span>
+              <ChevronRight style={{ color: "#3764ec" }} className="w-3.5 h-3.5 ms-1" />
+            </button>
           </div>
         )}
 
