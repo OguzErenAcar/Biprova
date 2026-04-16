@@ -66,6 +66,7 @@ export function TeamPostCard({
   comments,
   liked: initialLiked = false,
   isOwnTeam,
+  disableNavigation = false,
 }: TeamPostCardProps) {
   const router = useRouter();
   const [expanded, setExpanded] = useState(false);
