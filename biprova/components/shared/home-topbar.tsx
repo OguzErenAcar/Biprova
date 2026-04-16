@@ -178,7 +178,7 @@ function MobileDrawer({ open, onClose, projects }: { open: boolean; onClose: () 
           else notify.location.unavailable();
           return;
         }
-        setLocation(result.point!.lat, result.point!.lng);
+        setLocation(result.point!.lat, result.point!.lng, null);
         onClose();
       });
       return;
