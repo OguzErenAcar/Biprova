@@ -223,10 +223,6 @@ margin-right: 10px;
 }
 
 
-.mobiletabbar{
-  position: relative;
-}
-
 .mobiletabbar::after {
   content: "";
   position: absolute;
