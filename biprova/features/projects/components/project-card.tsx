@@ -137,10 +137,13 @@ export function ProjectCard({
               onClick={() => setRolesOpen((prev) => !prev)}
               className="w-full justify-between px-0 h-auto py-1  hover:bg-transparent"
             >
-              <div className="block  px-2 py-1  border-b my-2">
-                <span className=" font-bold text-ink uppercase tracking-wider text-[0.72rem] sm:text-sm">
+              <div className="flex items-center justify-between px-2 py-1 border-b my-2">
+                <span className="font-bold text-ink uppercase tracking-wider text-[0.72rem] sm:text-sm">
                   Aranan Pozisyonlar ({openRoles.length})
                 </span>
+                <ChevronDown
+                  className={`w-3.5 h-3.5 text-ink transition-transform duration-300 ${rolesOpen ? "rotate-180" : ""}`}
+                />
               </div>
             </Button>
             <div
