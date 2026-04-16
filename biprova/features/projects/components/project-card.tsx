@@ -138,20 +138,31 @@ export function ProjectCard({
         {/* Aranan pozisyonlar */}
         {openRoles.length > 0 && (
           <div className="mb-1 sm:mb-4">
-            <button 
-              onClick={() => setRolesOpen((prev) => !prev)}
-              className="justify-between px-0 h-auto mt-5  hover:bg-transparent"
-            >
-              <div className="flex items-center text-sm md:text-lg text-ink border  py-1 px-2 rounded-lg font-bold bg-white  ">
-                <span style={{color:"#3764ec"}} className="   ">
-                  Aranan Pozisyonlar ({openRoles.length})
-                </span>
-                <ChevronDown
-                style={{color:"#3764ec"}}
-                  className={`w-3.5 h-3.5  transition-transform duration-300 ms-2  ${rolesOpen ? "rotate-180" : ""}`}
-                />
-              </div>
-            </button>
+            <div className="flex items-center gap-2 mt-5">
+              <button
+                onClick={() => setRolesOpen((prev) => !prev)}
+                className="justify-between px-0 h-auto hover:bg-transparent"
+              >
+                <div className="flex items-center text-sm md:text-lg text-ink border py-1 px-2 rounded-lg font-bold bg-white">
+                  <span style={{color:"#3764ec"}}>
+                    Aranan Pozisyonlar ({openRoles.length})
+                  </span>
+                  <ChevronDown
+                    style={{color:"#3764ec"}}
+                    className={`w-3.5 h-3.5 transition-transform duration-300 ms-2 ${rolesOpen ? "rotate-180" : ""}`}
+                  />
+                </div>
+              </button>
+              {!disableNavigation && (
+                <button
+                  onClick={() => router.push(`/dashboard/posts/projects/${projectId}`)}
+                  className="flex items-center text-sm text-ink border py-1 px-2 rounded-lg font-bold bg-white"
+                >
+                  <span style={{ color: "#3764ec" }}>Detay</span>
+                  <ChevronRight style={{ color: "#3764ec" }} className="w-3.5 h-3.5 ms-1" />
+                </button>
+              )}
+            </div>
             <div
               className={`overflow-hidden transition-all duration-300 ease-in-out ${
                 rolesOpen ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
