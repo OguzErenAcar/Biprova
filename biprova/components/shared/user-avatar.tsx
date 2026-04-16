@@ -14,15 +14,14 @@ function isUrl(value: string) {
 }
 
 function Badge({ url }: { url: string }) {
+  if (!isUrl(url)) return null;
   return (
-    <span className="absolute -bottom-0.5 -right-0.5 w-[42%] h-[42%] rounded-full border-2 border-white overflow-hidden flex items-center justify-center bg-slate-200">
-      {isUrl(url) ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img src={url} alt="badge" className="w-full h-full object-cover" />
-      ) : (
-        <span className="w-full h-full bg-amber-400 block" />
-      )}
-    </span>
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={url}
+      alt="badge"
+      className="absolute -bottom-0.5 -right-0.5 w-[42%] h-[42%] object-contain pointer-events-none"
+    />
   );
 }
 
