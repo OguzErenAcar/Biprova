@@ -33,6 +33,7 @@ interface ProjectCardProps {
   distanceKm?: number;
   poster: { id: string; name: string; initials: string; color: string; badge: string | null };
   roles: Role[];
+  defaultOpen?: boolean;
 }
 
 const STATUS_STYLES: Record<ProjectStatus, string> = {
