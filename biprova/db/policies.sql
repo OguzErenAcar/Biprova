@@ -65,7 +65,8 @@ create policy "cities_read"  on cities for select using (true);
 create policy "cities_admin" on cities for all    using (is_admin());
 
 -- users
-create policy "users_read"   on users for select using (true);
+-- Profil okuma login gerektiriyor (email sızıntısını önlemek için)
+create policy "users_read"   on users for select using (auth.uid() is not null);
 create policy "users_update" on users for update using (id = auth.uid());
 
 -- teams
