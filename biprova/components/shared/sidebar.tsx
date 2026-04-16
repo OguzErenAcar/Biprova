@@ -176,7 +176,7 @@ export function Sidebar({ projects = [] }: SidebarProps) {
     navigator.geolocation.getCurrentPosition(
       (pos) => {
         setLocationLoading(false);
-        setLocation(pos.coords.latitude, pos.coords.longitude);
+        setLocation(pos.coords.latitude, pos.coords.longitude, null);
       },
       (err) => {
         setLocationLoading(false);
