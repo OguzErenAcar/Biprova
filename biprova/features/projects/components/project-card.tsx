@@ -191,20 +191,9 @@ export function ProjectCard({
           </div>
         )}
 
-        {/* Alt satır: Detay butonu + Ekip doluluk barı */}
-        <div className="flex items-center justify-between mt-3">
-          {!disableNavigation && (
-            <button
-              onClick={() => router.push(`/dashboard/posts/projects/${projectId}`)}
-              className="flex items-center text-sm text-ink border py-1 px-2 rounded-lg font-bold bg-white"
-            >
-              <span style={{ color: "#3764ec" }}>Detay</span>
-              <ChevronRight style={{ color: "#3764ec" }} className="w-3.5 h-3.5 ms-1" />
-            </button>
-          )}
-          <div className="flex-1 ml-3">
-            <TeamBar filled={filled} total={total} />
-          </div>
+        {/* Ekip doluluk barı */}
+        <div className="">
+          <TeamBar filled={filled} total={total} />
         </div>
       </CardContent>
     </Card>
