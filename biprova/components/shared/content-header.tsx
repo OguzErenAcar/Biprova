@@ -67,7 +67,7 @@ export function ContentHeader({ title, children }: ContentHeaderProps) {
       <div ref={sentinelRef} className="h-px" />
       <div className="relative sticky mb-2 top-0 z-40 backdrop-blur-[42px] md:me-8 flex items-center gap-4">
         <div className={`flex w-full justify-between mb-2 pb-2 px-0 ${isStuck ? "items-center" : "items-start"}`}>
-          <h1 ref={titleRef} className="dashheader">{title}</h1>
+          <h1 ref={titleRef} className="dashheader m-0 leading-none">{title}</h1>
           {children && (
             <div className="flex items-center">{children}</div>
           )}
