@@ -161,7 +161,7 @@ export function Sidebar({ projects = [] }: SidebarProps) {
           else notify.location.unavailable();
           return;
         }
-        setLocation(result.point!.lat, result.point!.lng);
+        setLocation(result.point!.lat, result.point!.lng, null);
       });
       return;
     }
