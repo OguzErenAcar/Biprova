@@ -15,7 +15,7 @@ function isUrl(value: string) {
 
 function Badge({ url }: { url: string }) {
   return (
-    <span className="absolute bottom-0 right-0 w-[38%] h-[38%] rounded-full border-2 border-white overflow-hidden flex items-center justify-center bg-slate-200">
+    <span className="absolute -bottom-0.5 -right-0.5 w-[42%] h-[42%] rounded-full border-2 border-white overflow-hidden flex items-center justify-center bg-slate-200">
       {isUrl(url) ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img src={url} alt="badge" className="w-full h-full object-cover" />
