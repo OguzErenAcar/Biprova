@@ -79,6 +79,7 @@ export default async function ProjectDetailPage({ params }: Props) {
       <BackButton />
       <ProjectCard
         defaultOpen
+        disableNavigation
         projectId={raw.id}
         isOwnProject={currentUserId === raw.users.id}
         city={raw.city ?? "Belirtilmemiş"}
