@@ -43,7 +43,7 @@ export function ProfileHero({ user, isOwner = false }: ProfileHeroProps) {
 
       <div className="px-[25px] sm:px-6 pb-3 sm:pb-6  sm:py-0 relative">
         {/* Avatar — mobil: ortada (transform yok → fixed modal çalışsın), desktop: sol absolute */}
-        <div className="absolute -top-[60px] left-[calc(50%-50px)] sm:-top-[60px] sm:left-6 w-[100px] h-[100px] sm:w-[120px] sm:h-[120px]">
+        <div className="absolute -top-[60px] left-[calc(50%-50px)] sm:-top-[60px] sm:left-6 w-[100px] h-[100px] sm:w-[120px] sm:h-[120px] z-20">
           <div className="relative w-full h-full rounded-full border-4 border-white shadow-brand overflow-hidden bg-white">
             <UserAvatar
               avatarUrl={user.avatar_url}
