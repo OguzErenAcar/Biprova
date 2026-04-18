@@ -57,7 +57,7 @@ function TabItem({ tab, active, onNavigate }: { tab: Tab; active: boolean; onNav
     <Link
       href={tab.href}
       onClick={onNavigate}
-      className={`flex flex-col items-center px-3 h-[60px]  flex-1 no-underline ${active ? " opacity-100 bg-slate-100" : ""}`}
+      className={`flex flex-col items-center px-3 h-[60px]  flex-1 no-underline ${active ? "opacity-100 bg-slate-100" : "tab-inactive"}`}
       onMouseEnter={() => lottieRef.current?.play()}
       onMouseLeave={() => lottieRef.current?.stop()}
     >
