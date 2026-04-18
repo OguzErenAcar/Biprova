@@ -9,6 +9,7 @@ const startup = NEWS_ITEMS.filter((n) => n.tag === "girişim");
 
 export function NewsFeed() {
   return (
+    <div className="feed-center-wrapper">
     <div id="news-feed" className="shell_content">
       <FeaturedNewsCard
         id={featured.id}
