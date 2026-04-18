@@ -75,7 +75,7 @@ export default async function ProjectDetailPage({ params }: Props) {
   const badgeMap = await resolveBadgeUrls(supabase, [raw.users.badge]);
 
   return (
-    <div className=" mx-auto  pt-4 me-8">
+    <div className=" mx-auto  pt-4 md:me-8">
       <BackButton />
       <ProjectCard
         defaultOpen

@@ -34,7 +34,7 @@ export default async function NewsDetailPage({ params }: Props) {
     : [item.tag!];
 
   return (
-    <div className=" mx-auto  pt-4 me-8">
+    <div className=" mx-auto  pt-4 md:me-8">
       <BackButton />
       <Card className="overflow-hidden">
         {item.featured && (

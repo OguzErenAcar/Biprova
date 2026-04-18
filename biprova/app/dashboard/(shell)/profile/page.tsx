@@ -22,7 +22,7 @@ async function MyProfileContent() {
 
   return (
     <div className=''>
-    <div className='me-8'>
+    <div className='md:me-8'>
       <ProfileHero user={user} isOwner={authUser?.id === user.id} />
       <ProfileStats stats={stats} />
       <ProfileSections
