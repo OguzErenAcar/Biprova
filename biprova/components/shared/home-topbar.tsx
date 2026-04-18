@@ -361,7 +361,7 @@ export function HomeTopbar({ projects = [] }: { projects?: DrawerProject[] }) {
 
   return (
     <>
-      <div id="dashboard-topbar" className="relative z-50 md:mb-5 g-topbar shadow-xl  
+      <div id="dashboard-topbar" className="relative z-50  g-topbar shadow-xl  
        mx-auto w-100 md:w-full border-b-[3px] px-[12px]   py-[0.9rem] 
        flex items-center gap-4">
         <Link

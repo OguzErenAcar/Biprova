@@ -185,11 +185,13 @@ font-weight: 900;
 font-size: 18px;
 }
 
+.sidebar_container{
+ background-color: rgba(46, 84, 199, 0.4)
+}
 
 #dashboard-main{
 margin-left:10px ;
 margin-right: 10px;
-
 
 }
 
@@ -216,6 +218,9 @@ margin-right: 10px;
 
 .feed-center-wrapper {
   /* project feed kartlarını yatayda ortalar */
+  background-color: rgb(0, 0, 0,0.1);
+  padding: 20px 0px 10px 0px;
+  border-radius: 10px;
   display: flex;
   justify-content: center;
 }
