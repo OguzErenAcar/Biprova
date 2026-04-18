@@ -32,7 +32,7 @@ export function NewsFeed() {
       ))}
 
       <div className="flex items-center gap-3 my-6">
-        <span className="font-nunito font-black text-lead text-ink whitespace-nowrap">
+        <span className=" text-ink whitespace-nowrap">
           Girişim Haberleri
         </span>
         <Separator className="flex-1" />

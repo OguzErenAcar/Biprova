@@ -78,11 +78,11 @@ export function NewsCard({ id, title, excerpt, tag, date, readTime }: NewsCardPr
             <span className="text-meta text-ink-subtle">{date}</span>
           </div>
 
-          <div className="font-nunito font-black text-lead leading-[1.35] text-ink mb-1.5">
+          <div className="font-semibold text-ink mb-1.5 text-lg md:text-2xl">
             {title}
           </div>
 
-          <p className="text-caption text-ink-muted leading-[1.5] mb-2.5 line-clamp-2">
+          <p className=" text-ink-muted leading-[1.5] mb-2.5 text-md md:text-lg text-justify">
             {excerpt}
           </p>
 

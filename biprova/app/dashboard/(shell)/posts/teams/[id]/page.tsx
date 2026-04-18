@@ -107,7 +107,7 @@ export default async function TeamPostDetailPage({ params }: Props) {
   ];
 
   return (
-    <div className="max-w-2xl mx-auto px-4 pt-4">
+    <div className=" mx-auto pt-4 me-8">
       <BackButton />
       <TeamPostCard
         postId={raw.id}

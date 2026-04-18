@@ -21,8 +21,8 @@ async function MyProfileContent() {
   ]);
 
   return (
-    <div className='feed-center-wrapper'>
-    <div className='shell_content'>
+    <div className=''>
+    <div className='me-8'>
       <ProfileHero user={user} isOwner={authUser?.id === user.id} />
       <ProfileStats stats={stats} />
       <ProfileSections

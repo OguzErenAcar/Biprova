@@ -25,7 +25,7 @@ async function ProfileContent({ id }: { id: string }) {
   ]);
 
   return (
-    <div className="me-8">
+    <div className="">
       <ProfileHero user={user} isOwner={isOwner} />
       <ProfileStats stats={stats} />
       <ProfileSections

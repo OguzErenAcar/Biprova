@@ -55,11 +55,11 @@ export function FeaturedNewsCard({ id, title, excerpt, tags, date }: FeaturedNew
           <span className="text-meta text-ink-subtle ml-auto">{date}</span>
         </div>
 
-        <div className="font-nunito font-black text-title leading-[1.35] text-ink mb-2">
+        <div className="text-lg md:text-2xl font-semibold text-ink mb-2">
           {title}
         </div>
 
-        <p className="text-body text-ink-muted leading-[1.6] mb-4">
+        <p className= "text-ink-muted text-md md:text-lg text-justify mb-4">
           {excerpt}
         </p>
 

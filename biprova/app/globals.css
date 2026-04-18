@@ -218,7 +218,7 @@ margin-right: 10px;
 
 .feed-center-wrapper {
   /* project feed kartlarını yatayda ortalar */
-  background-color: rgb(0, 0, 0,0.1);
+ 
   padding: 20px 0px 10px 0px;
   border-radius: 10px;
   display: flex;
@@ -232,7 +232,7 @@ margin-right: 10px;
 
 @media (min-width: 768px) {
   .shell_content {
-    width: 67%;
+    width: 75%;
 
   
   }
