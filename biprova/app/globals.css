@@ -216,6 +216,7 @@ margin-right: 10px;
 
 @media (min-width: 768px) {
   .shell_content {
+ 
     margin-right: 32px;
   }
   .dashheader{
