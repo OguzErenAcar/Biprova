@@ -126,6 +126,7 @@ export async function ProjectFeed({ searchParams }: ProjectFeedProps) {
             />
           ))}
         </div>
+        </div>
       )}
     </div>
   );
