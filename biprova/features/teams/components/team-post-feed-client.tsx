@@ -118,6 +118,7 @@ export function TeamPostFeedClient({ posts }: Props) {
           Henüz ekip gönderisi yok.
         </div>
       ) : (
+        <div className="feed-center-wrapper">
         <div className="shell_content">
           {sorted.map((post) => {
             const { title, body } = parseContent(post.content);

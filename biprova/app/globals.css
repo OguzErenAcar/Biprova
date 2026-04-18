@@ -225,15 +225,23 @@ margin-right: 10px;
   justify-content: center;
 }
 
+
+.shell_content {
+  width: 100%;
+}
+
 @media (min-width: 768px) {
   .shell_content {
+    width: 67%;
 
-    margin-right: 32px;
+  
   }
   .dashheader{
     font-size: 24px;
   }
 }
+
+
 
 
 .mobiletabbar::after {

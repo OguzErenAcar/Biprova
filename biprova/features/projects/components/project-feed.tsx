@@ -96,7 +96,7 @@ export async function ProjectFeed({ searchParams }: ProjectFeedProps) {
         </Card>
       ) : (
         <div className="feed-center-wrapper">
-        <div className="shell_content w-full min-[768px]:w-2/3">
+        <div className="shell_content">
           {projects.map((project) => (
             <ProjectCard
               key={project.id}
