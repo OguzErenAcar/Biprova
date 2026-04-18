@@ -58,7 +58,7 @@ export function ProfileHero({ user, isOwner = false }: ProfileHeroProps) {
           </div>
           {user.badge_url && (
             // eslint-disable-next-line @next/next/no-img-element
-            <img src={user.badge_url} alt="badge" className="absolute bottom-0 right-0 w-[34%] h-[34%] object-contain pointer-events-none z-10" />
+            <img src={user.badge_url} alt="badge" className="absolute bottom-0 right-0 w-[34%] h-[34%] object-contain pointer-events-none z-30" />
           )}
         </div>
 
