@@ -70,7 +70,7 @@ function TabItem({ tab, active, onNavigate }: { tab: Tab; active: boolean; onNav
           style={{ width: 28, height: 28 }}
         />
       </span>
-      <span className={`text-[10px] mt-0.5 font-medium transition-opacity ${active ? "opacity-100 text-slate-700" : ""}`}>
+      <span className={`text-[10px] mt-0.5 font-medium transition-opacity text-white ${active ? "opacity-100" : "opacity-70"}`}>
         {tab.label}
       </span>
     </Link>

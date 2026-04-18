@@ -190,7 +190,7 @@ font-size: 18px;
 }
 
 .tab-inactive {
-  background-color: rgba(46, 84, 199, 0.4);
+  background-color: rgba(46, 84, 199, 0.7);
 }
 
 #dashboard-main{
@@ -223,7 +223,7 @@ margin-right: 10px;
 .feed-center-wrapper {
   /* project feed kartlarını yatayda ortalar */
  
-  padding: 20px 0px 10px 0px;
+  padding: 0px 0px 10px 0px;
   border-radius: 10px;
   display: flex;
   justify-content: center;
