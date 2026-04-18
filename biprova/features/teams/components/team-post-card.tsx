@@ -207,7 +207,7 @@ export function TeamPostCard({
                 <img
                   src={url}
                   alt=""
-                  className={`w-full object-cover rounded-[8px] ${
+                  className={`w-full object-cover  ${
                     imageUrls.length === 1 ? "max-h-[420px]" : "h-[180px]"
                   }`}
                 />
