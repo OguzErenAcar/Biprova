@@ -14,7 +14,7 @@ export interface NewsItem {
 export const NEWS_ITEMS: NewsItem[] = [
   {
     id: "biprova-yayinda",
-    title: "biprova resmen yayında! Türkiye'nin ekip bulma platformu açıldı",
+    title: "Biprova resmen yayında! Türkiye'nin ekip bulma platformu açıldı",
     excerpt:
       "Uzun beta sürecinin ardından biprova tüm kullanıcılara açıldı. LinkedIn ile saniyeler içinde giriş yap, projenin için doğru ekip arkadaşlarını bul. İlk 100 üyeye özel Kurucu Rozeti kazanma fırsatını kaçırma.",
     tags: ["platform", "duyuru"],
