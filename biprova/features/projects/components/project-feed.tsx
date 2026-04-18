@@ -95,7 +95,7 @@ export async function ProjectFeed({ searchParams }: ProjectFeedProps) {
           </CardContent>
         </Card>
       ) : (
-        <div className="shell_content grid grid-cols-1 md:grid-cols-2 gap-3.5">
+        <div className="shell_content">
           {projects.map((project) => (
             <ProjectCard
               key={project.id}
