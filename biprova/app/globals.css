@@ -189,6 +189,10 @@ font-size: 18px;
  background-color: rgba(46, 84, 199, 0.4)
 }
 
+.tab-inactive {
+  background-color: rgba(46, 84, 199, 0.4);
+}
+
 #dashboard-main{
 margin-left:10px ;
 margin-right: 10px;
