@@ -13,16 +13,16 @@ export function DashboardGrid({ sidebar, children }: DashboardGridProps) {
 
   if (isProjectDetail) {
     return (
-      <div className="grid grid-cols-1 lg:grid-cols-[340px_1fr] gap-4   ">
-        <div className="hidden lg:block sidebar_container">{sidebar}</div>
+      <div className="grid grid-cols-1 lg:grid-cols-[300px_1fr] gap-4   ">
+        <div className="hidden lg:block sidebar_container min-h-screen">{sidebar}</div>
         <div className="">{children}</div>
       </div>
     );
   }
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-[340px_1fr] gap-4      ">
-      <div className="hidden lg:block sidebar_container">{sidebar}</div>
+    <div className="grid grid-cols-1 lg:grid-cols-[300px_1fr] gap-4      ">
+      <div className="hidden lg:block sidebar_container min-h-screen">{sidebar}</div>
       <div className=" ">{children}</div>
     </div>
   );

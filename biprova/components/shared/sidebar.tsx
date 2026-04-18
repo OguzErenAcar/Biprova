@@ -199,7 +199,7 @@ export function Sidebar({ projects = [] }: SidebarProps) {
   return (
     <div
       id="dashboard-sidebar"
-      className="sidebar_container g-bg bg-surface border border-slate-400   shadow-sm flex-col sticky top-0 z-30 px-4 py-6 hidden lg:flex"
+      className="    shadow-sm flex-col sticky top-0 z-30 px-4 py-6 hidden lg:flex"
     >
       {/* Ana navigasyon */}
       <nav>
