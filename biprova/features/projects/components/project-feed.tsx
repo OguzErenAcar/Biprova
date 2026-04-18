@@ -95,7 +95,8 @@ export async function ProjectFeed({ searchParams }: ProjectFeedProps) {
           </CardContent>
         </Card>
       ) : (
-        <div className="shell_content w-full min-[768px]:w-2/3 mx-auto">
+        <div className="flex justify-center">
+        <div className="shell_content w-full min-[768px]:w-2/3">
           {projects.map((project) => (
             <ProjectCard
               key={project.id}
