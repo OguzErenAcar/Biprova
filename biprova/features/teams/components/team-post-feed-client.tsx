@@ -173,6 +173,7 @@ export function TeamPostFeedClient({ posts }: Props) {
             );
           })}
         </div>
+        </div>
       )}
     </div>
   );
