@@ -73,8 +73,8 @@
 
     --p-canvas: #fafaff; /* sayfa arkaplanı */
 
-    --p-ink: #ffffff; /* koyu metin */
-    --p-ink-muted: #ffffff; /* ikincil metin */
+    --p-ink: #000000; /* koyu metin */
+    --p-ink-muted: #000000; /* ikincil metin */
     --p-ink-subtle: #d4d4d4; /* placeholder / soluk */
     --p-ink-border: #08090a; /* kenarlık */
 
@@ -175,7 +175,8 @@
   background-color: rgba(255, 255, 255, 0.8);
 }
 .g-bg {
-  background-color: rgba(46, 84, 199, 0.4);
+   background-color: rgb(255, 255, 255,0.8);
+  /* background-color: rgba(46, 84, 199, 0.4); */
   border-radius: 10px;
 }
 

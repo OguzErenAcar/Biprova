@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 import { ChevronDown, ChevronRight } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { TeamBar } from "@/components/shared/team-bar";
 import { UserAvatar } from "@/components/shared/user-avatar";
 import { RoleJoinButton } from "@/features/applications/components/apply-button";
@@ -66,7 +65,7 @@ export function ProjectCard({
   const router = useRouter();
   const [rolesOpen, setRolesOpen] = useState(defaultOpen);
 
-  const [desOpen, setDesOpen] = useState(true);
+  const [desOpen, setDesOpen] = useState(false);
 
   const filled = roles.filter((r) => r.filled).length;
   const total = roles.length;

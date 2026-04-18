@@ -6,7 +6,7 @@
 ## Project Overview
 Biprova ("bir projem var" = "I have a project") — a platform where people find teammates for their projects.
 Users share needs (not ideas), others apply for specific roles, and when all roles are filled the team forms automatically.
-Turkey-focused, 24h activation rule.
+Turkey-focused
 
 ## Stack
 - **Framework:** Next.js 15 (App Router)
@@ -19,7 +19,6 @@ Turkey-focused, 24h activation rule.
 
 ## Critical Business Rules
 - **Idea privacy** — only needs are shown publicly; idea details shared privately after team forms
-- **24h rule** — once all roles are filled, leader has 24h to start or the team dissolves
 - **Team bar** — progress bar fills as each role is taken; completes → team auto-created
 - **Team posts only** — individuals cannot post; only formed teams can share posts
 
