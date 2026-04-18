@@ -129,9 +129,13 @@ export function ProjectCard({
           </div>
         </button>
 
-        {/* Açıklama — mobilde 2 satırla sınırlı */}
-        <div className=" text-justify sm:text-body text-md md:text-lg mt-2 sm:mb-4 text-ink-muted ">
-          {desOpen && description}
+        {/* Açıklama */}
+        <div
+          className={`overflow-hidden transition-all duration-300 ease-in-out text-justify sm:text-body text-md md:text-lg text-ink-muted ${
+            desOpen ? "max-h-[400px] opacity-100 mt-2 sm:mb-4" : "max-h-0 opacity-0"
+          }`}
+        >
+          {description}
         </div>
 
         {/* Aranan pozisyonlar */}
