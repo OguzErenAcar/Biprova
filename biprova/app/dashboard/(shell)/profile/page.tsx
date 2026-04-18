@@ -21,6 +21,7 @@ async function MyProfileContent() {
   ]);
 
   return (
+    <div className='feed-center-wrapper'>
     <div className='shell_content'>
       <ProfileHero user={user} isOwner={authUser?.id === user.id} />
       <ProfileStats stats={stats} />
@@ -33,6 +34,7 @@ async function MyProfileContent() {
         applicationsPublic={user.applications_public}
         isOwner
       />
+    </div>
     </div>
   );
 }
