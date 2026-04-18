@@ -114,7 +114,7 @@ export function TabBar() {
   return (
     <nav
       id="dashboard-tab-bar"
-      className={`mobiletabbar lg:hidden fixed bottom-0 left-0 right-0 bg-surface border-t border-slate-200 z-[100] transition-transform duration-200 ${isHidden ? 'translate-y-20' : ''}`}
+      className={`mobiletabbar lg:hidden fixed bottom-0 left-0 right-0 bg-surface z-[100] transition-transform duration-200 ${isHidden ? 'translate-y-20' : ''}`}
     >
       <div className="flex justify-around items-end relative z-0">
         {TABS.map((tab) => (
