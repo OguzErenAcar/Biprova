@@ -48,7 +48,7 @@ function TabItem({ tab, active, onNavigate }: { tab: Tab; active: boolean; onNav
             style={{ width: 26, height: 26, filter: "brightness(0) invert(1)" }}
           />
         </div>
-        <span className="text-[10px] mt-0.5 text-white font-medium">{tab.label}</span>
+        <span className="text-xs mt-0.5 text-white font-semibold">{tab.label}</span>
       </Link>
     );
   }
