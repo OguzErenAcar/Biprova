@@ -80,7 +80,12 @@ function ApplicationsSection({ projectId: _projectId, pending, reviewed, members
         )}
 
         {pending.map((app) => (
-          <ApplicationRow key={app.id} app={app} isPending />
+          <ApplicationRow
+            key={app.id}
+            app={app}
+            isPending
+            isAlreadyMember={members.some((m) => m.user_id === app.user_id)}
+          />
         ))}
 
         {reviewed.length > 0 && (
@@ -93,7 +98,7 @@ function ApplicationsSection({ projectId: _projectId, pending, reviewed, members
               </div>
             )}
             {reviewed.map((app) => (
-              <ApplicationRow key={app.id} app={app} isPending={false} />
+              <ApplicationRow key={app.id} app={app} isPending={false} isAlreadyMember={false} />
             ))}
           </>
         )}
