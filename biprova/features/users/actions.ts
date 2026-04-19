@@ -493,6 +493,7 @@ export async function getUserApplications(userId: string): Promise<UserApplicati
     id: string;
     status: string;
     created_at: string;
+    project_id: string | null;
     projects: { title: string } | null;
     project_roles: { role_name: string } | null;
   };
@@ -501,6 +502,7 @@ export async function getUserApplications(userId: string): Promise<UserApplicati
     id: row.id,
     status: (row.status as ApplicationStatus) ?? 'pending',
     createdAt: row.created_at,
+    projectId: row.project_id ?? null,
     projectTitle: row.projects?.title ?? 'Bilinmeyen Proje',
     roleName: row.project_roles?.role_name ?? null,
   }));
