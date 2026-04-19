@@ -262,7 +262,7 @@ export function ProfileSections({
                     </div>
                   </div>
                 </div>
-              </div>
+              </Link>
             ))
           )}
         </SectionCard>
