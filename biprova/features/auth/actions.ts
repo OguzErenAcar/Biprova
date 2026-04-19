@@ -22,7 +22,7 @@ const signupSchema = z.object({
   email:        z.string().email(),
   password:     z.string().min(8).max(128),
   linkedin_url: z.string().url().or(z.literal('')).or(z.literal(undefined as unknown as string)).optional().default(''),
-  city:         z.string().max(100),
+  city:         z.string().min(1, 'Şehir zorunludur').max(100).trim(),
   is_remote:    z.boolean(),
   skill_ids:    z.array(z.string().uuid()).max(20),
   bio:          z.string().max(500).optional(),
