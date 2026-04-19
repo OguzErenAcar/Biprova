@@ -43,6 +43,12 @@ Turkey-focused
 - Server Components are default, only add `'use client'` for interactivity
 - Use Server Actions for mutations, don't open a separate API route
 
+## ⚠️ middleware.ts YASAK — proxy.ts kullan
+- Bu projede `middleware.ts` **yoktur ve oluşturulmamalıdır**
+- Supabase session refresh, auth guard ve redirect mantığı **`proxy.ts`** içinde yürütülür
+- `proxy.ts`, Next.js middleware'i taklit eden özel bir proxy katmanıdır
+- Bir şeyin "middleware gerektirdiğini" düşünsen bile `middleware.ts` açma; gerekli mantığı `proxy.ts`'e ekle
+
 ## Supabase
 - Use `createServerClient()` in Server Components (@supabase/ssr)
 - Use `createBrowserClient()` in Client Components (@supabase/ssr)
