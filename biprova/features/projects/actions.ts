@@ -825,10 +825,7 @@ export async function inviteToProject(
 
   if (existing) return { error: 'Bu kullanıcı zaten projede.' };
 
-  const { createAdminClient } = await import('@/lib/supabase/admin');
-  const admin = createAdminClient();
-
-  const { error: memberError } = await admin.from('project_members').insert({
+  const { error: memberError } = await supabase.from('project_members').insert({
     project_id: parsed.data.projectId,
     user_id:    targetUser.id,
     role:       role.role_name,
