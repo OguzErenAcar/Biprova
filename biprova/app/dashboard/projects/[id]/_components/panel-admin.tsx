@@ -33,6 +33,7 @@ export function PanelAdmin({ project }: Props) {
         projectId={project.id}
         pending={pending}
         reviewed={reviewed}
+        members={project.members}
       />
       <MemberManagementSection
         projectId={project.id}
