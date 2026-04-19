@@ -237,6 +237,14 @@ export async function grantBiprova(teamId: string, userId: string): Promise<{ er
   const { data: team } = await supabase.from('teams').select('leader_id').eq('id', teamId).single();
   if (team?.leader_id !== user.id) return { error: 'Sadece lider yetki verebilir.' };
 
+  const { data: member } = await supabase
+    .from('team_members')
+    .select('user_id')
+    .eq('team_id', teamId)
+    .eq('user_id', userId)
+    .maybeSingle();
+  if (!member) return { error: 'Bu kullanıcı takımın üyesi değil.' };
+
   const { error } = await supabase.from('team_members').update({ has_biprova: true }).eq('team_id', teamId).eq('user_id', userId);
   if (error) return { error: 'Yetki verilemedi.' };
   return {};
@@ -249,6 +257,14 @@ export async function revokeBiprova(teamId: string, userId: string): Promise<{ e
 
   const { data: team } = await supabase.from('teams').select('leader_id').eq('id', teamId).single();
   if (team?.leader_id !== user.id) return { error: 'Sadece lider yetki kaldırabilir.' };
+
+  const { data: member } = await supabase
+    .from('team_members')
+    .select('user_id')
+    .eq('team_id', teamId)
+    .eq('user_id', userId)
+    .maybeSingle();
+  if (!member) return { error: 'Bu kullanıcı takımın üyesi değil.' };
 
   const { error } = await supabase.from('team_members').update({ has_biprova: false }).eq('team_id', teamId).eq('user_id', userId);
   if (error) return { error: 'Yetki kaldırılamadı.' };
