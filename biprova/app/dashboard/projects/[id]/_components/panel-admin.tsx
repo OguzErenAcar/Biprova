@@ -57,9 +57,10 @@ interface ApplicationsSectionProps {
   projectId: string;
   pending: ProjectDetail['applications'];
   reviewed: ProjectDetail['applications'];
+  members: ProjectDetail['members'];
 }
 
-function ApplicationsSection({ projectId: _projectId, pending, reviewed }: ApplicationsSectionProps) {
+function ApplicationsSection({ projectId: _projectId, pending, reviewed, members }: ApplicationsSectionProps) {
   return (
     <div className="bg-white border-[1.5px] border-slate-200 rounded-2xl overflow-hidden">
       <div className="flex items-center justify-between px-[1.4rem] py-[1rem] border-b border-slate-200">
