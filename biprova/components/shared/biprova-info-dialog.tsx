@@ -21,7 +21,7 @@ interface BiprovaInfoDialogProps {
 export function BiprovaInfoDialog({ open, onOpenChange }: BiprovaInfoDialogProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md p-0 overflow-hidden">
+      <DialogContent className="max-w-md p-0 overflow-hidden" aria-describedby={undefined}>
         {/* Header */}
         <div className="bg-gradient-to-br from-blue-600 to-indigo-600 px-6 pt-6 pb-8">
           <DialogHeader>
