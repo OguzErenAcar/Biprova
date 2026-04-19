@@ -111,6 +111,7 @@ export default async function TeamPostDetailPage({ params }: Props) {
       <BackButton />
       <TeamPostCard
         postId={raw.id}
+        teamId={raw.teams.id}
         teamName={raw.teams.projects.title}
         location={location}
         memberCount={members.length}
