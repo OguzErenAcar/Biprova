@@ -68,3 +68,18 @@ begin
     return new;
 end;
 $$;
+
+
+
+
+CREATE POLICY "Project leaders can invite members"
+ON project_members
+FOR INSERT
+TO authenticated
+WITH CHECK (
+  EXISTS (
+    SELECT 1 FROM projects
+    WHERE projects.id = project_members.project_id
+      AND projects.leader_id = auth.uid()
+  )
+);

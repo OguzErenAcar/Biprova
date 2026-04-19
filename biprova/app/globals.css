@@ -18,43 +18,43 @@
     ───────────────────────────────────────── */
 
     /* Sayfa arkaplanı & genel metin */
-    --background: #020617;
-    --foreground: #0a0a0a;
+    --background: 222 84% 5%;
+    --foreground: 0 0% 4%;
 
     /* Card */
-    --card: #ffffff;
-    --card-foreground: #0a0a0a;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 4%;
 
     /* Popover / Dropdown */
-    --popover: #ffffff;
-    --popover-foreground: #0a0a0a;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 4%;
 
     /* Primary buton, badge, aktif eleman */
-    --primary: #171717;
-    --primary-foreground: #fafafa;
+    --primary: 0 0% 9%;
+    --primary-foreground: 0 0% 98%;
 
     /* Secondary buton, chip */
-    --secondary: #f5f5f5;
-    --secondary-foreground: #171717;
+    --secondary: 0 0% 96%;
+    --secondary-foreground: 0 0% 9%;
 
     /* Muted: placeholder, tab bg, soluk alanlar */
-    --muted: #f5f5f5;
-    --muted-foreground: #737373;
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 45%;
 
     /* Accent: hover state, selected item */
-    --accent: #f5f5f5;
-    --accent-foreground: #171717;
+    --accent: 0 0% 96%;
+    --accent-foreground: 0 0% 9%;
 
     /* Destructive: hata/silme butonları */
-    --destructive: #ef4444;
-    --destructive-foreground: #fafafa;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
 
     /* Border & Input kenarı */
-    --border: #e5e5e5;
-    --input: #e5e5e5;
+    --border: 0 0% 90%;
+    --input: 0 0% 90%;
 
     /* Focus ring (erişilebilirlik halkası) */
-    --ring: #0a0a0a;
+    --ring: 0 0% 4%;
 
     /* Tüm component'lerin köşe yuvarlaklığı */
     --radius: 0.5rem;
