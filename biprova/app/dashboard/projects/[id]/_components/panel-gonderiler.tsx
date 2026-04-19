@@ -77,7 +77,16 @@ export function PanelGonderiler({ teamId, teamName, posts, members, category, ci
 
   function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     const files = Array.from(e.target.files ?? []);
-    const next = files.map((file) => ({ file, previewUrl: URL.createObjectURL(file) }));
+    const MAX_SIZE = 5 * 1024 * 1024; // 5 MB
+    const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+
+    const valid = files.filter((file) => {
+      if (!ALLOWED_TYPES.includes(file.type)) return false;
+      if (file.size > MAX_SIZE) return false;
+      return true;
+    });
+
+    const next = valid.map((file) => ({ file, previewUrl: URL.createObjectURL(file) }));
     setPreviews((prev) => [...prev, ...next].slice(0, 5));
     e.target.value = '';
   }
