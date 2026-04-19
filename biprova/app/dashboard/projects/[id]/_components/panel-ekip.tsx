@@ -1,5 +1,6 @@
 "use client";
 
+import Link from 'next/link';
 import { useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import type { ProjectDetail } from '@/features/projects/actions';
