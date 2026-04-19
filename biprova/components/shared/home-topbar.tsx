@@ -351,7 +351,7 @@ function MobileDrawer({ open, onClose, projects }: { open: boolean; onClose: () 
           )}
         </div>
 
-        <div className="px-5 pb-5 mt-auto">
+        <div className="px-5 pb-24 mt-auto">
           <Separator className="mb-4" />
           <button
             onClick={() => setInfoOpen(true)}
