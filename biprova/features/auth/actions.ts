@@ -105,6 +105,10 @@ export async function searchSkills(query: string): Promise<{ id: string; name: s
 }
 
 export async function checkEmailAvailable(email: string): Promise<ActionResult> {
+  const ip = await getClientIp();
+  const { success } = await emailCheckLimiter.limit(ip);
+  if (!success) return { error: 'Çok fazla deneme yaptınız. Lütfen bekleyin.' };
+
   const admin = getAdminClient();
 
   const { data, error } = await admin.auth.admin.listUsers();
