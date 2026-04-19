@@ -34,32 +34,34 @@ export function TeamHero({ team }: TeamHeroProps) {
 
   return (
     <Card className="mb-5 overflow-hidden">
-      <div className="h-[120px] bg-gradient-to-br from-brand-hover via-indigo-500 to-violet-500" />
+      <div className="bg-gradient-to-br from-brand-hover via-indigo-500 to-violet-500">
+        <div className="h-[120px]" />
 
-      <div className="px-6 pb-5 pt-4">
-        <div className="flex items-start justify-between gap-2 mb-3">
-          <h1 className="font-nunito font-black text-h2 text-ink leading-tight">
-            {team.name}
-          </h1>
-          <Badge
-            variant="outline"
-            className={`shrink-0 mt-1 font-bold ${STATUS_STYLES[team.status] ?? STATUS_STYLES.active}`}
-          >
-            {STATUS_LABELS[team.status] ?? team.status}
-          </Badge>
-        </div>
+        <div className="px-6 pb-5 pt-4">
+          <div className="flex items-start justify-between gap-2 mb-3">
+            <h1 className="font-nunito font-black text-h2 text-white leading-tight">
+              {team.name}
+            </h1>
+            <Badge
+              variant="outline"
+              className={`shrink-0 mt-1 font-bold ${STATUS_STYLES[team.status] ?? STATUS_STYLES.active}`}
+            >
+              {STATUS_LABELS[team.status] ?? team.status}
+            </Badge>
+          </div>
 
-        <div className="flex flex-wrap gap-4 text-caption text-ink-muted">
-          <span className="flex items-center gap-1">
-            <LottieIcon animationData={clockIcon} size={18} />
-            {formatDate(team.formed_at)} kuruldu
-          </span>
-          {leader && (
+          <div className="flex flex-wrap gap-4 text-caption text-white/80">
             <span className="flex items-center gap-1">
-              <LottieIcon animationData={avatarIcon} size={18} />
-              Lider: {leader.name}
+              <LottieIcon animationData={clockIcon} size={18} />
+              {formatDate(team.formed_at)} kuruldu
             </span>
-          )}
+            {leader && (
+              <span className="flex items-center gap-1">
+                <LottieIcon animationData={avatarIcon} size={18} />
+                Lider: {leader.name}
+              </span>
+            )}
+          </div>
         </div>
       </div>
     </Card>
