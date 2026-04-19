@@ -151,9 +151,17 @@ export async function login(data: z.infer<typeof loginSchema>): Promise<ActionRe
   const parsed = loginSchema.safeParse(data);
   if (!parsed.success) return { error: 'Geçersiz e-posta veya şifre formatı.' };
 
+  // IP bazlı rate limit
   const ip = await getClientIp();
-  const { success } = await loginLimiter.limit(ip);
-  if (!success) return { error: 'Çok fazla deneme yaptınız. Lütfen bekleyin.' };
+  const { success: withinIpLimit } = await loginLimiter.limit(ip);
+  if (!withinIpLimit) return { error: 'Çok fazla deneme yaptınız. Lütfen bekleyin.' };
+
+  // Hesap kilitleme kontrolü
+  const { locked, ttl } = await checkAccountLocked(parsed.data.email);
+  if (locked) {
+    const minutes = Math.ceil(ttl / 60);
+    return { error: `Hesabınız çok fazla başarısız deneme nedeniyle kilitlendi. ${minutes} dakika sonra tekrar deneyin.` };
+  }
 
   const supabase = await createClient();
 
@@ -162,7 +170,19 @@ export async function login(data: z.infer<typeof loginSchema>): Promise<ActionRe
     password: parsed.data.password,
   });
 
-  if (error) return { error: error.message };
+  if (error) {
+    const { locked: nowLocked, attemptsLeft } = await recordFailedLogin(parsed.data.email);
+    if (nowLocked) {
+      return { error: 'Hesabınız çok fazla başarısız deneme nedeniyle 15 dakika kilitlendi.' };
+    }
+    if (attemptsLeft <= 2) {
+      return { error: `Hatalı e-posta veya şifre. ${attemptsLeft} deneme hakkınız kaldı.` };
+    }
+    return { error: 'Hatalı e-posta veya şifre.' };
+  }
+
+  // Başarılı girişte sayacı sıfırla
+  await clearFailedLogins(parsed.data.email);
 
   return { success: true };
 }
