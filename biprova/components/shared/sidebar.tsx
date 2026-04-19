@@ -317,13 +317,7 @@ export function Sidebar({ projects = [] }: SidebarProps) {
         </button>
       </div>
 
-      <Dialog open={infoOpen} onOpenChange={setInfoOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Biprova nedir?</DialogTitle>
-          </DialogHeader>
-        </DialogContent>
-      </Dialog>
+      <BiprovaInfoDialog open={infoOpen} onOpenChange={setInfoOpen} />
     </div>
   );
 }
