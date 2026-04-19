@@ -111,13 +111,18 @@ export async function getCities(): Promise<{ id: string; name: string }[]> {
   return data;
 }
 
+function escapeLike(value: string): string {
+  return value.replace(/\\/g, '\\\\').replace(/%/g, '\\%').replace(/_/g, '\\_');
+}
+
 export async function searchSkills(query: string): Promise<{ id: string; name: string }[]> {
   const supabase = await createClient();
+  const escaped = escapeLike(query.trim().slice(0, 100));
 
   const { data, error } = await supabase
     .from('skills')
     .select('id, name')
-    .ilike('name', `%${query}%`)
+    .ilike('name', `%${escaped}%`)
     .order('name', { ascending: true })
     .limit(5);
 
