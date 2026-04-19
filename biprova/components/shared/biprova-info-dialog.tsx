@@ -26,7 +26,7 @@ export function BiprovaInfoDialog({ open, onOpenChange }: BiprovaInfoDialogProps
         <div className="bg-gradient-to-br from-blue-600 to-indigo-600 px-6 pt-6 pb-8">
           <DialogHeader>
             <div className="flex items-center gap-2 mb-3">
-              <span className="text-2xl font-black tracking-tight font-display">
+              <span className="text-2xl font-black tracking-tight font-display" style={{ color: "#3764ec" }}>
                 Bi<span className="text-black">prova</span>
               </span>
             </div>
