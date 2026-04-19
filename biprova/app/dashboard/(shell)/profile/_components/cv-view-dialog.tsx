@@ -41,7 +41,7 @@ export function CvViewDialog({ cvUrl }: CvViewDialogProps) {
       </Button>
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="max-w-3xl h-[90vh] flex flex-col p-0 gap-0">
+        <DialogContent className="max-w-3xl h-[90vh] flex flex-col p-0 gap-0" aria-describedby={undefined}>
           <DialogHeader className="px-6 py-4 border-b border-edge shrink-0">
             <div className="flex items-center justify-between">
               <DialogTitle className="font-nunito font-black text-base text-ink">CV</DialogTitle>
