@@ -895,6 +895,14 @@ export async function transferProjectLeader(
   const { data: { user }, error: authError } = await supabase.auth.getUser();
   if (authError || !user) return { error: 'Oturum açmanız gerekiyor.' };
 
+  const { data: project } = await supabase
+    .from('projects')
+    .select('leader_id')
+    .eq('id', projectId)
+    .single();
+
+  if (project?.leader_id !== user.id) return { error: 'Sadece proje lideri liderliği devredebilir.' };
+
   const { error } = await supabase.rpc('fn_transfer_project_leader', {
     p_project_id: projectId,
     p_new_leader_id: newLeaderId,
