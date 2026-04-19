@@ -15,13 +15,18 @@ export function SplashWrapper({ children }: { children: React.ReactNode }) {
     setShowSplash(true);
 
     const timer = setTimeout(() => {
-      if (!splashRef.current) return;
+      if (!splashRef.current) {
+        setShowSplash(false);
+        return;
+      }
       animate(splashRef.current, {
         opacity: [1, 0],
         duration: 250,
         ease: "out(2)",
         onComplete: () => setShowSplash(false),
       });
+      // animejs onComplete bazen tetiklenmez, garantili fallback
+      setTimeout(() => setShowSplash(false), 400);
     }, 500);
 
     return () => clearTimeout(timer);

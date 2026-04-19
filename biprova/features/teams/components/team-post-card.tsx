@@ -111,7 +111,7 @@ export function TeamPostCard({
         isOwnTeam ? "bg-[#f8faff] border-brand-surface" : ""
       }`}
     >
-      <CardContent className="px-3 sm:p-[1.4rem]">
+      <CardContent className="px-3 ">
         {/* Ekip kimlik satırı */}
         <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
           <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-full flex items-center justify-center bg-white flex-shrink-0 border border-gray-100 overflow-hidden">
@@ -123,7 +123,7 @@ export function TeamPostCard({
             />
           </div>
           <div className="flex-1 min-w-0">
-            <div className="text-sm md:text-lg text-ink flex items-center gap-1 flex-wrap">
+            <div className="text-md md:text-lg text-ink flex items-center gap-1 flex-wrap">
               {teamName}
               {isOwnTeam && (
                 <span className="text-brand font-bold text-meta">
