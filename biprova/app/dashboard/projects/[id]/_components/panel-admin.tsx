@@ -110,15 +110,20 @@ function ApplicationsSection({ projectId: _projectId, pending, reviewed, members
 function ApplicationRow({
   app,
   isPending,
+  isAlreadyMember,
 }: {
   app: ProjectDetail['applications'][number];
   isPending: boolean;
+  isAlreadyMember: boolean;
 }) {
   const [isPendingTransition, startTransition] = useTransition();
   const [localStatus, setLocalStatus] = useState(app.status);
   const [error, setError] = useState('');
 
   function handle(decision: 'accepted' | 'rejected') {
+    if (decision === 'accepted' && isAlreadyMember) {
+      notify.warning(`${app.user_name} zaten bu projenin üyesi.`);
+    }
     startTransition(async () => {
       const result = await reviewApplication(app.id, decision);
       if (result.error) {
