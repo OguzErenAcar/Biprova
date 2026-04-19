@@ -177,13 +177,21 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
                 className={`flex gap-2 items-start rounded-xl px-2 py-1 transition-colors ${isMine ? 'flex-row-reverse' : ''} ${isSelecting ? 'cursor-pointer' : ''} ${isSelected ? 'bg-red-100' : ''}`}
                 onClick={() => toggleMessage(msg.id)}
               >
-                <div className="w-[30px] h-[30px] rounded-full bg-blue-500 flex items-center justify-center font-nunito font-black text-[0.68rem] text-white shrink-0">
+                <Link
+                  href={`/dashboard/profile/${msg.sender_id}`}
+                  onClick={(e) => e.stopPropagation()}
+                  className="w-[30px] h-[30px] rounded-full bg-blue-500 flex items-center justify-center font-nunito font-black text-[0.68rem] text-white shrink-0 hover:opacity-80 transition-opacity"
+                >
                   {getInitials(msg.sender_name)}
-                </div>
+                </Link>
                 <div className="max-w-[70%]">
-                  <div className={`text-[0.7rem] text-slate-400 mb-0.5 ${isMine ? 'text-right' : ''}`}>
+                  <Link
+                    href={`/dashboard/profile/${msg.sender_id}`}
+                    onClick={(e) => e.stopPropagation()}
+                    className={`text-[0.7rem] text-slate-400 mb-0.5 hover:text-blue-500 transition-colors ${isMine ? 'text-right block' : 'block'}`}
+                  >
                     {msg.sender_name}
-                  </div>
+                  </Link>
                   <div
                     className={`rounded-[12px] px-[0.9rem] py-[0.65rem] text-[0.85rem] leading-relaxed border ${
                       isMine
