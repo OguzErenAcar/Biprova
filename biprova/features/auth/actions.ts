@@ -4,7 +4,15 @@ import { redirect } from 'next/navigation';
 import { z } from 'zod';
 import { createClient } from '@/lib/supabase/server';
 import { createClient as createAdminClient } from '@supabase/supabase-js';
-import { loginLimiter, signupLimiter, emailCheckLimiter, getClientIp } from '@/lib/rate-limit';
+import {
+  loginLimiter,
+  signupLimiter,
+  emailCheckLimiter,
+  getClientIp,
+  recordFailedLogin,
+  checkAccountLocked,
+  clearFailedLogins,
+} from '@/lib/rate-limit';
 
 type ActionResult = { error: string } | { success: true };
 type SignupResult = { error: string } | { success: true; userId: string };
