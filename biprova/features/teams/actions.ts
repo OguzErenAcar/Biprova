@@ -206,7 +206,25 @@ export async function renameTeam(teamId: string, name: string): Promise<{ error?
 
 export async function kickMember(teamId: string, userId: string): Promise<{ error?: string }> {
   const supabase = await createClient();
-  const { error } = await supabase.from('team_members').delete().eq('team_id', teamId).eq('user_id', userId);
+
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return { error: 'Oturum açmanız gerekiyor.' };
+
+  const { data: team } = await supabase
+    .from('teams')
+    .select('leader_id')
+    .eq('id', teamId)
+    .single();
+
+  if (team?.leader_id !== user.id) return { error: 'Sadece takım lideri üye çıkarabilir.' };
+  if (userId === user.id) return { error: 'Kendinizi çıkaramazsınız.' };
+
+  const { error } = await supabase
+    .from('team_members')
+    .delete()
+    .eq('team_id', teamId)
+    .eq('user_id', userId);
+
   if (error) return { error: 'Üye çıkarılamadı.' };
   return {};
 }
