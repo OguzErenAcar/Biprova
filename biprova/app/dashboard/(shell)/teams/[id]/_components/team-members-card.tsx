@@ -21,9 +21,10 @@ export function TeamMembersCard({ members }: TeamMembersCardProps) {
           <p className="text-body text-ink-subtle">Henüz üye yok.</p>
         ) : (
           members.map((member, i) => (
-            <div
+            <Link
               key={member.id}
-              className={`flex items-center gap-3 py-3 ${i < members.length - 1 ? "border-b border-edge" : ""} ${i === 0 ? "pt-0" : ""}`}
+              href={`/dashboard/profile/${member.user_id}`}
+              className={`flex items-center gap-3 py-3 hover:bg-slate-50 rounded-lg px-1 -mx-1 transition-colors ${i < members.length - 1 ? "border-b border-edge" : ""} ${i === 0 ? "pt-0" : ""}`}
             >
               <UserAvatar
                 avatarUrl={member.avatar_url}
@@ -44,7 +45,7 @@ export function TeamMembersCard({ members }: TeamMembersCardProps) {
                   Lider
                 </Badge>
               )}
-            </div>
+            </Link>
           ))
         )}
       </CardContent>
