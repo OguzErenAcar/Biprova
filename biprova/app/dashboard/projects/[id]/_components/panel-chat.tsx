@@ -1,5 +1,6 @@
 "use client";
 
+import Link from 'next/link';
 import { useState, useTransition, useRef, useEffect } from 'react';
 import { Paperclip, Send, Trash2 } from 'lucide-react';
 import type { ProjectMessage } from '@/features/projects/actions';
