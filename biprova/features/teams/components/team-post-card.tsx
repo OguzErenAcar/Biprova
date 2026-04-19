@@ -126,7 +126,16 @@ export function TeamPostCard({
           </div>
           <div className="flex-1 min-w-0">
             <div className="text-md md:text-lg text-ink flex items-center gap-1 flex-wrap">
-              {teamName}
+              {teamId ? (
+                <button
+                  onClick={(e) => { e.stopPropagation(); router.push(`/dashboard/teams/${teamId}`); }}
+                  className="font-semibold hover:text-brand transition-colors bg-transparent border-none cursor-pointer p-0"
+                >
+                  {teamName}
+                </button>
+              ) : (
+                teamName
+              )}
               {isOwnTeam && (
                 <span className="text-brand font-bold text-meta">
                   · Senin ekibin
