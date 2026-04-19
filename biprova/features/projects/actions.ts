@@ -996,13 +996,17 @@ export async function createProjectPost(teamId: string, content: string, imageUr
   });
 }
 
-export async function deleteProjectPost(postId: string): Promise<void> {
+export async function deleteProjectPost(postId: string): Promise<{ error?: string }> {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return;
-  await supabase
+  if (!user) return { error: 'Oturum açmanız gerekiyor.' };
+
+  const { error } = await supabase
     .from('team_posts')
     .delete()
     .eq('id', postId)
     .eq('author_id', user.id);
+
+  if (error) return { error: 'Gönderi silinemedi.' };
+  return {};
 }
