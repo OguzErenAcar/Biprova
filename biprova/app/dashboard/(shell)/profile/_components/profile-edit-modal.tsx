@@ -172,7 +172,7 @@ export function ProfileEditModal({ user }: ProfileEditModalProps) {
         </Button>
       </DialogTrigger>
 
-      <DialogContent className="max-w-md rounded-[20px] p-6 max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-md rounded-[20px] p-6 max-h-[90vh] overflow-y-auto" aria-describedby={undefined}>
         <DialogHeader>
           <DialogTitle className="font-nunito font-black text-title text-ink">
             Profili Düzenle
