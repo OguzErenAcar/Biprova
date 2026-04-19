@@ -10,6 +10,12 @@ import { useLocation } from "@/contexts/location-context";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 import homeIcon from "@/app/icons/home.json";
 import postsIcon from "@/app/icons/wired-outline-56-document-hover-swipe.json";
