@@ -62,6 +62,14 @@ export async function reviewApplication(
 
   if (!app) return { error: 'Başvuru bulunamadı.' };
 
+  const { data: project } = await supabase
+    .from('projects')
+    .select('leader_id')
+    .eq('id', app.project_id)
+    .single();
+
+  if (project?.leader_id !== user.id) return { error: 'Sadece proje lideri başvuruları değerlendirebilir.' };
+
   const { error: updateError } = await supabase
     .from('applications')
     .update({ status: decision })
