@@ -73,6 +73,13 @@ export const messageLimiter = new Ratelimit({
   prefix: 'rl:message',
 });
 
+// gönderi oluşturma: kullanıcı başına 1 dakikada 5 gönderi
+export const postLimiter = new Ratelimit({
+  redis,
+  limiter: Ratelimit.slidingWindow(5, '1 m'),
+  prefix: 'rl:post',
+});
+
 export async function getClientIp(): Promise<string> {
   const headerStore = await headers();
   return (
