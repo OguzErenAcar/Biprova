@@ -79,10 +79,10 @@ export async function signup(data: z.infer<typeof signupSchema>): Promise<Signup
     return { error: updateError.message };
   }
 
-  if (data.skill_ids.length > 0) {
+  if (parsed.data.skill_ids.length > 0) {
     const { error: skillsError } = await admin
       .from('user_skills')
-      .insert(data.skill_ids.map((skill_id) => ({ user_id: userId, skill_id })));
+      .insert(parsed.data.skill_ids.map((skill_id) => ({ user_id: userId, skill_id })));
 
     if (skillsError) return { error: skillsError.message };
   }
