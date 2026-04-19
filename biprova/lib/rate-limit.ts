@@ -19,7 +19,10 @@ function lockoutKey(email: string): string {
   return `lockout:${email.toLowerCase()}`;
 }
 
+const noopLimiter = { limit: async () => ({ success: true }) };
+
 export async function recordFailedLogin(email: string): Promise<{ locked: boolean; attemptsLeft: number }> {
+  if (!redis) return { locked: false, attemptsLeft: LOCKOUT_MAX_ATTEMPTS };
   const key = lockoutKey(email);
   const attempts = await redis.incr(key);
 
@@ -34,6 +37,7 @@ export async function recordFailedLogin(email: string): Promise<{ locked: boolea
 }
 
 export async function checkAccountLocked(email: string): Promise<{ locked: boolean; ttl: number }> {
+  if (!redis) return { locked: false, ttl: 0 };
   const key = lockoutKey(email);
   const attempts = await redis.get<number>(key);
 
@@ -46,43 +50,34 @@ export async function checkAccountLocked(email: string): Promise<{ locked: boole
 }
 
 export async function clearFailedLogins(email: string): Promise<void> {
+  if (!redis) return;
   await redis.del(lockoutKey(email));
 }
 
 // login: IP başına 10 saniyede 5 deneme
-export const loginLimiter = new Ratelimit({
-  redis,
-  limiter: Ratelimit.slidingWindow(5, '10 s'),
-  prefix: 'rl:login',
-});
+export const loginLimiter = redis
+  ? new Ratelimit({ redis, limiter: Ratelimit.slidingWindow(5, '10 s'), prefix: 'rl:login' })
+  : noopLimiter;
 
 // signup: IP başına 1 dakikada 3 deneme
-export const signupLimiter = new Ratelimit({
-  redis,
-  limiter: Ratelimit.slidingWindow(3, '1 m'),
-  prefix: 'rl:signup',
-});
+export const signupLimiter = redis
+  ? new Ratelimit({ redis, limiter: Ratelimit.slidingWindow(3, '1 m'), prefix: 'rl:signup' })
+  : noopLimiter;
 
 // email check: IP başına 1 dakikada 10 deneme
-export const emailCheckLimiter = new Ratelimit({
-  redis,
-  limiter: Ratelimit.slidingWindow(10, '1 m'),
-  prefix: 'rl:email',
-});
+export const emailCheckLimiter = redis
+  ? new Ratelimit({ redis, limiter: Ratelimit.slidingWindow(10, '1 m'), prefix: 'rl:email' })
+  : noopLimiter;
 
 // mesaj gönderme: kullanıcı başına 1 dakikada 30 mesaj
-export const messageLimiter = new Ratelimit({
-  redis,
-  limiter: Ratelimit.slidingWindow(30, '1 m'),
-  prefix: 'rl:message',
-});
+export const messageLimiter = redis
+  ? new Ratelimit({ redis, limiter: Ratelimit.slidingWindow(30, '1 m'), prefix: 'rl:message' })
+  : noopLimiter;
 
 // gönderi oluşturma: kullanıcı başına 1 dakikada 5 gönderi
-export const postLimiter = new Ratelimit({
-  redis,
-  limiter: Ratelimit.slidingWindow(5, '1 m'),
-  prefix: 'rl:post',
-});
+export const postLimiter = redis
+  ? new Ratelimit({ redis, limiter: Ratelimit.slidingWindow(5, '1 m'), prefix: 'rl:post' })
+  : noopLimiter;
 
 export async function getClientIp(): Promise<string> {
   const headerStore = await headers();
