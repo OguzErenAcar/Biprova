@@ -367,7 +367,9 @@ function MobileDrawer({ open, onClose, projects }: { open: boolean; onClose: () 
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Biprova nedir?</DialogTitle>
+       
           </DialogHeader>
+          
         </DialogContent>
       </Dialog>
     </>
