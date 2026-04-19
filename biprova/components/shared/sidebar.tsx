@@ -310,6 +310,25 @@ export function Sidebar({ projects = [] }: SidebarProps) {
           </div>
         </nav>
       )}
+
+      <div className="mt-auto pt-4">
+        <Separator className="mb-4" />
+        <button
+          onClick={() => setInfoOpen(true)}
+          className="w-full flex items-center gap-2 px-3 py-2 rounded-[10px] text-label font-semibold text-ink hover:bg-slate-100 transition-colors"
+        >
+          <span className="w-4 h-4 flex items-center justify-center rounded-full border border-slate-400 text-slate-400 text-[10px] font-bold shrink-0">?</span>
+          Biprova nedir?
+        </button>
+      </div>
+
+      <Dialog open={infoOpen} onOpenChange={setInfoOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Biprova nedir?</DialogTitle>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
