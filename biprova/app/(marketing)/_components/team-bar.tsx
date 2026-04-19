@@ -41,8 +41,7 @@ export function TeamBar({ filled, total }: TeamBarProps) {
         <div
           ref={fillRef}
           className="h-full rounded-full bg-gradient-to-r from-blue-500 to-indigo-500"
-          style={{ transition: 'width 1200ms cubic-bezier(.4,0,.2,1)' }}
-          style={{ width: "0%" }}
+          style={{ width: "0%", transition: 'width 1200ms cubic-bezier(.4,0,.2,1)' }}
         />
       </div>
     </div>
