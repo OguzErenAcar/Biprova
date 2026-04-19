@@ -23,6 +23,26 @@ create or replace trigger trg_reject_other_applications_on_accepted
     for each row execute function reject_other_applications_on_accepted();
 
 -- ============================================================
+-- MIGRATION: Auth e-posta değişince public.users'ı güncelle
+-- ============================================================
+
+create or replace function handle_auth_user_email_updated()
+returns trigger language plpgsql security definer as $$
+begin
+    if new.email is distinct from old.email then
+        update public.users
+        set email = new.email
+        where id = new.id;
+    end if;
+    return new;
+end;
+$$;
+
+create or replace trigger trg_auth_user_email_updated
+    after update on auth.users
+    for each row execute function handle_auth_user_email_updated();
+
+-- ============================================================
 -- MIGRATION: Kayıt sırasında waitlist'teki e-posta ise
 --            kullanıcıya top100 badge'i ver
 -- ============================================================
