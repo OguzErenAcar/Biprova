@@ -82,9 +82,11 @@ export function ImageUploadButton({ type, userId, currentUrl, children }: ImageU
     setSuccess(false);
   }
 
+  const ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
+
   function handleFileSelected(file: File) {
-    if (!file.type.startsWith('image/')) {
-      setError('Sadece resim dosyası yüklenebilir.');
+    if (!ALLOWED_IMAGE_TYPES.includes(file.type)) {
+      setError('Sadece JPG, PNG veya WebP dosyası yüklenebilir.');
       return;
     }
     if (file.size > 5 * 1024 * 1024) {
