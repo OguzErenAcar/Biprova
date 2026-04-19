@@ -127,13 +127,9 @@ export async function checkEmailAvailable(email: string): Promise<ActionResult> 
 
   const admin = getAdminClient();
 
-  const { data, error } = await admin.auth.admin.listUsers();
-  if (error) return { error: error.message };
-
-  const exists = data.users.some(
-    (u) => u.email?.toLowerCase() === email.toLowerCase()
-  );
-  if (exists) return { error: 'Bu e-posta zaten kayıtlı.' };
+  const { data, error } = await admin.auth.admin.getUserByEmail(parsed.data.email);
+  if (error && error.message !== 'User not found') return { error: error.message };
+  if (data?.user) return { error: 'Bu e-posta zaten kayıtlı.' };
 
   return { success: true };
 }
