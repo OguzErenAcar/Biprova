@@ -17,7 +17,7 @@ export default function NotFound() {
         Aradığın sayfa kaldırılmış ya da hiç var olmamış olabilir.
       </p>
       <Link
-        href="/"
+        href="/dashboard"
         className="mt-6 inline-flex items-center gap-2 bg-blue-600 text-white font-nunito font-extrabold px-6 py-3 rounded-xl hover:bg-blue-700 transition-colors no-underline"
       >
         Ana Sayfaya Dön
