@@ -131,12 +131,20 @@ create or replace trigger trg_delete_project_on_empty_members
 
 create or replace function handle_auth_user_created()
 returns trigger language plpgsql security definer as $$
+declare
+    v_badge text := null;
 begin
-    insert into public.users (id, email, name)
+    -- Waitlist'te kayıtlı e-posta ise top100 badge'i ver
+    if exists (select 1 from public.waitlist where email = new.email) then
+        v_badge := 'top100';
+    end if;
+
+    insert into public.users (id, email, name, badge)
     values (
         new.id,
         new.email,
-        coalesce(new.raw_user_meta_data->>'name', split_part(new.email, '@', 1))
+        coalesce(new.raw_user_meta_data->>'name', split_part(new.email, '@', 1)),
+        v_badge
     )
     on conflict (id) do nothing;
     return new;
