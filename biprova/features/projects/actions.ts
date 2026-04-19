@@ -180,20 +180,20 @@ export async function getSkills(): Promise<SkillOption[]> {
 
 const roleItemSchema = z.array(
   z.object({
-    name: z.string().min(1),
-    count: z.number().int().min(1),
-    skillIds: z.array(z.string()).default([]),
+    name: z.string().min(1).max(100),
+    count: z.number().int().min(1).max(20),
+    skillIds: z.array(z.string().uuid()).default([]),
   })
 ).min(1, 'En az 1 rol eklemelisin').max(6, 'En fazla 6 rol ekleyebilirsin');
 
 const createProjectSchema = z.object({
-  title: z.string().min(3, 'Başlık en az 3 karakter olmalı').max(80),
-  description: z.string().min(10, 'İhtiyaç açıklaması en az 10 karakter olmalı').max(500),
-  city: z.string().min(1, 'Şehir zorunludur'),
-  is_remote: z.string().optional(),
-  category_id: z.string().optional(),
-  roles: z.string().optional(),
-  team_id: z.string().optional(),
+  title:       z.string().min(3, 'Başlık en az 3 karakter olmalı').max(80).trim(),
+  description: z.string().min(10, 'İhtiyaç açıklaması en az 10 karakter olmalı').max(500).trim(),
+  city:        z.string().min(1, 'Şehir zorunludur').max(100).trim(),
+  is_remote:   z.string().optional(),
+  category_id: z.string().uuid('Geçersiz kategori.').optional().or(z.literal('')).transform(v => v === '' ? undefined : v),
+  roles:       z.string().optional(),
+  team_id:     z.string().uuid('Geçersiz ekip.').optional().or(z.literal('')).transform(v => v === '' ? undefined : v),
 });
 
 export interface CreateProjectState {
