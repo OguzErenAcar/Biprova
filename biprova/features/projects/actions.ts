@@ -930,6 +930,10 @@ export async function sendProjectMessage(
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return { error: 'Oturum açmanız gerekiyor.' };
 
+  const { messageLimiter } = await import('@/lib/rate-limit');
+  const { success: withinLimit } = await messageLimiter.limit(user.id);
+  if (!withinLimit) return { error: 'Çok hızlı mesaj gönderiyorsunuz. Lütfen bekleyin.' };
+
   const trimmed = content.trim();
   if (!trimmed) return { error: 'Mesaj boş olamaz.' };
 
