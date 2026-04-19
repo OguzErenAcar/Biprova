@@ -42,7 +42,6 @@ export async function proxy(request: NextRequest) {
       .eq('id', user.id)
       .single()
 
-    console.log('[proxy] dbUser:', dbUser, '| dbError:', dbError?.message ?? 'none')
     if (!dbUser) {
       return NextResponse.redirect(new URL('/login', request.url))
     }
