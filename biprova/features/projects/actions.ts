@@ -977,23 +977,39 @@ export async function sendProjectMessage(
   return {};
 }
 
-export async function createProjectPost(teamId: string, content: string, imageUrls: string[] = []): Promise<void> {
+const ALLOWED_IMAGE_EXTENSIONS = new Set(['jpg', 'jpeg', 'png', 'webp', 'gif']);
+
+export async function createProjectPost(teamId: string, content: string, imageUrls: string[] = []): Promise<{ error?: string }> {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return;
+  if (!user) return { error: 'Oturum açmanız gerekiyor.' };
+
+  const { postLimiter } = await import('@/lib/rate-limit');
+  const { success: withinLimit } = await postLimiter.limit(user.id);
+  if (!withinLimit) return { error: 'Çok hızlı gönderi oluşturuyorsunuz. Lütfen bekleyin.' };
+
   const trimmed = content.trim();
-  if (!trimmed) return;
+  if (!trimmed && imageUrls.length === 0) return { error: 'Gönderi boş olamaz.' };
 
-  // Yalnızca Supabase Storage'dan gelen URL'lere izin ver
+  // Yalnızca Supabase Storage'dan gelen ve geçerli uzantılı URL'lere izin ver
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL ?? '';
-  const safeUrls = imageUrls.filter((url) => url.startsWith(`${supabaseUrl}/storage/`));
+  const safeUrls = imageUrls
+    .filter((url) => url.startsWith(`${supabaseUrl}/storage/`))
+    .filter((url) => {
+      const ext = url.split('.').pop()?.toLowerCase().split('?')[0] ?? '';
+      return ALLOWED_IMAGE_EXTENSIONS.has(ext);
+    })
+    .slice(0, 5);
 
-  await supabase.from('team_posts').insert({
+  const { error } = await supabase.from('team_posts').insert({
     team_id: teamId,
     author_id: user.id,
     content: trimmed,
     image_urls: safeUrls,
   });
+
+  if (error) return { error: 'Gönderi oluşturulamadı.' };
+  return {};
 }
 
 export async function deleteProjectPost(postId: string): Promise<{ error?: string }> {
