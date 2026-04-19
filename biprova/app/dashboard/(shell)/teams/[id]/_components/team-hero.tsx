@@ -10,9 +10,9 @@ interface TeamHeroProps {
 }
 
 const STATUS_STYLES: Record<string, string> = {
-  active: "bg-white/20 text-white border-white/30",
-  pending: "bg-white/20 text-white border-white/30",
-  no_project: "bg-white/20 text-white border-white/30",
+  active: "bg-success-surface text-success border-success-surface",
+  pending: "bg-warning-surface text-warning border-warning-surface",
+  no_project: "bg-slate-100 text-ink-muted border-edge",
 };
 
 const STATUS_LABELS: Record<string, string> = {
@@ -34,34 +34,32 @@ export function TeamHero({ team }: TeamHeroProps) {
 
   return (
     <Card className="mb-5 overflow-hidden">
-      <div className="bg-gradient-to-br from-brand-hover via-indigo-500 to-violet-500">
-        <div className="h-[120px]" />
+      <div className="h-[120px] bg-gradient-to-br from-brand-hover via-indigo-500 to-violet-500" />
 
-        <div className="px-6 pb-5 pt-4">
-          <div className="flex items-start justify-between gap-2 mb-3">
-            <h1 className="font-nunito font-black text-h2 text-white leading-tight">
-              {team.name}
-            </h1>
-            <Badge
-              variant="outline"
-              className={`shrink-0 mt-1 font-bold ${STATUS_STYLES[team.status] ?? STATUS_STYLES.active}`}
-            >
-              {STATUS_LABELS[team.status] ?? team.status}
-            </Badge>
-          </div>
+      <div className="px-6 pb-5 pt-4">
+        <div className="flex items-start justify-between gap-2 mb-3">
+          <h1 className="font-nunito font-black text-h2 text-ink leading-tight">
+            {team.name}
+          </h1>
+          <Badge
+            variant="outline"
+            className={`shrink-0 mt-1 font-bold ${STATUS_STYLES[team.status] ?? STATUS_STYLES.active}`}
+          >
+            {STATUS_LABELS[team.status] ?? team.status}
+          </Badge>
+        </div>
 
-          <div className="flex flex-wrap gap-4 text-caption text-white/80">
+        <div className="flex flex-wrap gap-4 text-caption text-ink-muted">
+          <span className="flex items-center gap-1">
+            <LottieIcon animationData={clockIcon} size={18} />
+            {formatDate(team.formed_at)} kuruldu
+          </span>
+          {leader && (
             <span className="flex items-center gap-1">
-              <LottieIcon animationData={clockIcon} size={18} />
-              {formatDate(team.formed_at)} kuruldu
+              <LottieIcon animationData={avatarIcon} size={18} />
+              Lider: {leader.name}
             </span>
-            {leader && (
-              <span className="flex items-center gap-1">
-                <LottieIcon animationData={avatarIcon} size={18} />
-                Lider: {leader.name}
-              </span>
-            )}
-          </div>
+          )}
         </div>
       </div>
     </Card>
