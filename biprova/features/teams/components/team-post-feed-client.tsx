@@ -155,6 +155,7 @@ export function TeamPostFeedClient({ posts }: Props) {
               <TeamPostCard
                 key={post.id}
                 postId={post.id}
+                teamId={post.team.id}
                 teamName={post.team.projectTitle}
                 location={location}
                 memberCount={post.team.members.length}
