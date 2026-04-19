@@ -54,7 +54,7 @@ function MembersSection({ members }: { members: ProjectDetail['members'] }) {
           </div>
         ) : (
           members.map((member) => (
-            <div key={member.user_id} className="flex items-center gap-3 px-[1.4rem] py-[0.9rem]">
+            <Link key={member.user_id} href={`/dashboard/profile/${member.user_id}`} className="flex items-center gap-3 px-[1.4rem] py-[0.9rem] hover:bg-slate-50 transition-colors">
               <UserAvatar
                 avatarUrl={member.avatar_url}
                 initials={getInitials(member.name)}
@@ -80,7 +80,7 @@ function MembersSection({ members }: { members: ProjectDetail['members'] }) {
                   <span className="text-[0.74rem] text-slate-400">{member.role_name}</span>
                 )}
               </div>
-            </div>
+            </Link>
           ))
         )}
       </div>
