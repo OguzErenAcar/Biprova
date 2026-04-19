@@ -125,11 +125,16 @@ export async function checkEmailAvailable(email: string): Promise<ActionResult> 
   const { success } = await emailCheckLimiter.limit(ip);
   if (!success) return { error: 'Çok fazla deneme yaptınız. Lütfen bekleyin.' };
 
-  const admin = getAdminClient();
+  const supabase = await createClient();
 
-  const { data, error } = await admin.auth.admin.getUserByEmail(parsed.data.email);
-  if (error && error.message !== 'User not found') return { error: error.message };
-  if (data?.user) return { error: 'Bu e-posta zaten kayıtlı.' };
+  const { data, error } = await supabase
+    .from('users')
+    .select('id')
+    .eq('email', parsed.data.email.toLowerCase())
+    .maybeSingle();
+
+  if (error) return { error: error.message };
+  if (data) return { error: 'Bu e-posta zaten kayıtlı.' };
 
   return { success: true };
 }
