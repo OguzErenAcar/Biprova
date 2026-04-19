@@ -1,12 +1,33 @@
 'use server';
 
 import { redirect } from 'next/navigation';
+import { z } from 'zod';
 import { createClient } from '@/lib/supabase/server';
 import { createClient as createAdminClient } from '@supabase/supabase-js';
 import { loginLimiter, signupLimiter, emailCheckLimiter, getClientIp } from '@/lib/rate-limit';
 
 type ActionResult = { error: string } | { success: true };
 type SignupResult = { error: string } | { success: true; userId: string };
+
+const signupSchema = z.object({
+  name:         z.string().min(1).max(100),
+  email:        z.string().email(),
+  password:     z.string().min(8).max(128),
+  linkedin_url: z.string().url().or(z.literal('')).or(z.literal(undefined as unknown as string)).optional().default(''),
+  city:         z.string().max(100),
+  is_remote:    z.boolean(),
+  skill_ids:    z.array(z.string().uuid()).max(20),
+  bio:          z.string().max(500).optional(),
+});
+
+const loginSchema = z.object({
+  email:    z.string().email(),
+  password: z.string().min(1).max(128),
+});
+
+const emailSchema = z.object({
+  email: z.string().email(),
+});
 
 function getAdminClient() {
   return createAdminClient(
