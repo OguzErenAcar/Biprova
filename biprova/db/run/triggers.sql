@@ -156,6 +156,26 @@ create or replace trigger trg_auth_user_created
     for each row execute function handle_auth_user_created();
 
 -- ============================================================
+-- TRIGGER: Auth e-posta değişince public.users'ı güncelle
+-- ============================================================
+
+create or replace function handle_auth_user_email_updated()
+returns trigger language plpgsql security definer as $$
+begin
+    if new.email is distinct from old.email then
+        update public.users
+        set email = new.email
+        where id = new.id;
+    end if;
+    return new;
+end;
+$$;
+
+create or replace trigger trg_auth_user_email_updated
+    after update on auth.users
+    for each row execute function handle_auth_user_email_updated();
+
+-- ============================================================
 -- TRIGGER: Auth user giriş yapınca last_sign_in_at güncelle
 -- ============================================================
 
