@@ -1,18 +1,15 @@
 import { TeamDetail } from "@/features/teams/actions";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { LottieIcon } from "@/components/shared/lottie-icon";
-import clockIcon from "@/app/icons/wired-outline-236-alarm-clock-hover-pinch.json";
-import avatarIcon from "@/app/icons/wired-outline-268-avatar-man-hover-glance.json";
 
 interface TeamHeroProps {
   team: TeamDetail;
 }
 
 const STATUS_STYLES: Record<string, string> = {
-  active: "bg-success-surface text-success border-success-surface",
-  pending: "bg-warning-surface text-warning border-warning-surface",
-  no_project: "bg-slate-100 text-ink-muted border-edge",
+  active: "bg-white/20 text-white border-white/30",
+  pending: "bg-white/20 text-white border-white/30",
+  no_project: "bg-white/20 text-white border-white/30",
 };
 
 const STATUS_LABELS: Record<string, string> = {
@@ -29,37 +26,49 @@ function formatDate(dateStr: string): string {
   });
 }
 
+function TeamAvatar({ name }: { name: string }) {
+  const initials = name
+    .split(" ")
+    .slice(0, 2)
+    .map((w) => w[0]?.toUpperCase() ?? "")
+    .join("");
+
+  return (
+    <div className="w-16 h-16 rounded-2xl bg-white/20 border-2 border-white/30 flex items-center justify-center shrink-0">
+      <span className="font-nunito font-black text-white text-xl leading-none">
+        {initials}
+      </span>
+    </div>
+  );
+}
+
 export function TeamHero({ team }: TeamHeroProps) {
   const leader = team.members.find((m) => m.is_leader);
 
   return (
     <Card className="mb-5 overflow-hidden">
-      <div className="h-[120px] bg-gradient-to-br from-brand-hover via-indigo-500 to-violet-500" />
+      <div className="bg-gradient-to-br from-brand-hover via-indigo-500 to-violet-500 px-6 py-6">
+        <div className="flex items-center gap-4">
+          <TeamAvatar name={team.name} />
 
-      <div className="px-6 pb-5 pt-4">
-        <div className="flex items-start justify-between gap-2 mb-3">
-          <h1 className="font-nunito font-black text-h2 text-ink leading-tight">
-            {team.name}
-          </h1>
-          <Badge
-            variant="outline"
-            className={`shrink-0 mt-1 font-bold ${STATUS_STYLES[team.status] ?? STATUS_STYLES.active}`}
-          >
-            {STATUS_LABELS[team.status] ?? team.status}
-          </Badge>
-        </div>
+          <div className="flex-1 min-w-0">
+            <div className="flex items-start justify-between gap-2 mb-2">
+              <h1 className="font-nunito font-black text-h2 text-white leading-tight">
+                {team.name}
+              </h1>
+              <Badge
+                variant="outline"
+                className={`shrink-0 mt-1 font-bold ${STATUS_STYLES[team.status] ?? STATUS_STYLES.active}`}
+              >
+                {STATUS_LABELS[team.status] ?? team.status}
+              </Badge>
+            </div>
 
-        <div className="flex flex-wrap gap-4 text-caption text-ink-muted">
-          <span className="flex items-center gap-1">
-            <LottieIcon animationData={clockIcon} size={18} />
-            {formatDate(team.formed_at)} kuruldu
-          </span>
-          {leader && (
-            <span className="flex items-center gap-1">
-              <LottieIcon animationData={avatarIcon} size={18} />
-              Lider: {leader.name}
-            </span>
-          )}
+            <div className="flex flex-wrap gap-x-4 gap-y-1 text-caption text-white/80">
+              <span>{formatDate(team.formed_at)} kuruldu</span>
+              {leader && <span>Lider: {leader.name}</span>}
+            </div>
+          </div>
         </div>
       </div>
     </Card>
