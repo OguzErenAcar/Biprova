@@ -10,9 +10,9 @@ interface TeamHeroProps {
 }
 
 const STATUS_STYLES: Record<string, string> = {
-  active: "bg-success-surface text-success border-success-surface",
-  pending: "bg-warning-surface text-warning border-warning-surface",
-  no_project: "bg-slate-100 text-ink-muted border-edge",
+  active: "bg-white/20 text-white border-white/30",
+  pending: "bg-white/20 text-white border-white/30",
+  no_project: "bg-white/20 text-white border-white/30",
 };
 
 const STATUS_LABELS: Record<string, string> = {
