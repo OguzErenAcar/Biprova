@@ -81,6 +81,8 @@ type FilledRoleRow = {
 export async function getUserProfileById(id: string): Promise<UserProfile | null> {
   const supabase = await createClient();
 
+  const { data: { user: currentUser } } = await supabase.auth.getUser();
+
   const { data, error } = await supabase
     .from('users')
     .select('id, name, email, bio, city, avatar_url, cover_url, linkedin_url, badge, cv_url, cv_public, projects_public, teams_public, applications_public, created_at')
@@ -98,7 +100,10 @@ export async function getUserProfileById(id: string): Promise<UserProfile | null
     .filter((s): s is { skills: { id: string; name: string } } => s.skills !== null)
     .map((s) => s.skills);
 
-  return { ...data, skills, badge_url: badgeMap.get(data.badge ?? '') ?? null };
+  // E-posta sadece hesap sahibine gösterilir
+  const email = currentUser?.id === id ? data.email : '';
+
+  return { ...data, email, skills, badge_url: badgeMap.get(data.badge ?? '') ?? null };
 }
 
 export async function getCurrentUserProfile(): Promise<UserProfile> {
