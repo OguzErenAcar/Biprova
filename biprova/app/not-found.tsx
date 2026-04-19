@@ -15,12 +15,12 @@ export default function NotFound() {
       <p className="text-body text-slate-500 mt-2 max-w-sm">
         Aradığın sayfa kaldırılmış ya da hiç var olmamış olabilir.
       </p>
-      <Link
+      <a
         href="/dashboard"
         className="mt-6 inline-flex items-center gap-2 bg-blue-600 text-white font-nunito font-extrabold px-6 py-3 rounded-xl hover:bg-blue-700 transition-colors no-underline"
       >
         Ana Sayfaya Dön
-      </Link>
+      </a>
     </div>
   );
 }
