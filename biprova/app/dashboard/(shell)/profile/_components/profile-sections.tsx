@@ -190,9 +190,10 @@ export function ProfileSections({
               const title: string | null = t.projectTitle;
 
               return (
-                <div
+                <Link
                   key={t.id}
-                  className={`relative flex gap-4 items-start py-3.5 ${i < teams.length - 1 ? "border-b border-edge border-white" : ""} ${i === 0 ? "pt-0" : ""}`}
+                  href={`/dashboard/teams/${t.id}`}
+                  className={`relative flex gap-4 items-start py-3.5 hover:bg-slate-50 rounded-lg px-1 -mx-1 transition-colors ${i < teams.length - 1 ? "border-b border-edge border-white" : ""} ${i === 0 ? "pt-0" : ""}`}
                 >
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
