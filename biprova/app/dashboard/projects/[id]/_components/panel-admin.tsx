@@ -7,6 +7,7 @@ import { deleteProject, getSkills, transferProjectLeader } from '@/features/proj
 import { reviewApplication } from '@/features/applications/actions';
 import { kickMember, grantBiprova, revokeBiprova, renameTeam } from '@/features/teams/actions';
 import { inviteToProject, removeFromProject } from '@/features/projects/actions';
+import { notify } from '@/lib/notify';
 
 function getInitials(name: string) {
   return name
