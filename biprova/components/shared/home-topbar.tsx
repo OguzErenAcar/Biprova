@@ -161,6 +161,7 @@ function MobileDrawer({ open, onClose, projects }: { open: boolean; onClose: () 
   const [savedOpen, setSavedOpen] = useState(true);
   const [locationLoading, setLocationLoading] = useState(false);
   const [isNative, setIsNative] = useState(false);
+  const [infoOpen, setInfoOpen] = useState(false);
 
   useEffect(() => {
     import('@capacitor/core')
