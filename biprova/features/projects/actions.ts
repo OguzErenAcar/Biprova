@@ -956,11 +956,16 @@ export async function createProjectPost(teamId: string, content: string, imageUr
   if (!user) return;
   const trimmed = content.trim();
   if (!trimmed) return;
+
+  // Yalnızca Supabase Storage'dan gelen URL'lere izin ver
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL ?? '';
+  const safeUrls = imageUrls.filter((url) => url.startsWith(`${supabaseUrl}/storage/`));
+
   await supabase.from('team_posts').insert({
     team_id: teamId,
     author_id: user.id,
     content: trimmed,
-    image_urls: imageUrls,
+    image_urls: safeUrls,
   });
 }
 
