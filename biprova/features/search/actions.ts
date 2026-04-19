@@ -10,10 +10,15 @@ export interface SearchResult {
   href: string;
 }
 
+function escapeLike(value: string): string {
+  return value.replace(/\\/g, '\\\\').replace(/%/g, '\\%').replace(/_/g, '\\_');
+}
+
 export async function search(query: string): Promise<SearchResult[]> {
-  const q = query.trim();
+  const q = query.trim().slice(0, 100);
   if (q.length < 1) return [];
 
+  const escaped = escapeLike(q);
   const supabase = await createClient();
 
   const [{ data: projects }, { data: users }] = await Promise.all([
@@ -21,12 +26,12 @@ export async function search(query: string): Promise<SearchResult[]> {
       .from('projects')
       .select('id, title, city')
       .eq('status', 'open')
-      .ilike('title', `%${q}%`)
+      .ilike('title', `%${escaped}%`)
       .limit(5),
     supabase
       .from('users')
       .select('id, name, badge')
-      .ilike('name', `%${q}%`)
+      .ilike('name', `%${escaped}%`)
       .limit(5),
   ]);
 
