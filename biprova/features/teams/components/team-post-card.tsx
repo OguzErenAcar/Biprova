@@ -56,6 +56,7 @@ interface TeamPostCardProps {
 
 export function TeamPostCard({
   postId,
+  teamId,
   teamName,
   location,
   memberCount,
