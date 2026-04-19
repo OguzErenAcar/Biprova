@@ -46,6 +46,7 @@ export interface UserApplicationEntry {
   id: string;
   status: ApplicationStatus;
   createdAt: string;
+  projectId: string | null;
   projectTitle: string;
   roleName: string | null;
 }
