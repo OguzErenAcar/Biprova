@@ -36,6 +36,7 @@ interface Member {
 
 interface TeamPostCardProps {
   postId: string;
+  teamId?: string;
   teamName: string;
   location: string;
   memberCount: number;
