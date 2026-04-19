@@ -7,6 +7,44 @@ const redis = new Redis({
   token: process.env.UPSTASH_REDIS_REST_TOKEN!,
 });
 
+// Hesap kilitleme sabitleri
+const LOCKOUT_MAX_ATTEMPTS = 5;
+const LOCKOUT_WINDOW_SECONDS = 15 * 60; // 15 dakika
+
+function lockoutKey(email: string): string {
+  return `lockout:${email.toLowerCase()}`;
+}
+
+export async function recordFailedLogin(email: string): Promise<{ locked: boolean; attemptsLeft: number }> {
+  const key = lockoutKey(email);
+  const attempts = await redis.incr(key);
+
+  // İlk denemede TTL ayarla
+  if (attempts === 1) {
+    await redis.expire(key, LOCKOUT_WINDOW_SECONDS);
+  }
+
+  const locked = attempts >= LOCKOUT_MAX_ATTEMPTS;
+  const attemptsLeft = Math.max(0, LOCKOUT_MAX_ATTEMPTS - attempts);
+  return { locked, attemptsLeft };
+}
+
+export async function checkAccountLocked(email: string): Promise<{ locked: boolean; ttl: number }> {
+  const key = lockoutKey(email);
+  const attempts = await redis.get<number>(key);
+
+  if (!attempts || attempts < LOCKOUT_MAX_ATTEMPTS) {
+    return { locked: false, ttl: 0 };
+  }
+
+  const ttl = await redis.ttl(key);
+  return { locked: true, ttl: Math.max(0, ttl) };
+}
+
+export async function clearFailedLogins(email: string): Promise<void> {
+  await redis.del(lockoutKey(email));
+}
+
 // login: IP başına 10 saniyede 5 deneme
 export const loginLimiter = new Ratelimit({
   redis,
