@@ -123,8 +123,8 @@ export function PanelGonderiler({ teamId, teamName, posts, members, category, ci
     startTransition(async () => {
       const imageUrls = await uploadImages();
       currentPreviews.forEach((p) => URL.revokeObjectURL(p.previewUrl));
-      await createProjectPost(teamId, content || '📸', imageUrls);
-      router.refresh();
+      const result = await createProjectPost(teamId, content || '📸', imageUrls);
+      if (!result.error) router.refresh();
     });
   }
 
