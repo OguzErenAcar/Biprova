@@ -775,7 +775,7 @@ export async function getProjectDetail(id: string): Promise<ProjectDetail | null
 const inviteToProjectSchema = z.object({
   projectId: z.string().uuid(),
   email:     z.string().email(),
-  skillName: z.string().min(1).max(100),
+  skillName: z.string().min(1).max(100).trim(),
 });
 
 export async function inviteToProject(
