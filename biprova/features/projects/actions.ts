@@ -772,11 +772,20 @@ export async function getProjectDetail(id: string): Promise<ProjectDetail | null
   };
 }
 
+const inviteToProjectSchema = z.object({
+  projectId: z.string().uuid(),
+  email:     z.string().email(),
+  skillName: z.string().min(1).max(100),
+});
+
 export async function inviteToProject(
   projectId: string,
   email: string,
   skillName: string,
 ): Promise<{ error?: string }> {
+  const parsed = inviteToProjectSchema.safeParse({ projectId, email, skillName });
+  if (!parsed.success) return { error: 'Geçersiz davet verisi.' };
+
   const supabase = await createClient();
   const { data: { user }, error: authError } = await supabase.auth.getUser();
   if (authError || !user) return { error: 'Oturum açmanız gerekiyor.' };
@@ -784,15 +793,24 @@ export async function inviteToProject(
   const { data: project } = await supabase
     .from('projects')
     .select('leader_id')
-    .eq('id', projectId)
+    .eq('id', parsed.data.projectId)
     .single();
 
   if (project?.leader_id !== user.id) return { error: 'Sadece proje lideri davet edebilir.' };
 
+  const { data: role } = await supabase
+    .from('project_roles')
+    .select('id, role_name')
+    .eq('project_id', parsed.data.projectId)
+    .eq('role_name', parsed.data.skillName)
+    .maybeSingle();
+
+  if (!role) return { error: 'Bu projede böyle bir rol bulunmuyor.' };
+
   const { data: targetUser } = await supabase
     .from('users')
     .select('id, name')
-    .eq('email', email.trim().toLowerCase())
+    .eq('email', parsed.data.email.trim().toLowerCase())
     .maybeSingle();
 
   if (!targetUser) return { error: 'Bu e-posta ile kayıtlı kullanıcı bulunamadı.' };
@@ -801,7 +819,7 @@ export async function inviteToProject(
   const { data: existing } = await supabase
     .from('project_members')
     .select('user_id')
-    .eq('project_id', projectId)
+    .eq('project_id', parsed.data.projectId)
     .eq('user_id', targetUser.id)
     .maybeSingle();
 
@@ -811,9 +829,9 @@ export async function inviteToProject(
   const admin = createAdminClient();
 
   const { error: memberError } = await admin.from('project_members').insert({
-    project_id: projectId,
-    user_id: targetUser.id,
-    role: skillName,
+    project_id: parsed.data.projectId,
+    user_id:    targetUser.id,
+    role:       role.role_name,
   });
   if (memberError) return { error: 'Davet gönderilemedi.' };
 
