@@ -118,6 +118,10 @@ export async function login(data: {
   email:    string;
   password: string;
 }): Promise<ActionResult> {
+  const ip = await getClientIp();
+  const { success } = await loginLimiter.limit(ip);
+  if (!success) return { error: 'Çok fazla deneme yaptınız. Lütfen bekleyin.' };
+
   const supabase = await createClient();
 
   const { error } = await supabase.auth.signInWithPassword({
