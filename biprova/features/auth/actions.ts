@@ -202,6 +202,45 @@ export async function logout(): Promise<void> {
   redirect('/');
 }
 
+const resetPasswordSchema = z.object({
+  email: z.string().email(),
+});
+
+const updatePasswordSchema = z.object({
+  password: z.string().min(8).max(128),
+});
+
+export async function requestPasswordReset(email: string): Promise<ActionResult> {
+  const parsed = resetPasswordSchema.safeParse({ email });
+  if (!parsed.success) return { error: 'Geçerli bir e-posta adresi girin.' };
+
+  const ip = await getClientIp();
+  const { success } = await emailCheckLimiter.limit(ip);
+  if (!success) return { error: 'Çok fazla deneme yaptınız. Lütfen bekleyin.' };
+
+  const supabase = await createClient();
+  const { error } = await supabase.auth.resetPasswordForEmail(parsed.data.email, {
+    redirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/auth/callback?next=/reset-password`,
+  });
+
+  // Güvenlik: kullanıcı var mı yok mu bilgi vermiyoruz
+  if (error) return { success: true };
+  return { success: true };
+}
+
+export async function updatePassword(password: string): Promise<ActionResult> {
+  const parsed = updatePasswordSchema.safeParse({ password });
+  if (!parsed.success) return { error: 'Şifre en az 8 karakter olmalı.' };
+
+  const supabase = await createClient();
+  const { data: { user }, error: authError } = await supabase.auth.getUser();
+  if (authError || !user) return { error: 'Oturumunuz geçersiz. Lütfen tekrar şifre sıfırlama isteği gönderin.' };
+
+  const { error } = await supabase.auth.updateUser({ password: parsed.data.password });
+  if (error) return { error: error.message };
+  return { success: true };
+}
+
 export async function deleteAccount(): Promise<ActionResult> {
   const supabase = await createClient();
 
