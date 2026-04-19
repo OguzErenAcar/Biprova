@@ -1,7 +1,6 @@
 "use client";
 
 import Lottie from "lottie-react";
-import Link from "next/link";
 import animationData from "@/images/404 Animation (1).json";
 
 export default function NotFound() {
