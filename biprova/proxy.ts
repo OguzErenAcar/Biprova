@@ -30,9 +30,6 @@ export async function proxy(request: NextRequest) {
 
   // Korumalı route'lar: giriş yoksa /login'e yönlendir
   const isProtected = request.nextUrl.pathname.startsWith('/dashboard')
-  if (isProtected) {
-    console.log('[proxy] path:', request.nextUrl.pathname, '| user:', user?.id ?? 'null', '| authError:', authError?.message ?? 'none')
-  }
   if (isProtected && !user) {
     return NextResponse.redirect(new URL('/login', request.url))
   }
