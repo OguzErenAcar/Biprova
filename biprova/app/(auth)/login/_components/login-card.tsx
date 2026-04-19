@@ -21,7 +21,13 @@ export function LoginCard() {
 
       <LoginForm />
 
-      <p className="text-center text-[0.82rem] text-slate-500 mt-6">
+      <p className="text-center text-[0.82rem] text-slate-500 mt-4">
+        <Link href="/forgot-password" className="text-slate-400 hover:text-blue-600 transition-colors">
+          Şifremi unuttum
+        </Link>
+      </p>
+
+      <p className="text-center text-[0.82rem] text-slate-500 mt-3">
         Hesabın yok mu?{' '}
         <Link href="/signup" className="text-blue-600 font-semibold hover:underline">Kayıt ol</Link>
       </p>
