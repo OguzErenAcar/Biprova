@@ -27,7 +27,7 @@ export function BiprovaInfoDialog({ open, onOpenChange }: BiprovaInfoDialogProps
           <DialogHeader>
             <div className="flex items-center gap-2 mb-3">
               <span className="text-2xl font-black text-white tracking-tight font-display">
-                Bi<span className="text-blue-200">prova</span>
+                Bi<span className="text-black">prova</span>
               </span>
             </div>
             <DialogTitle className="text-white text-[1.05rem] font-bold leading-snug text-left">
