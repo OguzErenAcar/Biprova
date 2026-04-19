@@ -118,6 +118,9 @@ export async function searchSkills(query: string): Promise<{ id: string; name: s
 }
 
 export async function checkEmailAvailable(email: string): Promise<ActionResult> {
+  const parsed = emailSchema.safeParse({ email });
+  if (!parsed.success) return { error: 'Geçersiz e-posta adresi.' };
+
   const ip = await getClientIp();
   const { success } = await emailCheckLimiter.limit(ip);
   if (!success) return { error: 'Çok fazla deneme yaptınız. Lütfen bekleyin.' };
