@@ -484,7 +484,7 @@ export async function getUserApplications(userId: string): Promise<UserApplicati
 
   const { data } = await supabase
     .from('applications')
-    .select('id, status, created_at, projects(title), project_roles(role_name)')
+    .select('id, status, created_at, project_id, projects(title), project_roles(role_name)')
     .eq('user_id', userId)
     .order('created_at', { ascending: false })
     .limit(10);
