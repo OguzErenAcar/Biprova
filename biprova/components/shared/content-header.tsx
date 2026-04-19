@@ -68,7 +68,7 @@ export function ContentHeader({ title, children }: ContentHeaderProps) {
           <div className="relative sticky  top-0 z-40 backdrop-blur-[42px] md:me-8  gap-4">
     
 
-        <div className={`flex w-full justify-between mb-4  px-0 ${isStuck ? "items-center py-2" : "items-start"}`}>
+        <div className={`flex w-full justify-between md:mb-6 mb-4  px-0 ${isStuck ? "items-center py-2" : "items-start"}`}>
           <h1 ref={titleRef} className="dashheader m-0 leading-none">{title}</h1>
           {children && (
             <div className="flex items-center">{children}</div>
