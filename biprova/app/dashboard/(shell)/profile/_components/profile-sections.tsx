@@ -235,9 +235,10 @@ export function ProfileSections({
             <p className="text-body text-ink">Henüz başvuru yok.</p>
           ) : (
             applications.map((a, i) => (
-              <div
+              <Link
                 key={a.id}
-                className={`flex gap-4 items-center py-3.5 ${i < applications.length - 1 ? "border-b border-edge border-white" : ""} ${i === 0 ? "pt-0" : ""}`}
+                href={a.projectId ? `/dashboard/posts/projects/${a.projectId}` : '#'}
+                className={`flex gap-4 items-center py-3.5 hover:bg-slate-50 rounded-lg px-1 -mx-1 transition-colors ${i < applications.length - 1 ? "border-b border-edge border-white" : ""} ${i === 0 ? "pt-0" : ""}`}
               >
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-0.5">
