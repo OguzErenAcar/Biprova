@@ -25,6 +25,10 @@ export async function signup(data: {
   skill_ids:    string[];
   bio?:         string;
 }): Promise<SignupResult> {
+  const ip = await getClientIp();
+  const { success } = await signupLimiter.limit(ip);
+  if (!success) return { error: 'Çok fazla deneme yaptınız. Lütfen bekleyin.' };
+
   // signUp → Supabase confirmation mailini otomatik gönderir
   const supabase = await createClient();
   const { data: authData, error } = await supabase.auth.signUp({
