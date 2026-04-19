@@ -7,7 +7,7 @@ import { login } from '@/features/auth/actions';
 
 const loginSchema = z.object({
   email:    z.string().email('Geçerli bir e-posta gir'),
-  password: z.string().min(1, 'Şifre gerekli'),
+  password: z.string().min(8, 'Şifre en az 8 karakter olmalı'),
 });
 
 type FieldKey = 'email' | 'password';
