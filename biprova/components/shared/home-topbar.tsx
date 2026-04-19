@@ -358,15 +358,7 @@ function MobileDrawer({ open, onClose, projects }: { open: boolean; onClose: () 
         </div>
       </div>
 
-      <Dialog open={infoOpen} onOpenChange={setInfoOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Biprova nedir?</DialogTitle>
-       
-          </DialogHeader>
-          
-        </DialogContent>
-      </Dialog>
+      <BiprovaInfoDialog open={infoOpen} onOpenChange={setInfoOpen} />
     </>
   );
 }
