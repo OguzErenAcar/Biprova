@@ -28,6 +28,13 @@ export const emailCheckLimiter = new Ratelimit({
   prefix: 'rl:email',
 });
 
+// mesaj gönderme: kullanıcı başına 1 dakikada 30 mesaj
+export const messageLimiter = new Ratelimit({
+  redis,
+  limiter: Ratelimit.slidingWindow(30, '1 m'),
+  prefix: 'rl:message',
+});
+
 export async function getClientIp(): Promise<string> {
   const headerStore = await headers();
   return (
