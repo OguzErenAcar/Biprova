@@ -138,10 +138,10 @@ export async function checkEmailAvailable(email: string): Promise<ActionResult> 
   return { success: true };
 }
 
-export async function login(data: {
-  email:    string;
-  password: string;
-}): Promise<ActionResult> {
+export async function login(data: z.infer<typeof loginSchema>): Promise<ActionResult> {
+  const parsed = loginSchema.safeParse(data);
+  if (!parsed.success) return { error: 'Geçersiz e-posta veya şifre formatı.' };
+
   const ip = await getClientIp();
   const { success } = await loginLimiter.limit(ip);
   if (!success) return { error: 'Çok fazla deneme yaptınız. Lütfen bekleyin.' };
@@ -149,8 +149,8 @@ export async function login(data: {
   const supabase = await createClient();
 
   const { error } = await supabase.auth.signInWithPassword({
-    email:    data.email,
-    password: data.password,
+    email:    parsed.data.email,
+    password: parsed.data.password,
   });
 
   if (error) return { error: error.message };
