@@ -36,16 +36,10 @@ function getAdminClient() {
   );
 }
 
-export async function signup(data: {
-  name:         string;
-  email:        string;
-  password:     string;
-  linkedin_url: string;
-  city:         string;
-  is_remote:    boolean;
-  skill_ids:    string[];
-  bio?:         string;
-}): Promise<SignupResult> {
+export async function signup(data: z.infer<typeof signupSchema>): Promise<SignupResult> {
+  const parsed = signupSchema.safeParse(data);
+  if (!parsed.success) return { error: 'Geçersiz form verisi.' };
+
   const ip = await getClientIp();
   const { success } = await signupLimiter.limit(ip);
   if (!success) return { error: 'Çok fazla deneme yaptınız. Lütfen bekleyin.' };
@@ -53,10 +47,10 @@ export async function signup(data: {
   // signUp → Supabase confirmation mailini otomatik gönderir
   const supabase = await createClient();
   const { data: authData, error } = await supabase.auth.signUp({
-    email:    data.email,
-    password: data.password,
+    email:    parsed.data.email,
+    password: parsed.data.password,
     options: {
-      data:             { name: data.name },
+      data:             { name: parsed.data.name },
       emailRedirectTo:  `${process.env.NEXT_PUBLIC_APP_URL}/auth/callback`,
     },
   });
@@ -69,17 +63,15 @@ export async function signup(data: {
   const admin = getAdminClient();
 
   // Trigger name, linkedin_url, city, is_remote bilmez — bunları güncelliyoruz
-  const updatePayload: Record<string, unknown> = {
-    name:         data.name,
-    linkedin_url: data.linkedin_url,
-    city:         data.city,
-    is_remote:    data.is_remote,
-  };
-  if (data.bio) updatePayload.bio = data.bio;
-
   const { error: updateError } = await admin
     .from('users')
-    .update(updatePayload)
+    .update({
+      name:         parsed.data.name,
+      linkedin_url: parsed.data.linkedin_url ?? '',
+      city:         parsed.data.city,
+      is_remote:    parsed.data.is_remote,
+      ...(parsed.data.bio ? { bio: parsed.data.bio } : {}),
+    })
     .eq('id', userId);
 
   if (updateError) {
