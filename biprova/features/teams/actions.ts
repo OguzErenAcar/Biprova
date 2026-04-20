@@ -272,18 +272,26 @@ export async function revokeBiprova(teamId: string, userId: string): Promise<{ e
   return {};
 }
 
+const inviteMemberSchema = z.object({
+  teamId: z.string().uuid('Geçersiz ekip.'),
+  email:  z.string().email('Geçersiz e-posta adresi.'),
+});
+
 export async function inviteMemberByEmail(teamId: string, email: string): Promise<{ error?: string }> {
+  const parsed = inviteMemberSchema.safeParse({ teamId, email });
+  if (!parsed.success) return { error: parsed.error.issues[0]?.message ?? 'Geçersiz veri.' };
+
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return { error: 'Oturum açmanız gerekiyor.' };
 
-  const { data: team } = await supabase.from('teams').select('leader_id').eq('id', teamId).single();
+  const { data: team } = await supabase.from('teams').select('leader_id').eq('id', parsed.data.teamId).single();
   if (team?.leader_id !== user.id) return { error: 'Sadece lider davet gönderebilir.' };
 
   const { data: targetUser } = await supabase
     .from('users')
     .select('id, name')
-    .eq('email', email.trim().toLowerCase())
+    .eq('email', parsed.data.email.toLowerCase())
     .maybeSingle();
 
   if (!targetUser) return { error: 'Bu e-posta ile kayıtlı kullanıcı bulunamadı.' };
