@@ -34,20 +34,9 @@ export async function proxy(request: NextRequest) {
     return NextResponse.redirect(new URL('/login', request.url))
   }
 
-  // Auth geçerli ama public.users satırı yoksa oturumu sonlandır
-  if (isProtected && user) {
-    const { data: dbUser, error: dbError } = await supabase
-      .from('users')
-      .select('id')
-      .eq('id', user.id)
-      .single()
-
-    if (!dbUser) {
-      return NextResponse.redirect(new URL('/login', request.url))
-    }
-  }
-
   // Giriş yapmış kullanıcı login/signup'a gelirse dashboard'a yönlendir
+  // Not: public.users kontrolü burada yapılmıyor — döngü riskini önlemek için
+  // sayfa seviyesinde (Server Components) kontrol edilir.
   const isAuthPage =
     request.nextUrl.pathname.startsWith('/login') ||
     request.nextUrl.pathname.startsWith('/signup')
