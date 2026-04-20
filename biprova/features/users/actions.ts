@@ -283,6 +283,8 @@ export async function removeCv(): Promise<{ success: boolean; error?: string }> 
 export async function saveCvUrl(
   cvUrl: string,
 ): Promise<{ success: boolean; error?: string }> {
+  if (!isValidStoragePdfUrl(cvUrl)) return { success: false, error: 'Geçersiz CV URL.' };
+
   const supabase = await createClient();
   const { data: { user }, error: authError } = await supabase.auth.getUser();
   if (authError || !user) return { success: false, error: 'Oturum açmanız gerekiyor' };
