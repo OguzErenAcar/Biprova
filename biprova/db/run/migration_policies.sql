@@ -54,9 +54,8 @@ DROP POLICY IF EXISTS "Project leaders can invite members" ON project_members;
 -- ============================================================
 -- ROLLBACK (gerekirse):
 --
--- DROP POLICY IF EXISTS "waitlist_admin_read"        ON waitlist;
--- DROP POLICY IF EXISTS "team_members_admin_update"  ON team_members;
--- DROP POLICY IF EXISTS "notifications_delete"       ON notifications;
+-- DROP POLICY IF EXISTS "waitlist_admin_read"    ON waitlist;
+-- DROP POLICY IF EXISTS "notifications_delete"   ON notifications;
 -- DROP POLICY IF EXISTS "messages_delete"            ON messages;
 --
 -- -- Bypass policy'yi geri eklemek istersen:
