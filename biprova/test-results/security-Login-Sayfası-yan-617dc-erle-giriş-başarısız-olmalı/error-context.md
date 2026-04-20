@@ -6,22 +6,19 @@
 
 # Test info
 
-- Name: security.spec.ts >> Login Sayfası >> boş form gönderince hata gösteriyor
-- Location: tests/security.spec.ts:50:7
+- Name: security.spec.ts >> Login Sayfası >> yanlış bilgilerle giriş başarısız olmalı
+- Location: tests/security.spec.ts:57:7
 
 # Error details
 
 ```
-Error: expect(locator).toBeVisible() failed
+Test timeout of 15000ms exceeded.
+```
 
-Locator: locator('text=/e-posta|geçerli/i')
-Expected: visible
-Timeout: 3000ms
-Error: element(s) not found
-
+```
+Error: page.fill: Test timeout of 15000ms exceeded.
 Call log:
-  - Expect "toBeVisible" with timeout 3000ms
-  - waiting for locator('text=/e-posta|geçerli/i')
+  - waiting for locator('input[type="email"]')
 
 ```
 
@@ -97,32 +94,18 @@ Call log:
               - img [ref=e73]
             - button "Mark as not helpful" [ref=e76] [cursor=pointer]:
               - img [ref=e77]
-    - menu "Next.js Dev Tools Items" [ref=e79]:
-      - generic [ref=e80]:
-        - menuitem "Issues 1" [ref=e81] [cursor=pointer]:
-          - generic [ref=e82]: Issues
-          - generic [ref=e84]: "1"
-        - menuitem "Route Static" [ref=e86]:
-          - generic [ref=e87]: Route
-          - generic [ref=e88]: Static
-        - generic "Turbopack is enabled." [ref=e89]:
-          - generic [ref=e90]: Bundler
-          - generic [ref=e91]: Turbopack
-      - menuitem "Preferences" [ref=e93]:
-        - generic [ref=e94]: Preferences
-        - img [ref=e96]
-    - generic [ref=e102] [cursor=pointer]:
-      - button "Close Next.js Dev Tools" [expanded] [ref=e103]:
-        - img [ref=e104]
-      - generic [ref=e107]:
-        - button "Open issues overlay" [ref=e108]:
-          - generic [ref=e109]:
-            - generic [ref=e110]: "0"
-            - generic [ref=e111]: "1"
-          - generic [ref=e112]: Issue
-        - button "Collapse issues badge" [ref=e113]:
-          - img [ref=e114]
-  - alert [ref=e116]
+    - generic [ref=e83] [cursor=pointer]:
+      - button "Open Next.js Dev Tools" [ref=e84]:
+        - img [ref=e85]
+      - generic [ref=e88]:
+        - button "Open issues overlay" [ref=e89]:
+          - generic [ref=e90]:
+            - generic [ref=e91]: "0"
+            - generic [ref=e92]: "1"
+          - generic [ref=e93]: Issue
+        - button "Collapse issues badge" [ref=e94]:
+          - img [ref=e95]
+  - alert [ref=e97]
 ```
 
 # Test source
@@ -181,13 +164,13 @@ Call log:
   51  |     await page.goto(`${BASE_URL}/login`)
   52  |     await page.click('button')
   53  |     // Validation hataları görünmeli
-> 54  |     await expect(page.locator('text=/e-posta|geçerli/i')).toBeVisible({ timeout: 3000 })
-      |                                                           ^ Error: expect(locator).toBeVisible() failed
+  54  |     await expect(page.locator('text=/e-posta|geçerli/i')).toBeVisible({ timeout: 3000 })
   55  |   })
   56  | 
   57  |   test('yanlış bilgilerle giriş başarısız olmalı', async ({ page }) => {
   58  |     await page.goto(`${BASE_URL}/login`)
-  59  |     await page.fill('input[type="email"]', 'yanliskullanici@test.com')
+> 59  |     await page.fill('input[type="email"]', 'yanliskullanici@test.com')
+      |                ^ Error: page.fill: Test timeout of 15000ms exceeded.
   60  |     await page.fill('input[type="password"]', 'YanlisParola123!')
   61  |     await page.click('button')
   62  |     await expect(page.locator('text=/hatalı|geçersiz|yanlış/i')).toBeVisible({ timeout: 5000 })
