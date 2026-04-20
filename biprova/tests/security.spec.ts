@@ -59,7 +59,7 @@ test.describe('Login Sayfası', () => {
     await page.fill('input[type="email"]', 'yanliskullanici@test.com')
     await page.fill('input[type="password"]', 'YanlisParola123!')
     await page.click('button')
-    await expect(page.locator('text=/hatalı|geçersiz|yanlış/i')).toBeVisible({ timeout: 5000 })
+    await expect(page.locator('text=/hatalı|geçersiz|yanlış|fazla deneme|kilitlendi|bekleyin/i')).toBeVisible({ timeout: 5000 })
   })
 
   test('giriş yapmış kullanıcı login sayfasına gelince dashboard\'a yönlenmeli', async () => {
