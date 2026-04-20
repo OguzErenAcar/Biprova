@@ -81,11 +81,11 @@ type FilledRoleRow = {
 export async function getUserProfileById(id: string): Promise<UserProfile | null> {
   const supabase = await createClient();
 
-  const { data: { user: currentUser } } = await supabase.auth.getUser();
-
+  // public_user_profiles view'ı: email ve internal kolonlar yok
+  // DB katmanında kısıtlı — app katmanı maskelemesine güvenmiyoruz
   const { data, error } = await supabase
-    .from('users')
-    .select('id, name, email, bio, city, avatar_url, cover_url, linkedin_url, badge, cv_url, cv_public, projects_public, teams_public, applications_public, created_at')
+    .from('public_user_profiles')
+    .select('id, name, bio, city, avatar_url, cover_url, linkedin_url, badge, cv_url, cv_public, projects_public, teams_public, applications_public, created_at')
     .eq('id', id)
     .single();
 
@@ -100,10 +100,7 @@ export async function getUserProfileById(id: string): Promise<UserProfile | null
     .filter((s): s is { skills: { id: string; name: string } } => s.skills !== null)
     .map((s) => s.skills);
 
-  // E-posta sadece hesap sahibine gösterilir
-  const email = currentUser?.id === id ? data.email : '';
-
-  return { ...data, email, skills, badge_url: badgeMap.get(data.badge ?? '') ?? null };
+  return { ...data, email: '', skills, badge_url: badgeMap.get(data.badge ?? '') ?? null };
 }
 
 export async function getCurrentUserProfile(): Promise<UserProfile> {
