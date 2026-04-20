@@ -125,7 +125,6 @@ create table team_members (
     team_id     uuid references teams(id) on delete cascade,
     user_id     uuid references users(id) on delete cascade,
     role_id     uuid references project_roles(id) on delete set null,
-    has_biprova boolean default false,
     joined_at   timestamp default now(),
     constraint uq_team_members_team_user unique (team_id, user_id)
 );
