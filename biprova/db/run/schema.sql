@@ -222,7 +222,6 @@ create index on project_members(user_id);
 create index on project_members(project_id);
 create index on team_members(team_id);
 create index on team_members(user_id);
-create index on team_members(has_biprova) where has_biprova = true;
 create index on teams(project_id);
 create index on teams(status);
 create index on messages(team_id);
