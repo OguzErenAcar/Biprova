@@ -23,10 +23,12 @@ export async function joinWaitlist(email: string): Promise<JoinResult | { error:
 
   const supabase = await createClient();
 
+  const normalizedEmail = parsed.data.email.toLowerCase();
+
   const { data: existing, error: checkError } = await supabase
     .from('waitlist')
     .select('id')
-    .eq('email', email)
+    .eq('email', normalizedEmail)
     .limit(1)
     .maybeSingle();
 
@@ -42,7 +44,7 @@ export async function joinWaitlist(email: string): Promise<JoinResult | { error:
 
   const { error: insertError } = await supabase
     .from('waitlist')
-    .insert({ email });
+    .insert({ email: normalizedEmail });
 
   if (insertError) return { error: insertError.message };
 
