@@ -5,11 +5,11 @@ import { NextRequest, NextResponse } from 'next/server';
  * ZAP authenticated scanning için dev-only login endpoint.
  * Production'da 404 döner.
  *
- * ZAP konfigürasyonu:
- *   Login URL  : POST http://192.168.0.110:3000/api/zap-auth
- *   Post Data  : {"email":"{%username%}","password":"{%password%}"}
- *   Logged-in  : "authenticated":true
- *   Logged-out : "error"
+ * ZAP Form-based Authentication konfigürasyonu:
+ *   Login URL  : http://192.168.0.110:3000/api/zap-auth
+ *   POST Data  : email={%username%}&password={%password%}
+ *   Logged-in  : authenticated=true
+ *   Logged-out : error
  */
 export async function POST(request: NextRequest) {
   if (process.env.NODE_ENV !== 'development') {
@@ -19,12 +19,22 @@ export async function POST(request: NextRequest) {
   let email: string | undefined;
   let password: string | undefined;
 
-  try {
-    const body = await request.json() as { email?: unknown; password?: unknown };
-    if (typeof body.email === 'string') email = body.email;
-    if (typeof body.password === 'string') password = body.password;
-  } catch {
-    return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 });
+  const contentType = request.headers.get('content-type') ?? '';
+
+  if (contentType.includes('application/x-www-form-urlencoded')) {
+    const formData = await request.formData();
+    const rawEmail = formData.get('email');
+    const rawPassword = formData.get('password');
+    if (typeof rawEmail === 'string') email = rawEmail;
+    if (typeof rawPassword === 'string') password = rawPassword;
+  } else {
+    try {
+      const body = await request.json() as { email?: unknown; password?: unknown };
+      if (typeof body.email === 'string') email = body.email;
+      if (typeof body.password === 'string') password = body.password;
+    } catch {
+      return NextResponse.json({ error: 'Invalid body' }, { status: 400 });
+    }
   }
 
   if (!email || !password) {
