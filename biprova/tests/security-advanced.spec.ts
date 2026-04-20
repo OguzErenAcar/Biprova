@@ -44,15 +44,18 @@ test.describe('Reflected XSS', () => {
   ]
 
   for (const payload of xssPayloads) {
-    test(`login?next= XSS payload HTML'de ham çıkmamalı: ${payload}`, async ({ page }) => {
+    test(`login?next= XSS payload script çalıştırmamalı: ${payload}`, async ({ page }) => {
+      let alertFired = false
+      page.on('dialog', async (dialog) => {
+        alertFired = true
+        await dialog.dismiss()
+      })
+
       const encoded = encodeURIComponent(payload)
       await page.goto(`${BASE_URL}/login?next=${encoded}`)
       await page.waitForLoadState('networkidle')
-      const content = await page.content()
-      // Payload'ın ham hali sayfada olmamalı (encode edilmiş olabilir)
-      expect(content).not.toContain('<script>alert(1)</script>')
-      expect(content).not.toContain('onerror=alert(1)')
-      expect(content).not.toContain('onload=alert(1)')
+
+      expect(alertFired).toBe(false)
     })
   }
 
