@@ -213,11 +213,8 @@ test.describe('HTTP Method Güvenliği', () => {
     expect(response?.status()).toBeLessThan(500)
   })
 
-  test('OPTIONS request — sunucu 500 vermemeli', async ({ page }) => {
-    const response = await page.evaluate(async (url) => {
-      const res = await fetch(url, { method: 'OPTIONS' })
-      return res.status
-    }, `${BASE_URL}/`)
-    expect(response).not.toBe(500)
+  test('OPTIONS request — sunucu 500 vermemeli', async ({ request }) => {
+    const response = await request.fetch(`${BASE_URL}/`, { method: 'OPTIONS' })
+    expect(response.status()).not.toBe(500)
   })
 })
