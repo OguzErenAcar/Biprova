@@ -19,18 +19,7 @@ USING (is_admin());
 
 
 -- ============================================================
--- 2. TEAM_MEMBERS — admin has_biprova güncellemesi
---    Sadece admin has_biprova kolonunu değiştirebilir.
---    Diğer kolonlar (team_id, user_id, role_id) güncellenmez.
--- ============================================================
-
-CREATE POLICY "team_members_admin_update"
-ON team_members FOR UPDATE
-USING (is_admin());
-
-
--- ============================================================
--- 3. NOTIFICATIONS — kullanıcı kendi bildirimlerini silebilir
+-- 2. NOTIFICATIONS — kullanıcı kendi bildirimlerini silebilir
 -- ============================================================
 
 CREATE POLICY "notifications_delete"
