@@ -84,6 +84,11 @@ export const postLimiter = redis
   ? new Ratelimit({ redis, limiter: Ratelimit.slidingWindow(5, '1 m'), prefix: 'rl:post' })
   : noopLimiter;
 
+// waitlist: IP başına 1 saatte 3 kayıt
+export const waitlistLimiter = redis
+  ? new Ratelimit({ redis, limiter: Ratelimit.slidingWindow(3, '1 h'), prefix: 'rl:waitlist' })
+  : noopLimiter;
+
 export async function getClientIp(): Promise<string> {
   const headerStore = await headers();
   return (
