@@ -209,6 +209,8 @@ export async function saveAvatarUrl(
 export async function saveCoverUrl(
   coverUrl: string,
 ): Promise<{ success: boolean; error?: string }> {
+  if (!isValidStorageImageUrl(coverUrl)) return { success: false, error: 'Geçersiz kapak fotoğrafı URL.' };
+
   const supabase = await createClient();
   const { data: { user }, error: authError } = await supabase.auth.getUser();
   if (authError || !user) return { success: false, error: 'Oturum açmanız gerekiyor' };
