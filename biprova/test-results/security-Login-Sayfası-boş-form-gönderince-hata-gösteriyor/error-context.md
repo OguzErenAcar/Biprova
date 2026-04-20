@@ -16,8 +16,9 @@ Error: expect(locator).toBeVisible() failed
 
 Locator: locator('text=/e-posta|geçerli/i')
 Expected: visible
-Timeout: 3000ms
-Error: element(s) not found
+Error: strict mode violation: locator('text=/e-posta|geçerli/i') resolved to 2 elements:
+    1) <label for="email" class="text-[0.82rem] font-bold text-slate-900">E-posta</label> aka getByText('E-posta', { exact: true })
+    2) <p class="text-[0.75rem] text-red-500">Geçerli bir e-posta gir</p> aka getByText('Geçerli bir e-posta gir')
 
 Call log:
   - Expect "toBeVisible" with timeout 3000ms
@@ -28,101 +29,38 @@ Call log:
 # Page snapshot
 
 ```yaml
-- generic:
-  - generic [active]:
-    - generic [ref=e3]:
-      - generic [ref=e4]:
-        - generic [ref=e5]:
-          - navigation [ref=e6]:
-            - button "previous" [disabled] [ref=e7]:
-              - img "previous" [ref=e8]
-            - generic [ref=e10]:
-              - generic [ref=e11]: 1/
-              - text: "1"
-            - button "next" [disabled] [ref=e12]:
-              - img "next" [ref=e13]
-          - img
-        - generic [ref=e15]:
-          - link "Next.js 16.2.1 (stale) Turbopack" [ref=e16] [cursor=pointer]:
-            - /url: https://nextjs.org/docs/messages/version-staleness
-            - img [ref=e17]
-            - generic "There is a newer version (16.2.4) available, upgrade recommended!" [ref=e19]: Next.js 16.2.1 (stale)
-            - generic [ref=e20]: Turbopack
-          - img
-      - generic [ref=e21]:
-        - dialog "Runtime Error" [ref=e22]:
-          - generic [ref=e25]:
-            - generic [ref=e26]:
-              - generic [ref=e27]:
-                - generic [ref=e29]: Runtime Error
-                - generic [ref=e30]:
-                  - button "Copy Error Info" [ref=e31] [cursor=pointer]:
-                    - img [ref=e32]
-                  - link "Go to related documentation" [ref=e34] [cursor=pointer]:
-                    - /url: https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config
-                    - img [ref=e35]
-                  - button "Attach Node.js inspector" [ref=e37] [cursor=pointer]:
-                    - img [ref=e38]
-              - generic [ref=e46]:
-                - generic [ref=e47]:
-                  - text: "./middleware.ts:8:14 Next.js can't recognize the exported `config` field in route. It needs to be a static object. 6 | } 7 | > 8 | export const config = proxyConfig | ^^^^^^ 9 | The exported configuration object in a source file needs to have a very specific format from which some properties can be statically parsed at compiled-time."
-                  - link "https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config" [ref=e48] [cursor=pointer]:
-                    - /url: https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config
-                - button "Show More" [ref=e50] [cursor=pointer]
-            - generic [ref=e52]:
-              - generic [ref=e53]:
-                - paragraph [ref=e54]:
-                  - text: Call Stack
-                  - generic [ref=e55]: "9"
-                - button "Show 7 ignore-listed frame(s)" [ref=e56] [cursor=pointer]:
-                  - text: Show 7 ignore-listed frame(s)
-                  - img [ref=e57]
-              - generic [ref=e59]:
-                - generic [ref=e60]:
-                  - text: <unknown>
-                  - button "Sourcemapping failed. Click to log cause of error." [ref=e61] [cursor=pointer]:
-                    - img [ref=e62]
-                - text: "error: ./middleware.ts (8:14)"
-              - generic [ref=e64]:
-                - generic [ref=e65]: "<unknown> (Error:"
-                - text: ./middleware.ts (8:14)
-          - generic [ref=e66]: "1"
-          - generic [ref=e67]: "2"
-        - contentinfo [ref=e68]:
-          - region "Error feedback" [ref=e69]:
-            - paragraph [ref=e70]:
-              - link "Was this helpful?" [ref=e71] [cursor=pointer]:
-                - /url: https://nextjs.org/telemetry#error-feedback
-            - button "Mark as helpful" [ref=e72] [cursor=pointer]:
-              - img [ref=e73]
-            - button "Mark as not helpful" [ref=e76] [cursor=pointer]:
-              - img [ref=e77]
-    - menu "Next.js Dev Tools Items" [ref=e79]:
-      - generic [ref=e80]:
-        - menuitem "Issues 1" [ref=e81] [cursor=pointer]:
-          - generic [ref=e82]: Issues
-          - generic [ref=e84]: "1"
-        - menuitem "Route Static" [ref=e86]:
-          - generic [ref=e87]: Route
-          - generic [ref=e88]: Static
-        - generic "Turbopack is enabled." [ref=e89]:
-          - generic [ref=e90]: Bundler
-          - generic [ref=e91]: Turbopack
-      - menuitem "Preferences" [ref=e93]:
-        - generic [ref=e94]: Preferences
-        - img [ref=e96]
-    - generic [ref=e102] [cursor=pointer]:
-      - button "Close Next.js Dev Tools" [expanded] [ref=e103]:
-        - img [ref=e104]
-      - generic [ref=e107]:
-        - button "Open issues overlay" [ref=e108]:
-          - generic [ref=e109]:
-            - generic [ref=e110]: "0"
-            - generic [ref=e111]: "1"
-          - generic [ref=e112]: Issue
-        - button "Collapse issues badge" [ref=e113]:
-          - img [ref=e114]
-  - alert [ref=e116]
+- generic [ref=e1]:
+  - main [ref=e3]:
+    - generic [ref=e4]:
+      - link "birprova" [ref=e5] [cursor=pointer]:
+        - /url: /
+      - paragraph [ref=e6]:
+        - text: Tekrar hoş geldin.
+        - text: Hesabına giriş yap.
+      - generic [ref=e7]:
+        - generic [ref=e8]:
+          - generic [ref=e9]: E-posta
+          - textbox "E-posta" [ref=e10]:
+            - /placeholder: ornek@mail.com
+          - paragraph [ref=e11]: Geçerli bir e-posta gir
+        - generic [ref=e12]:
+          - generic [ref=e13]: Şifre
+          - textbox "Şifre" [ref=e14]:
+            - /placeholder: ••••••••
+          - paragraph [ref=e15]: Şifre en az 8 karakter olmalı
+        - button "Giriş Yap →" [active] [ref=e16] [cursor=pointer]
+      - paragraph [ref=e17]:
+        - link "Şifremi unuttum" [ref=e18] [cursor=pointer]:
+          - /url: /forgot-password
+      - paragraph [ref=e19]:
+        - text: Hesabın yok mu?
+        - link "Kayıt ol" [ref=e20] [cursor=pointer]:
+          - /url: /signup
+      - link "← Ana sayfaya dön" [ref=e21] [cursor=pointer]:
+        - /url: /
+  - button "Open Next.js Dev Tools" [ref=e27] [cursor=pointer]:
+    - img [ref=e28]
+  - alert [ref=e31]
 ```
 
 # Test source

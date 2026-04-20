@@ -50,8 +50,8 @@ test.describe('Login Sayfası', () => {
   test('boş form gönderince hata gösteriyor', async ({ page }) => {
     await page.goto(`${BASE_URL}/login`)
     await page.click('button')
-    // Validation hataları görünmeli
-    await expect(page.locator('text=/e-posta|geçerli/i')).toBeVisible({ timeout: 3000 })
+    // Validation hataları görünmeli — hata mesajı paragrafını hedefle
+    await expect(page.locator('p.text-red-500').first()).toBeVisible({ timeout: 3000 })
   })
 
   test('yanlış bilgilerle giriş başarısız olmalı', async ({ page }) => {
