@@ -19,7 +19,12 @@ function lockoutKey(email: string): string {
   return `lockout:${email.toLowerCase()}`;
 }
 
-const noopLimiter = { limit: async () => ({ success: true }) };
+// Production'da Redis yoksa tüm rate-limited aksiyonları reddet (güvenli default)
+const noopLimiter = {
+  limit: async () => ({
+    success: process.env.NODE_ENV !== 'production',
+  }),
+};
 
 export async function recordFailedLogin(email: string): Promise<{ locked: boolean; attemptsLeft: number }> {
   if (!redis) return { locked: false, attemptsLeft: LOCKOUT_MAX_ATTEMPTS };
