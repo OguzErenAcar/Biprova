@@ -171,9 +171,26 @@ export async function updateProfile(
   return { success: true };
 }
 
+const ALLOWED_IMAGE_EXTS = new Set(['jpg', 'jpeg', 'png', 'webp', 'gif']);
+const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL ?? '';
+
+function isValidStorageImageUrl(url: string): boolean {
+  if (!url.startsWith(`${SUPABASE_URL}/storage/`)) return false;
+  const ext = url.split('.').pop()?.toLowerCase().split('?')[0] ?? '';
+  return ALLOWED_IMAGE_EXTS.has(ext);
+}
+
+function isValidStoragePdfUrl(url: string): boolean {
+  if (!url.startsWith(`${SUPABASE_URL}/storage/`)) return false;
+  const ext = url.split('.').pop()?.toLowerCase().split('?')[0] ?? '';
+  return ext === 'pdf';
+}
+
 export async function saveAvatarUrl(
   avatarUrl: string,
 ): Promise<{ success: boolean; error?: string }> {
+  if (!isValidStorageImageUrl(avatarUrl)) return { success: false, error: 'Geçersiz fotoğraf URL.' };
+
   const supabase = await createClient();
   const { data: { user }, error: authError } = await supabase.auth.getUser();
   if (authError || !user) return { success: false, error: 'Oturum açmanız gerekiyor' };
