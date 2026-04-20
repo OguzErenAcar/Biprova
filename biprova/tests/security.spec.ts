@@ -62,7 +62,7 @@ test.describe('Login Sayfası', () => {
     await expect(page.locator('text=/hatalı|geçersiz|yanlış/i')).toBeVisible({ timeout: 5000 })
   })
 
-  test('giriş yapmış kullanıcı login sayfasına gelince dashboard\'a yönlenmeli', async ({ page }) => {
+  test('giriş yapmış kullanıcı login sayfasına gelince dashboard\'a yönlenmeli', async () => {
     // Bu testi atla — gerçek credentials gerektirir
     test.skip()
   })
