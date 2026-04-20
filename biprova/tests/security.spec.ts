@@ -134,7 +134,7 @@ test.describe('Hassas Bilgi Sızıntısı', () => {
   })
 
   test('dashboard 401/403 hatasında sunucu detayı sızmamalı', async ({ page }) => {
-    const response = await page.goto(`${BASE_URL}/dashboard/projects/00000000-0000-0000-0000-000000000000`)
+    await page.goto(`${BASE_URL}/dashboard/projects/00000000-0000-0000-0000-000000000000`)
     const content = await page.content()
     expect(content).not.toMatch(/SUPABASE|service_role|eyJhbGci/)
   })
