@@ -170,7 +170,7 @@ export function CreateProjectLeftCol({ cities, skills, userTeams }: Props) {
       className="flex flex-col gap-3 md:gap-5"
     >
       {state?.error && (
-        <div className="bg-red-50 border-[1.5px] border-red-200 rounded-[12px] px-4  text-[0.84rem] font-semibold text-red-600">
+        <div className="bg-red-50 border-[1.5px] border-red-200 rounded-[12px] px-4  text-sm font-semibold text-red-600">
           {state.error}
         </div>
       )}
