@@ -101,8 +101,8 @@ function ProjectNavItem({ project, isActive }: { project: SidebarProject; isActi
       href={`/dashboard/projects/${project.id}`}
       className={`flex  items-center gap-2 px-3 py-2 rounded-lg text-sm font-semibold mb-0.5 transition-colors no-underline min-w-0 ${
         isActive
-          ? "bg-blue-50 text-blue-600"
-          : "text-ink"
+          ? "bg-black text-white"
+          : "text-white hover:bg-white/10"
       }`}
       onMouseEnter={() => lottieRef.current?.play()}
       onMouseLeave={() => lottieRef.current?.stop()}
