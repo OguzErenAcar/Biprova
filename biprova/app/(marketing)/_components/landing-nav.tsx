@@ -30,7 +30,7 @@ export async function LandingNav() {
               href="/waitlist"
               className="font-nunito font-extrabold text-sm px-[1.4rem] py-[0.55rem] bg-blue-600 text-white rounded-full shadow-[0_4px_14px_rgba(37,99,235,0.3)] transition-transform hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(37,99,235,0.4)] no-underline"
             >
-              🚀 Listeye Katıl
+              Listeye Katıl
             </Link>
           </>
         )}
