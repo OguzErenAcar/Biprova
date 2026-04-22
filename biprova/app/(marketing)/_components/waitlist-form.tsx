@@ -73,12 +73,12 @@ function WaitlistToast({ toast, onClose }: { toast: ToastState; onClose: () => v
             </p>
           )}
 
-          <p className="text-[0.75rem] text-slate-400 mt-1">#{toast.position}. kayıt</p>
+          <p className="text-[0.75rem] text-slate-600 mt-1">#{toast.position}. kayıt</p>
         </div>
 
         <button
           onClick={onClose}
-          className="text-slate-400 hover:text-slate-600 transition-colors text-lg leading-none cursor-pointer bg-transparent border-none p-0 flex-shrink-0"
+          className="text-slate-600 hover:text-slate-600 transition-colors text-lg leading-none cursor-pointer bg-transparent border-none p-0 flex-shrink-0"
         >
           ×
         </button>
@@ -124,7 +124,7 @@ export function WaitlistForm({ variant = "hero" }: WaitlistFormProps) {
           onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
           placeholder="E-posta adresin"
           disabled={isPending}
-          className={`flex-1 border-none outline-none bg-white font-jakarta text-[0.95rem] px-[1.3rem] py-4 text-slate-900 placeholder:text-slate-400 transition-[outline] disabled:opacity-60 ${hasError ? "outline outline-2 outline-red-400" : ""}`}
+          className={`flex-1 border-none outline-none bg-white font-jakarta text-[0.95rem] px-[1.3rem] py-4 text-slate-900 placeholder:text-slate-600 transition-[outline] disabled:opacity-60 ${hasError ? "outline outline-2 outline-red-400" : ""}`}
         />
         <button
           onClick={handleSubmit}
