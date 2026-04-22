@@ -148,7 +148,7 @@ export function ProfileSections({
                       <LottieIcon animationData={layersIcon} size={22} />
                       <div className="text-base md:text-lg font-bold text-ink">{p.title}</div>
                     </div>
-                    <div className="flex   text-meta text-ink-muted justify-between">
+                    <div className="flex   text-sm text-ink-muted justify-between">
                       <div>
                         {meta.map((m, i) => (
                           <span key={m}>
