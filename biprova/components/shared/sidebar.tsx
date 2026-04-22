@@ -246,11 +246,11 @@ export function Sidebar({ projects = [] }: SidebarProps) {
         onClick={() => setProjectsOpen((prev) => !prev)}
         className="flex items-center justify-between w-full px-3 mb-1.5 group"
       >
-        <span className="text-label font-bold tracking-[2px]  text-white">
+        <span className="text-label font-bold tracking-[2px]  text-white/50">
           Projelerim
         </span>
         <svg
-          className={`w-3 h-3 text-white transition-transform duration-200 ${projectsOpen ? "rotate-180" : ""}`}
+          className={`w-3 h-3 text-white/50 transition-transform duration-200 ${projectsOpen ? "rotate-180" : ""}`}
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
