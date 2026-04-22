@@ -205,7 +205,7 @@ export function CreateProjectLeftCol({ cities, skills, userTeams }: Props) {
         <FormGroup label="Proje Başlığı" required>
           <InputWithIcon icon={<Pencil size={13} className="text-slate-400" />}>
             <input
-              className="flex-1 outline-none text-sm text-slate-900 bg-transparent placeholder:text-caption placeholder:text-slate-400"
+              className="flex-1 outline-none text-sm md:text-md text-slate-900 bg-transparent placeholder:text-caption placeholder:text-slate-400"
               type="text"
               name="title"
               placeholder="örn. İklim Değişikliği Farkındalık Belgeseli"
@@ -574,7 +574,7 @@ export function CreateProjectLeftCol({ cities, skills, userTeams }: Props) {
         <FormGroup label="Bağlantı" hint="— opsiyonel">
           <InputWithIcon icon={<Link2 size={13} className="text-slate-400" />}>
             <input
-              className="flex-1 outline-none text-sm text-slate-900 bg-transparent placeholder:text-caption placeholder:text-slate-400"
+              className="flex-1 outline-none text-sm md:text-md text-slate-900 bg-transparent placeholder:text-caption placeholder:text-slate-400"
               type="url"
               name="link"
               placeholder="Proje dosyası, Notion, Drive linki..."
