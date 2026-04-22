@@ -472,7 +472,7 @@ export function CreateProjectLeftCol({ cities, skills, userTeams }: Props) {
                       size={14}
                       className="text-slate-300 cursor-grab shrink-0"
                     />
-                    <span className="flex-1 text-sm font-bold text-slate-900">
+                    <span className="flex-1 text-md md:text-lg font-bold text-slate-900">
                       {role.name}
                     </span>
                     <div className="flex items-center gap-1 bg-white border-[1.5px] border-slate-200 rounded-[8px] p-0.5">
