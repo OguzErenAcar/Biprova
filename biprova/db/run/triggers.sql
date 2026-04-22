@@ -216,9 +216,15 @@ create or replace function handle_auth_user_login()
 returns trigger language plpgsql security definer as $$
 begin
     if new.last_sign_in_at is distinct from old.last_sign_in_at then
-        update public.users
-        set last_sign_in_at = new.last_sign_in_at
-        where id = new.id;
+        -- Profil yoksa oluştur (trg_auth_user_created başarısız olmuşsa fallback)
+        insert into public.users (id, email, name, last_sign_in_at)
+        values (
+            new.id,
+            new.email,
+            coalesce(new.raw_user_meta_data->>'name', split_part(new.email, '@', 1)),
+            new.last_sign_in_at
+        )
+        on conflict (id) do update set last_sign_in_at = excluded.last_sign_in_at;
     end if;
     return new;
 end;
