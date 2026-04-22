@@ -174,7 +174,7 @@ export function ProjectCard({
               <div className="flex flex-col gap-1.5 sm:gap-2 rounded-md py-2">
                 {openRoles.map((role, i) => (
                   <div className="shadow3 rounded-lg" key={i}>
-                    <div className="rounded-xl border text-black px-3 py-2 sm:py-2.5 flex items-center gap-3">
+                    <div className="rounded-xl border border-slate-200 text-black px-3 py-2 sm:py-2.5 flex items-center gap-3">
                       <div className="flex-1 min-w-0">
                         <span className="text-caption text-ink ">
                           {role.name}
