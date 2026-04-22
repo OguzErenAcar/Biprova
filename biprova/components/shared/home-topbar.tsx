@@ -55,21 +55,13 @@ function TickerAnimation({ variant = "topbar" }: { variant?: "topbar" | "drawer"
 
     const splits = ps.map((el) => splitText(el, { lines: { wrap: 'clip' } }));
 
-    function resetLines() {
-      splits.forEach(({ lines }) => {
-        (lines as HTMLElement[]).forEach((line) => {
-          line.style.transform = 'translateY(100%)';
-        });
-      });
-    }
-
-    resetLines();
+    splits.forEach(({ lines }) => animate(lines, { y: '100%', duration: 0 }));
     container.style.opacity = '1';
 
     let tl = createTimeline({});
 
     function playLoop() {
-      resetLines();
+      splits.forEach(({ lines }) => animate(lines, { y: '100%', duration: 0 }));
       tl = createTimeline({ onComplete: playLoop });
       splits.forEach(({ lines }) => {
         tl
@@ -88,9 +80,10 @@ function TickerAnimation({ variant = "topbar" }: { variant?: "topbar" | "drawer"
       });
     }
 
-    playLoop();
+    const raf = requestAnimationFrame(playLoop);
 
     return () => {
+      cancelAnimationFrame(raf);
       tl.pause();
       splits.forEach((s) => s.revert());
       container.style.opacity = '';
