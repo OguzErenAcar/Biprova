@@ -50,20 +50,31 @@ function TickerAnimation({ variant = "topbar" }: { variant?: "topbar" | "drawer"
 
   useEffect(() => {
     if (!containerRef.current) return;
-    const ps = Array.from(containerRef.current.querySelectorAll('p')) as HTMLElement[];
+    const container = containerRef.current;
+    const ps = Array.from(container.querySelectorAll('p')) as HTMLElement[];
 
     const splits = ps.map((el) => splitText(el, { lines: { wrap: 'clip' } }));
-    splits.forEach(({ lines }) => animate(lines, { y: '100%', duration: 0 }));
-    containerRef.current.style.opacity = '1';
+
+    function resetLines() {
+      splits.forEach(({ lines }) => {
+        (lines as HTMLElement[]).forEach((line) => {
+          line.style.transform = 'translateY(100%)';
+        });
+      });
+    }
+
+    resetLines();
+    container.style.opacity = '1';
 
     let tl = createTimeline({});
 
     function playLoop() {
+      resetLines();
       tl = createTimeline({ onComplete: playLoop });
       splits.forEach(({ lines }) => {
         tl
           .add(lines, {
-            y: { from: '100%', to: '0%' },
+            y: '0%',
             duration: 1000,
             ease: 'out(3)',
             delay: stagger(80),
@@ -82,6 +93,7 @@ function TickerAnimation({ variant = "topbar" }: { variant?: "topbar" | "drawer"
     return () => {
       tl.pause();
       splits.forEach((s) => s.revert());
+      container.style.opacity = '';
     };
   }, []);
 
