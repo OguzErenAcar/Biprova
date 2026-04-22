@@ -33,16 +33,16 @@ export function TeamBar({ filled, total }: TeamBarProps) {
 
   return (
     <div>
-      <div className="flex justify-between text-ink-muted text-sm md:text-lg my-2">
+      <div className="flex justify-between   text-ink-muted text-sm md:text-lg my-2">
         <span>Rol Doluluk</span>
         <span>
           {filled+1} / {total+1}
         </span>
       </div>
-      <div className="h-1.5 bg-slate-100 rounded-full overflow-hidden">
+      <div className="h-1.5 bg-slate-100 rounded-full border border-black overflow-hidden">
         <div
           ref={fillRef}
-          className="h-full rounded-full bg-yellow-400"
+          className="h-full rounded-full  bg-yellow-400"
           style={{ width: "0%", transitionProperty: "width", transitionDuration: "1200ms", transitionTimingFunction: "cubic-bezier(.4,0,.2,1)" }}
         />
       </div>
