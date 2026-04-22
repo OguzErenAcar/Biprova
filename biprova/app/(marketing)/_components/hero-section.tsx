@@ -59,15 +59,15 @@ export function HeroSection() {
             <div className="font-nunito font-black text-[1.6rem] text-blue-600 leading-none">
               <HeroCounter target={247} />
             </div>
-            <div className="text-[0.78rem] text-slate-500 mt-1">Bekleme Listesinde</div>
+            <div className="text-[0.78rem] text-slate-600 mt-1">Bekleme Listesinde</div>
           </div>
           <div className="text-center">
             <div className="font-nunito font-black text-[1.6rem] text-blue-600 leading-none">12+</div>
-            <div className="text-[0.78rem] text-slate-500 mt-1">Şehirden Kayıt</div>
+            <div className="text-[0.78rem] text-slate-600 mt-1">Şehirden Kayıt</div>
           </div>
           <div className="text-center">
             <div className="font-nunito font-black text-[1.6rem] text-blue-600 leading-none">Ücretsiz</div>
-            <div className="text-[0.78rem] text-slate-500 mt-1">Sonsuza Kadar</div>
+            <div className="text-[0.78rem] text-slate-600 mt-1">Sonsuza Kadar</div>
           </div>
         </div>
 
