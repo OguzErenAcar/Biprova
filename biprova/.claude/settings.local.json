@@ -1,4 +1,10 @@
 {
+  "permissions": {
+    "allow": [
+      "Bash(git:*)",
+      "Bash(vercel env *)"
+    ]
+  },
   "hooks": {
     "PostToolUse": [
       {
@@ -13,11 +19,6 @@
           }
         ]
       }
-    ]
-  },
-  "permissions": {
-    "allow": [
-      "Bash(git:*)"
     ]
   }
 }
