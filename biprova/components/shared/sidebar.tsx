@@ -113,7 +113,7 @@ function ProjectNavItem({ project, isActive }: { project: SidebarProject; isActi
           animationData={folderIcon}
           loop={false}
           autoplay={false}
-          style={{ width: 20, height: 20 }}
+          style={{ width: 20, height: 20, filter: "brightness(0) invert(1)" }}
         />
       </span>
       <span className="truncate hover:text-black">{project.title.substring(0, 19) + "..."}</span>
