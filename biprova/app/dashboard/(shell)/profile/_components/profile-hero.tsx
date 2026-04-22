@@ -91,7 +91,7 @@ export function ProfileHero({ user, isOwner = false }: ProfileHeroProps) {
         </div>
 
         {user.bio && (
-          <p className="text-body text-ink-muted leading-relaxed mb-6 mt-6 text-center sm:text-left">{user.bio}</p>
+          <p className="text-base md:text-lg text-ink-muted leading-relaxed mb-6 mt-6 text-center sm:text-left">{user.bio}</p>
         )}
 
         <div className="flex flex-wrap gap-4 text-caption text-ink-muted justify-center sm:justify-start">
