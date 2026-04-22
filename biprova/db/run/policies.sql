@@ -107,7 +107,7 @@ create policy "project_roles_manage" on project_roles for all
     using (is_project_leader(project_id));
 
 -- project_role_skills
-create policy "role_skills_read"   on project_role_skills for select using (true);
+create policy "role_skills_read"   on project_role_skills for select using (auth.uid() is not null);
 create policy "role_skills_manage" on project_role_skills for all
     using (
         exists (
