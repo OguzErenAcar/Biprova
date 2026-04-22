@@ -38,101 +38,68 @@ function StatusBadge({ status }: { status: DrawerProject["status"] }) {
   );
 }
 
-// ─── Buraya yaz ───────────────────────────────────────────────
 const TICKER_TEXT = "Takım kur. Proje bul. Hayalini gerçeğe dönüştür. Biprova ile başla.";
-const CHARS_PER_CHUNK = 30; // her seferinde kaç karakter gösterilsin (boşlukta bölmez)
-// ─────────────────────────────────────────────────────────────
-
-
-function chunkText(text: string, maxChars: number): string[] {
-  const words = text.split(' ');
-  const chunks: string[] = [];
-  let current = '';
-
-  for (const word of words) {
-    const candidate = current ? `${current} ${word}` : word;
-    if (candidate.length > maxChars && current) {
-      chunks.push(current);
-      current = word;
-    } else {
-      current = candidate;
-    }
-  }
-  if (current) chunks.push(current);
-  return chunks;
-}
-
-const CHUNKS = chunkText(TICKER_TEXT, CHARS_PER_CHUNK);
 
 function TickerAnimation({ variant = "topbar" }: { variant?: "topbar" | "drawer" }) {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const elRef = useRef<HTMLParagraphElement>(null);
 
   useEffect(() => {
-    if (!containerRef.current) return;
-    const ps = Array.from(containerRef.current.querySelectorAll('p')) as HTMLElement[];
+    if (!elRef.current) return;
 
-    const splits = ps.map((el) => splitText(el, { chars: { wrap: 'clip' } }));
+    const split = splitText(elRef.current, { lines: { wrap: 'clip' } });
 
-    // tüm char'ları başlangıçta aşağıya göm
-    splits.forEach(({ chars }) => animate(chars, { y: '100%', duration: 0 }));
+    animate(split.lines, { y: '100%', duration: 0 });
 
     let tl = createTimeline({});
 
     function playLoop() {
       tl = createTimeline({ onComplete: playLoop });
-      splits.forEach(({ chars }) => {
-        tl.add(chars, {
+      tl
+        .add(split.lines, {
           y: { from: '100%', to: '0%' },
-          duration: 1500,
+          duration: 800,
           ease: 'out(3)',
-          delay: stagger(50),
-        }).add(chars, {
+          delay: stagger(120),
+        })
+        .add(split.lines, {
           y: '-100%',
-          duration: 1500,
+          duration: 800,
           ease: 'in(3)',
-          delay: stagger(50),
-        }, '+=900');
-      });
+          delay: stagger(120),
+        }, '+=1200');
     }
 
     playLoop();
 
     return () => {
       tl.pause();
-      splits.forEach((s) => s.revert());
+      split.revert();
     };
   }, []);
 
   if (variant === "drawer") {
     return (
-      <div ref={containerRef} className="relative h-5 overflow-hidden flex items-center w-full">
-        {CHUNKS.map((chunk) => (
-          <p
-            key={chunk}
-            style={{ color: "rgba(55,100,236)" }}
-            className="absolute left-0 text-sm font-semibold whitespace-nowrap"
-          >
-            {chunk}
-          </p>
-        ))}
+      <div className="relative h-5 overflow-hidden flex items-center w-full">
+        <p
+          ref={elRef}
+          style={{ color: "rgba(55,100,236)" }}
+          className="text-sm font-semibold"
+        >
+          {TICKER_TEXT}
+        </p>
       </div>
     );
   }
 
   return (
-    <div
-      ref={containerRef}
-      className="lg:inline hidden absolute right-10 lg:right-auto lg:left-1/2 lg:-translate-x-1/2 h-8 overflow-hidden flex items-center min-w-[140px] lg:min-w-[350px]"
-    >
-      {CHUNKS.map((chunk) => (
-        <p
-          key={chunk}
-          style={{ color: "rgba(55,100,236)" }}
-          className="absolute left-1/2 -translate-x-1/2 text-sm lg:text-lg font-semibold whitespace-nowrap"
-        >
-          {chunk}
-        </p>
-      ))}
+    <div className="lg:flex hidden absolute right-10 lg:right-auto lg:left-1/2 lg:-translate-x-1/2 overflow-hidden items-center min-w-[140px] lg:min-w-[350px]">
+      <p
+        ref={elRef}
+        style={{ color: "rgba(55,100,236)" }}
+        className="text-center text-sm lg:text-lg font-semibold"
+      >
+        {TICKER_TEXT}
+      </p>
     </div>
   );
 }
