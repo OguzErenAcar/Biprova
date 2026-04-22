@@ -55,6 +55,11 @@ declare
     new_team_id uuid;
 begin
     if new.status = 'full' and (old.status is null or old.status <> 'full') then
+        -- Sıfır rollü projeye ekip kurma
+        if not exists (select 1 from project_roles where project_id = new.id) then
+            return new;
+        end if;
+
         insert into teams (name, leader_id, status, project_id, formed_at, deadline)
         values (new.title || ' ekibi', new.leader_id, 'pending', new.id, now(), now() + interval '24 hours')
         returning id into new_team_id;
