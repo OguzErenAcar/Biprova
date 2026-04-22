@@ -6,12 +6,15 @@ const nunito = Nunito({
   variable: "--font-nunito",
   subsets: ["latin"],
   weight: ["400", "600", "700", "800", "900"],
+  display: "swap",
 });
 
 const jakartaSans = Plus_Jakarta_Sans({
   variable: "--font-jakarta",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
+  display: "swap",
+  preload: false,
 });
 
 export const metadata: Metadata = {
