@@ -82,7 +82,7 @@ export function ProfileHero({ user, isOwner = false }: ProfileHeroProps) {
 
         {/* İsim + rozet */}
         <div className="flex items-center justify-between sm:pt-20 mb-2 flex-col sm:flex-row gap-1 sm:gap-0 text-center sm:text-left">
-          <div className="mt-4 sm:mt-4 font-black text-h2 text-ink">{user.name}</div>
+          <div className="mt-4 sm:mt-4 font-black text-xl md:text-2xl text-ink">{user.name}</div>
           {user.badge && (
             <Badge variant="outline" className="bg-warning-surface text-warning border-warning-surface font-bold gap-1.5">
               🏅 {user.badge}
