@@ -616,11 +616,11 @@ function FormCard({ id, icon, title, sub, children }: FormCardProps) {
       id={id}
       className="bg-white border-[1.5px] border-slate-200 rounded-xl p-4  md:p-[1.8rem]"
     >
-      <div className="font-nunito font-black text-lead md:text-label text-slate-900 mb-0.5 flex items-center gap-[0.45rem]">
+      <div className="font-nunito font-black text-xl md:text-2xl text-slate-900 mb-0.5 flex items-center gap-[0.45rem]">
         <span className="text-slate-500">{icon}</span>
         {title}
       </div>
-      <div className="text-caption text-slate-400 mb-3.5 md:mb-5">
+      <div className="text-sm md:text-md text-slate-400 mb-3.5 md:mb-5">
         {sub}
       </div>
       <div className="flex flex-col gap-3 md:gap-4">{children}</div>
