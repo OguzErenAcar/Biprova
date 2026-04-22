@@ -30,7 +30,13 @@ interface ProjectCardProps {
   title: string;
   description: string;
   distanceKm?: number;
-  poster: { id: string; name: string; initials: string; color: string; badge: string | null };
+  poster: {
+    id: string;
+    name: string;
+    initials: string;
+    color: string;
+    badge: string | null;
+  };
   roles: Role[];
   defaultOpen?: boolean;
   disableNavigation?: boolean;
@@ -71,7 +77,6 @@ export function ProjectCard({
   const total = roles.length;
   const openRoles = roles.filter((r) => !r.filled);
 
-
   return (
     <Card
       id={`project-card-${projectId}`}
@@ -85,10 +90,13 @@ export function ProjectCard({
             className="flex items-center gap-2 hover:opacity-75 transition-opacity"
             onClick={(e) => e.stopPropagation()}
           >
-            <UserAvatar initials={poster.initials} badge={poster.badge} size={28} className="text-[0.72rem]" />
-            <span className=" text-ink-muted">
-              {poster.name}
-            </span>
+            <UserAvatar
+              initials={poster.initials}
+              badge={poster.badge}
+              size={28}
+              className="text-[0.72rem]"
+            />
+            <span className=" text-ink-muted">{poster.name}</span>
           </Link>
 
           <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap justify-end ">
@@ -132,7 +140,9 @@ export function ProjectCard({
         {/* Açıklama */}
         <div
           className={`overflow-hidden transition-all duration-300 ease-in-out text-justify sm:text-body text-md md:text-lg text-ink-muted ${
-            desOpen ? "max-h-[400px] opacity-100 mt-2 sm:mb-4" : "max-h-0 opacity-0"
+            desOpen
+              ? "max-h-[400px] opacity-100 mt-2 sm:mb-4"
+              : "max-h-0 opacity-0"
           }`}
         >
           {description}
@@ -159,7 +169,9 @@ export function ProjectCard({
               </button>
               {!disableNavigation && (
                 <button
-                  onClick={() => router.push(`/dashboard/posts/projects/${projectId}`)}
+                  onClick={() =>
+                    router.push(`/dashboard/posts/projects/${projectId}`)
+                  }
                   className="flex items-center text-sm text-[#3764ec] font-semibold"
                 >
                   Detay
@@ -176,30 +188,20 @@ export function ProjectCard({
                 {openRoles.map((role, i) => (
                   <div
                     key={i}
-                    className="flex flex-col gap-2 rounded-xl bg-blue-50/60 border border-blue-100 px-3 py-2.5"
+                    className="flex items-center justify-between gap-2 rounded-xl bg-blue-50/60 border border-blue-100 px-3 py-2.5"
                   >
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 min-w-0">
                       <div className="flex-shrink-0 w-5 h-5 rounded-full bg-[#3764ec]/10 flex items-center justify-center">
-                        <span className="text-[0.6rem] font-bold text-[#3764ec]">{i + 1}</span>
+                        <span className="text-[0.6rem] font-bold text-[#3764ec]">
+                          {i + 1}
+                        </span>
                       </div>
-                      <span className="text-sm font-semibold text-ink leading-tight">{role.name}</span>
+                      <span className="text-sm font-semibold text-ink leading-tight truncate">
+                        {role.name}
+                      </span>
                     </div>
-                    {role.skills.length > 0 && (
-                      <div className="flex flex-wrap gap-1">
-                        {role.skills.slice(0, 3).map((skill, si) => (
-                          <span
-                            key={si}
-                            className="text-[0.6rem] bg-white border border-blue-100 text-blue-600 rounded-full px-2 py-0.5 leading-none"
-                          >
-                            {skill}
-                          </span>
-                        ))}
-                      </div>
-                    )}
                     {!isOwnProject && (
-                      <div className="mt-auto pt-1">
-                        <RoleJoinButton projectId={projectId} roleId={role.id} />
-                      </div>
+                      <RoleJoinButton projectId={projectId} roleId={role.id} />
                     )}
                   </div>
                 ))}
