@@ -399,7 +399,7 @@ export function HomeTopbar({ projects = [] }: { projects?: DrawerProject[] }) {
 
           {/* Mobil menü butonu — sadece lg altında görünür */}
           <button
-            className="lg:hidden w-8 h-8 flex items-center justify-center rounded-[10px] border-[1.5px] border-black text-slate-600 hover:bg-slate-100 transition-colors "
+            className="lg:hidden w-8 h-8 flex items-center justify-center rounded-[10px] border-[1.5px] border-slate-200 text-slate-600 hover:bg-slate-100 transition-colors"
             onClick={() => setDrawerOpen(true)}
             aria-label="Menüyü aç"
           >
