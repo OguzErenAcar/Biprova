@@ -46,7 +46,7 @@ export function HowItWorksSection() {
             key={step.num}
             className="relative bg-[#3764ec] rounded-[20px] p-8 overflow-hidden hover:-translate-y-1 hover:shadow-[0_12px_32px_rgba(37,99,235,0.35)] transition-all duration-200"
           >
-            <span className="absolute top-[-10px] right-2.5 font-nunito font-black text-[5rem] text-white/10 leading-none pointer-events-none select-none">
+            <span className="absolute top-[-10px] right-2.5 font-nunito font-black text-[5rem] text-white/20 leading-none pointer-events-none select-none">
               {step.num}
             </span>
             <div className="mb-4 relative" style={{ filter: "brightness(0) invert(1)" }}>
