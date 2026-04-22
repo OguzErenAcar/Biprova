@@ -54,6 +54,7 @@ function TickerAnimation({ variant = "topbar" }: { variant?: "topbar" | "drawer"
 
     const splits = ps.map((el) => splitText(el, { lines: { wrap: 'clip' } }));
     splits.forEach(({ lines }) => animate(lines, { y: '100%', duration: 0 }));
+    containerRef.current.style.opacity = '1';
 
     let tl = createTimeline({});
 
