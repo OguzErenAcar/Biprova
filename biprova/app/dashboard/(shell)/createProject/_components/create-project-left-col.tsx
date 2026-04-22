@@ -283,7 +283,7 @@ export function CreateProjectLeftCol({ cities, skills, userTeams }: Props) {
               />
               <div>
                 <div
-                  className={`text-sm font-bold ${locationError ? "text-red-700" : "text-slate-900"}`}
+                  className={`text-md md:text-lg font-bold ${locationError ? "text-red-700" : "text-slate-900"}`}
                 >
                   Konum Al
                   <span className="text-red-500 ml-0.5">*</span>
