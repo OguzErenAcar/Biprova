@@ -152,12 +152,11 @@
   body {
     @apply text-foreground;
 
-  background: linear-gradient(
+background: linear-gradient(
   45deg,
-  rgb(233, 229, 186) 0%,
-  rgb(148, 161, 202) 30%,
-  rgb(180, 193, 230) 70%,
-  rgb(243, 240, 205) 100%
+  rgb(228, 227, 219) 0%,
+  rgb(255, 255, 255) 50%,
+  rgb(228, 226, 212) 100%
 );
     /* background: linear-gradient(#3764ec, #5475d8, #d6d6d6) fixed; */
     /* background: radial-gradient(circle at 20% 20%, #3764ec 0%, transparent 20%),
@@ -186,11 +185,11 @@ font-size: 18px;
 }
 
 .sidebar_container{
- background-color: rgba(46, 84, 199, 0.4)
+ background-color: rgba(46, 84, 199, 1)
 }
 
 .tab-inactive {
-  background-color: rgba(46, 84, 199, 0.7);
+  background-color: rgba(46, 84, 199, 1);
 }
 
 #dashboard-main{
