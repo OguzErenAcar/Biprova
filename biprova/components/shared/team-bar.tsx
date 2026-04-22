@@ -39,7 +39,7 @@ export function TeamBar({ filled, total }: TeamBarProps) {
           {filled+1} / {total+1}
         </span>
       </div>
-      <div className="h-1.5 bg-slate-100 rounded-full border border-black overflow-hidden">
+      <div className="h-1.5 bg-slate-100 rounded-full shadow overflow-hidden">
         <div
           ref={fillRef}
           className="h-full rounded-full  bg-yellow-400"

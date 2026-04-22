@@ -67,7 +67,7 @@ function TabItem({ tab, active, onNavigate }: { tab: Tab; active: boolean; onNav
           animationData={tab.animationData}
           loop={false}
           autoplay={false}
-          style={{ width: 28, height: 28 }}
+          style={{ width: 28, height: 28, filter: "brightness(0) invert(1)" }}
         />
       </span>
       <span className={`text-xs mt-0.5 font-semibold transition-opacity ${active ? "text-black opacity-100" : "text-white opacity-70"}`}>
