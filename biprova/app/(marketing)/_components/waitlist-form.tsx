@@ -57,7 +57,7 @@ function WaitlistToast({ toast, onClose }: { toast: ToastState; onClose: () => v
           </div>
 
           {isAlready ? (
-            <p className="text-[0.82rem] text-slate-500 mt-0.5">
+            <p className="text-[0.82rem] text-slate-600 mt-0.5">
               Bu e-posta zaten bekleme listesinde. Hazır olunca haber vereceğiz.
             </p>
           ) : isFirst100 ? (
@@ -68,7 +68,7 @@ function WaitlistToast({ toast, onClose }: { toast: ToastState; onClose: () => v
               </p>
             </div>
           ) : (
-            <p className="text-[0.82rem] text-slate-500 mt-0.5">
+            <p className="text-[0.82rem] text-slate-600 mt-0.5">
               Hazır olunca sana haber vereceğiz.
             </p>
           )}
