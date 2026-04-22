@@ -13,7 +13,7 @@ function StatCard({ value, label }: StatCardProps) {
         <div className=" text-hero text-ink leading-none mb-1.5">
           {value}
         </div>
-        <div className="text-caption text-ink-muted font-semibold">{label}</div>
+        <div className="text-sm text-ink-muted font-semibold">{label}</div>
       </CardContent>
     </Card>
   );
