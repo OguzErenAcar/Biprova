@@ -35,7 +35,7 @@ export function WaitlistFormCard() {
         <div className="flex flex-col items-center text-center py-4">
           <div className="text-5xl mb-4">🎉</div>
           <div className="font-nunito font-black text-xl text-slate-900 mb-2">Listeye alındın!</div>
-          <p className="text-[0.85rem] text-slate-500 leading-relaxed">
+          <p className="text-[0.85rem] text-slate-600 leading-relaxed">
             Platform açıldığında seni haberdar edeceğiz.<br />Şimdilik arkadaşlarına anlat!
           </p>
         </div>
@@ -77,7 +77,7 @@ export function WaitlistFormCard() {
               Listeye Katıl →
             </button>
           </div>
-          <p className="text-[0.76rem] text-slate-500 flex items-center gap-1.5">
+          <p className="text-[0.76rem] text-slate-600 flex items-center gap-1.5">
             🔒 Spam yok. İstediğin zaman çıkabilirsin.
           </p>
         </>
