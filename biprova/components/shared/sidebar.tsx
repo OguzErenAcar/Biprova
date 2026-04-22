@@ -222,7 +222,7 @@ export function Sidebar({ projects = [] }: SidebarProps) {
       {/* Konum filtresi */}
       <div className="px-3 mb-3">
         <div className="flex items-center justify-between mb-1.5">
-          <span className="text-label font-bold tracking-[2px] text-ink">Konum</span>
+          <span className="text-label font-bold tracking-[2px] text-white">Konum</span>
           <Switch
             checked={locationOn}
             disabled={locationLoading}
@@ -246,11 +246,11 @@ export function Sidebar({ projects = [] }: SidebarProps) {
         onClick={() => setProjectsOpen((prev) => !prev)}
         className="flex items-center justify-between w-full px-3 mb-1.5 group"
       >
-        <span className="text-label font-bold tracking-[2px]  text-ink">
+        <span className="text-label font-bold tracking-[2px]  text-white">
           Projelerim
         </span>
         <svg
-          className={`w-3 h-3 text-ink transition-transform duration-200 ${projectsOpen ? "rotate-180" : ""}`}
+          className={`w-3 h-3 text-white transition-transform duration-200 ${projectsOpen ? "rotate-180" : ""}`}
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -263,7 +263,7 @@ export function Sidebar({ projects = [] }: SidebarProps) {
       {projectsOpen && (
         <nav>
           {projects.length === 0 ? (
-            <div className="px-3 py-2  text-ink">
+            <div className="px-3 py-2  text-white">
               Henüz proje yok
             </div>
           ) : (
@@ -284,11 +284,11 @@ export function Sidebar({ projects = [] }: SidebarProps) {
         onClick={() => setSavedOpen((prev) => !prev)}
         className="flex items-center justify-between w-full px-3 mt-4 mb-1.5 group"
       >
-        <span className="text-label font-bold tracking-[2px]  text-ink">
+        <span className="text-label font-bold tracking-[2px]  text-white">
           Kaydettiklerim
         </span>
         <svg
-          className={`w-3 h-3 text-ink transition-transform duration-200 ${savedOpen ? "rotate-180" : ""}`}
+          className={`w-3 h-3 text-white transition-transform duration-200 ${savedOpen ? "rotate-180" : ""}`}
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -300,7 +300,7 @@ export function Sidebar({ projects = [] }: SidebarProps) {
 
       {savedOpen && (
         <nav>
-          <div className="px-3 py-2 text-sm text-ink">
+          <div className="px-3 py-2 text-sm text-white">
             Henüz kaydedilen yok
           </div>
         </nav>
@@ -310,7 +310,7 @@ export function Sidebar({ projects = [] }: SidebarProps) {
         <Separator className="mb-4" />
         <button
           onClick={() => setInfoOpen(true)}
-          className="w-full flex items-center gap-2 px-3 py-2 rounded-[10px] text-label font-semibold text-ink hover:bg-slate-100 transition-colors"
+          className="w-full flex items-center gap-2 px-3 py-2 rounded-[10px] text-label font-semibold text-white hover:bg-slate-100 transition-colors"
         >
           <span className="w-4 h-4 flex items-center justify-center rounded-full border border-slate-400 text-slate-400 text-[10px] font-bold shrink-0">?</span>
           Biprova nedir?
