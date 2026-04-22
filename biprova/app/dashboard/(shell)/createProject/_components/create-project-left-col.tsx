@@ -639,7 +639,7 @@ function FormGroup({ label, required, hint, children }: FormGroupProps) {
   return (
     <div >
       {label && (
-        <label className="block text-caption md:text-sm font-bold text-slate-900 mb-1">
+        <label className="block text-sm md:text-md font-bold text-slate-900 mb-1">
           {label}
           {required && <span className="text-red-500 ml-0.5">*</span>}
           {hint && (
