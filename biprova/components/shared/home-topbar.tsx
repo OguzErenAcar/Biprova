@@ -39,8 +39,8 @@ function StatusBadge({ status }: { status: DrawerProject["status"] }) {
 }
 
 const SENTENCES = [
-  "Takım kur.",
-  "Proje bul.",
+  "Biprova bul.",
+  "Ekibini kur.",
   "Hayalini gerçeğe dönüştür.",
   "Biprova ile başla.",
 ];
