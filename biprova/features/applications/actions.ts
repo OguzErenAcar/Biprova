@@ -78,25 +78,14 @@ export async function reviewApplication(
   if (updateError) return { error: updateError.message };
 
   if (decision === 'accepted') {
+    // project_roles.is_filled = true → trg_check_project_full tetiklenir
+    // tüm roller dolduysa projects.status = 'full' → trg_create_team_on_project_full ekibi kurar
     const { error: roleError } = await supabase
       .from('project_roles')
       .update({ is_filled: true, filled_by: app.user_id })
       .eq('id', app.role_id);
 
     if (roleError) return { error: roleError.message };
-
-    const { data: roles } = await supabase
-      .from('project_roles')
-      .select('is_filled')
-      .eq('project_id', app.project_id);
-
-    const allFilled = roles && roles.length > 0 && roles.every((r) => r.is_filled);
-    if (allFilled) {
-      await supabase
-        .from('projects')
-        .update({ status: 'full' })
-        .eq('id', app.project_id);
-    }
 
     const { data: leaderUser } = await supabase
       .from('users')
@@ -111,7 +100,8 @@ export async function reviewApplication(
       is_read: false,
     });
 
-    revalidatePath('/dashboard/profile');
+    revalidatePath('/dashboard/projects');
+    revalidatePath(`/dashboard/posts/projects/${app.project_id}`);
   }
 
   return { success: true };
