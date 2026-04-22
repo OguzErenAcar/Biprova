@@ -144,25 +144,26 @@ export function ProjectCard({
             <div className="flex items-center justify-between mt-5">
               <button
                 onClick={() => setRolesOpen((prev) => !prev)}
-                className="justify-between px-0 h-auto hover:bg-transparent"
+                className="flex items-center gap-2 px-0 h-auto hover:bg-transparent"
               >
-                <div className="flex items-center text-sm md:text-lg text-ink border py-1 px-2 rounded-lg font-bold bg-white">
-                  <span style={{color:"#3764ec"}}>
-                    Aranan Pozisyonlar ({openRoles.length})
-                  </span>
-                  <ChevronDown
-                    style={{color:"#3764ec"}}
-                    className={`w-3.5 h-3.5 transition-transform duration-300 ms-2 ${rolesOpen ? "rotate-180" : ""}`}
-                  />
-                </div>
+                <Users className="w-4 h-4 text-[#3764ec]" />
+                <span className="text-sm font-semibold text-[#3764ec]">
+                  Aranan Pozisyonlar
+                </span>
+                <span className="flex items-center justify-center w-5 h-5 rounded-full bg-[#3764ec] text-white text-[0.65rem] font-bold">
+                  {openRoles.length}
+                </span>
+                <ChevronDown
+                  className={`w-3.5 h-3.5 text-[#3764ec] transition-transform duration-300 ${rolesOpen ? "rotate-180" : ""}`}
+                />
               </button>
               {!disableNavigation && (
                 <button
                   onClick={() => router.push(`/dashboard/posts/projects/${projectId}`)}
-                  className="flex items-center text-sm text-ink py-1 px-2 rounded-lg font-bold"
+                  className="flex items-center text-sm text-[#3764ec] font-semibold"
                 >
-                  <span style={{ color: "#3764ec" }}>Detay</span>
-                  <ChevronRight style={{ color: "#3764ec" }} className="w-3.5 h-3.5 ms-1" />
+                  Detay
+                  <ChevronRight className="w-3.5 h-3.5 ms-1 text-[#3764ec]" />
                 </button>
               )}
             </div>
@@ -171,22 +172,33 @@ export function ProjectCard({
                 rolesOpen ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
               }`}
             >
-              <div className="flex flex-col gap-1.5 sm:gap-2 rounded-md py-2">
+              <div className="flex flex-col gap-2 py-2">
                 {openRoles.map((role, i) => (
-                  <div className="shadow3 rounded-lg" key={i}>
-                    <div className="rounded-xl border border-slate-200 text-black px-3 py-2 sm:py-2.5 flex items-center gap-3">
-                      <div className="flex-1 min-w-0">
-                        <span className="text-caption text-ink ">
-                          {role.name}
-                        </span>
-                      </div>
-                      {!isOwnProject && (
-                        <RoleJoinButton
-                          projectId={projectId}
-                          roleId={role.id}
-                        />
+                  <div
+                    key={i}
+                    className="flex items-center gap-3 rounded-xl bg-blue-50/60 border border-blue-100 px-3 py-2.5"
+                  >
+                    <div className="flex-shrink-0 w-6 h-6 rounded-full bg-[#3764ec]/10 flex items-center justify-center">
+                      <span className="text-[0.65rem] font-bold text-[#3764ec]">{i + 1}</span>
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <span className="text-sm font-semibold text-ink">{role.name}</span>
+                      {role.skills.length > 0 && (
+                        <div className="flex flex-wrap gap-1 mt-1">
+                          {role.skills.slice(0, 4).map((skill, si) => (
+                            <span
+                              key={si}
+                              className="text-[0.65rem] bg-white border border-blue-100 text-blue-600 rounded-full px-2 py-0.5 leading-none"
+                            >
+                              {skill}
+                            </span>
+                          ))}
+                        </div>
                       )}
                     </div>
+                    {!isOwnProject && (
+                      <RoleJoinButton projectId={projectId} roleId={role.id} />
+                    )}
                   </div>
                 ))}
               </div>
