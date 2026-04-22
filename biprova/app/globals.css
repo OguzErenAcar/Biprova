@@ -336,7 +336,7 @@ border-bottom: 2px solid rgb(177, 177, 177);
    FORM UTİLİTİES
    ══════════════════════════════════════════════ */
 .form-input {
-  @apply w-full border-[1.5px] border-slate-200 rounded-[11px] px-3 py-[0.55rem] md:px-4 md:py-[0.72rem] font-[inherit] text-sm text-slate-900 outline-none transition-[border-color,box-shadow] bg-white placeholder:text-caption placeholder:text-slate-400;
+  @apply w-full border-[1.5px] border-slate-200 rounded-[11px] px-3 py-[0.55rem] md:px-4 md:py-[0.72rem] font-[inherit] text-sm md:text-md text-slate-900 outline-none transition-[border-color,box-shadow] bg-white placeholder:text-caption placeholder:text-slate-400;
 }
 .form-input:focus {
   @apply border-blue-600 shadow-[0_0_0_3px_rgba(37,99,235,0.08)];
