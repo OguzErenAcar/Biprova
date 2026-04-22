@@ -200,7 +200,7 @@ export function ProfileSections({
                       <LottieIcon animationData={avatarIcon} size={22} />
                       <div className="text-base md:text-lg font-bold text-ink">{t.name ?? t.projectTitle ?? "Ekip"}</div>
                     </div>
-                    <div className="flex  gap-4.5 text-meta text-ink-muted justify-between">
+                    <div className="flex  gap-4.5 text-sm text-ink-muted justify-between">
                       {title}
                       {/* rol de belirtilebilir */}
                       <Badge
