@@ -643,7 +643,7 @@ function FormGroup({ label, required, hint, children }: FormGroupProps) {
           {label}
           {required && <span className="text-red-500 ml-0.5">*</span>}
           {hint && (
-            <span className="text-[0.72rem] text-slate-400 font-normal ml-1">
+            <span className="text-xs text-slate-400 font-normal ml-1">
               {hint}
             </span>
           )}
