@@ -124,7 +124,7 @@ export function WaitlistForm({ variant = "hero" }: WaitlistFormProps) {
           onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
           placeholder="E-posta adresin"
           disabled={isPending}
-          className={`flex-1 border-none outline-none bg-white font-jakarta text-[0.95rem] px-[1.3rem] py-4 text-slate-900 placeholder:text-slate-600 transition-[outline] disabled:opacity-60 ${hasError ? "outline outline-2 outline-red-400" : ""}`}
+          className={`flex-1 border-none outline-none bg-white font-jakarta text-[0.95rem] px-[1.3rem] py-4 text-slate-900 placeholder:text-slate-500 transition-[outline] disabled:opacity-60 ${hasError ? "outline outline-2 outline-red-400" : ""}`}
         />
         <button
           onClick={handleSubmit}
