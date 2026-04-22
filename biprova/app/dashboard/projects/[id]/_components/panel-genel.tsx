@@ -26,7 +26,7 @@ function ProjectInfoCard({ project }: { project: ProjectDetail }) {
   return (
     <div className="bg-white border-[1.5px] border-slate-200 rounded-2xl overflow-hidden">
       <div className="px-[1.2rem] py-[1rem] border-b border-slate-200">
-        <span className="font-nunito text-[0.9rem] font-black">📄 Proje Hakkında</span>
+        <span className="font-nunito text-[1.05rem] font-black text-slate-900">📄 Proje Hakkında</span>
       </div>
 
       <div className="px-[1.2rem] py-[1rem] flex flex-col gap-4">
@@ -189,7 +189,7 @@ export function PanelGenel({ project, onGoToChat, onGoToFiles }: Props) {
             className="bg-white border-[1.5px] border-slate-200 rounded-2xl overflow-hidden"
           >
             <div className="flex items-center justify-between px-[1.2rem] py-[1rem] border-b border-slate-200">
-              <span className="font-nunito text-[0.9rem] font-black">✅ Aktif Görevler</span>
+              <span className="font-nunito text-[1.05rem] font-black text-slate-900">✅ Aktif Görevler</span>
               <button
                 onClick={onGoToTasks}
                 className="text-[0.75rem] font-bold text-blue-600 cursor-pointer bg-transparent border-none"
@@ -208,7 +208,7 @@ export function PanelGenel({ project, onGoToChat, onGoToFiles }: Props) {
             className="bg-white border-[1.5px] border-slate-200 rounded-2xl overflow-hidden"
           >
             <div className="flex items-center justify-between px-[1.2rem] py-[1rem] border-b border-slate-200">
-              <span className="font-nunito text-[0.9rem] font-black">🗳 Açık Kararlar</span>
+              <span className="font-nunito text-[1.05rem] font-black text-slate-900">🗳 Açık Kararlar</span>
               <span className="text-[0.75rem] font-bold text-blue-600 cursor-pointer">+ Yeni Karar</span>
             </div>
             <div className="px-[1.2rem] py-[1rem] text-[0.82rem] text-slate-400">
@@ -225,7 +225,7 @@ export function PanelGenel({ project, onGoToChat, onGoToFiles }: Props) {
             className="bg-white border-[1.5px] border-slate-200 rounded-2xl overflow-hidden"
           >
             <div className="flex items-center justify-between px-[1.2rem] py-[1rem] border-b border-slate-200">
-              <span className="font-nunito text-[0.9rem] font-black">👥 Ekip</span>
+              <span className="font-nunito text-[1.05rem] font-black text-slate-900">👥 Ekip</span>
               <span className="text-[0.72rem] text-slate-400">{project.members.length} kişi</span>
             </div>
             <div className="px-[1.2rem] py-[1rem]">
@@ -266,7 +266,7 @@ export function PanelGenel({ project, onGoToChat, onGoToFiles }: Props) {
             className="bg-white border-[1.5px] border-slate-200 rounded-2xl overflow-hidden"
           >
             <div className="flex items-center justify-between px-[1.2rem] py-[1rem] border-b border-slate-200">
-              <span className="font-nunito text-[0.9rem] font-black">📁 Dosyalar & Linkler</span>
+              <span className="font-nunito text-[1.05rem] font-black text-slate-900">📁 Dosyalar & Linkler</span>
               <button
                 onClick={onGoToFiles}
                 className="text-[0.75rem] font-bold text-blue-600 cursor-pointer bg-transparent border-none"
