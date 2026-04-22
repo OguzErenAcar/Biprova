@@ -51,7 +51,7 @@ export function ProjectCard({ city, status, title, roles }: ProjectCardProps) {
             className={`text-[0.75rem] font-semibold px-3 py-1 rounded-full border ${
               role.filled
                 ? "border-blue-200 bg-blue-50 text-blue-600"
-                : "border-slate-200 text-slate-500"
+                : "border-slate-200 text-slate-600"
             }`}
           >
             {role.filled ? `✓ ${role.name}` : role.name}
