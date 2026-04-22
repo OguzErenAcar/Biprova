@@ -437,7 +437,7 @@ export function CreateProjectLeftCol({ cities, skills, userTeams }: Props) {
                   </div>
                   <div className="flex-1 min-w-0">
                     <div
-                      className={`text-sm font-bold truncate ${isSelected ? "text-blue-700" : "text-slate-900"}`}
+                      className={`text-md md:text-lg font-bold truncate ${isSelected ? "text-blue-700" : "text-slate-900"}`}
                     >
                       {team.name}
                     </div>
