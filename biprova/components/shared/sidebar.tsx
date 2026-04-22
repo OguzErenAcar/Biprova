@@ -72,10 +72,10 @@ function NavItem({
   return (
     <Link
       href={href}
-      className={`flex text-label items-center hover:text-black gap-[0.65rem] px-3 py-[0.65rem] rounded-[10px] text-body font-semibold mb-0.5 transition-all duration-150 no-underline ${
+      className={`flex text-label items-center gap-[0.65rem] px-3 py-[0.65rem] rounded-[10px] text-body font-semibold mb-0.5 transition-all duration-150 no-underline ${
         isActive
-          ? "bg-blue-50 text-slate-900"
-          : "text-ink"
+          ? "bg-black text-white"
+          : "text-white hover:bg-white/10"
       }`}
       onMouseEnter={() => lottieRef.current?.play()}
       onMouseLeave={() => lottieRef.current?.stop()}
