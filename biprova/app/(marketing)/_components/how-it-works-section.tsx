@@ -44,18 +44,18 @@ export function HowItWorksSection() {
         {STEPS.map((step) => (
           <div
             key={step.num}
-            className="relative bg-white border border-slate-200 rounded-[20px] p-8 overflow-hidden hover:-translate-y-1 hover:shadow-[0_12px_32px_rgba(37,99,235,0.1)] transition-all duration-200"
+            className="relative bg-[#3764ec] rounded-[20px] p-8 overflow-hidden hover:-translate-y-1 hover:shadow-[0_12px_32px_rgba(37,99,235,0.35)] transition-all duration-200"
           >
-            <span className="absolute top-[-10px] right-2.5 font-nunito font-black text-[5rem] text-slate-100 leading-none pointer-events-none select-none">
+            <span className="absolute top-[-10px] right-2.5 font-nunito font-black text-[5rem] text-white/10 leading-none pointer-events-none select-none">
               {step.num}
             </span>
-            <div className="mb-4 relative">
+            <div className="mb-4 relative" style={{ filter: "brightness(0) invert(1)" }}>
               <LottieIcon animationData={step.icon} size={48} />
             </div>
-            <h3 className="relative font-nunito font-extrabold text-[1.05rem] mb-2">
+            <h3 className="relative font-nunito font-extrabold text-[1.05rem] mb-2 text-white">
               {step.title}
             </h3>
-            <p className="relative text-[0.88rem] text-slate-600 leading-relaxed">
+            <p className="relative text-[0.88rem] text-white/75 leading-relaxed">
               {step.desc}
             </p>
           </div>
