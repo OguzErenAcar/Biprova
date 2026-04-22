@@ -88,7 +88,7 @@ function SectionCard({
     <Card id={id} className="mb-5">
       <CardHeader className="pb-0">
         <div className="flex items-center justify-between">
-          <CardTitle className="font-nunito font-black text-base text-ink">
+          <CardTitle className="font-nunito font-black text-xl md:text-2xl text-ink">
             {title}
           </CardTitle>
           {action}
