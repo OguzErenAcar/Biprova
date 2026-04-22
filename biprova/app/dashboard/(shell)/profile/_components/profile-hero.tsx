@@ -31,7 +31,7 @@ export function ProfileHero({ user, isOwner = false }: ProfileHeroProps) {
       {/* Cover */}
       <div className="relative h-[150px]">
         {user.cover_url ? (
-          <img src={user.cover_url} alt="Kapak fotoğrafı" className="w-full h-full object-cover" />
+          <Image src={user.cover_url} alt="Kapak fotoğrafı" fill className="object-cover" sizes="100vw" />
         ) : (
           <div className="w-full h-full bg-gradient-to-br from-brand-hover via-indigo-500 to-violet-500" />
         )}
