@@ -39,7 +39,7 @@ function TabItem({ tab, active, onNavigate }: { tab: Tab; active: boolean; onNav
         onMouseEnter={() => lottieRef.current?.play()}
         onMouseLeave={() => lottieRef.current?.stop()}>
           
-        <div className="w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center shadow-[0_4px_14px_rgba(37,99,235,0.4)] -mt-[14px]">
+        <div className="w-12 h-12 rounded-full bg-black flex items-center justify-center shadow-[0_4px_14px_rgba(0,0,0,0.35)] -mt-[14px]">
           <Lottie
             lottieRef={lottieRef}
             animationData={tab.animationData}
