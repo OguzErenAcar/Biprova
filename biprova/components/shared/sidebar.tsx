@@ -222,7 +222,7 @@ export function Sidebar({ projects = [] }: SidebarProps) {
       {/* Konum filtresi */}
       <div className="px-3 mb-3">
         <div className="flex items-center justify-between mb-1.5">
-          <span className="text-label font-bold tracking-[2px] text-white">Konum</span>
+          <span className="text-label font-bold tracking-[2px] text-white/50">Konum</span>
           <Switch
             checked={locationOn}
             disabled={locationLoading}
