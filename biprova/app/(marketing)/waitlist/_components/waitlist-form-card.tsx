@@ -55,7 +55,7 @@ export function WaitlistFormCard() {
               autoComplete="email"
               className={`
                 flex-1 bg-[#f8faff] font-jakarta text-[0.95rem] px-5 py-4
-                text-slate-900 placeholder:text-slate-400 outline-none
+                text-slate-900 placeholder:text-slate-500 outline-none
                 border-[1.5px] border-r-0 rounded-l-[14px]
                 focus:border-blue-600 focus:bg-white
                 max-sm:border-r-[1.5px] max-sm:border-b-0 max-sm:rounded-l-[14px] max-sm:rounded-tr-[14px] max-sm:rounded-bl-none
