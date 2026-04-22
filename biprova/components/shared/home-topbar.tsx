@@ -38,68 +38,82 @@ function StatusBadge({ status }: { status: DrawerProject["status"] }) {
   );
 }
 
-const TICKER_TEXT = "Takım kur. Proje bul. Hayalini gerçeğe dönüştür. Biprova ile başla.";
+const SENTENCES = [
+  "Takım kur.",
+  "Proje bul.",
+  "Hayalini gerçeğe dönüştür.",
+  "Biprova ile başla.",
+];
 
 function TickerAnimation({ variant = "topbar" }: { variant?: "topbar" | "drawer" }) {
-  const elRef = useRef<HTMLParagraphElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!elRef.current) return;
+    if (!containerRef.current) return;
+    const ps = Array.from(containerRef.current.querySelectorAll('p')) as HTMLElement[];
 
-    const split = splitText(elRef.current, { lines: { wrap: 'clip' } });
-
-    animate(split.lines, { y: '100%', duration: 0 });
+    const splits = ps.map((el) => splitText(el, { lines: { wrap: 'clip' } }));
+    splits.forEach(({ lines }) => animate(lines, { y: '100%', duration: 0 }));
 
     let tl = createTimeline({});
 
     function playLoop() {
       tl = createTimeline({ onComplete: playLoop });
-      tl
-        .add(split.lines, {
-          y: { from: '100%', to: '0%' },
-          duration: 800,
-          ease: 'out(3)',
-          delay: stagger(120),
-        })
-        .add(split.lines, {
-          y: '-100%',
-          duration: 800,
-          ease: 'in(3)',
-          delay: stagger(120),
-        }, '+=1200');
+      splits.forEach(({ lines }) => {
+        tl
+          .add(lines, {
+            y: { from: '100%', to: '0%' },
+            duration: 1000,
+            ease: 'out(3)',
+            delay: stagger(80),
+          })
+          .add(lines, {
+            y: '-100%',
+            duration: 1000,
+            ease: 'in(3)',
+            delay: stagger(80),
+          }, '+=2000');
+      });
     }
 
     playLoop();
 
     return () => {
       tl.pause();
-      split.revert();
+      splits.forEach((s) => s.revert());
     };
   }, []);
 
   if (variant === "drawer") {
     return (
-      <div className="relative h-5 overflow-hidden flex items-center w-full">
-        <p
-          ref={elRef}
-          style={{ color: "rgba(55,100,236)" }}
-          className="text-sm font-semibold"
-        >
-          {TICKER_TEXT}
-        </p>
+      <div ref={containerRef} className="relative h-5 overflow-hidden flex items-center w-full">
+        {SENTENCES.map((s) => (
+          <p
+            key={s}
+            style={{ color: "rgba(55,100,236)" }}
+            className="absolute left-0 text-sm font-semibold whitespace-nowrap"
+          >
+            {s}
+          </p>
+        ))}
       </div>
     );
   }
 
   return (
-    <div className="lg:flex hidden absolute right-10 lg:right-auto lg:left-1/2 lg:-translate-x-1/2 overflow-hidden items-center min-w-[140px] lg:min-w-[350px]">
-      <p
-        ref={elRef}
-        style={{ color: "rgba(55,100,236)" }}
-        className="text-center text-sm lg:text-lg font-semibold"
-      >
-        {TICKER_TEXT}
-      </p>
+    <div
+      ref={containerRef}
+      className="lg:flex hidden absolute right-10 lg:right-auto lg:left-1/2 lg:-translate-x-1/2 overflow-hidden items-center min-w-[140px] lg:min-w-[350px]"
+    >
+      {SENTENCES.map((s) => (
+        <p
+          key={s}
+          style={{ color: "rgba(55,100,236)" }}
+          className="absolute left-1/2 -translate-x-1/2 text-sm lg:text-lg font-semibold whitespace-nowrap"
+        >
+          {s}
+        </p>
+      ))}
     </div>
   );
 }
