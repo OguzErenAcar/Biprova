@@ -2,7 +2,7 @@
 
 import { LottieIcon } from "@/components/shared/lottie-icon";
 import { ContentHeader } from "@/components/shared/content-header";
-import shareArrow from "@/app/icons/wired-outline-259-share-arrow-hover-pointing.json";
+import magicWand from "@/app/icons/wired-outline-2844-magic-wand-hover-pinch.json";
 
 export function CreateProjectTopbar() {
   return (
