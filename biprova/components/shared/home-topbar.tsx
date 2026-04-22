@@ -53,40 +53,44 @@ function TickerAnimation({ variant = "topbar" }: { variant?: "topbar" | "drawer"
     const container = containerRef.current;
     const ps = Array.from(container.querySelectorAll('p')) as HTMLElement[];
 
-    const splits = ps.map((el) => splitText(el, { lines: { wrap: 'clip' } }));
-
-    splits.forEach(({ lines }) => animate(lines, { y: '100%', duration: 0 }));
+    ps.forEach((p) => { p.style.transform = 'translateY(100%)'; });
     container.style.opacity = '1';
 
-    let tl = createTimeline({});
+    let stopped = false;
 
-    function playLoop() {
-      splits.forEach(({ lines }) => animate(lines, { y: '100%', duration: 0 }));
-      tl = createTimeline({ onComplete: playLoop });
-      splits.forEach(({ lines }) => {
-        tl
-          .add(lines, {
-            y: '0%',
-            duration: 1000,
-            ease: 'out(3)',
-            delay: stagger(80),
-          })
-          .add(lines, {
-            y: '-100%',
-            duration: 1000,
-            ease: 'in(3)',
-            delay: stagger(80),
-          }, '+=2000');
+    function showSentence(index: number) {
+      if (stopped) return;
+      const p = ps[index];
+      p.style.transform = 'translateY(100%)';
+
+      animate(p, {
+        translateY: ['100%', '0%'],
+        duration: 900,
+        ease: 'out(3)',
+        onComplete: () => {
+          if (stopped) return;
+          setTimeout(() => {
+            if (stopped) return;
+            animate(p, {
+              translateY: '-100%',
+              duration: 900,
+              ease: 'in(3)',
+              onComplete: () => {
+                if (stopped) return;
+                showSentence((index + 1) % ps.length);
+              },
+            });
+          }, 2200);
+        },
       });
     }
 
-    const raf = requestAnimationFrame(playLoop);
+    showSentence(0);
 
     return () => {
-      cancelAnimationFrame(raf);
-      tl.pause();
-      splits.forEach((s) => s.revert());
+      stopped = true;
       container.style.opacity = '';
+      ps.forEach((p) => { p.style.transform = ''; });
     };
   }, []);
 
