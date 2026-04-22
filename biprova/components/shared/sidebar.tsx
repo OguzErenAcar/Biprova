@@ -310,7 +310,7 @@ export function Sidebar({ projects = [] }: SidebarProps) {
         <Separator className="mb-4" />
         <button
           onClick={() => setInfoOpen(true)}
-          className="w-full flex items-center gap-2 px-3 py-2 rounded-[10px] text-label font-semibold text-white hover:bg-slate-100 transition-colors"
+          className="w-full flex items-center gap-2 px-3 py-2 rounded-[10px] text-label font-semibold text-white hover:bg-white/10 transition-colors"
         >
           <span className="w-4 h-4 flex items-center justify-center rounded-full border border-slate-400 text-slate-400 text-[10px] font-bold shrink-0">?</span>
           Biprova nedir?
