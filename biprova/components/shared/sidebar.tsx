@@ -86,7 +86,7 @@ function NavItem({
           animationData={animationData}
           loop={false}
           autoplay={false}
-          style={{ width: 27, height: 27 }}
+          style={{ width: 27, height: 27, filter: "brightness(0) invert(1)" }}
         />
       </span>
       {label}
