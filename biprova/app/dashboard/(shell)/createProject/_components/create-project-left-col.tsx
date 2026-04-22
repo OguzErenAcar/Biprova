@@ -240,7 +240,7 @@ export function CreateProjectLeftCol({ cities, skills, userTeams }: Props) {
           <button
             type="button"
             onClick={() => handleLocationModeChange("gps")}
-            className={`flex-1 flex items-center justify-center gap-1.5 text-[0.78rem] md:text-[0.82rem] font-bold rounded-[8px] py-2 transition-all ${
+            className={`flex-1 flex items-center justify-center gap-1.5 text-caption md:text-sm font-bold rounded-[8px] py-2 transition-all ${
               locationMode === "gps"
                 ? "bg-white text-slate-900 shadow-sm"
                 : "text-slate-400 hover:text-slate-600"
@@ -252,7 +252,7 @@ export function CreateProjectLeftCol({ cities, skills, userTeams }: Props) {
           <button
             type="button"
             onClick={() => handleLocationModeChange("city")}
-            className={`flex-1 flex items-center justify-center gap-1.5 text-[0.78rem] md:text-[0.82rem] font-bold rounded-[8px] py-2 transition-all ${
+            className={`flex-1 flex items-center justify-center gap-1.5 text-caption md:text-sm font-bold rounded-[8px] py-2 transition-all ${
               locationMode === "city"
                 ? "bg-white text-slate-900 shadow-sm"
                 : "text-slate-400 hover:text-slate-600"
@@ -381,7 +381,7 @@ export function CreateProjectLeftCol({ cities, skills, userTeams }: Props) {
             <button
               type="button"
               onClick={() => setTeamMode("existing")}
-              className={`flex-1 flex items-center justify-center gap-1.5 text-[0.78rem] md:text-[0.82rem] font-bold rounded-[8px] py-2 transition-all ${
+              className={`flex-1 flex items-center justify-center gap-1.5 text-caption md:text-sm font-bold rounded-[8px] py-2 transition-all ${
                 teamMode === "existing"
                   ? "bg-white text-slate-900 shadow-sm"
                   : "text-slate-400 hover:text-slate-600"
@@ -393,7 +393,7 @@ export function CreateProjectLeftCol({ cities, skills, userTeams }: Props) {
             <button
               type="button"
               onClick={() => setTeamMode("new")}
-              className={`flex-1 flex items-center justify-center gap-1.5 text-[0.78rem] md:text-[0.82rem] font-bold rounded-[8px] py-2 transition-all ${
+              className={`flex-1 flex items-center justify-center gap-1.5 text-caption md:text-sm font-bold rounded-[8px] py-2 transition-all ${
                 teamMode === "new"
                   ? "bg-white text-slate-900 shadow-sm"
                   : "text-slate-400 hover:text-slate-600"
@@ -639,7 +639,7 @@ function FormGroup({ label, required, hint, children }: FormGroupProps) {
   return (
     <div >
       {label && (
-        <label className="block text-[0.78rem] md:text-[0.82rem] font-bold text-slate-900 mb-1">
+        <label className="block text-caption md:text-sm font-bold text-slate-900 mb-1">
           {label}
           {required && <span className="text-red-500 ml-0.5">*</span>}
           {hint && (
