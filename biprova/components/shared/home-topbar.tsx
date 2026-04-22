@@ -104,6 +104,7 @@ function TickerAnimation({ variant = "topbar" }: { variant?: "topbar" | "drawer"
   return (
     <div
       ref={containerRef}
+      style={{ opacity: 0 }}
       className="lg:flex hidden absolute right-10 lg:right-auto lg:left-1/2 lg:-translate-x-1/2 h-8 overflow-hidden items-center min-w-[140px] lg:min-w-[350px]"
     >
       {SENTENCES.map((s) => (
