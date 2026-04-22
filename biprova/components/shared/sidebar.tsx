@@ -312,7 +312,7 @@ export function Sidebar({ projects = [] }: SidebarProps) {
           onClick={() => setInfoOpen(true)}
           className="w-full flex items-center gap-2 px-3 py-2 rounded-[10px] text-label font-semibold text-white hover:bg-white/10 transition-colors"
         >
-          <span className="w-4 h-4 flex items-center justify-center rounded-full border border-slate-400 text-slate-400 text-[10px] font-bold shrink-0">?</span>
+          <span className="w-4 h-4 flex items-center justify-center rounded-full border border-white/60 text-white/60 text-[10px] font-bold shrink-0">?</span>
           Biprova nedir?
         </button>
       </div>
