@@ -123,7 +123,7 @@ export function ProjectTabView({ project }: Props) {
                       ? tab.key === 'admin'
                         ? 'text-slate-900 border-indigo-600 cursor-pointer'
                         : 'text-slate-900 border-blue-600 cursor-pointer'
-                      : 'border-transparent hover:text-slate-700 cursor-pointer'
+                      : 'text-black border-transparent hover:text-slate-600 cursor-pointer'
                   }`}
                 >
                   <tab.icon size={14} strokeWidth={2.2} />
