@@ -94,7 +94,7 @@ export function ProfileHero({ user, isOwner = false }: ProfileHeroProps) {
           <p className="text-base md:text-lg text-ink-muted leading-relaxed mb-6 mt-6 text-center sm:text-left">{user.bio}</p>
         )}
 
-        <div className="flex flex-wrap gap-4 text-caption text-ink-muted justify-center sm:justify-start">
+        <div className="flex flex-wrap gap-4 text-sm md:text-base text-ink-muted justify-center sm:justify-start">
           {user.city && <span className="flex items-center gap-1"><LottieIcon animationData={cityIcon} size={20} /> {user.city}</span>}
           <span className="flex items-center gap-1"><LottieIcon animationData={clockIcon} size={20} /> {formatMemberSince(user.created_at)}&apos;den beri üye</span>
         </div>
