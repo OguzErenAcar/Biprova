@@ -37,7 +37,7 @@ export function NotificationBell() {
       onMouseEnter={() => setOpen(true)}
       onMouseLeave={() => setOpen(false)}
     >
-      <button className="relative rounded-[10px] border-[1.5px] border-black h-8 w-8 flex items-center justify-center text-slate-600">
+      <button className="relative rounded-[10px] border-[1.5px] border-slate-200 h-8 w-8 flex items-center justify-center text-slate-600">
         <Bell size={16} strokeWidth={2} />
         {unreadCount > 0 && (
           <span className="absolute top-[6px] right-[6px] w-[7px] h-[7px] bg-red-500 rounded-full border-[1.5px] border-slate-100" />
