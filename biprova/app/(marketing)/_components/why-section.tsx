@@ -50,7 +50,7 @@ export function WhySection() {
               <LottieIcon animationData={card.icon} size={32} />
             </div>
             <h3 className="font-nunito font-extrabold text-[1rem] mb-1.5">{card.title}</h3>
-            <p className="text-[0.86rem] text-slate-500 leading-relaxed">{card.desc}</p>
+            <p className="text-[0.86rem] text-slate-600 leading-relaxed">{card.desc}</p>
           </div>
         ))}
       </div>
