@@ -283,7 +283,7 @@ export function CreateProjectLeftCol({ cities, skills, userTeams }: Props) {
               />
               <div>
                 <div
-                  className={`text-md md:text-lg font-bold ${locationError ? "text-red-700" : "text-slate-900"}`}
+                  className={`text-base md:text-lg font-bold ${locationError ? "text-red-700" : "text-slate-900"}`}
                 >
                   Konum Al
                   <span className="text-red-500 ml-0.5">*</span>
@@ -338,7 +338,7 @@ export function CreateProjectLeftCol({ cities, skills, userTeams }: Props) {
           <div className="flex items-center gap-2">
             <Globe size={14} className="text-slate-400 shrink-0" />
             <div>
-              <div className="text-md md:text-lg font-bold text-slate-900">
+              <div className="text-base md:text-lg font-bold text-slate-900">
                 Remote Uyumlu
               </div>
               <div className="text-sm text-slate-400 mt-0.5">
@@ -437,7 +437,7 @@ export function CreateProjectLeftCol({ cities, skills, userTeams }: Props) {
                   </div>
                   <div className="flex-1 min-w-0">
                     <div
-                      className={`text-md md:text-lg font-bold truncate ${isSelected ? "text-blue-700" : "text-slate-900"}`}
+                      className={`text-base md:text-lg font-bold truncate ${isSelected ? "text-blue-700" : "text-slate-900"}`}
                     >
                       {team.name}
                     </div>
@@ -472,7 +472,7 @@ export function CreateProjectLeftCol({ cities, skills, userTeams }: Props) {
                       size={14}
                       className="text-slate-300 cursor-grab shrink-0"
                     />
-                    <span className="flex-1 text-md md:text-lg font-bold text-slate-900">
+                    <span className="flex-1 text-base md:text-lg font-bold text-slate-900">
                       {role.name}
                     </span>
                     <div className="flex items-center gap-1 bg-white border-[1.5px] border-slate-200 rounded-[8px] p-0.5">
