@@ -18,6 +18,34 @@ create or replace trigger trg_delete_project_on_team_deleted
     execute function delete_project_on_team_deleted();
 
 -- ============================================================
+-- TRIGGER: Tüm roller dolunca projects.status = 'full' yap
+-- ============================================================
+
+CREATE OR REPLACE FUNCTION check_project_full()
+RETURNS TRIGGER LANGUAGE plpgsql SECURITY DEFINER AS $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1 FROM project_roles
+        WHERE project_id = NEW.project_id
+          AND is_filled = false
+    ) THEN
+        UPDATE projects
+        SET status = 'full'
+        WHERE id = NEW.project_id
+          AND status = 'open';
+    END IF;
+
+    RETURN NEW;
+END;
+$$;
+
+CREATE OR REPLACE TRIGGER trg_check_project_full
+    AFTER UPDATE OF is_filled ON project_roles
+    FOR EACH ROW
+    WHEN (NEW.is_filled = true AND OLD.is_filled = false)
+    EXECUTE FUNCTION check_project_full();
+
+-- ============================================================
 -- TRIGGER: Proje status 'full' olunca otomatik ekip kurar
 -- ============================================================
 
