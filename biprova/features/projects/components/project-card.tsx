@@ -172,32 +172,34 @@ export function ProjectCard({
                 rolesOpen ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
               }`}
             >
-              <div className="flex flex-col gap-2 py-2">
+              <div className="grid grid-cols-2 gap-2 py-2">
                 {openRoles.map((role, i) => (
                   <div
                     key={i}
-                    className="flex items-center gap-3 rounded-xl bg-blue-50/60 border border-blue-100 px-3 py-2.5"
+                    className="flex flex-col gap-2 rounded-xl bg-blue-50/60 border border-blue-100 px-3 py-2.5"
                   >
-                    <div className="flex-shrink-0 w-6 h-6 rounded-full bg-[#3764ec]/10 flex items-center justify-center">
-                      <span className="text-[0.65rem] font-bold text-[#3764ec]">{i + 1}</span>
+                    <div className="flex items-center gap-2">
+                      <div className="flex-shrink-0 w-5 h-5 rounded-full bg-[#3764ec]/10 flex items-center justify-center">
+                        <span className="text-[0.6rem] font-bold text-[#3764ec]">{i + 1}</span>
+                      </div>
+                      <span className="text-sm font-semibold text-ink leading-tight">{role.name}</span>
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <span className="text-sm font-semibold text-ink">{role.name}</span>
-                      {role.skills.length > 0 && (
-                        <div className="flex flex-wrap gap-1 mt-1">
-                          {role.skills.slice(0, 4).map((skill, si) => (
-                            <span
-                              key={si}
-                              className="text-[0.65rem] bg-white border border-blue-100 text-blue-600 rounded-full px-2 py-0.5 leading-none"
-                            >
-                              {skill}
-                            </span>
-                          ))}
-                        </div>
-                      )}
-                    </div>
+                    {role.skills.length > 0 && (
+                      <div className="flex flex-wrap gap-1">
+                        {role.skills.slice(0, 3).map((skill, si) => (
+                          <span
+                            key={si}
+                            className="text-[0.6rem] bg-white border border-blue-100 text-blue-600 rounded-full px-2 py-0.5 leading-none"
+                          >
+                            {skill}
+                          </span>
+                        ))}
+                      </div>
+                    )}
                     {!isOwnProject && (
-                      <RoleJoinButton projectId={projectId} roleId={role.id} />
+                      <div className="mt-auto pt-1">
+                        <RoleJoinButton projectId={projectId} roleId={role.id} />
+                      </div>
                     )}
                   </div>
                 ))}
