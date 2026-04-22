@@ -245,7 +245,7 @@ export function ProfileSections({
                     <LottieIcon animationData={documentIcon} size={22} />
                     <div className="text-base md:text-lg font-bold text-ink">{a.projectTitle}</div>
                   </div>
-                  <div className="text-caption text-ink-muted flex justify-between">
+                  <div className="text-sm text-ink-muted flex justify-between">
                     {a.roleName ? `Rol: ${a.roleName} · ` : ""}
                     {formatRelativeDate(a.createdAt)}
 
