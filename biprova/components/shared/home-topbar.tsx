@@ -87,7 +87,7 @@ function TickerAnimation({ variant = "topbar" }: { variant?: "topbar" | "drawer"
 
   if (variant === "drawer") {
     return (
-      <div ref={containerRef} className="relative h-5 overflow-hidden flex items-center w-full">
+      <div ref={containerRef} style={{ opacity: 0 }} className="relative h-5 overflow-hidden flex items-center w-full">
         {SENTENCES.map((s) => (
           <p
             key={s}
