@@ -5,7 +5,6 @@ import { SidebarLoader } from "@/components/shared/sidebar-loader";
 import { HomeTopbarLoader } from "@/components/shared/home-topbar-loader";
 import { TabBar } from "@/components/shared/tab-bar";
 import { DashboardGrid } from "@/components/shared/dashboard-grid";
-import { SplashWrapper } from "@/components/shared/splash-overlay";
 import { LocationProvider } from "@/contexts/location-context";
 
 export default function DashboardLayout({
