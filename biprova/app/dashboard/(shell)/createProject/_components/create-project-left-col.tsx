@@ -441,7 +441,7 @@ export function CreateProjectLeftCol({ cities, skills, userTeams }: Props) {
                     >
                       {team.name}
                     </div>
-                    <div className="text-xs text-slate-400 mt-0.5">
+                    <div className="text-sm text-slate-400 mt-0.5">
                       {team.is_leader ? "Lider" : "Üye"} ·{" "}
                       {TEAM_STATUS_LABEL[team.status] ?? team.status}
                     </div>
