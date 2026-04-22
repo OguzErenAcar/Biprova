@@ -230,10 +230,10 @@ export function Sidebar({ projects = [] }: SidebarProps) {
           />
         </div>
         {locationLoading && (
-          <p className="text-[11px] text-slate-400 leading-snug">Konum alınıyor...</p>
+          <p className="text-[11px] text-white/40 leading-snug">Konum alınıyor...</p>
         )}
         {locationOn && !locationLoading && (
-          <p className="text-[11px] text-slate-400 leading-snug">
+          <p className="text-[11px] text-white/40 leading-snug">
             Yakınımdaki projeler gösteriliyor
           </p>
         )}
