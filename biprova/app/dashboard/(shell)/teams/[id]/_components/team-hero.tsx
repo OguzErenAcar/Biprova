@@ -41,11 +41,12 @@ export function TeamHero({ team }: TeamHeroProps) {
         <div className="flex items-start justify-between gap-2 mb-3">
           <div className="flex items-center gap-3">
             <div className="w-11 h-11 rounded-full flex items-center justify-center bg-white border border-gray-100 overflow-hidden shrink-0">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
+              <Image
                 src="/images/432-4329071_team-icon-png-transparent-png.png"
                 alt="team"
-                className="w-8 h-8 object-contain"
+                width={32}
+                height={32}
+                className="object-contain"
               />
             </div>
             <h1 className="font-nunito font-black text-h2 text-ink leading-tight">
