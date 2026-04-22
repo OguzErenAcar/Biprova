@@ -32,7 +32,7 @@ export function ProjectTopbar({ title, status }: Props) {
         ← Geri
       </button>
 
-      <span className="font-nunito font-black text-[1rem] text-slate-900">{title}</span>
+      <span className="font-nunito font-black text-[1.1rem] text-black">{title}</span>
 
       <span className={`text-[0.7rem] font-bold px-2.5 py-[0.2rem] rounded-full border-[1.5px] ${s.className}`}>
         {s.label}
