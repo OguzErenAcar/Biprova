@@ -289,7 +289,7 @@ export function CreateProjectLeftCol({ cities, skills, userTeams }: Props) {
                   <span className="text-red-500 ml-0.5">*</span>
                 </div>
                 <div
-                  className={`text-xs mt-0.5 ${locationError ? "text-red-500" : "text-slate-400"}`}
+                  className={`text-sm mt-0.5 ${locationError ? "text-red-500" : "text-slate-400"}`}
                 >
                   {locationError
                     ? "Konum bilgisi zorunludur, lütfen etkinleştir"
