@@ -327,7 +327,7 @@ export function CreateProjectLeftCol({ cities, skills, userTeams }: Props) {
                 </option>
               ))}
             </select>
-            <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-[0.8rem]">
+            <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-sm">
               ▾
             </span>
           </div>
@@ -525,7 +525,7 @@ export function CreateProjectLeftCol({ cities, skills, userTeams }: Props) {
                     </option>
                   ))}
                 </select>
-                <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-[0.8rem]">
+                <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-sm">
                   ▾
                 </span>
               </div>
@@ -564,7 +564,7 @@ export function CreateProjectLeftCol({ cities, skills, userTeams }: Props) {
                   <option key={opt}>{opt}</option>
                 ))}
               </select>
-              <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-[0.8rem]">
+              <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-sm">
                 ▾
               </span>
             </div>
