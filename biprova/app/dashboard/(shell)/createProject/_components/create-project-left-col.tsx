@@ -620,7 +620,7 @@ function FormCard({ id, icon, title, sub, children }: FormCardProps) {
         <span className="text-slate-500">{icon}</span>
         {title}
       </div>
-      <div className="text-[0.78rem] md:text-[0.81rem] text-slate-400 mb-3.5 md:mb-5">
+      <div className="text-caption text-slate-400 mb-3.5 md:mb-5">
         {sub}
       </div>
       <div className="flex flex-col gap-3 md:gap-4">{children}</div>
