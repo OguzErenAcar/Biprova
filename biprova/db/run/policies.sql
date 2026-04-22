@@ -75,7 +75,7 @@ create policy "teams_insert" on teams for insert with check (leader_id = auth.ui
 create policy "teams_update" on teams for update using (leader_id = auth.uid());
 
 -- projects
-create policy "projects_read"   on projects for select using (true);
+create policy "projects_read"   on projects for select using (auth.uid() is not null);
 create policy "projects_update" on projects for update using (leader_id = auth.uid());
 create policy "projects_delete" on projects for delete using (leader_id = auth.uid());
 create policy "projects_insert" on projects for insert with check (
