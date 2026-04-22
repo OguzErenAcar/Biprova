@@ -71,8 +71,9 @@ grant execute on function nearby_projects(float, float, int) to authenticated, a
 
 create or replace function fn_dissolve_project(p_project_id uuid)
 returns void language plpgsql security definer as $$
+declare
+    v_team_id uuid;
 begin
-    -- Sadece proje lideri feshedebilir
     if not exists (
         select 1 from projects
         where id = p_project_id and leader_id = auth.uid()
@@ -80,9 +81,15 @@ begin
         raise exception 'Yetkisiz: sadece proje lideri feshedebilir';
     end if;
 
-    -- Projeyi sil:
-    --   cascade → project_roles, applications, project_members silinir
-    --   FK on delete set null → teams.project_id null olur
+    -- Bağlı ekip varsa: project_id'yi null yap → sil
+    -- project_id null olunca trg_delete_project_on_team_deleted projeyi silmez
+    select id into v_team_id from teams where project_id = p_project_id limit 1;
+    if v_team_id is not null then
+        update teams set project_id = null where id = v_team_id;
+        delete from teams where id = v_team_id;
+    end if;
+
+    -- Projeyi sil: cascade → project_roles, applications, project_members
     delete from projects where id = p_project_id;
 end;
 $$;
