@@ -205,7 +205,7 @@ export function CreateProjectLeftCol({ cities, skills, userTeams }: Props) {
         <FormGroup label="Proje Başlığı" required>
           <InputWithIcon icon={<Pencil size={13} className="text-slate-400" />}>
             <input
-              className="flex-1 outline-none text-sm md:text-md text-slate-900 bg-transparent placeholder:text-caption placeholder:text-slate-400"
+              className="flex-1 outline-none text-sm md:text-base text-slate-900 bg-transparent placeholder:text-caption placeholder:text-slate-400"
               type="text"
               name="title"
               placeholder="örn. İklim Değişikliği Farkındalık Belgeseli"
@@ -574,7 +574,7 @@ export function CreateProjectLeftCol({ cities, skills, userTeams }: Props) {
         <FormGroup label="Bağlantı" hint="— opsiyonel">
           <InputWithIcon icon={<Link2 size={13} className="text-slate-400" />}>
             <input
-              className="flex-1 outline-none text-sm md:text-md text-slate-900 bg-transparent placeholder:text-caption placeholder:text-slate-400"
+              className="flex-1 outline-none text-sm md:text-base text-slate-900 bg-transparent placeholder:text-caption placeholder:text-slate-400"
               type="url"
               name="link"
               placeholder="Proje dosyası, Notion, Drive linki..."
@@ -620,7 +620,7 @@ function FormCard({ id, icon, title, sub, children }: FormCardProps) {
         <span className="text-slate-500">{icon}</span>
         {title}
       </div>
-      <div className="text-sm md:text-md text-slate-400 mb-3.5 md:mb-5">
+      <div className="text-sm md:text-base text-slate-400 mb-3.5 md:mb-5">
         {sub}
       </div>
       <div className="flex flex-col gap-3 md:gap-4">{children}</div>
@@ -639,7 +639,7 @@ function FormGroup({ label, required, hint, children }: FormGroupProps) {
   return (
     <div >
       {label && (
-        <label className="block text-sm md:text-md font-bold text-slate-900 mb-1">
+        <label className="block text-sm md:text-base font-bold text-slate-900 mb-1">
           {label}
           {required && <span className="text-red-500 ml-0.5">*</span>}
           {hint && (
