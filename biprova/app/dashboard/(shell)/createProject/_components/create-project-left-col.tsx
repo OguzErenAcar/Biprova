@@ -220,7 +220,7 @@ export function CreateProjectLeftCol({ cities, skills, userTeams }: Props) {
           hint="— Fikir değil, ihtiyaç yaz"
         >
           <textarea
-            className="form-input resize-y min-h-[80px] md:min-h-[100px] leading-relaxed placeholder:text-[0.78rem] md:placeholder:text-[0.84rem]"
+            className="form-input resize-y min-h-[80px] md:min-h-[100px] leading-relaxed placeholder:text-caption"
             name="description"
             placeholder="Hangi sorunu çözüyorsun, ekiple ne yapmak istiyorsun? İnsanlar başvurmadan önce bunu okuyacak."
             maxLength={500}
