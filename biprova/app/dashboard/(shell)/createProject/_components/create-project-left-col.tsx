@@ -533,7 +533,7 @@ export function CreateProjectLeftCol({ cities, skills, userTeams }: Props) {
                 type="button"
                 onClick={addRole}
                 disabled={!selectedSkillId || roles.length >= 6}
-                className="bg-blue-50 text-blue-600 border-[1.5px] border-blue-200 rounded-[10px] font-nunito font-extrabold text-[0.82rem] md:text-[0.86rem] px-3.5 md:px-4 cursor-pointer whitespace-nowrap transition-all flex items-center gap-1.5 hover:bg-blue-600 hover:text-white hover:border-blue-600 disabled:opacity-40 disabled:cursor-not-allowed"
+                className="bg-blue-50 text-blue-600 border-[1.5px] border-blue-200 rounded-[10px] font-nunito font-extrabold text-caption md:text-sm px-3.5 md:px-4 cursor-pointer whitespace-nowrap transition-all flex items-center gap-1.5 hover:bg-blue-600 hover:text-white hover:border-blue-600 disabled:opacity-40 disabled:cursor-not-allowed"
               >
                 <Plus size={13} />
                 Ekle
