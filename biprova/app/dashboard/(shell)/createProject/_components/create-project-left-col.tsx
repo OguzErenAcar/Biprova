@@ -289,7 +289,7 @@ export function CreateProjectLeftCol({ cities, skills, userTeams }: Props) {
                   <span className="text-red-500 ml-0.5">*</span>
                 </div>
                 <div
-                  className={`text-[0.72rem] md:text-[0.74rem] mt-0.5 ${locationError ? "text-red-500" : "text-slate-400"}`}
+                  className={`text-xs mt-0.5 ${locationError ? "text-red-500" : "text-slate-400"}`}
                 >
                   {locationError
                     ? "Konum bilgisi zorunludur, lütfen etkinleştir"
@@ -341,7 +341,7 @@ export function CreateProjectLeftCol({ cities, skills, userTeams }: Props) {
               <div className="text-sm font-bold text-slate-900">
                 Remote Uyumlu
               </div>
-              <div className="text-[0.72rem] md:text-[0.74rem] text-slate-400 mt-0.5">
+              <div className="text-xs text-slate-400 mt-0.5">
                 Uzaktan çalışmaya açıksanız işaretle
               </div>
             </div>
@@ -441,7 +441,7 @@ export function CreateProjectLeftCol({ cities, skills, userTeams }: Props) {
                     >
                       {team.name}
                     </div>
-                    <div className="text-[0.72rem] md:text-[0.74rem] text-slate-400 mt-0.5">
+                    <div className="text-xs text-slate-400 mt-0.5">
                       {team.is_leader ? "Lider" : "Üye"} ·{" "}
                       {TEAM_STATUS_LABEL[team.status] ?? team.status}
                     </div>
