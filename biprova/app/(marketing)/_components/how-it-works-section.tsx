@@ -55,7 +55,7 @@ export function HowItWorksSection() {
             <h3 className="relative font-nunito font-extrabold text-[1.05rem] mb-2">
               {step.title}
             </h3>
-            <p className="relative text-[0.88rem] text-slate-500 leading-relaxed">
+            <p className="relative text-[0.88rem] text-slate-600 leading-relaxed">
               {step.desc}
             </p>
           </div>
