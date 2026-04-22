@@ -38,7 +38,7 @@ export function HeroSection() {
 
         {/* Sub */}
         <p
-          className="text-[clamp(1rem,2vw,1.15rem)] text-slate-500 leading-[1.75] max-w-[540px] mx-auto mb-10 animate-bp-fade-up"
+          className="text-[clamp(1rem,2vw,1.15rem)] text-slate-600 leading-[1.75] max-w-[540px] mx-auto mb-10 animate-bp-fade-up"
           style={{ animationDelay: "0.2s" }}
         >
           Yazılımcı mı, veteriner mi, grafiker mi — fark etmez.
