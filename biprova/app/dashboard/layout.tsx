@@ -24,7 +24,7 @@ export default function DashboardLayout({
               </Suspense>
             }
           >
-            <SplashWrapper>{children}</SplashWrapper>
+            {children}
           </DashboardGrid>
         </div>
         <TabBar />
