@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { useLocation } from "@/contexts/location-context";
 import { notify } from "@/lib/notify";
 import { getUserLocation } from "@/lib/location";
-import { animate, createTimeline, splitText, stagger } from 'animejs';
+import { animate } from 'animejs';
 import { Bell, Settings } from 'lucide-react';
 import { NotificationBell } from "@/components/shared/notification-bell";
 import { SearchBar } from "@/components/shared/search-bar";
