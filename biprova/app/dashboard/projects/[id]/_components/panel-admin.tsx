@@ -352,11 +352,6 @@ function MemberRow({
                 Lider
               </span>
             )}
-            {localHasBiprova && (
-              <span className="text-[0.65rem] font-bold text-purple-600 bg-purple-50 border border-purple-200 rounded-full px-1.5 py-0.5">
-                Yetkili
-              </span>
-            )}
           </div>
           {member.role_name && (
             <span className="text-[0.74rem] text-slate-400">{member.role_name}</span>
