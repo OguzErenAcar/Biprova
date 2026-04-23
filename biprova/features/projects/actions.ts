@@ -409,7 +409,6 @@ export interface ProjectMember {
   badge_url: string | null;
   role_name: string | null;
   is_leader: boolean;
-  has_biprova: boolean;
   is_project_leader: boolean;
 }
 
