@@ -77,3 +77,23 @@ begin
     where team_id = p_team_id and user_id = v_uid;
 end;
 $$;
+
+-- ============================================================
+-- MIGRATION: Proje silinince bağlı takımı da sil
+--
+-- Eski davranış: teams.project_id → null (FK on delete set null)
+-- Yeni davranış: bağlı takım da silinir
+-- ============================================================
+
+create or replace function delete_team_on_project_deleted()
+returns trigger language plpgsql security definer as $$
+begin
+    delete from teams where project_id = old.id;
+    return old;
+end;
+$$;
+
+create or replace trigger trg_delete_team_on_project_deleted
+    before delete on projects
+    for each row
+    execute function delete_team_on_project_deleted();
