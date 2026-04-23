@@ -116,7 +116,7 @@ export async function getUserTeams(): Promise<UserTeamOption[]> {
 
   const { data } = await supabase
     .from('team_members')
-    .select('has_biprova, teams!inner(id, name, status, leader_id)')
+    .select('teams!inner(id, name, status, leader_id)')
     .eq('user_id', user.id)
     .limit(20);
 
