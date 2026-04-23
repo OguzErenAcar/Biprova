@@ -260,7 +260,7 @@ export async function createProject(
       city: parsed.data.city,
       is_remote: parsed.data.is_remote === 'on',
       category_id: categoryId,
-      status: teamId ? 'active' : 'open',
+      status: teamId ? 'full' : 'open',
       ...(teamId && { team_id: teamId }),
       ...(geoPoint && { location: toGeoPoint(geoPoint) }),
     })
