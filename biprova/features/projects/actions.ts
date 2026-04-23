@@ -469,6 +469,7 @@ export interface ProjectDetail {
     id: string;
     name: string;
     is_project_leader: boolean;
+    is_project_member: boolean;
     is_team_leader: boolean;
     is_team_member: boolean;
   };
