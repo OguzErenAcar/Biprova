@@ -1,4 +1,21 @@
 -- ============================================================
+-- TRIGGER: Proje silinince bağlı ekibi de sil
+-- ============================================================
+
+create or replace function delete_team_on_project_deleted()
+returns trigger language plpgsql security definer as $$
+begin
+    delete from teams where project_id = old.id;
+    return old;
+end;
+$$;
+
+create or replace trigger trg_delete_team_on_project_deleted
+    before delete on projects
+    for each row
+    execute function delete_team_on_project_deleted();
+
+-- ============================================================
 -- TRIGGER: Ekip silinince bağlı projeyi de sil
 -- ============================================================
 
