@@ -150,19 +150,52 @@ export function PanelGenel({ project, onGoToChat, onGoToFiles }: Props) {
 
   return (
     <div id="panel-genel">
-      {/* Project Header */}
-      <div
-        id="project-header"
-        className="bg-gradient-to-br from-blue-700 to-indigo-500 rounded-2xl px-[1.8rem] py-[1.5rem] mb-[1.2rem] flex items-center justify-between flex-wrap gap-4 sm:flex-row flex-col text-center sm:text-left"
-      >
-        <div>
-          <h2 className="font-nunito font-black text-[1.2rem] text-white mb-1">{project.title}</h2>
-          {meta && <p className="text-[0.82rem] text-white/70">{meta}</p>}
+      {/* Project Header + Team Bar */}
+      <div className="mb-[1.2rem]">
+        <div
+          id="project-header"
+          className="bg-gradient-to-br from-blue-700 to-indigo-500 rounded-t-2xl px-[1.8rem] py-[1.5rem] flex items-center justify-between flex-wrap gap-4 sm:flex-row flex-col text-center sm:text-left"
+        >
+          <div>
+            <h2 className="font-nunito font-black text-[1.2rem] text-white mb-1">{project.title}</h2>
+            {meta && <p className="text-[0.82rem] text-white/70">{meta}</p>}
+          </div>
+          <div className="flex gap-3 items-center sm:ml-auto">
+            <MemberStrip members={memberSlots} />
+          </div>
         </div>
-        <div className="flex gap-3 items-center sm:ml-auto">
-          <MemberStrip members={memberSlots} />
 
-        </div>
+        {/* Team Bar */}
+        {project.roles.length > 0 && (() => {
+          const total = project.roles.length;
+          const filled = project.roles.filter((r) => r.is_filled).length;
+          const pct = Math.round((filled / total) * 100);
+          return (
+            <div className="bg-white border-x border-b border-slate-200 rounded-b-2xl px-[1.8rem] py-[1rem]">
+              <div className="flex items-center justify-between mb-[0.4rem]">
+                <span className="text-[0.75rem] font-bold text-slate-500">Ekip Doluluk Oranı</span>
+                <span className="text-[0.75rem] font-bold text-slate-700">{filled}/{total} rol dolu</span>
+              </div>
+              <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
+                <div
+                  className={`h-full rounded-full transition-all duration-500 ${pct === 100 ? 'bg-green-500' : 'bg-blue-500'}`}
+                  style={{ width: `${pct}%` }}
+                />
+              </div>
+              {project.roles.map((r) => (
+                <div key={r.id} className="flex items-center gap-2 mt-[0.6rem]">
+                  <div className={`w-2 h-2 rounded-full shrink-0 ${r.is_filled ? 'bg-blue-500' : 'bg-slate-200'}`} />
+                  <span className={`text-[0.75rem] ${r.is_filled ? 'text-slate-700 font-semibold' : 'text-slate-400'}`}>
+                    {r.role_name}
+                  </span>
+                  {r.is_filled && r.filled_by_name && (
+                    <span className="text-[0.72rem] text-slate-400 ml-auto">{r.filled_by_name}</span>
+                  )}
+                </div>
+              ))}
+            </div>
+          );
+        })()}
       </div>
 
       {/* 2-col grid */}
