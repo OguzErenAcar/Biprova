@@ -213,6 +213,7 @@ create policy "badges_admin" on badges for all    using (is_admin());
 -- Bu kolonlar uygulama tarafından select edilmiyor; doğrudan
 -- API çağrısıyla okunmasını önlemek için revoke edildi.
 revoke select (
+    email,
     role,
     plan,
     max_teams,
