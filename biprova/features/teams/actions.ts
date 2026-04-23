@@ -80,7 +80,7 @@ export async function getTeamDetail(id: string): Promise<TeamDetail | null> {
     await Promise.all([
       supabase
         .from('team_members')
-        .select('id, user_id, has_biprova, joined_at, users!inner(name, avatar_url), project_roles!role_id(role_name)')
+        .select('id, user_id, joined_at, users!inner(name, avatar_url), project_roles!role_id(role_name)')
         .eq('team_id', id)
         .limit(20),
       supabase
