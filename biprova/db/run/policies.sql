@@ -98,8 +98,12 @@ create policy "user_skills_update" on user_skills for update using (user_id = au
 create policy "user_skills_delete" on user_skills for delete using (user_id = auth.uid());
 
 -- project_roles
+-- UPDATE yok: is_filled ve filled_by sadece trigger (security definer) tarafından güncellenir
+-- Lider yalnızca rol ekleyip silebilir
 create policy "project_roles_read"   on project_roles for select using (auth.uid() is not null);
-create policy "project_roles_manage" on project_roles for all
+create policy "project_roles_insert" on project_roles for insert
+    with check (is_project_leader(project_id));
+create policy "project_roles_delete" on project_roles for delete
     using (is_project_leader(project_id));
 
 -- project_role_skills
