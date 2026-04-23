@@ -137,7 +137,7 @@ grant execute on function fn_dissolve_team(uuid) to authenticated;
 
 -- ============================================================
 -- 3. PROJE ÇIKIŞ (Üye projeden ayrılır)
--- Akış: rolü varsa serbest bırak → project_members'dan sil
+-- Akış: dolu rolü sil → project_members'dan sil
 --   → trg_delete_project_on_empty_members → son üyeyse projeyi siler
 -- Not: lider çıkamaz, fn_dissolve_project kullanmalı
 -- ============================================================
@@ -161,13 +161,10 @@ begin
         raise exception 'Proje lideri çıkamaz, projeyi feshetmelisiniz';
     end if;
 
-    -- Dolu rolü varsa serbest bırak
-    update project_roles
-    set filled_by = null, is_filled = false
+    -- Dolu rolü serbest bırakmak yerine sil
+    delete from project_roles
     where project_id = p_project_id and filled_by = v_uid;
 
-    -- project_members'dan sil
-    -- → trg_delete_project_on_empty_members son kişiyse projeyi siler
     delete from project_members
     where project_id = p_project_id and user_id = v_uid;
 end;
@@ -181,7 +178,7 @@ grant execute on function fn_leave_project(uuid) to authenticated;
 --   Son kişi → team sil
 --     → trg_delete_project_on_team_deleted → bağlı projeyi siler
 --   Değil → lider kontrolü → projede üyeyse hata (önce fn_leave_project)
---        → rolü serbest bırak → team_members'dan sil
+--        → rolü sil → team_members'dan sil
 -- Not: lider son kişi değilse çıkamaz, fn_dissolve_team kullanmalı
 -- ============================================================
 
@@ -206,7 +203,6 @@ begin
         raise exception 'Takım lideri çıkamaz, takımı feshetmelisiniz';
     end if;
 
-    -- Takımın projesine üyeyse çıkamasın, önce projeden ayrılmalı
     select project_id into v_project_id from teams where id = p_team_id;
 
     if v_project_id is not null and exists (
@@ -216,14 +212,12 @@ begin
         raise exception 'Önce takımın projesinden ayrılmalısınız';
     end if;
 
-    -- Rolü varsa project_roles'da serbest bırak
     select role_id into v_role_id
     from team_members where team_id = p_team_id and user_id = v_uid;
 
+    -- Rolü serbest bırakmak yerine sil
     if v_role_id is not null then
-        update project_roles
-        set filled_by = null, is_filled = false
-        where id = v_role_id;
+        delete from project_roles where id = v_role_id;
     end if;
 
     delete from team_members
