@@ -729,6 +729,18 @@ export async function getProjectDetail(id: string): Promise<ProjectDetail | null
     isTeamMember = memberRow !== null;
   }
 
+  const isProjectLeader = project.leader_id === user.id;
+  let isProjectMember = isProjectLeader;
+  if (!isProjectMember) {
+    const { data: pmRow } = await supabase
+      .from('project_members')
+      .select('user_id')
+      .eq('project_id', id)
+      .eq('user_id', user.id)
+      .maybeSingle();
+    isProjectMember = pmRow !== null;
+  }
+
   const { data: viewerUser } = await supabase
     .from('users')
     .select('name')
