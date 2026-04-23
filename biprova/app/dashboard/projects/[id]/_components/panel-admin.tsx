@@ -360,20 +360,6 @@ function MemberRow({
 
         {canManage && (
           <div className="flex items-center gap-1.5 shrink-0">
-            {teamId && (
-              <button
-                disabled={isPending}
-                onClick={handleToggleBiprova}
-                title={localHasBiprova ? 'Yetkiyi Kaldır' : 'Yetki Ver'}
-                className={`text-[0.72rem] font-bold px-2.5 py-1.5 rounded-lg border-[1.5px] transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer ${
-                  localHasBiprova
-                    ? 'border-purple-300 text-purple-600 bg-purple-50 hover:bg-purple-100'
-                    : 'border-slate-200 text-slate-500 hover:border-purple-300 hover:text-purple-600'
-                }`}
-              >
-                {localHasBiprova ? '★ Yetkili' : '☆ Yetki Ver'}
-              </button>
-            )}
 
             {!confirmRemove ? (
               <button
