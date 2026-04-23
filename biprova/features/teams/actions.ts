@@ -262,7 +262,6 @@ export async function inviteMemberByEmail(teamId: string, email: string): Promis
   const { error } = await supabase.from('team_members').insert({
     team_id: teamId,
     user_id: targetUser.id,
-    has_biprova: false,
   });
 
   if (error) return { error: 'Davet gönderilemedi.' };
