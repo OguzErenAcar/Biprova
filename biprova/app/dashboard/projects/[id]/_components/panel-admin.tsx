@@ -333,20 +333,6 @@ function MemberRow({
     });
   }
 
-  function handleToggleBiprova() {
-    if (!teamId) return;
-    startTransition(async () => {
-      const result = localHasBiprova
-        ? await revokeBiprova(teamId, member.user_id)
-        : await grantBiprova(teamId, member.user_id);
-      if (result.error) {
-        setError(result.error);
-      } else {
-        setLocalHasBiprova((prev) => !prev);
-      }
-    });
-  }
-
   if (removed) return null;
 
   const canManage = !isSelf && !member.is_project_leader;
