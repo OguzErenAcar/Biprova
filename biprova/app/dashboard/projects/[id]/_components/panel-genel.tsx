@@ -125,7 +125,7 @@ export function PanelGenel({ project, onGoToChat, onGoToFiles }: Props) {
 
   // Üye listesi: ekip varsa team_members, yoksa creator + dolu roller
   const memberSlots: MemberSlot[] = (() => {
-    const raw: MemberSlot[] = project.team_id
+    const raw: MemberSlot[] = project.members.length > 0
       ? project.members.map((m) => ({
           id: m.user_id,
           name: m.name,
@@ -133,24 +133,13 @@ export function PanelGenel({ project, onGoToChat, onGoToFiles }: Props) {
           badge_url: m.badge_url,
           is_leader: m.is_leader,
         }))
-      : [
-          {
-            id: project.leader_id,
-            name: project.leader_name,
-            avatar_url: project.leader_avatar,
-            badge_url: null,
-            is_leader: true,
-          },
-          ...project.roles
-            .filter((r) => r.is_filled && r.filled_by && r.filled_by !== project.leader_id)
-            .map((r) => ({
-              id: r.filled_by!,
-              name: r.filled_by_name ?? '?',
-              avatar_url: r.filled_by_avatar,
-              badge_url: null,
-              is_leader: false,
-            })),
-        ];
+      : [{
+          id: project.leader_id,
+          name: project.leader_name,
+          avatar_url: project.leader_avatar,
+          badge_url: null,
+          is_leader: true,
+        }];
     const seen = new Set<string>();
     return raw.filter((m) => {
       if (seen.has(m.id)) return false;
