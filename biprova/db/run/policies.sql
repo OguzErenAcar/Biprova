@@ -52,15 +52,15 @@ alter table badges              enable row level security;
 -- POLICIES
 -- ============================================================
 
--- skills
+-- skills (lookup — anonim erişime açık)
 create policy "skills_read"  on skills for select using (true);
 create policy "skills_admin" on skills for all    using (is_admin());
 
--- project_categories
+-- project_categories (lookup — anonim erişime açık)
 create policy "categories_read"  on project_categories for select using (true);
 create policy "categories_admin" on project_categories for all    using (is_admin());
 
--- cities
+-- cities (lookup — anonim erişime açık)
 create policy "cities_read"  on cities for select using (true);
 create policy "cities_admin" on cities for all    using (is_admin());
 
@@ -70,7 +70,7 @@ create policy "users_read"   on users for select using (auth.uid() is not null);
 create policy "users_update" on users for update using (id = auth.uid());
 
 -- teams
-create policy "teams_read"   on teams for select using (true);
+create policy "teams_read"   on teams for select using (auth.uid() is not null);
 create policy "teams_insert" on teams for insert with check (leader_id = auth.uid());
 create policy "teams_update" on teams for update using (leader_id = auth.uid());
 
@@ -88,18 +88,14 @@ create policy "projects_insert" on projects for insert with check (
               and t.leader_id = auth.uid()
               and t.status in ('active', 'no_project', 'pending')
         )
-        or exists (
-            select 1 from team_members tm
-            where tm.team_id = team_id
-              and tm.user_id = auth.uid()
-              and tm.has_biprova = true
-        )
     )
 );
 
 -- user_skills
-create policy "user_skills_read"   on user_skills for select using (true);
-create policy "user_skills_manage" on user_skills for all    using (user_id = auth.uid());
+create policy "user_skills_read"   on user_skills for select using (auth.uid() is not null);
+create policy "user_skills_insert" on user_skills for insert with check (user_id = auth.uid());
+create policy "user_skills_update" on user_skills for update using (user_id = auth.uid());
+create policy "user_skills_delete" on user_skills for delete using (user_id = auth.uid());
 
 -- project_roles
 create policy "project_roles_read"   on project_roles for select using (auth.uid() is not null);
@@ -120,12 +116,21 @@ create policy "role_skills_manage" on project_role_skills for all
 -- applications
 create policy "applications_own"      on applications for select using (user_id = auth.uid());
 create policy "applications_incoming" on applications for select using (is_project_leader(project_id));
-create policy "applications_insert"   on applications for insert with check (user_id = auth.uid());
-create policy "applications_delete"   on applications for delete using (user_id = auth.uid() and status = 'pending');
-create policy "applications_update"   on applications for update using (is_project_leader(project_id));
+create policy "applications_insert"   on applications for insert with check (
+    user_id = auth.uid()
+    and not exists (
+        select 1 from projects p
+        where p.id = project_id
+          and p.leader_id = auth.uid()
+    )
+);
+create policy "applications_delete" on applications for delete
+    using (user_id = auth.uid() and status = 'pending');
+create policy "applications_update" on applications for update
+    using (is_project_leader(project_id));
 
 -- project_members
-create policy "pm_read"   on project_members for select using (true);
+create policy "pm_read"   on project_members for select using (auth.uid() is not null);
 create policy "pm_manage" on project_members for all    using (is_admin());
 create policy "pm_leave"  on project_members for delete using (user_id = auth.uid() and role <> 'leader');
 
@@ -144,10 +149,12 @@ create policy "messages_read"   on messages for select using (is_team_member(tea
 create policy "messages_insert" on messages for insert with check (
     sender_id = auth.uid() and is_team_member(team_id)
 );
+create policy "messages_delete" on messages for delete using (
+    sender_id = auth.uid() and is_team_member(team_id)
+);
 
 -- team_posts
--- Gönderiler herkese açık; sadece yazma/silme üyelikle kısıtlı
-create policy "team_posts_read"   on team_posts for select using (true);
+create policy "team_posts_read"   on team_posts for select using (auth.uid() is not null);
 create policy "team_posts_insert" on team_posts for insert with check (
     author_id = auth.uid() and is_team_member(team_id)
 );
@@ -155,25 +162,65 @@ create policy "team_posts_update" on team_posts for update using (author_id = au
 create policy "team_posts_delete" on team_posts for delete using (author_id = auth.uid());
 
 -- team_post_likes
--- Postlar herkese açık olduğundan beğeni sayısı da herkese açık
-create policy "post_likes_read"   on team_post_likes for select using (true);
-create policy "post_likes_manage" on team_post_likes for all    using (user_id = auth.uid());
+create policy "post_likes_select" on team_post_likes for select using (auth.uid() is not null);
+create policy "post_likes_insert" on team_post_likes for insert with check (user_id = auth.uid());
+create policy "post_likes_delete" on team_post_likes for delete using (user_id = auth.uid());
 
 -- news
-create policy "news_read"  on news for select using (is_published = true);
+create policy "news_read"  on news for select using (auth.uid() is not null and is_published = true);
 create policy "news_admin" on news for all    using (is_admin());
 
 -- news_likes
-create policy "news_likes_read"   on news_likes for select using (auth.uid() is not null);
-create policy "news_likes_manage" on news_likes for all    using (user_id = auth.uid());
+create policy "news_likes_select" on news_likes for select using (auth.uid() is not null);
+create policy "news_likes_insert" on news_likes for insert with check (user_id = auth.uid());
+create policy "news_likes_delete" on news_likes for delete using (user_id = auth.uid());
 
 -- notifications
 create policy "notifications_read"   on notifications for select using (user_id = auth.uid());
 create policy "notifications_update" on notifications for update using (user_id = auth.uid());
+create policy "notifications_delete" on notifications for delete using (user_id = auth.uid());
 
 -- waitlist
-create policy "waitlist_insert" on waitlist for insert with check (true);
+create policy "waitlist_insert"     on waitlist for insert with check (true);
+create policy "waitlist_admin_read" on waitlist for select using (is_admin());
 
--- badges
+-- badges (lookup — anonim erişime açık)
 create policy "badges_read"  on badges for select using (true);
 create policy "badges_admin" on badges for all    using (is_admin());
+
+-- ============================================================
+-- COLUMN-LEVEL SECURITY
+-- ============================================================
+
+-- Internal kolonları authenticated role'dan gizle.
+-- Bu kolonlar uygulama tarafından select edilmiyor; doğrudan
+-- API çağrısıyla okunmasını önlemek için revoke edildi.
+revoke select (
+    role,
+    plan,
+    max_teams,
+    max_projects,
+    last_sign_in_at,
+    last_sign_out_at
+) on public.users from authenticated;
+
+-- anon role sadece waitlist insert + lookup tabloları okuyabilir;
+-- diğer tüm yazma yetkilerini daralt (least-privilege prensibi).
+revoke insert, update, delete on
+    public.users,
+    public.projects,
+    public.teams,
+    public.user_skills,
+    public.project_roles,
+    public.project_role_skills,
+    public.applications,
+    public.project_members,
+    public.team_members,
+    public.messages,
+    public.team_posts,
+    public.team_post_likes,
+    public.news_likes,
+    public.notifications
+from anon;
+
+revoke select, update, delete on public.waitlist from anon;
