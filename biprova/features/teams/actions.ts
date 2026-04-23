@@ -91,7 +91,7 @@ export async function getTeamDetail(id: string): Promise<TeamDetail | null> {
         .limit(20),
       supabase
         .from('team_members')
-        .select('has_biprova')
+        .select('user_id')
         .eq('team_id', id)
         .eq('user_id', user.id)
         .maybeSingle(),
