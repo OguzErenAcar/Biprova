@@ -225,47 +225,6 @@ export async function kickMember(teamId: string, userId: string): Promise<{ erro
   return {};
 }
 
-export async function grantBiprova(teamId: string, userId: string): Promise<{ error?: string }> {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return { error: 'Oturum açmanız gerekiyor.' };
-
-  const { data: team } = await supabase.from('teams').select('leader_id').eq('id', teamId).single();
-  if (team?.leader_id !== user.id) return { error: 'Sadece lider yetki verebilir.' };
-
-  const { data: member } = await supabase
-    .from('team_members')
-    .select('user_id')
-    .eq('team_id', teamId)
-    .eq('user_id', userId)
-    .maybeSingle();
-  if (!member) return { error: 'Bu kullanıcı takımın üyesi değil.' };
-
-  const { error } = await supabase.from('team_members').update({ has_biprova: true }).eq('team_id', teamId).eq('user_id', userId);
-  if (error) return { error: 'Yetki verilemedi.' };
-  return {};
-}
-
-export async function revokeBiprova(teamId: string, userId: string): Promise<{ error?: string }> {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return { error: 'Oturum açmanız gerekiyor.' };
-
-  const { data: team } = await supabase.from('teams').select('leader_id').eq('id', teamId).single();
-  if (team?.leader_id !== user.id) return { error: 'Sadece lider yetki kaldırabilir.' };
-
-  const { data: member } = await supabase
-    .from('team_members')
-    .select('user_id')
-    .eq('team_id', teamId)
-    .eq('user_id', userId)
-    .maybeSingle();
-  if (!member) return { error: 'Bu kullanıcı takımın üyesi değil.' };
-
-  const { error } = await supabase.from('team_members').update({ has_biprova: false }).eq('team_id', teamId).eq('user_id', userId);
-  if (error) return { error: 'Yetki kaldırılamadı.' };
-  return {};
-}
 
 const inviteMemberSchema = z.object({
   teamId: z.string().uuid('Geçersiz ekip.'),
