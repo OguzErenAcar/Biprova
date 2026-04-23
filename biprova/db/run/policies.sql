@@ -165,9 +165,10 @@ create policy "messages_read"   on messages for select using (is_team_member(tea
 create policy "messages_insert" on messages for insert with check (
     sender_id = auth.uid() and is_team_member(team_id)
 );
-create policy "messages_delete" on messages for delete using (
-    sender_id = auth.uid() and is_team_member(team_id)
-);
+create policy "messages_update" on messages for update
+    using (sender_id = auth.uid() and is_team_member(team_id));
+create policy "messages_delete" on messages for delete
+    using (sender_id = auth.uid() and is_team_member(team_id));
 
 -- team_posts
 create policy "team_posts_read"   on team_posts for select using (auth.uid() is not null);
