@@ -84,7 +84,7 @@ create table projects (
     is_remote   boolean default false,
     category_id uuid references project_categories(id) on delete set null,
     status      text default 'open'
-                    constraint chk_projects_status check (status in ('open', 'full', 'active', 'completed', 'cancelled')),
+                    constraint chk_projects_status check (status in ('open', 'full', 'completed', 'cancelled')),
     created_at  timestamp default now()
 );
 
