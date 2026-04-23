@@ -382,7 +382,7 @@ export async function getUserProjects(userId: string): Promise<UserProjectEntry[
         title: project.title,
         city: project.city,
         is_remote: project.is_remote,
-        status: (project.status as ProjectStatus) ?? 'active',
+        status: (project.status as ProjectStatus) ?? 'full',
         isLeader: false,
         userRole: row.project_roles?.role_name ?? null,
       };
