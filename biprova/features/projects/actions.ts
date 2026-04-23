@@ -690,7 +690,6 @@ export async function getProjectDetail(id: string): Promise<ProjectDetail | null
       badge_url: projBadgeMap.get(m.users.badge ?? '') ?? null,
       role_name: m.role === 'leader' ? 'Lider' : 'Üye',
       is_leader: false,
-      has_biprova: false,
       is_project_leader: false,
     }));
 
