@@ -679,7 +679,6 @@ export async function getProjectDetail(id: string): Promise<ProjectDetail | null
       badge_url: null,
       role_name: 'Lider',
       is_leader: true,
-      has_biprova: false,
       is_project_leader: true,
     };
 
