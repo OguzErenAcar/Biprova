@@ -101,6 +101,7 @@ export async function reviewApplication(
     });
 
     revalidatePath('/dashboard/projects');
+    revalidatePath(`/dashboard/projects/${app.project_id}`);
     revalidatePath(`/dashboard/posts/projects/${app.project_id}`);
   }
 
