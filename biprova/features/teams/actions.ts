@@ -13,7 +13,6 @@ export interface TeamMemberDetail {
   avatar_url: string | null;
   role_name: string | null;
   is_leader: boolean;
-  has_biprova: boolean;
   joined_at: string;
 }
 
