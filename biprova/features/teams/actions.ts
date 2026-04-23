@@ -46,7 +46,6 @@ export interface TeamDetail {
 type RawTeamMemberDetail = {
   id: string;
   user_id: string;
-  has_biprova: boolean;
   joined_at: string;
   users: { name: string; avatar_url: string | null };
   project_roles: { role_name: string } | null;
