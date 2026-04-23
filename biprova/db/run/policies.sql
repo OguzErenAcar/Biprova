@@ -221,6 +221,14 @@ revoke select (
     last_sign_out_at
 ) on public.users from authenticated;
 
+-- Lider applications üzerinde sadece status güncelleyebilir
+revoke update on public.applications from authenticated;
+grant  update (status) on public.applications to authenticated;
+
+-- is_filled ve filled_by sadece trigger (security definer) tarafından güncellenir
+revoke update on public.project_roles from authenticated;
+grant  update (role_name) on public.project_roles to authenticated;
+
 -- anon role sadece waitlist insert + lookup tabloları okuyabilir;
 -- diğer tüm yazma yetkilerini daralt (least-privilege prensibi).
 revoke insert, update, delete on
