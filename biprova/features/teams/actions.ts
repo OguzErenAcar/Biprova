@@ -139,7 +139,6 @@ export async function getTeamDetail(id: string): Promise<TeamDetail | null> {
     viewer: {
       id: user.id,
       is_leader: team.leader_id === user.id,
-      has_biprova: viewerRow?.has_biprova ?? false,
       is_member: viewerRow !== null,
       project_ids: viewerProjectIds,
     },
