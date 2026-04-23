@@ -315,7 +315,6 @@ function MemberRow({
   isSelf: boolean;
 }) {
   const [isPending, startTransition] = useTransition();
-  const [localHasBiprova, setLocalHasBiprova] = useState(member.has_biprova);
   const [removed, setRemoved] = useState(false);
   const [confirmRemove, setConfirmRemove] = useState(false);
   const [error, setError] = useState('');
