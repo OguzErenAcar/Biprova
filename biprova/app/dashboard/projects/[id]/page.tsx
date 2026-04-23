@@ -10,6 +10,7 @@ interface Props {
 async function ProjectPageContent({ id }: { id: string }) {
   const project = await getProjectDetail(id);
   if (!project) notFound();
+  if (!project.viewer.is_project_member) notFound();
 
   return <ProjectTabView project={project} />;
 }
