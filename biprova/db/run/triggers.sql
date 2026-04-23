@@ -21,29 +21,29 @@ create or replace trigger trg_delete_project_on_team_deleted
 -- TRIGGER: Tüm roller dolunca projects.status = 'full' yap
 -- ============================================================
 
-CREATE OR REPLACE FUNCTION check_project_full()
-RETURNS TRIGGER LANGUAGE plpgsql SECURITY DEFINER AS $$
-BEGIN
-    IF NOT EXISTS (
-        SELECT 1 FROM project_roles
-        WHERE project_id = NEW.project_id
-          AND is_filled = false
-    ) THEN
-        UPDATE projects
-        SET status = 'full'
-        WHERE id = NEW.project_id
-          AND status = 'open';
-    END IF;
+create or replace function check_project_full()
+returns trigger language plpgsql security definer as $$
+begin
+    if not exists (
+        select 1 from project_roles
+        where project_id = new.project_id
+          and is_filled = false
+    ) then
+        update projects
+        set status = 'full'
+        where id = new.project_id
+          and status = 'open';
+    end if;
 
-    RETURN NEW;
-END;
+    return new;
+end;
 $$;
 
-CREATE OR REPLACE TRIGGER trg_check_project_full
-    AFTER UPDATE OF is_filled ON project_roles
-    FOR EACH ROW
-    WHEN (NEW.is_filled = true AND OLD.is_filled = false)
-    EXECUTE FUNCTION check_project_full();
+create or replace trigger trg_check_project_full
+    after update of is_filled on project_roles
+    for each row
+    when (new.is_filled = true and old.is_filled = false)
+    execute function check_project_full();
 
 -- ============================================================
 -- TRIGGER: Proje status 'full' olunca otomatik ekip kurar
@@ -131,6 +131,31 @@ create or replace trigger trg_pm_application_accepted
     after update on applications
     for each row
     execute function pm_on_application_accepted();
+
+-- ============================================================
+-- TRIGGER: Başvuru kabul edilince aynı projedeki diğer
+--          bekleyen başvuruları otomatik reddet
+-- ============================================================
+
+create or replace function reject_other_applications_on_accepted()
+returns trigger language plpgsql security definer as $$
+begin
+    if new.status = 'accepted' and (old.status is null or old.status <> 'accepted') then
+        update applications
+        set status = 'rejected'
+        where user_id    = new.user_id
+          and project_id = new.project_id
+          and id         <> new.id
+          and status     = 'pending';
+    end if;
+    return new;
+end;
+$$;
+
+create or replace trigger trg_reject_other_applications_on_accepted
+    after update on applications
+    for each row
+    execute function reject_other_applications_on_accepted();
 
 -- ============================================================
 -- TRIGGER: project_members boşalınca projeyi sil
