@@ -70,8 +70,8 @@ create policy "users_read"   on users for select using (auth.uid() is not null);
 create policy "users_update" on users for update using (id = auth.uid());
 
 -- teams
+-- INSERT yok: ekip sadece create_team_on_project_full trigger'ı tarafından oluşturulur
 create policy "teams_read"   on teams for select using (auth.uid() is not null);
-create policy "teams_insert" on teams for insert with check (leader_id = auth.uid());
 create policy "teams_update" on teams for update using (leader_id = auth.uid());
 
 -- projects
