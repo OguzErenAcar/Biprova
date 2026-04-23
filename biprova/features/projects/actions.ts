@@ -771,7 +771,8 @@ export async function getProjectDetail(id: string): Promise<ProjectDetail | null
     viewer: {
       id: user.id,
       name: (viewerUser as { name: string } | null)?.name ?? 'Sen',
-      is_project_leader: project.leader_id === user.id,
+      is_project_leader: isProjectLeader,
+      is_project_member: isProjectMember,
       is_team_leader: team?.leader_id === user.id,
       is_team_member: isTeamMember,
     },
