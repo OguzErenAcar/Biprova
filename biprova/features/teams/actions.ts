@@ -109,7 +109,6 @@ export async function getTeamDetail(id: string): Promise<TeamDetail | null> {
     avatar_url: m.users.avatar_url,
     role_name: m.project_roles?.role_name ?? null,
     is_leader: m.user_id === team.leader_id,
-    has_biprova: m.has_biprova,
     joined_at: m.joined_at,
   }));
 
