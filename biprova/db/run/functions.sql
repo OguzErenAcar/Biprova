@@ -61,6 +61,20 @@ $$;
 grant execute on function nearby_projects(float, float, int) to authenticated, anon;
 
 
+-- ============================================================
+-- CV URL GİZLİLİĞİ (PostgREST computed column)
+-- Kullanım: ?select=...,cv_url_safe
+-- Kural: kendi profili veya cv_public = true → göster; aksi → null
+-- ============================================================
+
+create or replace function public.users_cv_url_safe(u users)
+returns text language sql stable security definer as $$
+    select case
+        when u.id = auth.uid()  then u.cv_url
+        when u.cv_public = true then u.cv_url
+        else null
+    end;
+$$;
 
 
 -- ============================================================
@@ -108,7 +122,6 @@ grant execute on function fn_dissolve_project(uuid) to authenticated;
 create or replace function fn_dissolve_team(p_team_id uuid)
 returns void language plpgsql security definer as $$
 begin
-    -- Sadece takım lideri feshedebilir
     if not exists (
         select 1 from teams
         where id = p_team_id and leader_id = auth.uid()
@@ -134,7 +147,6 @@ returns void language plpgsql security definer as $$
 declare
     v_uid uuid := auth.uid();
 begin
-    -- Üyelik kontrolü
     if not exists (
         select 1 from project_members
         where project_id = p_project_id and user_id = v_uid
@@ -142,7 +154,6 @@ begin
         raise exception 'Bu projede üye değilsiniz';
     end if;
 
-    -- Lider çıkamaz
     if exists (
         select 1 from project_members
         where project_id = p_project_id and user_id = v_uid and role = 'leader'
@@ -181,7 +192,6 @@ declare
     v_role_id    uuid;
     v_project_id uuid;
 begin
-    -- Üyelik kontrolü
     if not exists (
         select 1 from team_members
         where team_id = p_team_id and user_id = v_uid
@@ -189,7 +199,6 @@ begin
         raise exception 'Bu takımda üye değilsiniz';
     end if;
 
-    -- Lider çıkamaz
     if exists (
         select 1 from teams
         where id = p_team_id and leader_id = v_uid
@@ -238,7 +247,6 @@ returns void language plpgsql security definer as $$
 declare
     v_uid uuid := auth.uid();
 begin
-    -- Sadece mevcut lider transfer edebilir
     if not exists (
         select 1 from projects
         where id = p_project_id and leader_id = v_uid
@@ -246,7 +254,6 @@ begin
         raise exception 'Yetkisiz: sadece proje lideri transfer edebilir';
     end if;
 
-    -- Yeni lider projede üye olmalı
     if not exists (
         select 1 from project_members
         where project_id = p_project_id and user_id = p_new_leader_id
@@ -254,7 +261,6 @@ begin
         raise exception 'Seçilen kişi bu projenin üyesi değil';
     end if;
 
-    -- projects.leader_id güncelle
     update projects
     set leader_id = p_new_leader_id
     where id = p_project_id;
@@ -291,7 +297,6 @@ returns void language plpgsql security definer as $$
 declare
     v_uid uuid := auth.uid();
 begin
-    -- Sadece mevcut lider transfer edebilir
     if not exists (
         select 1 from teams
         where id = p_team_id and leader_id = v_uid
@@ -299,7 +304,6 @@ begin
         raise exception 'Yetkisiz: sadece takım lideri transfer edebilir';
     end if;
 
-    -- Yeni lider takımda üye olmalı
     if not exists (
         select 1 from team_members
         where team_id = p_team_id and user_id = p_new_leader_id
