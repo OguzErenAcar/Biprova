@@ -101,7 +101,6 @@ export interface UserTeamOption {
 }
 
 type TeamMemberRow = {
-  has_biprova: boolean;
   teams: {
     id: string;
     name: string | null;
