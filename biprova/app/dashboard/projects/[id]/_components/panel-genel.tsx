@@ -173,6 +173,11 @@ export function PanelGenel({ project, onGoToChat, onGoToFiles }: Props) {
               filled={project.roles.filter((r) => r.is_filled).length}
               total={project.roles.length}
             />
+            <div className="flex items-center gap-2 mt-[0.6rem]">
+              <div className="w-2 h-2 rounded-full shrink-0 bg-blue-500" />
+              <span className="text-[0.75rem] text-slate-700 font-semibold">Lider</span>
+              <span className="text-[0.72rem] text-slate-400 ml-auto">{project.leader_name}</span>
+            </div>
             {project.roles.map((r) => (
               <div key={r.id} className="flex items-center gap-2 mt-[0.6rem]">
                 <div className={`w-2 h-2 rounded-full shrink-0 ${r.is_filled ? 'bg-blue-500' : 'bg-slate-200'}`} />
