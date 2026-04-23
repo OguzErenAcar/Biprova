@@ -1,6 +1,6 @@
 import type { ProjectDetail } from '@/features/projects/actions';
 import { UserAvatar } from '@/components/shared/user-avatar';
-import { TeamBar } from '@/components/shared/team-bar';
+import { TeamBarSection } from './team-bar-section';
 
 function formatDate(iso: string) {
   return new Date(iso).toLocaleDateString('tr-TR', {
