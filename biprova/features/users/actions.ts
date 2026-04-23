@@ -28,7 +28,7 @@ export interface UserProfile {
 
 type SkillRow = { skills: { id: string; name: string } | null };
 
-export type ProjectStatus = 'active' | 'done' | 'dissolved';
+export type ProjectStatus = 'open' | 'full' | 'completed' | 'cancelled';
 
 export interface UserProjectEntry {
   id: string;
