@@ -66,6 +66,10 @@ export async function reviewApplication(
   applicationId: string,
   decision: 'accepted' | 'rejected',
 ): Promise<ApplyResult> {
+  const parsed = reviewSchema.safeParse({ applicationId, decision });
+  if (!parsed.success) return { error: parsed.error.issues[0]?.message ?? 'Geçersiz veri.' };
+
+  const { applicationId: appId, decision: dec } = parsed.data;
   const supabase = await createClient();
 
   const { data: { user }, error: authError } = await supabase.auth.getUser();
