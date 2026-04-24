@@ -139,9 +139,10 @@ export function ProfileSections({
               );
 
               return (
-                <div
+                <Link
                   key={p.id}
-                  className={`flex gap-4 items-start py-3.5 ${i < projects.length - 1 ? "border-b border-edge border-white" : ""} ${i === 0 ? "pt-0" : ""}`}
+                  href={`/dashboard/posts/projects/${p.id}`}
+                  className={`flex gap-4 items-start py-3.5 hover:bg-slate-50 rounded-lg px-1 -mx-1 transition-colors ${i < projects.length - 1 ? "border-b border-edge border-white" : ""} ${i === 0 ? "pt-0" : ""}`}
                 >
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
