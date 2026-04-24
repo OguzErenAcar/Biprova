@@ -24,6 +24,7 @@ export async function search(query: string): Promise<SearchResult[]> {
   const q = parsed.data;
 
   const escaped = escapeLike(q);
+
   const supabase = await createClient();
 
   const [{ data: projects }, { data: users }] = await Promise.all([
