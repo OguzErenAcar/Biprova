@@ -167,7 +167,7 @@ export function ProfileSections({
                       </Badge>
                     </div>
                   </div>
-                </div>
+                </Link>
               );
             })
           )}
