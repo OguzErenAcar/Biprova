@@ -1,5 +1,6 @@
 'use server';
 
+import { z } from 'zod';
 import { createClient } from '@/lib/supabase/server';
 
 export interface SearchResult {
@@ -10,13 +11,17 @@ export interface SearchResult {
   href: string;
 }
 
+const searchQuerySchema = z.string().trim().min(1).max(100);
+
 function escapeLike(value: string): string {
   return value.replace(/\\/g, '\\\\').replace(/%/g, '\\%').replace(/_/g, '\\_');
 }
 
 export async function search(query: string): Promise<SearchResult[]> {
-  const q = query.trim().slice(0, 100);
-  if (q.length < 1) return [];
+  const parsed = searchQuerySchema.safeParse(query);
+  if (!parsed.success) return [];
+
+  const q = parsed.data;
 
   const escaped = escapeLike(q);
   const supabase = await createClient();
