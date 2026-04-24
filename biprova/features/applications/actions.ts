@@ -1,5 +1,6 @@
 'use server';
 
+import { z } from 'zod';
 import { revalidatePath } from 'next/cache';
 import { createClient } from '@/lib/supabase/server';
 
@@ -8,7 +9,23 @@ export interface ApplyResult {
   success?: boolean;
 }
 
+const uuidSchema = z.string().uuid('Geçersiz kaynak kimliği.');
+
+const applySchema = z.object({
+  projectId: uuidSchema,
+  roleId: uuidSchema,
+});
+
+const reviewSchema = z.object({
+  applicationId: uuidSchema,
+  decision: z.enum(['accepted', 'rejected']),
+});
+
 export async function applyToProject(projectId: string, roleId: string): Promise<ApplyResult> {
+  const parsed = applySchema.safeParse({ projectId, roleId });
+  if (!parsed.success) return { error: parsed.error.issues[0]?.message ?? 'Geçersiz veri.' };
+
+  const { projectId: pid, roleId: rid } = parsed.data;
   const supabase = await createClient();
 
   const { data: { user }, error: authError } = await supabase.auth.getUser();
