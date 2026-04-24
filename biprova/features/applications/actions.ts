@@ -78,7 +78,7 @@ export async function reviewApplication(
   const { data: app } = await supabase
     .from('applications')
     .select('id, user_id, role_id, project_id, status')
-    .eq('id', applicationId)
+    .eq('id', appId)
     .single();
 
   if (!app) return { error: 'Başvuru bulunamadı.' };
@@ -93,12 +93,12 @@ export async function reviewApplication(
 
   const { error: updateError } = await supabase
     .from('applications')
-    .update({ status: decision })
-    .eq('id', applicationId);
+    .update({ status: dec })
+    .eq('id', appId);
 
   if (updateError) return { error: updateError.message };
 
-  if (decision === 'accepted') {
+  if (dec === 'accepted') {
     // project_roles.is_filled = true → trg_check_project_full tetiklenir
     // tüm roller dolduysa projects.status = 'full' → trg_create_team_on_project_full ekibi kurar
     const { error: roleError } = await supabase
