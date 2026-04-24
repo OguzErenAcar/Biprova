@@ -11,7 +11,14 @@
 
 -- ============================================================
 -- 1. LOOKUP TABLOLARI
+-- Önceki yarım kalan seed verilerini temizle (projects zaten boş olmalı)
 -- ============================================================
+
+delete from user_skills;
+delete from project_role_skills;
+delete from skills;
+delete from project_categories;
+delete from cities;
 
 insert into project_categories (id, name, slug) values
     ('c0000000-0000-0000-0000-000000000001', 'Teknoloji',  'teknoloji'),
