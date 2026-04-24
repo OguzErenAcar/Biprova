@@ -35,7 +35,7 @@ export async function applyToProject(projectId: string, roleId: string): Promise
   const { data: project } = await supabase
     .from('projects')
     .select('leader_id')
-    .eq('id', projectId)
+    .eq('id', pid)
     .single();
 
   if (project?.leader_id === user.id) {
@@ -47,7 +47,7 @@ export async function applyToProject(projectId: string, roleId: string): Promise
     .from('applications')
     .select('id')
     .eq('user_id', user.id)
-    .eq('role_id', roleId)
+    .eq('role_id', rid)
     .limit(1)
     .maybeSingle();
 
@@ -55,7 +55,7 @@ export async function applyToProject(projectId: string, roleId: string): Promise
 
   const { error } = await supabase
     .from('applications')
-    .insert({ project_id: projectId, user_id: user.id, role_id: roleId, status: 'pending' });
+    .insert({ project_id: pid, user_id: user.id, role_id: rid, status: 'pending' });
 
   if (error) return { error: 'Başvuru gönderilemedi.' };
 
