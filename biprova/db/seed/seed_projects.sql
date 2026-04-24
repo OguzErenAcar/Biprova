@@ -37,14 +37,14 @@ insert into skills (id, name, slug) values
 on conflict do nothing;
 
 insert into cities (id, name, slug) values
-    ('cc00000-0000-0000-0000-000000000001', 'İstanbul',  'istanbul'),
-    ('cc00000-0000-0000-0000-000000000002', 'Ankara',    'ankara'),
-    ('cc00000-0000-0000-0000-000000000003', 'İzmir',     'izmir'),
-    ('cc00000-0000-0000-0000-000000000004', 'Bursa',     'bursa'),
-    ('cc00000-0000-0000-0000-000000000005', 'Antalya',   'antalya'),
-    ('cc00000-0000-0000-0000-000000000006', 'Konya',     'konya'),
-    ('cc00000-0000-0000-0000-000000000007', 'Gaziantep', 'gaziantep'),
-    ('cc00000-0000-0000-0000-000000000008', 'Kayseri',   'kayseri')
+    ('cc000000-0000-0000-0000-000000000001', 'İstanbul',  'istanbul'),
+    ('cc000000-0000-0000-0000-000000000002', 'Ankara',    'ankara'),
+    ('cc000000-0000-0000-0000-000000000003', 'İzmir',     'izmir'),
+    ('cc000000-0000-0000-0000-000000000004', 'Bursa',     'bursa'),
+    ('cc000000-0000-0000-0000-000000000005', 'Antalya',   'antalya'),
+    ('cc000000-0000-0000-0000-000000000006', 'Konya',     'konya'),
+    ('cc000000-0000-0000-0000-000000000007', 'Gaziantep', 'gaziantep'),
+    ('cc000000-0000-0000-0000-000000000008', 'Kayseri',   'kayseri')
 on conflict do nothing;
 
 
