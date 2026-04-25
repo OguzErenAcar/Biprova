@@ -38,7 +38,7 @@ export function TeamBar({ filled, total }: TeamBarProps) {
       <div className="flex justify-between   text-ink-muted text-sm md:text-lg my-2">
         <span>Rol Doluluk</span>
         <span>
-          {filled+1} / {total+1}
+          {filledWithLeader} / {totalWithLeader}
         </span>
       </div>
       <div className="h-1.5 bg-slate-100 rounded-full shadow overflow-hidden">
