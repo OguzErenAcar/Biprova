@@ -12,6 +12,13 @@ export function SidebarAccountActions() {
   const [error, setError] = useState<string | null>(null);
   const [resetSent, setResetSent] = useState(false);
 
+  async function handlePasswordReset() {
+    setIsLoading(true);
+    await sendPasswordResetEmail();
+    setIsLoading(false);
+    setResetSent(true);
+  }
+
   async function handleLogout() {
     setIsLoading(true);
     await logout();
