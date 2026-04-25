@@ -327,3 +327,92 @@ $$;
 create or replace trigger trg_auth_user_deleted
     before delete on auth.users
     for each row execute function handle_auth_user_deleted();
+
+
+-- ============================================================
+-- TRIGGER: Yeni başvuru gelince proje liderine bildirim
+-- ============================================================
+
+create or replace function notify_new_application()
+returns trigger language plpgsql security definer as $$
+declare
+    v_leader_id     uuid;
+    v_project_title text;
+    v_role_name     text;
+    v_applicant     text;
+begin
+    select p.leader_id, p.title, pr.role_name
+    into v_leader_id, v_project_title, v_role_name
+    from projects p
+    join project_roles pr on pr.id = new.role_id
+    where p.id = new.project_id;
+
+    select name into v_applicant from users where id = new.user_id;
+
+    -- Lidere kendi başvurusunu bildirme
+    if v_leader_id = new.user_id then
+        return new;
+    end if;
+
+    perform create_notification(
+        v_leader_id,
+        'new_application',
+        jsonb_build_object(
+            'applicant_name', v_applicant,
+            'role_name',      v_role_name
+        )
+    );
+    return new;
+end;
+$$;
+
+create or replace trigger trg_notify_new_application
+    after insert on applications
+    for each row
+    execute function notify_new_application();
+
+
+-- ============================================================
+-- TRIGGER: Başvuru kabul/red edilince başvurana bildirim
+-- (reject_other_applications_on_accepted auto-reject'i de kapsar)
+-- ============================================================
+
+create or replace function notify_application_status_changed()
+returns trigger language plpgsql security definer as $$
+declare
+    v_project_title text;
+    v_role_name     text;
+begin
+    if new.status = old.status then
+        return new;
+    end if;
+
+    if new.status not in ('accepted', 'rejected') then
+        return new;
+    end if;
+
+    select p.title, pr.role_name
+    into v_project_title, v_role_name
+    from projects p
+    join project_roles pr on pr.id = new.role_id
+    where p.id = new.project_id;
+
+    perform create_notification(
+        new.user_id,
+        case new.status
+            when 'accepted' then 'application_accepted'
+            when 'rejected' then 'application_rejected'
+        end,
+        jsonb_build_object(
+            'project_title', v_project_title,
+            'role_name',     v_role_name
+        )
+    );
+    return new;
+end;
+$$;
+
+create or replace trigger trg_notify_application_status_changed
+    after update of status on applications
+    for each row
+    execute function notify_application_status_changed();
