@@ -5,7 +5,7 @@ const FLOATING_CARDS = [
   { color: "#22c55e", label: "Veteriner — İzmir" },
   { color: "#3b82f6", label: "Yazılımcı — İstanbul" },
   { color: "#a78bfa", label: "Grafiker — Ankara" },
-  { color: "#f59e0b", label: "Kameraman — Remote" },
+  { color: "#f59e0b", label: "Kameraman — Uzaktan" },
 ];
 
 export function HeroSection() {
