@@ -34,6 +34,7 @@ interface SidebarProject {
 interface SidebarProps {
   user?: SidebarUser;
   projects?: SidebarProject[];
+  showInfoDialog?: boolean;
 }
 
 const NAV_MAIN = [
