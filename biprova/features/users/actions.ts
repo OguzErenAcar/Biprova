@@ -315,6 +315,46 @@ export async function saveCvPublic(
   return { success: true };
 }
 
+export interface NotificationPreferences {
+  notif_inapp: boolean;
+  notif_email: boolean;
+  notif_push: boolean;
+}
+
+export type NotifKey = 'notif_inapp' | 'notif_email' | 'notif_push';
+
+export async function getNotificationPreferences(): Promise<NotificationPreferences> {
+  const supabase = await createClient();
+  const { data: { user }, error: authError } = await supabase.auth.getUser();
+  if (authError || !user) redirect('/');
+
+  const { data, error } = await supabase
+    .from('users')
+    .select('notif_inapp, notif_email, notif_push')
+    .eq('id', user.id)
+    .single();
+
+  if (error || !data) return { notif_inapp: true, notif_email: true, notif_push: false };
+  return data as NotificationPreferences;
+}
+
+export async function saveNotificationPreference(
+  key: NotifKey,
+  value: boolean,
+): Promise<{ success: boolean; error?: string }> {
+  const supabase = await createClient();
+  const { data: { user }, error: authError } = await supabase.auth.getUser();
+  if (authError || !user) return { success: false, error: 'Oturum açmanız gerekiyor' };
+
+  const { error } = await supabase
+    .from('users')
+    .update({ [key]: value })
+    .eq('id', user.id);
+
+  if (error) return { success: false, error: `Ayar kaydedilemedi: ${error.message}` };
+  return { success: true };
+}
+
 export type VisibilitySection = 'projects' | 'teams' | 'applications';
 
 export async function saveProfileVisibility(
