@@ -21,9 +21,9 @@ interface BiprovaInfoDialogProps {
 export function BiprovaInfoDialog({ open, onOpenChange }: BiprovaInfoDialogProps) {
   return (
     <Dialog  open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md md:max-w-xl p-0 overflow-hidden" aria-describedby={undefined}>
+      <DialogContent className="max-w-md md:max-w-xl mx-4 md:mx-auto p-0 overflow-hidden flex flex-col" aria-describedby={undefined}>
         {/* Header */}
-        <div className="bg-gradient-to-br from-blue-600 to-indigo-600 px-6 pt-6 pb-8 md:px-8 md:pt-8 md:pb-10">
+        <div className="bg-gradient-to-br from-blue-600 to-indigo-600 px-6 pt-6 pb-8 md:px-8 md:pt-8 md:pb-10 shrink-0">
           <DialogHeader>
             <div className="flex items-center gap-2 mb-3">
               <span className="text-2xl md:text-3xl font-black text-white tracking-tight font-display">
@@ -37,7 +37,7 @@ export function BiprovaInfoDialog({ open, onOpenChange }: BiprovaInfoDialogProps
         </div>
 
         {/* Body */}
-        <div className="px-6 py-5 md:px-8 md:py-7 flex flex-col gap-4 md:gap-5">
+        <div className="px-6 py-5 md:px-8 md:py-7 flex flex-col gap-4 md:gap-5 overflow-y-auto min-h-0">
           <p className="text-[0.85rem] md:text-base text-slate-600 leading-relaxed">
             Biprova, yakın çevrendeki nitelikli insanlarla ortak bir fikir etrafında
             buluşmanı sağlayan bir sosyal platformdur.
