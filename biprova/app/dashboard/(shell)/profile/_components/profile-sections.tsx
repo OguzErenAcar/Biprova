@@ -129,7 +129,7 @@ export function ProfileSections({
             projects.map((p, i) => {
               const meta: string[] = [];
               if (p.city) meta.push(`${p.city}`);
-              else if (p.is_remote) meta.push("🌐 Remote");
+              else if (p.is_remote) meta.push("🌐 Uzaktan");
               meta.push(
                 p.isLeader
                   ? "Lider: Sen"
