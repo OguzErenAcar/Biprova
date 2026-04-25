@@ -81,12 +81,12 @@ export function FeedFilterDropdown({ activeFilter }: FeedFilterDropdownProps) {
     <>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <button className="gap-1.5 flex dropdown">
+          <button className="gap-1.5 flex dropdown ">
             {activeLabel}
             <ChevronDown className="w-3.5 h-3.5  " />
           </button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="min-w-[140px]">
+        <DropdownMenuContent align="end" className="min-w-[140px] bg-white">
           {FILTER_OPTIONS.map(({ value, label }) => (
             <DropdownMenuItem
               key={value}

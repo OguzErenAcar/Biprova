@@ -9,7 +9,9 @@ interface TeamBarProps {
 
 export function TeamBar({ filled, total }: TeamBarProps) {
   const fillRef = useRef<HTMLDivElement>(null);
-  const pct = total > 0 ? Math.round((filled / total) * 100) : 0;
+  const totalWithLeader = total + 1;
+  const filledWithLeader = filled + 1;
+  const pct = totalWithLeader > 0 ? Math.round((filledWithLeader / totalWithLeader) * 100) : 0;
 
   useEffect(() => {
     const fill = fillRef.current;
