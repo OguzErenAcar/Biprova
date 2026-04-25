@@ -79,7 +79,7 @@ export function ProjectCard({
               variant="outline"
               className="bg-brand-surface text-gray-800 border-brand-surface font-bold text-[0.7rem] sm:text-xs px-2"
             >
-              {isRemote ? "Remote" : city}
+              {isRemote ? "Uzaktan" : city}
             </Badge>
             <Badge
               variant="outline"
