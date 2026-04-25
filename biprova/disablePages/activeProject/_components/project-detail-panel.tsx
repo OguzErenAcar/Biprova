@@ -57,7 +57,7 @@ export function ProjectDetailPanel() {
         </div>
         <DetailRow icon="📍" label="Şehir" value="İstanbul" />
         <DetailRow icon="🏷️" label="Kategori" value="Mobil Uygulama" />
-        <DetailRow icon="🌐" label="Çalışma" value="Remote" />
+        <DetailRow icon="🌐" label="Çalışma" value="Uzaktan" />
         <DetailRow icon="📅" label="Oluşturuldu" value="24 Mart 2026" />
         <DetailRow icon="🚀" label="Kickoff" value="—" last />
       </div>
