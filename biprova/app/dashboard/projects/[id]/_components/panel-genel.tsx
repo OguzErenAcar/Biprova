@@ -16,7 +16,7 @@ function ProjectInfoCard({ project }: { project: ProjectDetail }) {
       ? { icon: '📍', label: 'Şehir', value: project.city }
       : null,
     project.is_remote
-      ? { icon: '🌐', label: 'Çalışma Şekli', value: 'Remote uyumlu' }
+      ? { icon: '🌐', label: 'Çalışma Şekli', value: 'Uzaktan uyumlu' }
       : { icon: '🏢', label: 'Çalışma Şekli', value: 'Yüz yüze' },
     project.category
       ? { icon: '📂', label: 'Kategori', value: project.category }
