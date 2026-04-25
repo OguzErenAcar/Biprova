@@ -26,10 +26,12 @@ export async function NotificationsWidget() {
               >
                 {n.icon}
               </div>
-              <div className="flex-1">
-                <p className="text-caption leading-[1.45] text-ink">
-                  {n.bold && <strong>{n.bold} </strong>}
-                  {n.text}
+              <div className="flex-1 min-w-0">
+                <p className="text-caption font-semibold leading-[1.45] text-ink truncate">
+                  {n.title}
+                </p>
+                <p className="text-meta leading-[1.45] text-ink-muted mt-[0.1rem]">
+                  {n.body}
                 </p>
                 <div className="text-meta text-ink-subtle mt-[0.2rem]">{n.time}</div>
               </div>
