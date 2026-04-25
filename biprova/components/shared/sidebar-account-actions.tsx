@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { LogOut, Trash2 } from "lucide-react";
 import { logout, deleteAccount } from "@/features/auth/actions";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -33,9 +34,9 @@ export function SidebarAccountActions() {
   }
 
   return (
-    <div id="sidebar-account-actions" className="flex flex-col gap-0.5">
+    <div className="flex flex-col gap-0.5">
       {error && (
-        <Alert variant="destructive" className="mb-1 py-2">
+        <Alert variant="destructive" className="mb-2 py-2">
           <AlertDescription className="text-label">{error}</AlertDescription>
         </Alert>
       )}
@@ -44,14 +45,14 @@ export function SidebarAccountActions() {
         variant="ghost"
         onClick={handleLogout}
         disabled={isLoading}
-        className="justify-start gap-[0.65rem] px-3 py-[0.65rem] text-body font-semibold text-white hover:text-slate-900 h-auto rounded-[10px]"
+        className="justify-start gap-[0.65rem] px-3 py-[0.65rem] text-body font-semibold text-ink hover:text-ink hover:bg-slate-100 h-auto rounded-[10px]"
       >
-        <span className="text-[1.1rem] w-5 text-center">🚪</span>
+        <LogOut size={16} className="text-ink-muted shrink-0" />
         Çıkış Yap
       </Button>
 
       {confirmDelete ? (
-        <Alert className="px-3 py-2 bg-red-50 border-red-200">
+        <Alert className="px-3 py-2 bg-red-50 border-red-200 mt-1">
           <AlertDescription>
             <p className="text-meta text-red-700 font-medium mb-2">
               Emin misin? Bu işlem geri alınamaz.
@@ -84,7 +85,7 @@ export function SidebarAccountActions() {
           disabled={isLoading}
           className="justify-start gap-[0.65rem] px-3 py-[0.65rem] text-body font-semibold text-red-400 hover:bg-red-50 hover:text-red-600 h-auto rounded-[10px]"
         >
-          <span className="text-[1.1rem] w-5 text-center">🗑️</span>
+          <Trash2 size={16} className="shrink-0" />
           Hesabı Sil
         </Button>
       )}
