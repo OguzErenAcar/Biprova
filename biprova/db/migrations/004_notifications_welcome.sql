@@ -10,7 +10,7 @@ update app_config
 set value = jsonb_set(
     value,
     '{welcome}',
-    '{"title": "Biprova'\''ya Hoş Geldin! 🎉", "body": "Projeni paylaş, ekibini kur, harekete geç."}'::jsonb
+    '{"title": "Biprova''ya Hoş Geldin! 🎉", "body": "Projeni paylaş, ekibini kur, harekete geç."}'::jsonb
 )
 where key = 'notification_templates';
 
