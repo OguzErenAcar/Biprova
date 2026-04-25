@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { LogOut, Trash2 } from "lucide-react";
-import { logout, deleteAccount } from "@/features/auth/actions";
+import { LogOut, Trash2, KeyRound } from "lucide-react";
+import { logout, deleteAccount, sendPasswordResetEmail } from "@/features/auth/actions";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 
