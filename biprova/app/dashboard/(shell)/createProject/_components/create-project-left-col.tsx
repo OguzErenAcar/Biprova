@@ -232,7 +232,7 @@ export function CreateProjectLeftCol({ cities, skills, userTeams }: Props) {
       <FormCard
         id="section-location"
         icon={<MapPin size={15} />}
-        title="Konum & Remote"
+        title="Konum & Uzaktan"
         sub="Ekibini nerede ve hangi alanda arıyorsun?"
       >
         {/* Mod toggle */}
