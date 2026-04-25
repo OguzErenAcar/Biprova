@@ -339,7 +339,7 @@ export function CreateProjectLeftCol({ cities, skills, userTeams }: Props) {
             <Globe size={14} className="text-slate-400 shrink-0" />
             <div>
               <div className="text-base md:text-lg font-bold text-slate-900">
-                Remote Uyumlu
+                Uzaktan Uyumlu
               </div>
               <div className="text-sm text-slate-400 mt-0.5">
                 Uzaktan çalışmaya açıksanız işaretle
