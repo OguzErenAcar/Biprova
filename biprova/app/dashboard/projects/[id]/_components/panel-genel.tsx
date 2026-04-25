@@ -117,7 +117,7 @@ interface Props {
 export function PanelGenel({ project, onGoToChat, onGoToFiles }: Props) {
   const meta = [
     project.city && `📍 ${project.city}`,
-    project.is_remote && '🌐 Remote',
+    project.is_remote && '🌐 Uzaktan',
     project.category && `📂 ${project.category}`,
     project.members.length > 0 && `👥 ${project.members.length} kişilik ekip`,
   ]
