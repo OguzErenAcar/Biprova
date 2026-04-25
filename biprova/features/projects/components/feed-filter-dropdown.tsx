@@ -25,7 +25,7 @@ import type { FeedFilter } from "@/features/projects/actions";
 const FILTER_OPTIONS: { label: string; value: FeedFilter }[] = [
   { label: "Tümü", value: "all" },
   { label: "Konum", value: "nearby" },
-  { label: "Remote", value: "remote" },
+  { label: "Uzaktan", value: "remote" },
 ];
 
 interface FeedFilterDropdownProps {
