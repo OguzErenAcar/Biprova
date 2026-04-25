@@ -139,7 +139,7 @@ export function TeamPostFeedClient({ posts }: Props) {
                 ? [{ type: "category" as const, label: category }]
                 : []),
               ...(post.team.isRemote
-                ? [{ type: "city" as const, label: "🌐 Remote" }]
+                ? [{ type: "city" as const, label: "🌐 Uzaktan" }]
                 : post.team.city
                   ? [{ type: "city" as const, label: `📍 ${post.team.city}` }]
                   : []),
