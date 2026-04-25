@@ -128,11 +128,11 @@ export function PanelGonderiler({ teamId, teamName, posts, members, category, ci
     });
   }
 
-  const location = isRemote ? '🌐 Remote' : city ? `📍 ${city}` : '📍 Belirtilmemiş';
+  const location = isRemote ? '🌐 Uzaktan' : city ? `📍 ${city}` : '📍 Belirtilmemiş';
   const tags = [
     ...(category ? [{ type: 'category' as const, label: category }] : []),
     ...(isRemote
-      ? [{ type: 'city' as const, label: '🌐 Remote' }]
+      ? [{ type: 'city' as const, label: '🌐 Uzaktan' }]
       : city ? [{ type: 'city' as const, label: `📍 ${city}` }] : []),
   ];
   const memberChips = members.map((m) => ({
