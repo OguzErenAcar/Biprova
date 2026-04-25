@@ -1,6 +1,7 @@
 import { User, Bell, Mail, Shield, Info } from "lucide-react";
 import { SidebarAccountActions } from "@/components/shared/sidebar-account-actions";
 import { NotificationToggles } from "./_components/notification-toggles";
+import { getNotificationPreferences } from "@/features/users/actions";
 
 export default function SettingsPage() {
   return (
