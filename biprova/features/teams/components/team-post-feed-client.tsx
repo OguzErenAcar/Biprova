@@ -129,7 +129,7 @@ export function TeamPostFeedClient({ posts }: Props) {
             //     hashIndex(post.team.id, AVATAR_BG_COLORS.length)
             //   ];
             const location = post.team.isRemote
-              ? "Remote"
+              ? "Uzaktan"
               : post.team.city
                 ? post.team.city
                 : "Belirtilmemiş";
