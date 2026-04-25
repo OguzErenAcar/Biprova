@@ -50,51 +50,51 @@ create policy "authenticated users can read app_config"
 insert into app_config (key, value, description) values (
   'notification_templates',
   '{
-    "yeni_basvuru": {
+    "new_application": {
       "title": "Yeni başvuru",
       "body": "{{applicant_name}}, {{role_name}} rolüne başvurdu."
     },
-    "basvuru_kabul": {
+    "application_accepted": {
       "title": "Başvurun kabul edildi 🎉",
       "body": "{{project_title}} projesinde {{role_name}} rolüne kabul edildin."
     },
-    "basvuru_red": {
+    "application_rejected": {
       "title": "Başvurun reddedildi",
       "body": "{{project_title}} projesindeki {{role_name}} başvurun reddedildi."
     },
-    "takim_kuruldu": {
+    "team_formed": {
       "title": "Ekip kuruldu! 🚀",
       "body": "{{project_title}} ekibinin tüm rolleri doldu. Artık takım üyesisin!"
     },
-    "yeni_mesaj": {
+    "new_message": {
       "title": "Yeni mesaj",
       "body": "{{sender_name}}: {{message_preview}}"
     },
-    "ekipten_atildin": {
+    "removed_from_team": {
       "title": "Ekipten çıkarıldın",
       "body": "{{project_title}} ekibinden çıkarıldın."
     },
-    "artik_lider_sensin": {
+    "new_leader": {
       "title": "Artık lidersin 👑",
       "body": "{{project_title}} projesinin yeni lideri sensin."
     },
-    "proje_silindi": {
+    "project_deleted": {
       "title": "Proje silindi",
       "body": "Üyesi olduğun {{project_title}} projesi silindi."
     },
-    "proje_doldu": {
+    "project_full": {
       "title": "Proje doldu",
       "body": "{{project_title}} projesinin tüm rolleri doldu."
     },
-    "yeni_haber": {
+    "new_news": {
       "title": "Yeni haber",
       "body": "{{headline}}"
     },
-    "gonderi_yayinda": {
+    "post_published": {
       "title": "Gönderin yayında 🎊",
       "body": "Biprova ile oluşturduğun \"{{post_title}}\" yayına girdi."
     },
-    "takim_gonderi": {
+    "team_post": {
       "title": "Yeni gönderi",
       "body": "{{team_name}} ekibi yeni bir gönderi paylaştı: {{post_title}}"
     }
