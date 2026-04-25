@@ -3,10 +3,11 @@
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
 import { Bell } from 'lucide-react'
-import { Badge } from "@/components/ui/badge";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Separator } from "@/components/ui/separator";
-import { getNotifications, NotificationItem } from '@/features/notifications/actions'
+import { Badge } from "@/components/ui/badge"
+import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { Separator } from "@/components/ui/separator"
+import { createClient } from '@/lib/supabase/client'
+import { getNotifications, markAllAsRead, NotificationItem } from '@/features/notifications/actions'
 
 export function NotificationBell() {
   const [notifications, setNotifications] = useState<NotificationItem[]>([])
@@ -15,6 +16,41 @@ export function NotificationBell() {
 
   useEffect(() => {
     getNotifications().then(setNotifications)
+  }, [])
+
+  // Realtime: yeni bildirim gelince listeyi güncelle
+  useEffect(() => {
+    const supabase = createClient()
+    let mounted = true
+    let channel: ReturnType<typeof supabase.channel> | null = null
+
+    supabase.auth.getUser().then(({ data }) => {
+      const userId = data.user?.id
+      if (!userId || !mounted) return
+
+      channel = supabase
+        .channel('user-notifications')
+        .on(
+          'postgres_changes',
+          {
+            event: 'INSERT',
+            schema: 'public',
+            table: 'notifications',
+            filter: `user_id=eq.${userId}`,
+          },
+          () => {
+            getNotifications().then((items) => {
+              if (mounted) setNotifications(items)
+            })
+          }
+        )
+        .subscribe()
+    })
+
+    return () => {
+      mounted = false
+      if (channel) supabase.removeChannel(channel)
+    }
   }, [])
 
   useEffect(() => {
@@ -27,14 +63,22 @@ export function NotificationBell() {
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
 
+  function handleOpen() {
+    setOpen(true)
+    if (notifications.some((n) => n.unread)) {
+      markAllAsRead()
+      setNotifications((prev) => prev.map((n) => ({ ...n, unread: false })))
+    }
+  }
+
   const unreadCount = notifications.filter((n) => n.unread).length
 
   return (
     <div
       id="notification-bell"
       ref={containerRef}
-      className="relative "
-      onMouseEnter={() => setOpen(true)}
+      className="relative"
+      onMouseEnter={handleOpen}
       onMouseLeave={() => setOpen(false)}
     >
       <button className="relative rounded-[10px] border-[1.5px] border-slate-200 h-8 w-8 flex items-center justify-center text-slate-600">
@@ -48,8 +92,9 @@ export function NotificationBell() {
         <div className="absolute right-0 top-full w-[320px] z-[60] pt-2">
           <div className="bg-surface border-[1.5px] border-slate-200 rounded-2xl shadow-xl p-[1.1rem]">
             <div className="font-display font-black text-body text-slate-900 mb-3 flex items-center justify-between">
-              <span className="flex items-center gap-2"><Bell size={15} strokeWidth={2.5} /> Bildirimler</span>
-
+              <span className="flex items-center gap-2">
+                <Bell size={15} strokeWidth={2.5} /> Bildirimler
+              </span>
               <Link
                 href="/dashboard/notifications"
                 className="text-label text-blue-600 font-bold font-body cursor-pointer hover:underline"
@@ -75,10 +120,12 @@ export function NotificationBell() {
                         {n.icon}
                       </AvatarFallback>
                     </Avatar>
-                    <div className="flex-1">
-                      <p className="text-caption leading-[1.45] text-slate-900">
-                        {n.bold && <strong>{n.bold} </strong>}
-                        {n.text}
+                    <div className="flex-1 min-w-0">
+                      <p className="text-caption font-semibold leading-[1.45] text-slate-900 truncate">
+                        {n.title}
+                      </p>
+                      <p className="text-label leading-[1.45] text-slate-600 mt-[0.1rem]">
+                        {n.body}
                       </p>
                       <div className="text-label text-slate-400 mt-[0.15rem]">{n.time}</div>
                     </div>
