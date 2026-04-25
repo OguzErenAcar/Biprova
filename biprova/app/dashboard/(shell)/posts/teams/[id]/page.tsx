@@ -100,7 +100,7 @@ export default async function TeamPostDetailPage({ params }: Props) {
   const tags = [
     ...(category ? [{ type: "category" as const, label: category }] : []),
     ...(raw.teams.projects.is_remote
-      ? [{ type: "city" as const, label: "🌐 Remote" }]
+      ? [{ type: "city" as const, label: "🌐 Uzaktan" }]
       : raw.teams.projects.city
         ? [{ type: "city" as const, label: `📍 ${raw.teams.projects.city}` }]
         : []),
