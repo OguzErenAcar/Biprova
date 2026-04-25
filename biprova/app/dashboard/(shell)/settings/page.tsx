@@ -3,7 +3,9 @@ import { SidebarAccountActions } from "@/components/shared/sidebar-account-actio
 import { NotificationToggles } from "./_components/notification-toggles";
 import { getNotificationPreferences } from "@/features/users/actions";
 
-export default function SettingsPage() {
+export default async function SettingsPage() {
+  const notifPrefs = await getNotificationPreferences();
+
   return (
     <div className="flex flex-col gap-6 max-w-full pb-10 md:pe-8">
       <h1 className="font-nunito font-black text-h2 text-ink">Ayarlar</h1>
