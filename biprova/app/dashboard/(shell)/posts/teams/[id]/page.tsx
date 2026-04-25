@@ -94,7 +94,7 @@ export default async function TeamPostDetailPage({ params }: Props) {
   const { title, body } = parseContent(raw.content);
   const category = raw.teams.projects.project_categories?.name ?? null;
   const location = raw.teams.projects.is_remote
-    ? "Remote"
+    ? "Uzaktan"
     : raw.teams.projects.city ?? "Belirtilmemiş";
 
   const tags = [
