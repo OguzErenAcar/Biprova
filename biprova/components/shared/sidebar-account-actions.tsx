@@ -10,6 +10,7 @@ export function SidebarAccountActions() {
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [resetSent, setResetSent] = useState(false);
 
   async function handleLogout() {
     setIsLoading(true);
