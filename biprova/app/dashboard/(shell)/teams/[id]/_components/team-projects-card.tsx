@@ -43,7 +43,7 @@ export function TeamProjectsCard({ projects }: TeamProjectsCardProps) {
                   <div className="text-lead font-bold text-ink">{project.title}</div>
                 </div>
                 <div className="text-caption text-ink-muted">
-                  {project.city ?? (project.is_remote ? "🌐 Remote" : null)}
+                  {project.city ?? (project.is_remote ? "🌐 Uzaktan" : null)}
                 </div>
               </div>
               <Badge
