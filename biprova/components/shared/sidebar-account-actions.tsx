@@ -51,6 +51,16 @@ export function SidebarAccountActions() {
 
       <Button
         variant="ghost"
+        onClick={handlePasswordReset}
+        disabled={isLoading || resetSent}
+        className="justify-start gap-[0.65rem] px-3 py-[0.65rem] text-body font-semibold text-ink hover:text-ink hover:bg-slate-100 h-auto rounded-[10px]"
+      >
+        <KeyRound size={16} className="text-ink-muted shrink-0" />
+        {resetSent ? "Link e-postana gönderildi" : "Şifreni Değiştir"}
+      </Button>
+
+      <Button
+        variant="ghost"
         onClick={handleLogout}
         disabled={isLoading}
         className="justify-start gap-[0.65rem] px-3 py-[0.65rem] text-body font-semibold text-ink hover:text-ink hover:bg-slate-100 h-auto rounded-[10px]"
