@@ -89,7 +89,7 @@ insert into team_posts (id, team_id, author_id, project_id, content, image_url, 
     now() - interval '4 days'
 ),
 (
-    'p0000000-0000-0000-0000-000000000006',
+    'ab000000-0000-0000-0000-000000000006',
     (select id from teams where project_id = 'd0000000-0000-0000-0000-000000000006' limit 1),
     'a0000000-0000-0000-0000-000000000003',
     'd0000000-0000-0000-0000-000000000006',
