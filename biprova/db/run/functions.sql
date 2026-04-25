@@ -312,3 +312,56 @@ end;
 $$;
 
 grant execute on function fn_transfer_team_leader(uuid, uuid) to authenticated;
+
+
+-- ============================================================
+-- create_notification
+-- Kullanım: select create_notification(user_id, 'new_application', '{"applicant_name":"Ali","role_name":"Geliştirici"}')
+-- app_config'den ilgili type'ın template'ini okur,
+-- {{key}} placeholder'larını p_vars'daki değerlerle replace eder,
+-- notifications tablosuna insert eder.
+-- ============================================================
+
+create or replace function create_notification(
+    p_user_id uuid,
+    p_type    text,
+    p_vars    jsonb default '{}'::jsonb
+)
+returns void
+language plpgsql
+security definer
+as $$
+declare
+    v_template jsonb;
+    v_title    text;
+    v_body     text;
+    v_key      text;
+    v_val      text;
+begin
+    select value -> p_type
+    into v_template
+    from app_config
+    where key = 'notification_templates';
+
+    if v_template is null then
+        return;
+    end if;
+
+    v_title := v_template ->> 'title';
+    v_body  := v_template ->> 'body';
+
+    for v_key, v_val in
+        select * from jsonb_each_text(p_vars)
+    loop
+        v_title := replace(v_title, '{{' || v_key || '}}', v_val);
+        v_body  := replace(v_body,  '{{' || v_key || '}}', v_val);
+    end loop;
+
+    insert into notifications (user_id, type, payload)
+    values (
+        p_user_id,
+        p_type,
+        jsonb_build_object('title', v_title, 'body', v_body)
+    );
+end;
+$$;
