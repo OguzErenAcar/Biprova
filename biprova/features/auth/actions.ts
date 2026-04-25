@@ -246,6 +246,22 @@ export async function updatePassword(password: string): Promise<ActionResult> {
   return { success: true };
 }
 
+export async function sendPasswordResetEmail(): Promise<ActionResult> {
+  const supabase = await createClient();
+  const { data: { user }, error: authError } = await supabase.auth.getUser();
+  if (authError || !user?.email) return { error: 'Oturum bulunamadı.' };
+
+  const ip = await getClientIp();
+  const { success } = await emailCheckLimiter.limit(ip);
+  if (!success) return { error: 'Çok fazla deneme yaptınız. Lütfen bekleyin.' };
+
+  await supabase.auth.resetPasswordForEmail(user.email, {
+    redirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/auth/callback?next=/reset-password`,
+  });
+
+  return { success: true };
+}
+
 export async function deleteAccount(): Promise<ActionResult> {
   const supabase = await createClient();
 
