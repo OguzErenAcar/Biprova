@@ -13,6 +13,7 @@ export interface NotificationItem {
 }
 
 const ICON_MAP: Record<string, { icon: string; iconBg: string }> = {
+  welcome:              { icon: '👋', iconBg: 'bg-brand-surface' },
   new_application:      { icon: '📋', iconBg: 'bg-blue-100' },
   application_accepted: { icon: '✅', iconBg: 'bg-green-100' },
   application_rejected: { icon: '❌', iconBg: 'bg-red-100' },
