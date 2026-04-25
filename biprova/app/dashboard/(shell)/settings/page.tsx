@@ -23,9 +23,10 @@ export default function SettingsPage() {
           <span className="text-slate-500"><Bell size={20} /></span>
           Bildirimler
         </div>
-        <div className="text-sm md:text-base text-slate-400">
+        <div className="text-sm md:text-base text-slate-400 mb-5">
           Başvuru, ekip ve mesaj bildirimlerini yönet
         </div>
+        <NotificationToggles />
       </div>
 
       <div className="bg-white border-[1.5px] border-slate-200 rounded-xl p-4 md:p-[1.8rem]">
