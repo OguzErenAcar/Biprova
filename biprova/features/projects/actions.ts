@@ -614,6 +614,7 @@ export async function getProjectDetail(id: string): Promise<ProjectDetail | null
   let members: ProjectMember[] = [];
   let messages: ProjectMessage[] = [];
   let posts: ProjectPost[] = [];
+  let files: ProjectFile[] = [];
 
   if (project.team_id) {
     const [{ data: rawMembers }, { data: rawProjectMembers }, { data: rawMessages }, { data: rawPosts }] = await Promise.all([
