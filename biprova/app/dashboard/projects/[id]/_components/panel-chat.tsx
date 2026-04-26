@@ -146,10 +146,9 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
     setPendingFiles([]);
 
     startTransition(async () => {
-      if (content) {
-        const result = await sendProjectMessage(teamId, content, viewerName);
-        if (result.error) { setText(content); setError(result.error); return; }
-      }
+      const parts: string[] = [];
+      if (content) parts.push(content);
+
       if (filesToSend.length > 0) {
         setUploading(true);
         const supabase = createClient();
@@ -161,11 +160,16 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
             .upload(path, file, { upsert: false });
           if (uploadError) { setError(`Yükleme hatası: ${uploadError.message}`); continue; }
           const { data } = supabase.storage.from('team-files').getPublicUrl(path);
-          const result = await recordTeamFile(teamId, file.name, data.publicUrl, file.size, file.type);
-          if (result.error) { setError(result.error); continue; }
-          await sendProjectMessage(teamId, `📎 ${file.name}\n${data.publicUrl}`, viewerName);
+          const recorded = await recordTeamFile(teamId, file.name, data.publicUrl, file.size, file.type);
+          if (recorded.error) { setError(recorded.error); continue; }
+          parts.push(`📎 ${file.name}|||${data.publicUrl}`);
         }
         setUploading(false);
+      }
+
+      if (parts.length > 0) {
+        const result = await sendProjectMessage(teamId, parts.join('\n'), viewerName);
+        if (result.error) setError(result.error);
       }
     });
   }
