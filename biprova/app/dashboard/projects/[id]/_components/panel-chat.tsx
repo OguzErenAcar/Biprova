@@ -29,7 +29,7 @@ function renderContent(content: string, isMine: boolean) {
           rel="noopener noreferrer"
           className={`flex items-center gap-1.5 underline underline-offset-2 text-[0.85rem] ${isMine ? 'text-blue-200 hover:text-white' : 'text-blue-600 hover:text-blue-800'}`}
         >
-          <Paperclip size={13} strokeWidth={2} className="shrink-0" />
+          <FileText size={13} strokeWidth={2} className="shrink-0" />
           {name}
         </a>
       );
