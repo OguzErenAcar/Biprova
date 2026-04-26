@@ -349,7 +349,7 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
             />
             <button
               onClick={handleSend}
-              disabled={isPending || !text.trim()}
+              disabled={isPending || uploading || (!text.trim() && pendingFiles.length === 0)}
               className="bg-blue-600 text-white border-none rounded-[10px] w-9 h-9 flex items-center justify-center cursor-pointer hover:bg-blue-700 transition-colors disabled:opacity-50 shrink-0"
             >
               <Send size={16} strokeWidth={2.5} />
