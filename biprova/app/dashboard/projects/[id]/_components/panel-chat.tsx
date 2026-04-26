@@ -117,54 +117,52 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
     return () => document.removeEventListener('mousedown', handleOutside);
   }, [showAttachMenu]);
 
-  function handleSend() {
-    if (!text.trim() || isPending) return;
-    const content = text.trim();
-    setText('');
-    setError(null);
-    startTransition(async () => {
-      const result = await sendProjectMessage(teamId, content, viewerName);
-      if (result.error) {
-        setText(content);
-        setError(result.error);
-      }
-    });
-  }
-
-  async function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+  function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     const picked = Array.from(e.target.files ?? []);
     e.target.value = '';
     if (picked.length === 0) return;
+    const valid = picked.filter((f) => {
+      if (f.size > 20 * 1024 * 1024) { setError('Dosya boyutu en fazla 20 MB olabilir.'); return false; }
+      return true;
+    });
+    setPendingFiles((prev) => [...prev, ...valid]);
+  }
 
-    setUploading(true);
+  function removePendingFile(index: number) {
+    setPendingFiles((prev) => prev.filter((_, i) => i !== index));
+  }
+
+  function handleSend() {
+    const content = text.trim();
+    if ((!content && pendingFiles.length === 0) || isPending || uploading) return;
+    setText('');
     setError(null);
-    const supabase = createClient();
+    const filesToSend = pendingFiles;
+    setPendingFiles([]);
 
-    for (const file of picked) {
-      if (file.size > 20 * 1024 * 1024) {
-        setError('Dosya boyutu en fazla 20 MB olabilir.');
-        continue;
+    startTransition(async () => {
+      if (content) {
+        const result = await sendProjectMessage(teamId, content, viewerName);
+        if (result.error) { setText(content); setError(result.error); return; }
       }
-      const ext = file.name.split('.').pop() ?? 'bin';
-      const path = `${teamId}/${crypto.randomUUID()}.${ext}`;
-      const { error: uploadError } = await supabase.storage
-        .from('team-files')
-        .upload(path, file, { upsert: false });
-      if (uploadError) {
-        setError(`Yükleme hatası: ${uploadError.message}`);
-        continue;
-      }
-      const { data } = supabase.storage.from('team-files').getPublicUrl(path);
-      const result = await recordTeamFile(teamId, file.name, data.publicUrl, file.size, file.type);
-      if (result.error) {
-        setError(result.error);
-      } else {
-        startTransition(async () => {
+      if (filesToSend.length > 0) {
+        setUploading(true);
+        const supabase = createClient();
+        for (const file of filesToSend) {
+          const ext = file.name.split('.').pop() ?? 'bin';
+          const path = `${teamId}/${crypto.randomUUID()}.${ext}`;
+          const { error: uploadError } = await supabase.storage
+            .from('team-files')
+            .upload(path, file, { upsert: false });
+          if (uploadError) { setError(`Yükleme hatası: ${uploadError.message}`); continue; }
+          const { data } = supabase.storage.from('team-files').getPublicUrl(path);
+          const result = await recordTeamFile(teamId, file.name, data.publicUrl, file.size, file.type);
+          if (result.error) { setError(result.error); continue; }
           await sendProjectMessage(teamId, `📎 ${file.name}\n${data.publicUrl}`, viewerName);
-        });
+        }
+        setUploading(false);
       }
-    }
-    setUploading(false);
+    });
   }
 
   function toggleSelectMode() {
