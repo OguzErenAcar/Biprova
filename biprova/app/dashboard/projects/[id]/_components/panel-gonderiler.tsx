@@ -59,7 +59,6 @@ interface Props {
   category: string | null;
   city: string | null;
   isRemote: boolean;
-  viewerId: string;
   viewerName: string;
   isLeader: boolean;
 }
