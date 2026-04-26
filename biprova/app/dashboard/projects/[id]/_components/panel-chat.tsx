@@ -166,6 +166,8 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
         setUploading(false);
       }
 
+      if (content) parts.push(content);
+
       if (parts.length > 0) {
         const result = await sendProjectMessage(teamId, parts.join('\n'), viewerName);
         if (result.error) setError(result.error);
