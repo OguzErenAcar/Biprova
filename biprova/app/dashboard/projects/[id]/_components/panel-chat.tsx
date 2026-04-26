@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useState, useTransition, useRef, useEffect } from 'react';
 import { Paperclip, Send, Trash2 } from 'lucide-react';
 import type { ProjectMessage } from '@/features/projects/actions';
-import { sendProjectMessage } from '@/features/projects/actions';
+import { sendProjectMessage, recordTeamFile } from '@/features/projects/actions';
 import { createClient } from '@/lib/supabase/client';
 
 function getInitials(name: string) {
