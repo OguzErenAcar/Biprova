@@ -147,7 +147,6 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
 
     startTransition(async () => {
       const parts: string[] = [];
-      if (content) parts.push(content);
 
       if (filesToSend.length > 0) {
         setUploading(true);
