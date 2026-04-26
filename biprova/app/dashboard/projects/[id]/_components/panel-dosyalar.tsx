@@ -60,7 +60,7 @@ export function PanelDosyalar({ teamId, files: initialFiles, viewerId, isLeader 
         .from('team-files')
         .upload(path, file, { upsert: false });
       if (uploadError) {
-        setError('Dosya yüklenemedi.');
+        setError(`Yükleme hatası: ${uploadError.message}`);
         continue;
       }
       const { data } = supabase.storage.from('team-files').getPublicUrl(path);
