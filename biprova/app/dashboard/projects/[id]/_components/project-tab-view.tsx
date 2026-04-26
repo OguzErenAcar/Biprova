@@ -181,7 +181,13 @@ export function ProjectTabView({ project }: Props) {
           </div>
         ) : null}
 
-        {activeTab === 'dosyalar' && <PanelDosyalar />}
+        {activeTab === 'dosyalar' && project.team_id ? (
+          <PanelDosyalar />
+        ) : activeTab === 'dosyalar' ? (
+          <div className="text-[0.84rem] text-slate-400 text-center py-12">
+            Ekip kurulduktan sonra dosyalar aktif olacak.
+          </div>
+        ) : null}
 
         {activeTab === 'gonderiler' && project.team_id ? (
           <PanelGonderiler
