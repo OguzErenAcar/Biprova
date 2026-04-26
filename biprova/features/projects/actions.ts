@@ -433,6 +433,18 @@ export interface ProjectPost {
   created_at: string;
 }
 
+export interface ProjectFile {
+  id: string;
+  uploader_id: string;
+  uploader_name: string;
+  name: string;
+  type: 'file' | 'link';
+  url: string;
+  size: number | null;
+  mime_type: string | null;
+  created_at: string;
+}
+
 export interface ProjectApplication {
   id: string;
   user_id: string;
