@@ -617,7 +617,7 @@ export async function getProjectDetail(id: string): Promise<ProjectDetail | null
   let files: ProjectFile[] = [];
 
   if (project.team_id) {
-    const [{ data: rawMembers }, { data: rawProjectMembers }, { data: rawMessages }, { data: rawPosts }] = await Promise.all([
+    const [{ data: rawMembers }, { data: rawProjectMembers }, { data: rawMessages }, { data: rawPosts }, { data: rawFiles }] = await Promise.all([
       supabase
         .from('team_members')
         .select('user_id, users!inner(name, avatar_url, badge), project_roles!role_id(role_name)')
@@ -640,6 +640,12 @@ export async function getProjectDetail(id: string): Promise<ProjectDetail | null
         .eq('team_id', project.team_id)
         .order('created_at', { ascending: false })
         .limit(20),
+      supabase
+        .from('team_files')
+        .select('id, uploader_id, name, type, url, size, mime_type, created_at, users!uploader_id(name)')
+        .eq('team_id', project.team_id)
+        .order('created_at', { ascending: false })
+        .limit(50),
     ]);
 
     const activeProjectMemberIds = new Set((rawProjectMembers ?? []).map((m) => m.user_id));
