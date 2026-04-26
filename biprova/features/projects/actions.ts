@@ -1095,3 +1095,124 @@ export async function deleteProjectPost(postId: string): Promise<{ error?: strin
   if (error) return { error: 'Gönderi silinemedi.' };
   return {};
 }
+
+const recordTeamFileSchema = z.object({
+  teamId:   z.string().uuid(),
+  name:     z.string().min(1).max(200).trim(),
+  url:      z.string().url().max(2000),
+  size:     z.number().int().positive().max(20 * 1024 * 1024).optional(),
+  mimeType: z.string().max(100).optional(),
+});
+
+export async function recordTeamFile(
+  teamId: string,
+  name: string,
+  url: string,
+  size?: number,
+  mimeType?: string,
+): Promise<{ error?: string; file?: ProjectFile }> {
+  const parsed = recordTeamFileSchema.safeParse({ teamId, name, url, size, mimeType });
+  if (!parsed.success) return { error: 'Geçersiz dosya verisi.' };
+
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return { error: 'Oturum açmanız gerekiyor.' };
+
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL ?? '';
+  if (!parsed.data.url.startsWith(`${supabaseUrl}/storage/`)) {
+    return { error: 'Geçersiz dosya URL.' };
+  }
+
+  const { data: inserted, error } = await supabase
+    .from('team_files')
+    .insert({
+      team_id:     parsed.data.teamId,
+      uploader_id: user.id,
+      name:        parsed.data.name,
+      type:        'file',
+      url:         parsed.data.url,
+      size:        parsed.data.size ?? null,
+      mime_type:   parsed.data.mimeType ?? null,
+    })
+    .select('id, uploader_id, name, type, url, size, mime_type, created_at')
+    .single();
+
+  if (error || !inserted) return { error: 'Dosya kaydedilemedi.' };
+
+  const { data: viewerUser } = await supabase.from('users').select('name').eq('id', user.id).single();
+
+  return {
+    file: {
+      id:            inserted.id,
+      uploader_id:   inserted.uploader_id,
+      uploader_name: (viewerUser as { name: string } | null)?.name ?? 'Sen',
+      name:          inserted.name,
+      type:          'file',
+      url:           inserted.url,
+      size:          inserted.size,
+      mime_type:     inserted.mime_type,
+      created_at:    inserted.created_at,
+    },
+  };
+}
+
+const addTeamLinkSchema = z.object({
+  teamId: z.string().uuid(),
+  name:   z.string().min(1).max(200).trim(),
+  url:    z.string().url('Geçerli bir URL giriniz').max(2000).trim(),
+});
+
+export async function addTeamLink(
+  teamId: string,
+  name: string,
+  url: string,
+): Promise<{ error?: string; file?: ProjectFile }> {
+  const parsed = addTeamLinkSchema.safeParse({ teamId, name, url });
+  if (!parsed.success) return { error: parsed.error.issues[0]?.message ?? 'Geçersiz link verisi.' };
+
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return { error: 'Oturum açmanız gerekiyor.' };
+
+  const { data: inserted, error } = await supabase
+    .from('team_files')
+    .insert({
+      team_id:     parsed.data.teamId,
+      uploader_id: user.id,
+      name:        parsed.data.name,
+      type:        'link',
+      url:         parsed.data.url,
+    })
+    .select('id, uploader_id, name, type, url, size, mime_type, created_at')
+    .single();
+
+  if (error || !inserted) return { error: 'Link eklenemedi.' };
+
+  const { data: viewerUser } = await supabase.from('users').select('name').eq('id', user.id).single();
+
+  return {
+    file: {
+      id:            inserted.id,
+      uploader_id:   inserted.uploader_id,
+      uploader_name: (viewerUser as { name: string } | null)?.name ?? 'Sen',
+      name:          inserted.name,
+      type:          'link',
+      url:           inserted.url,
+      size:          null,
+      mime_type:     null,
+      created_at:    inserted.created_at,
+    },
+  };
+}
+
+export async function deleteTeamFile(fileId: string): Promise<{ error?: string }> {
+  if (!z.string().uuid().safeParse(fileId).success) return { error: 'Geçersiz dosya ID.' };
+
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return { error: 'Oturum açmanız gerekiyor.' };
+
+  const { error } = await supabase.from('team_files').delete().eq('id', fileId);
+  if (error) return { error: 'Dosya silinemedi.' };
+  return {};
+}
