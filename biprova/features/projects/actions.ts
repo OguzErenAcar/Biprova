@@ -1137,7 +1137,7 @@ export async function recordTeamFile(
     .select('id, uploader_id, name, type, url, size, mime_type, created_at')
     .single();
 
-  if (error || !inserted) return { error: 'Dosya kaydedilemedi.' };
+  if (error || !inserted) return { error: error?.message ?? 'Dosya kaydedilemedi.' };
 
   const { data: viewerUser } = await supabase.from('users').select('name').eq('id', user.id).single();
 
