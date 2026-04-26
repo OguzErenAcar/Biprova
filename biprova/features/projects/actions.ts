@@ -685,6 +685,18 @@ export async function getProjectDetail(id: string): Promise<ProjectDetail | null
       is_liked: (p.team_post_likes ?? []).some((l) => l.user_id === user.id),
       created_at: p.created_at,
     }));
+
+    files = (rawFiles as unknown as RawFileRow[] ?? []).map((f) => ({
+      id: f.id,
+      uploader_id: f.uploader_id,
+      uploader_name: f.users?.name ?? 'Bilinmiyor',
+      name: f.name,
+      type: f.type as 'file' | 'link',
+      url: f.url,
+      size: f.size,
+      mime_type: f.mime_type,
+      created_at: f.created_at,
+    }));
   } else {
     // Ekip kurulmadan önce project_members tablosundan üyeleri çek
     const { data: rawProjMembers } = await supabase
