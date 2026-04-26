@@ -89,3 +89,9 @@ using (
           and user_id = auth.uid()
     )
 );
+
+-- ============================================================
+-- GRANTS
+-- ============================================================
+
+grant select, insert, update, delete on table public.team_files to authenticated;
