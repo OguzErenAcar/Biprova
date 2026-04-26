@@ -17,25 +17,30 @@ function getInitials(name: string) {
 }
 
 function renderContent(content: string, isMine: boolean) {
-  if (content.startsWith('📎 ')) {
-    const newlineIdx = content.indexOf('\n');
-    if (newlineIdx > 0) {
-      const name = content.slice(2, newlineIdx).trim();
-      const url = content.slice(newlineIdx + 1).trim();
-      return (
-        <a
-          href={url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className={`flex items-center gap-1.5 underline underline-offset-2 text-[0.85rem] ${isMine ? 'text-blue-200 hover:text-white' : 'text-blue-600 hover:text-blue-800'}`}
-        >
-          <FileText size={13} strokeWidth={2} className="shrink-0" />
-          {name}
-        </a>
-      );
+  const lines = content.split('\n');
+  const parts = lines.map((line, i) => {
+    if (line.startsWith('📎 ')) {
+      const sep = line.indexOf('|||');
+      if (sep > 0) {
+        const name = line.slice(3, sep);
+        const url = line.slice(sep + 3);
+        return (
+          <a
+            key={i}
+            href={url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`flex items-center gap-1.5 underline underline-offset-2 text-[0.85rem] ${isMine ? 'text-blue-200 hover:text-white' : 'text-blue-600 hover:text-blue-800'}`}
+          >
+            <FileText size={13} strokeWidth={2} className="shrink-0" />
+            {name}
+          </a>
+        );
+      }
     }
-  }
-  return <span>{content}</span>;
+    return line ? <span key={i} className="block">{line}</span> : null;
+  });
+  return <>{parts}</>;
 }
 
 function formatTime(dateStr: string) {
