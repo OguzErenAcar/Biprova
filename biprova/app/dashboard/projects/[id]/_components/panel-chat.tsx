@@ -284,6 +284,24 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
           <div ref={bottomRef} />
         </div>
 
+        {/* Pending files preview */}
+        {pendingFiles.length > 0 && (
+          <div className="bg-slate-50 border-t border-slate-200 px-4 py-2 flex flex-col gap-1">
+            {pendingFiles.map((file, i) => (
+              <div key={i} className="flex items-center gap-2">
+                <FileText size={13} strokeWidth={2} className="text-slate-400 shrink-0" />
+                <span className="text-[0.8rem] text-slate-700 flex-1 truncate">{file.name}</span>
+                <button
+                  onClick={() => removePendingFile(i)}
+                  className="text-slate-300 hover:text-red-500 transition-colors text-[0.75rem] shrink-0"
+                >
+                  ✕
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
+
         {/* Input */}
         <div
           id="chat-input-wrap"
