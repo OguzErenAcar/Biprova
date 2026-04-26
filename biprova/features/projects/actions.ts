@@ -1123,9 +1123,13 @@ export async function recordTeamFile(
     return { error: 'Geçersiz dosya URL.' };
   }
 
-  const { data: inserted, error } = await supabase
+  const fileId = crypto.randomUUID();
+  const now = new Date().toISOString();
+
+  const { error } = await supabase
     .from('team_files')
     .insert({
+      id:          fileId,
       team_id:     parsed.data.teamId,
       uploader_id: user.id,
       name:        parsed.data.name,
@@ -1133,25 +1137,23 @@ export async function recordTeamFile(
       url:         parsed.data.url,
       size:        parsed.data.size ?? null,
       mime_type:   parsed.data.mimeType ?? null,
-    })
-    .select('id, uploader_id, name, type, url, size, mime_type, created_at')
-    .single();
+    });
 
-  if (error || !inserted) return { error: error?.message ?? 'Dosya kaydedilemedi.' };
+  if (error) return { error: error.message };
 
   const { data: viewerUser } = await supabase.from('users').select('name').eq('id', user.id).single();
 
   return {
     file: {
-      id:            inserted.id,
-      uploader_id:   inserted.uploader_id,
+      id:            fileId,
+      uploader_id:   user.id,
       uploader_name: (viewerUser as { name: string } | null)?.name ?? 'Sen',
-      name:          inserted.name,
+      name:          parsed.data.name,
       type:          'file',
-      url:           inserted.url,
-      size:          inserted.size,
-      mime_type:     inserted.mime_type,
-      created_at:    inserted.created_at,
+      url:           parsed.data.url,
+      size:          parsed.data.size ?? null,
+      mime_type:     parsed.data.mimeType ?? null,
+      created_at:    now,
     },
   };
 }
