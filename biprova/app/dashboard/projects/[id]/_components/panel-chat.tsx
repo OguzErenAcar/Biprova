@@ -95,6 +95,42 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
     });
   }
 
+  async function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const picked = Array.from(e.target.files ?? []);
+    e.target.value = '';
+    if (picked.length === 0) return;
+
+    setUploading(true);
+    setError(null);
+    const supabase = createClient();
+
+    for (const file of picked) {
+      if (file.size > 20 * 1024 * 1024) {
+        setError('Dosya boyutu en fazla 20 MB olabilir.');
+        continue;
+      }
+      const ext = file.name.split('.').pop() ?? 'bin';
+      const path = `${teamId}/${crypto.randomUUID()}.${ext}`;
+      const { error: uploadError } = await supabase.storage
+        .from('team-files')
+        .upload(path, file, { upsert: false });
+      if (uploadError) {
+        setError(`Yükleme hatası: ${uploadError.message}`);
+        continue;
+      }
+      const { data } = supabase.storage.from('team-files').getPublicUrl(path);
+      const result = await recordTeamFile(teamId, file.name, data.publicUrl, file.size, file.type);
+      if (result.error) {
+        setError(result.error);
+      } else {
+        startTransition(async () => {
+          await sendProjectMessage(teamId, `📎 ${file.name}\n${data.publicUrl}`, viewerName);
+        });
+      }
+    }
+    setUploading(false);
+  }
+
   function toggleSelectMode() {
     if (isSelecting) {
       setIsSelecting(false);
