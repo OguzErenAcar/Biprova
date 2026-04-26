@@ -16,6 +16,28 @@ function getInitials(name: string) {
     .toUpperCase();
 }
 
+function renderContent(content: string, isMine: boolean) {
+  if (content.startsWith('📎 ')) {
+    const newlineIdx = content.indexOf('\n');
+    if (newlineIdx > 0) {
+      const name = content.slice(2, newlineIdx).trim();
+      const url = content.slice(newlineIdx + 1).trim();
+      return (
+        <a
+          href={url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={`flex items-center gap-1.5 underline underline-offset-2 text-[0.85rem] ${isMine ? 'text-blue-200 hover:text-white' : 'text-blue-600 hover:text-blue-800'}`}
+        >
+          <Paperclip size={13} strokeWidth={2} className="shrink-0" />
+          {name}
+        </a>
+      );
+    }
+  }
+  return <span>{content}</span>;
+}
+
 function formatTime(dateStr: string) {
   const d = new Date(dateStr);
   return `${d.getHours()}:${String(d.getMinutes()).padStart(2, '0')}`;
