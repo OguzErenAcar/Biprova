@@ -77,7 +77,7 @@ export function ProjectTabView({ project }: Props) {
     { key: 'ekip',       label: 'Ekip',       icon: Users,         requiresTeam: false },
     { key: 'chat',       label: 'Chat',       icon: MessageCircle, requiresTeam: true,  count: project.messages.length },
     { key: 'gonderiler', label: 'Gönderiler', icon: Megaphone,     requiresTeam: false },
-    { key: 'dosyalar',   label: 'Dosyalar',   icon: Folder,        requiresTeam: true,  comingSoon: true },
+    { key: 'dosyalar',   label: 'Dosyalar',   icon: Folder,        requiresTeam: true },
     { key: 'gorevler',   label: 'Görevler',   icon: ListTodo,      requiresTeam: true,  comingSoon: true },
   ];
 
