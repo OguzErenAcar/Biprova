@@ -1070,12 +1070,28 @@ export async function deleteProjectPost(postId: string): Promise<{ error?: strin
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return { error: 'Oturum açmanız gerekiyor.' };
 
-  const { error } = await supabase
+  const { data: post } = await supabase
     .from('team_posts')
-    .delete()
+    .select('author_id, team_id')
     .eq('id', postId)
-    .eq('author_id', user.id);
+    .single();
 
+  if (!post) return { error: 'Gönderi bulunamadı.' };
+
+  const isAuthor = post.author_id === user.id;
+  let isLeader = false;
+  if (!isAuthor) {
+    const { data: team } = await supabase
+      .from('teams')
+      .select('leader_id')
+      .eq('id', post.team_id)
+      .single();
+    isLeader = team?.leader_id === user.id;
+  }
+
+  if (!isAuthor && !isLeader) return { error: 'Bu gönderiyi silme yetkiniz yok.' };
+
+  const { error } = await supabase.from('team_posts').delete().eq('id', postId);
   if (error) return { error: 'Gönderi silinemedi.' };
   return {};
 }
