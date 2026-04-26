@@ -105,6 +105,17 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
     };
   }, [teamId]);
 
+  useEffect(() => {
+    if (!showAttachMenu) return;
+    function handleOutside(e: MouseEvent) {
+      if (attachMenuRef.current && !attachMenuRef.current.contains(e.target as Node)) {
+        setShowAttachMenu(false);
+      }
+    }
+    document.addEventListener('mousedown', handleOutside);
+    return () => document.removeEventListener('mousedown', handleOutside);
+  }, [showAttachMenu]);
+
   function handleSend() {
     if (!text.trim() || isPending) return;
     const content = text.trim();
