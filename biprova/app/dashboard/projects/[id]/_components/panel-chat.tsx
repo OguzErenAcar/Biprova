@@ -26,6 +26,7 @@ interface Props {
   messages: ProjectMessage[];
   viewerId: string;
   viewerName: string;
+  isLeader?: boolean;
 }
 
 export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerName }: Props) {
