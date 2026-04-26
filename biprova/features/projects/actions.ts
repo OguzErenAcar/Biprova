@@ -477,6 +477,7 @@ export interface ProjectDetail {
   members: ProjectMember[];
   messages: ProjectMessage[];
   posts: ProjectPost[];
+  files: ProjectFile[];
   viewer: {
     id: string;
     name: string;
