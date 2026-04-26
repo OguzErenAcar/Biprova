@@ -1176,33 +1176,35 @@ export async function addTeamLink(
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return { error: 'Oturum açmanız gerekiyor.' };
 
-  const { data: inserted, error } = await supabase
+  const fileId = crypto.randomUUID();
+  const now = new Date().toISOString();
+
+  const { error } = await supabase
     .from('team_files')
     .insert({
+      id:          fileId,
       team_id:     parsed.data.teamId,
       uploader_id: user.id,
       name:        parsed.data.name,
       type:        'link',
       url:         parsed.data.url,
-    })
-    .select('id, uploader_id, name, type, url, size, mime_type, created_at')
-    .single();
+    });
 
-  if (error || !inserted) return { error: 'Link eklenemedi.' };
+  if (error) return { error: error.message };
 
   const { data: viewerUser } = await supabase.from('users').select('name').eq('id', user.id).single();
 
   return {
     file: {
-      id:            inserted.id,
-      uploader_id:   inserted.uploader_id,
+      id:            fileId,
+      uploader_id:   user.id,
       uploader_name: (viewerUser as { name: string } | null)?.name ?? 'Sen',
-      name:          inserted.name,
+      name:          parsed.data.name,
       type:          'link',
-      url:           inserted.url,
+      url:           parsed.data.url,
       size:          null,
       mime_type:     null,
-      created_at:    inserted.created_at,
+      created_at:    now,
     },
   };
 }
