@@ -182,7 +182,12 @@ export function ProjectTabView({ project }: Props) {
         ) : null}
 
         {activeTab === 'dosyalar' && project.team_id ? (
-          <PanelDosyalar />
+          <PanelDosyalar
+            teamId={project.team_id}
+            files={project.files}
+            viewerId={project.viewer.id}
+            isLeader={isLeader}
+          />
         ) : activeTab === 'dosyalar' ? (
           <div className="text-[0.84rem] text-slate-400 text-center py-12">
             Ekip kurulduktan sonra dosyalar aktif olacak.
