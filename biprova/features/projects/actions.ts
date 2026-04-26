@@ -549,6 +549,18 @@ type RawTeamRow = {
   leader_id: string | null;
 };
 
+type RawFileRow = {
+  id: string;
+  uploader_id: string;
+  name: string;
+  type: string;
+  url: string;
+  size: number | null;
+  mime_type: string | null;
+  created_at: string;
+  users: { name: string } | null;
+};
+
 type RawApplicationRow = {
   id: string;
   user_id: string;
