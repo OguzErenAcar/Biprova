@@ -294,20 +294,33 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
             <p className="text-[0.75rem] text-red-500">{error}</p>
           )}
           <div className="flex gap-2 items-center">
-            <button
-              onClick={() => fileInputRef.current?.click()}
-              disabled={uploading || isPending}
-              className="text-slate-400 hover:text-slate-600 transition-colors shrink-0 disabled:opacity-40"
-            >
-              <Paperclip size={20} strokeWidth={2} />
-            </button>
-            <input
-              ref={fileInputRef}
-              type="file"
-              multiple
-              className="hidden"
-              onChange={handleFileChange}
-            />
+            <div className="relative shrink-0" ref={attachMenuRef}>
+              {showAttachMenu && (
+                <div className="absolute bottom-[calc(100%+8px)] left-0 bg-white border border-slate-200 rounded-[10px] shadow-lg overflow-hidden z-20 min-w-[140px]">
+                  <button
+                    onClick={() => { setShowAttachMenu(false); fileInputRef.current?.click(); }}
+                    className="w-full flex items-center gap-2 px-4 py-[0.6rem] text-[0.82rem] font-semibold text-slate-700 hover:bg-slate-50 transition-colors"
+                  >
+                    <FileText size={14} strokeWidth={2} />
+                    Dosya Yükle
+                  </button>
+                </div>
+              )}
+              <button
+                onClick={() => setShowAttachMenu((v) => !v)}
+                disabled={uploading || isPending}
+                className="text-slate-400 hover:text-slate-600 transition-colors disabled:opacity-40"
+              >
+                <Paperclip size={20} strokeWidth={2} />
+              </button>
+              <input
+                ref={fileInputRef}
+                type="file"
+                multiple
+                className="hidden"
+                onChange={handleFileChange}
+              />
+            </div>
             <input
               className="flex-1 border-[1.5px] border-slate-200 rounded-[10px] px-4 py-[0.65rem] font-[inherit] text-[0.88rem] outline-none transition-colors bg-slate-50 focus:border-blue-600 focus:bg-white"
               placeholder="Mesaj yaz..."
