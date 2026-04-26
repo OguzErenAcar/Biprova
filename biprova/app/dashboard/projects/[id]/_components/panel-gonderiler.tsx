@@ -7,10 +7,6 @@ import type { ProjectPost, ProjectMember } from '@/features/projects/actions';
 import { createProjectPost, deleteProjectPost } from '@/features/projects/actions';
 import { TeamPostCard } from '@/features/teams/components/team-post-card';
 
-const AVATAR_BG_COLORS = [
-  "#ede9fe", "#dbeafe", "#dcfce7", "#fef3c7",
-  "#fee2e2", "#cffafe", "#fce7f3", "#ffedd5",
-];
 
 const MEMBER_COLORS = [
   "#3b82f6", "#8b5cf6", "#22c55e", "#f59e0b",
@@ -128,7 +124,7 @@ export function PanelGonderiler({ teamId, teamName, posts, members, category, ci
     });
   }
 
-  const location = isRemote ? '🌐 Uzaktan' : city ? `📍 ${city}` : '📍 Belirtilmemiş';
+  const location = isRemote ? '🌐 Uzaktan' : city ? `${city}` : 'Belirtilmemiş';
   const tags = [
     ...(category ? [{ type: 'category' as const, label: category }] : []),
     ...(isRemote
@@ -145,7 +141,7 @@ export function PanelGonderiler({ teamId, teamName, posts, members, category, ci
     <div id="panel-gonderiler">
       {/* Compose — sadece lider */}
       {isLeader && (
-        <div className="bg-white border-[1.5px] border-slate-200 rounded-[14px] p-4 mb-4 w-1/2 mx-auto">
+        <div className="bg-white border-[1.5px] border-slate-200 rounded-[14px] p-4 mb-4 w-full md:w-[75%] mx-auto">
           <div className="flex items-center gap-3 mb-3">
             <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center font-nunito font-black text-[0.75rem] text-white shrink-0">
               {getInitials(viewerName)}
@@ -198,8 +194,8 @@ export function PanelGonderiler({ teamId, teamName, posts, members, category, ci
       {posts.map((post) => {
         const { title, body } = parseContent(post.content);
         return (
-          <div key={post.id} className="relative w-1/2 mx-auto mb-4">
-            {post.author_id === viewerId && (
+          <div key={post.id} className=" relative w-full md:w-[75%] mx-auto">
+            {isLeader && (
               <button
                 onClick={() => startTransition(async () => { await deleteProjectPost(post.id); router.refresh(); })}
                 disabled={isPending}

@@ -142,7 +142,7 @@ export function TeamPostCard({
                 </span>
               )}
             </div>
-            <div className="text-ink-subtle text-sm md:text-md  flex items-center gap-[0.4rem] mt-[0.1rem]">
+            <div className="text-slate-600 text-sm md:text-md  flex items-center gap-[0.4rem] mt-[0.1rem]">
               <span>{location}</span>
               <span className="opacity-40">·</span>
               <span>{memberCount} üye</span>
@@ -233,7 +233,7 @@ export function TeamPostCard({
         )}
 
         {/* Aksiyon butonları */}
-        <div className="flex items-center gap-2 pt-2.5 sm:pt-4 border-t">
+        <div className="flex items-center gap-2 pt-2.5 sm:pt-4 border-t border-slate-300">
           {/* Beğeni */}
           <button
             onClick={(e) => {
@@ -244,8 +244,8 @@ export function TeamPostCard({
             disabled={isPending}
             className={`flex items-center gap-[0.35rem] border rounded-md font-jakarta text-caption font-semibold h-auto px-[0.85rem] py-[0.4rem] transition-all duration-150 ${
               isLiked
-                ? "border-danger-surface text-danger bg-danger-surface hover:bg-danger-surface hover:text-danger"
-                : "text-white hover:border-brand hover:text-brand hover:bg-brand-surface"
+                ? "text-danger bg-danger-surface hover:bg-danger-surface hover:text-danger"
+                : ""
             }`}
           >
             <Lottie
