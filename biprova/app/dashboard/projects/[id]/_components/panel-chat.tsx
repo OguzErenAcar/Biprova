@@ -260,7 +260,7 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
                         : 'bg-slate-100 text-slate-900 border-slate-300'
                     }`}
                   >
-                    {msg.content}
+                    {renderContent(msg.content, isMine)}
                   </div>
                   <div className={`text-[0.65rem] text-slate-400 mt-0.5 ${isMine ? 'text-right' : ''}`}>
                     {formatTime(msg.created_at)}
