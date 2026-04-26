@@ -812,6 +812,7 @@ export async function getProjectDetail(id: string): Promise<ProjectDetail | null
     members,
     messages,
     posts,
+    files,
     applications,
     viewer: {
       id: user.id,
