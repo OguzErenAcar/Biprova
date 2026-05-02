@@ -985,6 +985,7 @@ export async function sendProjectMessage(
   teamId: string,
   content: string,
   senderName: string,
+  senderAvatar?: string | null,
 ): Promise<{ id?: string; error?: string }> {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
