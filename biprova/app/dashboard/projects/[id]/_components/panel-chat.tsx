@@ -316,8 +316,16 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
                   >
                     {renderContent(msg.content, isMine)}
                   </div>
-                  <div className={`text-[0.65rem] text-slate-400 mt-0.5 ${isMine ? 'text-right' : ''}`}>
-                    {formatTime(msg.created_at)}
+                  <div className={`flex items-center gap-1 mt-0.5 ${isMine ? 'justify-end' : ''}`}>
+                    <span className="text-[0.65rem] text-slate-400">{formatTime(msg.created_at)}</span>
+                    {isMine && (
+                      <span className="text-slate-400">
+                        {msg.status === 'sending'
+                          ? <Check size={13} strokeWidth={2.5} />
+                          : <CheckCheck size={13} strokeWidth={2.5} />
+                        }
+                      </span>
+                    )}
                   </div>
                 </div>
               </div>
