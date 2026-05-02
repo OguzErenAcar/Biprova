@@ -210,11 +210,15 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
           setMessages((prev) => prev.filter((m) => m.id !== tempId));
         } else if (result.id) {
           sentMessageIds.current.add(result.id);
-          setMessages((prev) =>
-            prev.map((m) =>
+          setMessages((prev) => {
+            // broadcast arrived first → realId already in state, remove tempId
+            if (prev.some((m) => m.id === result.id)) {
+              return prev.filter((m) => m.id !== tempId);
+            }
+            return prev.map((m) =>
               m.id === tempId ? { ...m, id: result.id!, status: 'sent' as const } : m
-            )
-          );
+            );
+          });
         }
       }
     });
