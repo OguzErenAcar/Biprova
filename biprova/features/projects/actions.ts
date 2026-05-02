@@ -481,6 +481,7 @@ export interface ProjectDetail {
   viewer: {
     id: string;
     name: string;
+    avatar_url: string | null;
     is_project_leader: boolean;
     is_project_member: boolean;
     is_team_leader: boolean;
