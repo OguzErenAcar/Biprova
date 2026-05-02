@@ -420,7 +420,7 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
                 </Link>
                 <div className="max-w-[70%]">
                   <div
-                    className={`rounded-[12px] px-[0.9rem] py-[0.65rem] text-[0.85rem] leading-relaxed border ${
+                    className={`rounded-[12px] px-[0.9rem] py-[0.65rem] text-[0.85rem] leading-relaxed border overflow-hidden break-words min-w-0 ${
                       isMine
                         ? 'bg-gray-600 text-white border-gray-600'
                         : 'bg-slate-100 text-slate-900 border-slate-300'
