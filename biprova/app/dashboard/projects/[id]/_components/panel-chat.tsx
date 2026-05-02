@@ -59,7 +59,9 @@ interface Props {
 }
 
 export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerName }: Props) {
-  const [messages, setMessages] = useState<ProjectMessage[]>(initialMessages);
+  const [messages, setMessages] = useState<LocalMessage[]>(
+    initialMessages.map((m) => ({ ...m, status: 'sent' as const }))
+  );
   const [text, setText] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [isSelecting, setIsSelecting] = useState(false);
