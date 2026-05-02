@@ -1025,6 +1025,7 @@ export async function sendProjectMessage(
       team_id: teamId,
       sender_id: user.id,
       sender_name: senderName,
+      sender_avatar: senderAvatar ?? null,
       content: trimmed,
       created_at: inserted.created_at,
     },
