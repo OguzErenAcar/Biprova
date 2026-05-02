@@ -255,7 +255,7 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
       if (content) parts.push(content);
 
       if (parts.length > 0) {
-        const result = await sendProjectMessage(teamId, parts.join('\n'), viewerName);
+        const result = await sendProjectMessage(teamId, parts.join('\n'), viewerName, viewerAvatar);
         if (result.error) {
           setError(result.error);
           setMessages((prev) => prev.filter((m) => m.id !== tempId));
