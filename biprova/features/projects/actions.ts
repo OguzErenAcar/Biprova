@@ -817,7 +817,8 @@ export async function getProjectDetail(id: string): Promise<ProjectDetail | null
     applications,
     viewer: {
       id: user.id,
-      name: (viewerUser as { name: string } | null)?.name ?? 'Sen',
+      name: (viewerUser as { name: string; avatar_url: string | null } | null)?.name ?? 'Sen',
+      avatar_url: (viewerUser as { name: string; avatar_url: string | null } | null)?.avatar_url ?? null,
       is_project_leader: isProjectLeader,
       is_project_member: isProjectMember,
       is_team_leader: team?.leader_id === user.id,
