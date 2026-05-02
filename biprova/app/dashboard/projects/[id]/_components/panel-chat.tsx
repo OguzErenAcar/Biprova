@@ -5,9 +5,12 @@ import { useState, useTransition, useRef, useEffect } from 'react';
 import { Paperclip, FileText, Send, Trash2, Check, CheckCheck } from 'lucide-react';
 import type { ProjectMessage } from '@/features/projects/actions';
 import { sendProjectMessage, recordTeamFile } from '@/features/projects/actions';
-
-type LocalMessage = ProjectMessage & { status: 'sending' | 'sent' };
 import { createClient } from '@/lib/supabase/client';
+
+type LocalMessage = ProjectMessage & {
+  status: 'uploading' | 'sending' | 'sent';
+  pendingFileNames?: string[];
+};
 
 function getInitials(name: string) {
   return name
@@ -99,28 +102,59 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
           const row = payload;
 
           if (row.sender_id === viewerId) {
-            // server confirmed first → ref has the id, skip broadcast
+            // Text messages: server claimed the id → skip broadcast entirely
             if (sentMessageIds.current.has(row.id)) {
               sentMessageIds.current.delete(row.id);
               return;
             }
-            // broadcast arrived first → replace the optimistic entry
             setMessages((prev) => {
-              if (prev.some((m) => m.id === row.id)) return prev;
-              const idx = prev.findIndex((m) => m.status === 'sending');
-              if (idx >= 0) {
+              // Same id already in state (file message in 'sending') → upgrade to 'sent'
+              const sameIdx = prev.findIndex((m) => m.id === row.id);
+              if (sameIdx >= 0) {
+                if (prev[sameIdx].status === 'sent') return prev;
                 const next = [...prev];
-                next[idx] = { ...next[idx], id: row.id, content: row.content, created_at: row.created_at, status: 'sent' as const };
+                next[sameIdx] = { ...next[sameIdx], content: row.content, status: 'sent' as const };
                 return next;
               }
-              return [...prev, { id: row.id, sender_id: row.sender_id, sender_name: row.sender_name, sender_avatar: null, content: row.content, created_at: row.created_at, status: 'sent' as const }];
+              // Realtime arrived before server response → replace 'sending' optimistic by id
+              const sendingIdx = prev.findIndex((m) => m.status === 'sending');
+              if (sendingIdx >= 0) {
+                const next = [...prev];
+                next[sendingIdx] = {
+                  ...next[sendingIdx],
+                  id: row.id,
+                  content: row.content,
+                  created_at: row.created_at,
+                  status: 'sent' as const,
+                  pendingFileNames: undefined,
+                };
+                return next;
+              }
+              // Realtime arrived while still 'uploading' → add as new, server will remove tempId
+              return [...prev, {
+                id: row.id,
+                sender_id: row.sender_id,
+                sender_name: row.sender_name,
+                sender_avatar: null,
+                content: row.content,
+                created_at: row.created_at,
+                status: 'sent' as const,
+              }];
             });
             return;
           }
 
           setMessages((prev) => {
             if (prev.some((m) => m.id === row.id)) return prev;
-            return [...prev, { id: row.id, sender_id: row.sender_id, sender_name: row.sender_name, sender_avatar: null, content: row.content, created_at: row.created_at, status: 'sent' as const }];
+            return [...prev, {
+              id: row.id,
+              sender_id: row.sender_id,
+              sender_name: row.sender_name,
+              sender_avatar: null,
+              content: row.content,
+              created_at: row.created_at,
+              status: 'sent' as const,
+            }];
           });
         }
       )
@@ -129,7 +163,7 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [teamId]);
+  }, [teamId, viewerId]);
 
   useEffect(() => {
     if (!showAttachMenu) return;
@@ -166,8 +200,23 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
     setPendingFiles([]);
 
     const tempId = `temp-${crypto.randomUUID()}`;
+    const isFileMessage = filesToSend.length > 0;
 
-    if (filesToSend.length === 0 && content) {
+    if (isFileMessage) {
+      // File message: add optimistic with uploading state immediately
+      const optimistic: LocalMessage = {
+        id: tempId,
+        sender_id: viewerId,
+        sender_name: viewerName,
+        sender_avatar: null,
+        content,
+        created_at: new Date().toISOString(),
+        status: 'uploading',
+        pendingFileNames: filesToSend.map((f) => f.name),
+      };
+      setMessages((prev) => [...prev, optimistic]);
+    } else if (content) {
+      // Text-only: add optimistic with sending state
       const optimistic: LocalMessage = {
         id: tempId,
         sender_id: viewerId,
@@ -183,7 +232,7 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
     startTransition(async () => {
       const parts: string[] = [];
 
-      if (filesToSend.length > 0) {
+      if (isFileMessage) {
         setUploading(true);
         const supabase = createClient();
         for (const file of filesToSend) {
@@ -209,16 +258,31 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
           setError(result.error);
           setMessages((prev) => prev.filter((m) => m.id !== tempId));
         } else if (result.id) {
-          sentMessageIds.current.add(result.id);
-          setMessages((prev) => {
-            // broadcast arrived first → realId already in state, remove tempId
-            if (prev.some((m) => m.id === result.id)) {
-              return prev.filter((m) => m.id !== tempId);
-            }
-            return prev.map((m) =>
-              m.id === tempId ? { ...m, id: result.id!, status: 'sent' as const } : m
-            );
-          });
+          if (isFileMessage) {
+            // File: transition to 'sending' (1 tick); Realtime will upgrade to 'sent' (2 ticks)
+            setMessages((prev) => {
+              if (prev.some((m) => m.id === result.id)) {
+                // Realtime arrived first → remove tempId
+                return prev.filter((m) => m.id !== tempId);
+              }
+              return prev.map((m) =>
+                m.id === tempId
+                  ? { ...m, id: result.id!, content: parts.join('\n'), status: 'sending' as const, pendingFileNames: undefined }
+                  : m
+              );
+            });
+          } else {
+            // Text: claim id so Realtime is skipped → go directly to 'sent' (2 ticks)
+            sentMessageIds.current.add(result.id);
+            setMessages((prev) => {
+              if (prev.some((m) => m.id === result.id)) {
+                return prev.filter((m) => m.id !== tempId);
+              }
+              return prev.map((m) =>
+                m.id === tempId ? { ...m, id: result.id!, status: 'sent' as const } : m
+              );
+            });
+          }
         }
       }
     });
@@ -331,11 +395,26 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
                         : 'bg-slate-100 text-slate-900 border-slate-300'
                     }`}
                   >
-                    {renderContent(msg.content, isMine)}
+                    {msg.status === 'uploading' ? (
+                      <div className="flex flex-col gap-1.5 min-w-[140px]">
+                        {msg.pendingFileNames?.map((name, i) => (
+                          <div key={i} className="flex items-center gap-1.5">
+                            <FileText size={13} strokeWidth={2} className="shrink-0 opacity-70" />
+                            <span className="text-[0.82rem] truncate max-w-[160px]">{name}</span>
+                          </div>
+                        ))}
+                        {msg.content && <span className="block text-[0.85rem]">{msg.content}</span>}
+                        <div className="h-1 rounded-full overflow-hidden bg-white/20 mt-0.5">
+                          <div className="h-full w-full rounded-full bg-white/60 animate-pulse" />
+                        </div>
+                      </div>
+                    ) : (
+                      renderContent(msg.content, isMine)
+                    )}
                   </div>
                   <div className={`flex items-center gap-1 mt-0.5 ${isMine ? 'justify-end' : ''}`}>
                     <span className="text-[0.65rem] text-slate-400">{formatTime(msg.created_at)}</span>
-                    {isMine && (
+                    {isMine && msg.status !== 'uploading' && (
                       <span className="text-slate-400">
                         {msg.status === 'sending'
                           ? <Check size={13} strokeWidth={2.5} />
