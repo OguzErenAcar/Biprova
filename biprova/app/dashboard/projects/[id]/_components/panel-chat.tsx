@@ -90,6 +90,7 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
       id: string;
       sender_id: string;
       sender_name: string;
+      sender_avatar: string | null;
       content: string;
       created_at: string;
     }
