@@ -45,7 +45,7 @@ export async function search(query: string): Promise<SearchResult[]> {
     label: p.title,
     sub: p.city ?? null,
     type: 'project',
-    href: `/dashboard/projects/${p.id}`,
+    href: `/dashboard/posts/projects/${p.id}`,
   }));
 
   const userResults: SearchResult[] = (users ?? []).map((u) => ({
