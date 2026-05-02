@@ -429,7 +429,8 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
                     <Link
                       href={`/dashboard/profile/${msg.sender_id}`}
                       onClick={(e) => e.stopPropagation()}
-                      className={`text-[0.7rem] mb-1 hover:text-blue-400 transition-colors ${isMine ? 'text-right text-white/50 block' : 'text-slate-400 block'}`}
+                      style={{ color: getSenderColor(msg.sender_id) }}
+                      className={`text-[0.7rem] font-semibold mb-1 hover:opacity-75 transition-opacity block ${isMine ? 'text-right' : ''}`}
                     >
                       {msg.sender_name}
                     </Link>
