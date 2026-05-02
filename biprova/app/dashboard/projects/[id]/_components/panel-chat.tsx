@@ -97,24 +97,30 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
         { event: 'new_message' },
         ({ payload }: { payload: ChatBroadcastPayload }) => {
           const row = payload;
-          if (sentMessageIds.current.has(row.id)) {
-            sentMessageIds.current.delete(row.id);
+
+          if (row.sender_id === viewerId) {
+            // server confirmed first → ref has the id, skip broadcast
+            if (sentMessageIds.current.has(row.id)) {
+              sentMessageIds.current.delete(row.id);
+              return;
+            }
+            // broadcast arrived first → replace the optimistic entry
+            setMessages((prev) => {
+              if (prev.some((m) => m.id === row.id)) return prev;
+              const idx = prev.findIndex((m) => m.status === 'sending');
+              if (idx >= 0) {
+                const next = [...prev];
+                next[idx] = { ...next[idx], id: row.id, content: row.content, created_at: row.created_at, status: 'sent' as const };
+                return next;
+              }
+              return [...prev, { id: row.id, sender_id: row.sender_id, sender_name: row.sender_name, sender_avatar: null, content: row.content, created_at: row.created_at, status: 'sent' as const }];
+            });
             return;
           }
+
           setMessages((prev) => {
             if (prev.some((m) => m.id === row.id)) return prev;
-            return [
-              ...prev,
-              {
-                id: row.id,
-                sender_id: row.sender_id,
-                sender_name: row.sender_name,
-                sender_avatar: null,
-                content: row.content,
-                created_at: row.created_at,
-                status: 'sent' as const,
-              },
-            ];
+            return [...prev, { id: row.id, sender_id: row.sender_id, sender_name: row.sender_name, sender_avatar: null, content: row.content, created_at: row.created_at, status: 'sent' as const }];
           });
         }
       )
