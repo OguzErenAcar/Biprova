@@ -69,7 +69,7 @@ function renderContent(content: string, isMine: boolean) {
         );
       }
     }
-    return line ? <span key={i} className="block">{line}</span> : null;
+    return <span key={i} className="block">{line || ' '}</span>;
   });
   return <>{parts}</>;
 }
