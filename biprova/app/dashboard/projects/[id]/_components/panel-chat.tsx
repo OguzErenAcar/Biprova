@@ -418,7 +418,7 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
                     </span>
                   )}
                 </Link>
-                <div className="max-w-[70%]">
+                <div className="max-w-[70%] min-w-0">
                   <div
                     className={`rounded-[12px] px-[0.9rem] py-[0.65rem] text-[0.85rem] leading-relaxed border overflow-hidden break-words min-w-0 ${
                       isMine
