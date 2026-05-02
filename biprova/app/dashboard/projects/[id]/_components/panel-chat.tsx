@@ -536,7 +536,7 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
             <textarea
               ref={textareaRef}
               rows={1}
-              className="flex-1 border-[1.5px] border-slate-200 rounded-[10px] px-4 py-[0.65rem] font-[inherit] text-[0.88rem] outline-none transition-colors bg-slate-50 focus:border-blue-600 focus:bg-white resize-none overflow-y-auto leading-relaxed"
+              className="flex-1 border-[1.5px] border-slate-200 rounded-[10px] px-4 py-[0.65rem] font-[inherit] text-[0.88rem] outline-none transition-colors bg-slate-50 focus:border-blue-600 focus:bg-white resize-none overflow-hidden leading-relaxed"
               placeholder="Mesaj yaz..."
               value={text}
               onChange={(e) => setText(e.target.value)}
