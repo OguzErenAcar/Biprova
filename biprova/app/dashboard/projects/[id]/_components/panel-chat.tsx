@@ -12,6 +12,32 @@ type LocalMessage = ProjectMessage & {
   pendingFileNames?: string[];
 };
 
+const NAME_COLORS = [
+  '#60A5FA', // blue-400
+  '#34D399', // emerald-400
+  '#F472B6', // pink-400
+  '#A78BFA', // violet-400
+  '#FB923C', // orange-400
+  '#38BDF8', // sky-400
+  '#4ADE80', // green-400
+  '#F87171', // red-400
+  '#E879F9', // fuchsia-400
+  '#2DD4BF', // teal-400
+  '#818CF8', // indigo-400
+  '#C084FC', // purple-400
+  '#F43F5E', // rose-500
+  '#06B6D4', // cyan-500
+  '#84CC16', // lime-500
+];
+
+function getSenderColor(senderId: string): string {
+  let hash = 0;
+  for (let i = 0; i < senderId.length; i++) {
+    hash = (hash * 31 + senderId.charCodeAt(i)) >>> 0;
+  }
+  return NAME_COLORS[hash % NAME_COLORS.length];
+}
+
 function getInitials(name: string) {
   return name
     .split(' ')
