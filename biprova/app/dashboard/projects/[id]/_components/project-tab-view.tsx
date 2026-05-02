@@ -23,9 +23,30 @@ export function ProjectTabView({ project }: Props) {
   const [activeTab, setActiveTab] = useState<Tab>('genel');
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
+  const [unreadCount, setUnreadCount] = useState(0);
+  const activeTabRef = useRef<Tab>('genel');
   const contentRef = useRef<HTMLDivElement>(null);
   const tabsRef = useRef<HTMLDivElement>(null);
   const hasTeam = !!project.team_id;
+
+  useEffect(() => {
+    activeTabRef.current = activeTab;
+    if (activeTab === 'chat') setUnreadCount(0);
+  }, [activeTab]);
+
+  useEffect(() => {
+    if (!project.team_id) return;
+    const supabase = createClient();
+    const channel = supabase
+      .channel(`team-chat-unread-${project.team_id}`)
+      .on('broadcast', { event: 'new_message' }, ({ payload }: { payload: { sender_id: string } }) => {
+        if (payload.sender_id !== project.viewer.id && activeTabRef.current !== 'chat') {
+          setUnreadCount((n) => n + 1);
+        }
+      })
+      .subscribe();
+    return () => { supabase.removeChannel(channel); };
+  }, [project.team_id, project.viewer.id]);
 
   useEffect(() => {
     if (!contentRef.current) return;
