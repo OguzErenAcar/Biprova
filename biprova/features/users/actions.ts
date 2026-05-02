@@ -81,10 +81,8 @@ type FilledRoleRow = {
 export async function getUserProfileById(id: string): Promise<UserProfile | null> {
   const supabase = await createClient();
 
-  // public_user_profiles view'ı: email ve internal kolonlar yok
-  // DB katmanında kısıtlı — app katmanı maskelemesine güvenmiyoruz
   const { data, error } = await supabase
-    .from('public_user_profiles')
+    .from('users')
     .select('id, name, bio, city, avatar_url, cover_url, linkedin_url, badge, cv_url, cv_public, projects_public, teams_public, applications_public, created_at')
     .eq('id', id)
     .single();
