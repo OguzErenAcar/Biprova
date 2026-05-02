@@ -91,10 +91,11 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
 
     const channel = supabase
       .channel(`team-chat-${teamId}`)
-      .on<ChatBroadcastPayload>(
+      .on(
         'broadcast',
         { event: 'new_message' },
-        ({ payload: row }) => {
+        ({ payload }: { payload: ChatBroadcastPayload }) => {
+          const row = payload;
           setMessages((prev) => {
             if (prev.some((m) => m.id === row.id)) return prev;
             return [
