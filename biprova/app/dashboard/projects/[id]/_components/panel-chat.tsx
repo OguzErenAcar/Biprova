@@ -490,9 +490,26 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
                           <div className="h-full w-full rounded-full bg-white/60 animate-pulse" />
                         </div>
                       </div>
-                    ) : (
-                      renderContent(msg.content, isMine)
-                    )}
+                    ) : (() => {
+                      const isExpanded = expandedMsgIds.has(msg.id);
+                      const truncate = !isExpanded && needsTruncation(msg.content);
+                      return (
+                        <>
+                          {renderContent(truncate ? truncateContent(msg.content) : msg.content, isMine)}
+                          {truncate && (
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setExpandedMsgIds((prev) => new Set([...prev, msg.id]));
+                              }}
+                              className={`text-[0.75rem] mt-1 font-semibold hover:underline block ${isMine ? 'text-blue-200' : 'text-blue-500'}`}
+                            >
+                              ...devamını gör
+                            </button>
+                          )}
+                        </>
+                      );
+                    })()}
                   </div>
                   <div className={`flex items-center gap-1 mt-0.5 ${isMine ? 'justify-end' : ''}`}>
                     <span className="text-[0.65rem] text-slate-400">{formatTime(msg.created_at)}</span>
