@@ -789,7 +789,7 @@ export async function getProjectDetail(id: string): Promise<ProjectDetail | null
 
   const { data: viewerUser } = await supabase
     .from('users')
-    .select('name')
+    .select('name, avatar_url')
     .eq('id', user.id)
     .single();
 
