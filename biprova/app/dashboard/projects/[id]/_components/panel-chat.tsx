@@ -393,13 +393,6 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
                   )}
                 </Link>
                 <div className="max-w-[70%]">
-                  <Link
-                    href={`/dashboard/profile/${msg.sender_id}`}
-                    onClick={(e) => e.stopPropagation()}
-                    className={`text-[0.7rem] text-slate-400 mb-0.5 hover:text-blue-500 transition-colors ${isMine ? 'text-right block' : 'block'}`}
-                  >
-                    {msg.sender_name}
-                  </Link>
                   <div
                     className={`rounded-[12px] px-[0.9rem] py-[0.65rem] text-[0.85rem] leading-relaxed border ${
                       isMine
@@ -407,6 +400,13 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
                         : 'bg-slate-100 text-slate-900 border-slate-300'
                     }`}
                   >
+                    <Link
+                      href={`/dashboard/profile/${msg.sender_id}`}
+                      onClick={(e) => e.stopPropagation()}
+                      className={`text-[0.7rem] mb-1 hover:text-blue-400 transition-colors ${isMine ? 'text-right text-white/50 block' : 'text-slate-400 block'}`}
+                    >
+                      {msg.sender_name}
+                    </Link>
                     {msg.status === 'uploading' ? (
                       <div className="flex flex-col gap-1.5 min-w-[140px]">
                         {msg.pendingFileNames?.map((name, i) => (
