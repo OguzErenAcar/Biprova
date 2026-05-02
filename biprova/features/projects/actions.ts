@@ -1027,7 +1027,7 @@ export async function sendProjectMessage(
     },
   });
 
-  return {};
+  return { id: inserted.id };
 }
 
 const ALLOWED_IMAGE_EXTENSIONS = new Set(['jpg', 'jpeg', 'png', 'webp', 'gif']);
