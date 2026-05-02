@@ -4,6 +4,7 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { animate } from 'animejs';
 import { ChevronLeft, ChevronRight, LayoutList, Shield, Users, MessageCircle, Megaphone, Folder, ListTodo } from 'lucide-react';
 import type { ProjectDetail } from '@/features/projects/actions';
+import { createClient } from '@/lib/supabase/client';
 import { PanelGenel } from './panel-genel';
 import { PanelGorevler } from './panel-gorevler';
 import { PanelChat } from './panel-chat';
