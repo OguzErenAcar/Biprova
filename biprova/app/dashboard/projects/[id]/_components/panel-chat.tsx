@@ -503,7 +503,7 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
           {error && (
             <p className="text-[0.75rem] text-red-500">{error}</p>
           )}
-          <div className="flex gap-2 items-center">
+          <div className="flex gap-2 items-end">
             <div className="relative shrink-0" ref={attachMenuRef}>
               {showAttachMenu && (
                 <div className="absolute bottom-[calc(100%+8px)] left-0 bg-white border border-slate-200 rounded-[10px] shadow-lg overflow-hidden z-20 min-w-[140px]">
