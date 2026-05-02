@@ -97,6 +97,10 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
         { event: 'new_message' },
         ({ payload }: { payload: ChatBroadcastPayload }) => {
           const row = payload;
+          if (sentMessageIds.current.has(row.id)) {
+            sentMessageIds.current.delete(row.id);
+            return;
+          }
           setMessages((prev) => {
             if (prev.some((m) => m.id === row.id)) return prev;
             return [
