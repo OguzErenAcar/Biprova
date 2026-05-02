@@ -153,6 +153,21 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
     const filesToSend = pendingFiles;
     setPendingFiles([]);
 
+    const tempId = `temp-${crypto.randomUUID()}`;
+
+    if (filesToSend.length === 0 && content) {
+      const optimistic: LocalMessage = {
+        id: tempId,
+        sender_id: viewerId,
+        sender_name: viewerName,
+        sender_avatar: null,
+        content,
+        created_at: new Date().toISOString(),
+        status: 'sending',
+      };
+      setMessages((prev) => [...prev, optimistic]);
+    }
+
     startTransition(async () => {
       const parts: string[] = [];
 
@@ -178,7 +193,16 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
 
       if (parts.length > 0) {
         const result = await sendProjectMessage(teamId, parts.join('\n'), viewerName);
-        if (result.error) setError(result.error);
+        if (result.error) {
+          setError(result.error);
+          setMessages((prev) => prev.filter((m) => m.id !== tempId));
+        } else if (result.id) {
+          setMessages((prev) =>
+            prev.map((m) =>
+              m.id === tempId ? { ...m, id: result.id!, status: 'sent' as const } : m
+            )
+          );
+        }
       }
     });
   }
