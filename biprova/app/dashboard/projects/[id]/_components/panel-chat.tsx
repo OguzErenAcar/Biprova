@@ -555,6 +555,11 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
           {error && (
             <p className="text-[0.75rem] text-red-500">{error}</p>
           )}
+          {text.length >= MAX_INPUT_CHARS - 200 && (
+            <p className={`text-[0.72rem] text-right ${text.length >= MAX_INPUT_CHARS ? 'text-red-500' : 'text-slate-400'}`}>
+              {text.length} / {MAX_INPUT_CHARS}
+            </p>
+          )}
           <div className="flex gap-2 items-end">
             <div className="relative shrink-0" ref={attachMenuRef}>
               {showAttachMenu && (
