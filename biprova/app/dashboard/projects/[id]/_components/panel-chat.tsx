@@ -61,10 +61,10 @@ function renderContent(content: string, isMine: boolean) {
             href={url}
             target="_blank"
             rel="noopener noreferrer"
-            className={`flex items-center gap-1.5 underline underline-offset-2 text-[0.85rem] ${isMine ? 'text-blue-200 hover:text-white' : 'text-blue-600 hover:text-blue-800'}`}
+            className={`flex items-center gap-1.5 underline underline-offset-2 text-[0.85rem] min-w-0 max-w-full ${isMine ? 'text-blue-200 hover:text-white' : 'text-blue-600 hover:text-blue-800'}`}
           >
             <FileText size={13} strokeWidth={2} className="shrink-0" />
-            {name}
+            <span className="truncate">{name}</span>
           </a>
         );
       }
