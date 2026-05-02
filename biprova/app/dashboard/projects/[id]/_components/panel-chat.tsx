@@ -5,6 +5,8 @@ import { useState, useTransition, useRef, useEffect } from 'react';
 import { Paperclip, FileText, Send, Trash2, Check, CheckCheck } from 'lucide-react';
 import type { ProjectMessage } from '@/features/projects/actions';
 import { sendProjectMessage, recordTeamFile } from '@/features/projects/actions';
+
+type LocalMessage = ProjectMessage & { status: 'sending' | 'sent' };
 import { createClient } from '@/lib/supabase/client';
 
 function getInitials(name: string) {
