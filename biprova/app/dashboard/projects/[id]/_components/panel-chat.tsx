@@ -203,6 +203,7 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
           setError(result.error);
           setMessages((prev) => prev.filter((m) => m.id !== tempId));
         } else if (result.id) {
+          sentMessageIds.current.add(result.id);
           setMessages((prev) =>
             prev.map((m) =>
               m.id === tempId ? { ...m, id: result.id!, status: 'sent' as const } : m
