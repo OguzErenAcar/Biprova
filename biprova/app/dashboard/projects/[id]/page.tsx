@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 import { getProjectDetail } from '@/features/projects/actions';
 import { ProjectTabView } from './_components/project-tab-view';
 
@@ -10,7 +10,7 @@ interface Props {
 async function ProjectPageContent({ id }: { id: string }) {
   const project = await getProjectDetail(id);
   if (!project) notFound();
-  if (!project.viewer.is_project_member) notFound();
+  if (!project.viewer.is_project_member) redirect(`/dashboard/posts/projects/${id}`);
 
   return <ProjectTabView project={project} />;
 }
