@@ -416,12 +416,15 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
               </button>
             </>
           ) : (
-            <button
-              onClick={toggleSelectMode}
-              className="ml-auto flex items-center gap-1.5 text-slate-400 hover:text-red-500 transition-colors"
-            >
-              <Trash2 size={15} strokeWidth={2} />
-            </button>
+            <div className="ml-auto flex items-center gap-1">
+              {/* button group — buraya yeni butonlar eklenebilir */}
+              <button
+                onClick={toggleSelectMode}
+                className="w-7 h-7 flex items-center justify-center rounded-md text-slate-400 hover:text-red-500 hover:bg-slate-100 transition-colors"
+              >
+                <Trash2 size={15} strokeWidth={2} />
+              </button>
+            </div>
           )}
         </div>
 
