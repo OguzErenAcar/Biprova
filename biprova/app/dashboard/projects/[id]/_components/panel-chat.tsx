@@ -110,7 +110,9 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
     const ta = textareaRef.current;
     if (!ta) return;
     ta.style.height = 'auto';
-    ta.style.height = `${Math.min(ta.scrollHeight, 104)}px`;
+    const scrollH = ta.scrollHeight;
+    ta.style.height = `${Math.min(scrollH, 104)}px`;
+    ta.style.overflowY = scrollH > 104 ? 'auto' : 'hidden';
   }, [text]);
 
   useEffect(() => {
