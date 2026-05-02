@@ -47,6 +47,38 @@ function getInitials(name: string) {
     .toUpperCase();
 }
 
+const MAX_INPUT_CHARS = 2000;
+const MAX_DISPLAY_LINES = 8;
+const MAX_DISPLAY_CHARS = 500;
+
+function needsTruncation(content: string): boolean {
+  const lines = content.split('\n');
+  if (lines.length > MAX_DISPLAY_LINES) return true;
+  const visibleLen = lines.reduce((acc, line) => {
+    if (line.startsWith('📎 ')) {
+      const sep = line.indexOf('|||');
+      return acc + (sep > 0 ? sep : line.length);
+    }
+    return acc + line.length;
+  }, 0);
+  return visibleLen > MAX_DISPLAY_CHARS;
+}
+
+function truncateContent(content: string): string {
+  const lines = content.split('\n');
+  let acc = 0;
+  for (let i = 0; i < lines.length; i++) {
+    if (i >= MAX_DISPLAY_LINES) return lines.slice(0, i).join('\n');
+    const line = lines[i];
+    const len = line.startsWith('📎 ')
+      ? Math.max(0, line.indexOf('|||'))
+      : line.length;
+    acc += len;
+    if (acc > MAX_DISPLAY_CHARS) return lines.slice(0, Math.max(1, i)).join('\n');
+  }
+  return content;
+}
+
 function renderContent(content: string, isMine: boolean) {
   const lines = content.split('\n');
   const parts = lines.map((line, i) => {
