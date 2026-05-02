@@ -378,9 +378,19 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
                 <Link
                   href={`/dashboard/profile/${msg.sender_id}`}
                   onClick={(e) => e.stopPropagation()}
-                  className="w-[30px] h-[30px] rounded-full bg-blue-500 flex items-center justify-center font-nunito font-black text-[0.68rem] text-white shrink-0 hover:opacity-80 transition-opacity"
+                  className="w-[30px] h-[30px] rounded-full shrink-0 hover:opacity-80 transition-opacity overflow-hidden"
                 >
-                  {getInitials(msg.sender_name)}
+                  {msg.sender_avatar ? (
+                    <img
+                      src={msg.sender_avatar}
+                      alt={msg.sender_name}
+                      className="w-full h-full object-cover rounded-full"
+                    />
+                  ) : (
+                    <span className="w-full h-full rounded-full bg-blue-500 flex items-center justify-center font-nunito font-black text-[0.68rem] text-white">
+                      {getInitials(msg.sender_name)}
+                    </span>
+                  )}
                 </Link>
                 <div className="max-w-[70%]">
                   <Link
