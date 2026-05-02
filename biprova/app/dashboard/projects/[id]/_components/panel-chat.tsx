@@ -95,17 +95,21 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
         'broadcast',
         { event: 'new_message' },
         ({ payload: row }) => {
-          setMessages((prev) => [
-            ...prev,
-            {
-              id: row.id,
-              sender_id: row.sender_id,
-              sender_name: row.sender_name,
-              sender_avatar: null,
-              content: row.content,
-              created_at: row.created_at,
-            },
-          ]);
+          setMessages((prev) => {
+            if (prev.some((m) => m.id === row.id)) return prev;
+            return [
+              ...prev,
+              {
+                id: row.id,
+                sender_id: row.sender_id,
+                sender_name: row.sender_name,
+                sender_avatar: null,
+                content: row.content,
+                created_at: row.created_at,
+                status: 'sent' as const,
+              },
+            ];
+          });
         }
       )
       .subscribe();
