@@ -71,6 +71,7 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
   const [showAttachMenu, setShowAttachMenu] = useState(false);
   const [isPending, startTransition] = useTransition();
   const bottomRef = useRef<HTMLDivElement>(null);
+  const sentMessageIds = useRef<Set<string>>(new Set());
   const fileInputRef = useRef<HTMLInputElement>(null);
   const attachMenuRef = useRef<HTMLDivElement>(null);
 
