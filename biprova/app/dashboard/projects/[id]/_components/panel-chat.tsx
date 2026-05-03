@@ -397,7 +397,27 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
     cancelMsi();
   }
 
+  const allSelectedFaved = selectedMsgIds.size > 0 && [...selectedMsgIds].every((id) => favMsgIds.has(id));
+
   const topMenuButtons: TopMenuButton[] = [
+    {
+      id: 'fav',
+      icon: <Star size={15} strokeWidth={2} fill={allSelectedFaved ? 'currentColor' : 'none'} />,
+      className: allSelectedFaved
+        ? 'text-amber-400 bg-slate-100'
+        : 'text-slate-400 hover:text-amber-400 hover:bg-slate-100',
+      showWhen: () => true,
+      onApply: (selectedIds) => {
+        setFavMsgIds((prev) => {
+          const next = new Set(prev);
+          const allFaved = [...selectedIds].every((id) => prev.has(id));
+          if (allFaved) selectedIds.forEach((id) => next.delete(id));
+          else selectedIds.forEach((id) => next.add(id));
+          return next;
+        });
+        cancelMsi();
+      },
+    },
     {
       id: 'delete',
       icon: <Trash2 size={15} strokeWidth={2} />,
