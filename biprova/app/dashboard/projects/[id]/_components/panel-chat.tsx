@@ -393,8 +393,9 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
     setIsSelecting(false);
   }
 
-  function startLongPress(msgId: string) {
+  function startLongPress(msgId: string, clientX: number, clientY: number) {
     longPressTriggeredRef.current = false;
+    longPressStartPos.current = { x: clientX, y: clientY };
     longPressTimerRef.current = setTimeout(() => {
       longPressTriggeredRef.current = true;
       setContextMsgId(msgId);
@@ -406,6 +407,14 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
       clearTimeout(longPressTimerRef.current);
       longPressTimerRef.current = null;
     }
+    longPressStartPos.current = null;
+  }
+
+  function handlePointerMove(e: React.PointerEvent) {
+    if (!longPressStartPos.current) return;
+    const dx = e.clientX - longPressStartPos.current.x;
+    const dy = e.clientY - longPressStartPos.current.y;
+    if (dx * dx + dy * dy > 100) cancelLongPress();
   }
 
   function handleContextDelete() {
