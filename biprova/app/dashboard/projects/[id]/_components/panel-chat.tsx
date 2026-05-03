@@ -228,6 +228,7 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
                 content: row.content,
                 created_at: row.created_at,
                 deleted_at: null,
+                is_favorited: false,
                 status: 'sent' as const,
               }];
             });
@@ -244,6 +245,7 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
               content: row.content,
               created_at: row.created_at,
               deleted_at: null,
+              is_favorited: false,
               status: 'sent' as const,
             }];
           });
