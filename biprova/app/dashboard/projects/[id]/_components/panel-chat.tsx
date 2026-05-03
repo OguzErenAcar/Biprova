@@ -637,7 +637,11 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
                     >
                       {msg.sender_name}
                     </Link>
-                    {msg.status === 'uploading' ? (
+                    {msg.deleted_at ? (
+                      <span className={`text-[0.82rem] italic ${isMine ? 'text-white/50' : 'text-slate-400'}`}>
+                        bu mesaj silindi
+                      </span>
+                    ) : msg.status === 'uploading' ? (
                       <div className="flex flex-col gap-1.5 min-w-[140px]">
                         {msg.pendingFileNames?.map((name, i) => (
                           <div key={i} className="flex items-center gap-1.5">
