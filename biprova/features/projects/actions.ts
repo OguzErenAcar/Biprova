@@ -421,6 +421,9 @@ export interface ProjectMessage {
   created_at: string;
   deleted_at: string | null;
   is_favorited: boolean;
+  reply_to_id: string | null;
+  reply_to_sender_name: string | null;
+  reply_to_content: string | null;
 }
 
 export interface ProjectPost {
