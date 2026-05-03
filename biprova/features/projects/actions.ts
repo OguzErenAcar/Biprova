@@ -678,6 +678,7 @@ export async function getProjectDetail(id: string): Promise<ProjectDetail | null
       content: m.content,
       created_at: m.created_at,
       deleted_at: m.deleted_at,
+      is_favorited: Array.isArray(m.message_favorites) && m.message_favorites.length > 0,
     }));
 
     posts = (rawPosts as unknown as RawPostRow[] ?? []).map((p) => ({
