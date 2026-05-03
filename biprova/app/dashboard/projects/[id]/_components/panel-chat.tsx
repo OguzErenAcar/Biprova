@@ -187,6 +187,9 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
       sender_avatar: string | null;
       content: string;
       created_at: string;
+      reply_to_id: string | null;
+      reply_to_sender_name: string | null;
+      reply_to_content: string | null;
     }
 
     const channel = supabase
