@@ -419,9 +419,9 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
   }
 
   function handleContextDelete() {
-    if (!contextMsgId) return;
     // TODO: silme action'ı eklenecek
-    setMessages((prev) => prev.filter((m) => m.id !== contextMsgId));
+    setMessages((prev) => prev.filter((m) => !selectedMsgIds.has(m.id)));
+    setSelectedMsgIds(new Set());
     setContextMsgId(null);
   }
 
