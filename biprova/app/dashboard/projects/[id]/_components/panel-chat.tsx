@@ -475,7 +475,7 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
             return (
               <div
                 key={msg.id}
-                className={`flex gap-2 items-end rounded-xl px-2 py-1 transition-colors ${isMine ? 'flex-row-reverse' : ''} ${(isSelecting || contextMsgId !== null) ? 'cursor-pointer' : ''} ${isSelected ? 'bg-red-100' : ''}`}
+                className={`flex gap-2 items-end rounded-xl px-2 py-1 transition-colors ${isMine ? 'flex-row-reverse' : ''} ${msiActive ? 'cursor-pointer' : ''} ${isSelected ? 'bg-red-100' : ''}`}
                 onClick={() => {
                   if (longPressTriggeredRef.current) {
                     longPressTriggeredRef.current = false;
