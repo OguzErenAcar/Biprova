@@ -403,6 +403,24 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
       showWhen: () => true,
       onApply: handleMsiDelete,
     },
+    {
+      id: 'copy',
+      icon: <Copy size={15} strokeWidth={2} />,
+      className: 'text-slate-400 hover:text-slate-700 hover:bg-slate-100',
+      showWhen: (count) => count === 1,
+      onApply: (selectedIds) => {
+        const msgId = [...selectedIds][0];
+        const msg = messages.find((m) => m.id === msgId);
+        if (!msg) return;
+        const text = msg.content
+          .split('\n')
+          .filter((line) => !line.startsWith('📎 '))
+          .join('\n')
+          .trim();
+        navigator.clipboard.writeText(text);
+        cancelMsi();
+      },
+    },
   ];
 
   function startLongPress(msgId: string, clientX: number, clientY: number) {
