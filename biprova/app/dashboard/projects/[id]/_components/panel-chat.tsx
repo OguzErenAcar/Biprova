@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useState, useTransition, useRef, useEffect } from 'react';
-import { Paperclip, FileText, Send, Trash2, Check, CheckCheck, MoreHorizontal, Copy } from 'lucide-react';
+import { Paperclip, FileText, Send, Trash2, Check, CheckCheck, MoreHorizontal, Copy, Info, X } from 'lucide-react';
 import type { ProjectMessage } from '@/features/projects/actions';
 import { sendProjectMessage, recordTeamFile } from '@/features/projects/actions';
 import { createClient } from '@/lib/supabase/client';
