@@ -34,3 +34,8 @@ on message_favorites for delete
 using (user_id = auth.uid());
 
 grant select, insert, delete on public.message_favorites to authenticated;
+
+
+ALTER TABLE messages
+  ADD COLUMN IF NOT EXISTS reply_to_id UUID REFERENCES messages(id) ON DELETE SET NULL;
+CREATE INDEX ON messages(reply_to_id);
