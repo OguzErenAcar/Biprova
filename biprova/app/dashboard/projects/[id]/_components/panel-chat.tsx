@@ -313,6 +313,7 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
         sender_avatar: viewerAvatar ?? null,
         content,
         created_at: new Date().toISOString(),
+        deleted_at: null,
         status: 'uploading',
         pendingFileNames: filesToSend.map((f) => f.name),
       };
@@ -326,6 +327,7 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
         sender_avatar: viewerAvatar ?? null,
         content,
         created_at: new Date().toISOString(),
+        deleted_at: null,
         status: 'sending',
       };
       setMessages((prev) => [...prev, optimistic]);
