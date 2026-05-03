@@ -420,6 +420,10 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
   }
 
   const allSelectedFaved = selectedMsgIds.size > 0 && [...selectedMsgIds].every((id) => favMsgIds.has(id));
+  const allSelectedAreMine = selectedMsgIds.size > 0 && [...selectedMsgIds].every((id) => {
+    const msg = messages.find((m) => m.id === id);
+    return msg?.sender_id === viewerId;
+  });
 
   const topMenuButtons: TopMenuButton[] = [
     {
