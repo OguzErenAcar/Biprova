@@ -515,13 +515,10 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
                   }
                   toggleMessage(msg.id);
                 }}
-                onMouseDown={(e) => { if (e.button === 0) startLongPress(msg.id); }}
-                onMouseUp={cancelLongPress}
-                onMouseLeave={cancelLongPress}
-                onTouchStart={() => startLongPress(msg.id)}
-                onTouchEnd={cancelLongPress}
-                onTouchMove={cancelLongPress}
-                onTouchCancel={cancelLongPress}
+                onPointerDown={(e) => startLongPress(msg.id, e.clientX, e.clientY)}
+                onPointerUp={cancelLongPress}
+                onPointerCancel={cancelLongPress}
+                onPointerMove={handlePointerMove}
                 onContextMenu={(e) => e.preventDefault()}
               >
                 <Link
