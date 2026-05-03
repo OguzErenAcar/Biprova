@@ -142,6 +142,8 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
   const [favMsgIds, setFavMsgIds] = useState<Set<string>>(
     new Set(initialMessages.filter((m) => m.is_favorited).map((m) => m.id))
   );
+  const [readers, setReaders] = useState<MessageReader[]>([]);
+  const [readersLoading, setReadersLoading] = useState(false);
   const [expandedMsgIds, setExpandedMsgIds] = useState<Set<string>>(new Set());
   const [pendingFiles, setPendingFiles] = useState<File[]>([]);
   const [uploading, setUploading] = useState(false);
