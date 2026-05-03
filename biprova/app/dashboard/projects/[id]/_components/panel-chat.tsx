@@ -158,6 +158,9 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
   const longPressTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const longPressTriggeredRef = useRef(false);
   const longPressStartPos = useRef<{ x: number; y: number } | null>(null);
+  const lastMarkedRef = useRef<string | null>(null);
+  const messagesRef = useRef(messages);
+  messagesRef.current = messages;
 
   useEffect(() => {
     const ta = textareaRef.current;
