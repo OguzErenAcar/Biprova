@@ -1064,6 +1064,31 @@ export async function deleteProjectMessage(
   return {};
 }
 
+export async function toggleMessageFavorite(
+  messageId: string,
+  isFavorited: boolean,
+): Promise<{ error?: string }> {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return { error: 'Oturum açmanız gerekiyor.' };
+
+  if (isFavorited) {
+    const { error } = await supabase
+      .from('message_favorites')
+      .delete()
+      .eq('user_id', user.id)
+      .eq('message_id', messageId);
+    if (error) return { error: error.message };
+  } else {
+    const { error } = await supabase
+      .from('message_favorites')
+      .insert({ user_id: user.id, message_id: messageId });
+    if (error) return { error: error.message };
+  }
+
+  return {};
+}
+
 const ALLOWED_IMAGE_EXTENSIONS = new Set(['jpg', 'jpeg', 'png', 'webp', 'gif']);
 
 export async function createProjectPost(teamId: string, content: string, imageUrls: string[] = []): Promise<{ error?: string }> {
