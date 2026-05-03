@@ -405,6 +405,16 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
       onApply: handleMsiDelete,
     },
     {
+      id: 'details',
+      icon: <Info size={15} strokeWidth={2} />,
+      className: 'text-slate-400 hover:text-slate-700 hover:bg-slate-100',
+      showWhen: (count) => count === 1,
+      onApply: (selectedIds) => {
+        setDetailsMsgId([...selectedIds][0]);
+        cancelMsi();
+      },
+    },
+    {
       id: 'copy',
       icon: <Copy size={15} strokeWidth={2} />,
       className: 'text-slate-400 hover:text-slate-700 hover:bg-slate-100',
