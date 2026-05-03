@@ -1035,6 +1035,21 @@ export async function sendProjectMessage(
 
   if (insertError || !inserted) return { error: 'Mesaj gönderilemedi.' };
 
+  let replyToSenderName: string | null = null;
+  let replyToContent: string | null = null;
+  if (replyToId) {
+    const { data: replyMsg } = await supabase
+      .from('messages')
+      .select('content, users!sender_id(name)')
+      .eq('id', replyToId)
+      .single();
+    if (replyMsg) {
+      const raw = replyMsg as unknown as { content: string; users: { name: string } | null };
+      replyToSenderName = raw.users?.name ?? null;
+      replyToContent = raw.content;
+    }
+  }
+
   const { createAdminClient } = await import('@/lib/supabase/admin');
   const admin = createAdminClient();
   await admin.channel(`team-chat-${teamId}`).send({
@@ -1048,6 +1063,9 @@ export async function sendProjectMessage(
       sender_avatar: senderAvatar ?? null,
       content: trimmed,
       created_at: inserted.created_at,
+      reply_to_id: replyToId ?? null,
+      reply_to_sender_name: replyToSenderName,
+      reply_to_content: replyToContent,
     },
   });
 
