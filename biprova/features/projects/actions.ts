@@ -1037,6 +1037,33 @@ export async function sendProjectMessage(
   return { id: inserted.id };
 }
 
+export async function deleteProjectMessage(
+  teamId: string,
+  messageId: string,
+): Promise<{ error?: string }> {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return { error: 'Oturum açmanız gerekiyor.' };
+
+  const { error } = await supabase
+    .from('messages')
+    .update({ deleted_at: new Date().toISOString() })
+    .eq('id', messageId)
+    .eq('sender_id', user.id);
+
+  if (error) return { error: error.message };
+
+  const { createAdminClient } = await import('@/lib/supabase/admin');
+  const admin = createAdminClient();
+  await admin.channel(`team-chat-${teamId}`).send({
+    type: 'broadcast',
+    event: 'delete_message',
+    payload: { message_id: messageId },
+  });
+
+  return {};
+}
+
 const ALLOWED_IMAGE_EXTENSIONS = new Set(['jpg', 'jpeg', 'png', 'webp', 'gif']);
 
 export async function createProjectPost(teamId: string, content: string, imageUrls: string[] = []): Promise<{ error?: string }> {
