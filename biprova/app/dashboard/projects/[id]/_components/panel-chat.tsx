@@ -333,6 +333,7 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
         content,
         created_at: new Date().toISOString(),
         deleted_at: null,
+        is_favorited: false,
         status: 'sending',
       };
       setMessages((prev) => [...prev, optimistic]);
