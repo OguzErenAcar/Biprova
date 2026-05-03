@@ -139,7 +139,9 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
   const [msiActive, setMsiActive] = useState(false);
   const [detailsMsgId, setDetailsMsgId] = useState<string | null>(null);
   const [selectedMsgIds, setSelectedMsgIds] = useState<Set<string>>(new Set());
-  const [favMsgIds, setFavMsgIds] = useState<Set<string>>(new Set());
+  const [favMsgIds, setFavMsgIds] = useState<Set<string>>(
+    new Set(initialMessages.filter((m) => m.is_favorited).map((m) => m.id))
+  );
   const [expandedMsgIds, setExpandedMsgIds] = useState<Set<string>>(new Set());
   const [pendingFiles, setPendingFiles] = useState<File[]>([]);
   const [uploading, setUploading] = useState(false);
