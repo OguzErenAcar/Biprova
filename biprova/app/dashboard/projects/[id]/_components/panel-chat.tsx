@@ -399,7 +399,7 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
     longPressTimerRef.current = setTimeout(() => {
       longPressTriggeredRef.current = true;
       setContextMsgId(msgId);
-    }, 3000);
+    }, 2000);
   }
 
   function cancelLongPress() {
