@@ -128,12 +128,12 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
   const [error, setError] = useState<string | null>(null);
   const [isSelecting, setIsSelecting] = useState(false);
   const [selectedMsgIds, setSelectedMsgIds] = useState<Set<string>>(new Set());
-  const [contextMessageId, setContextMessageId] = useState<string | null>(null);
   const [expandedMsgIds, setExpandedMsgIds] = useState<Set<string>>(new Set());
   const [pendingFiles, setPendingFiles] = useState<File[]>([]);
   const [uploading, setUploading] = useState(false);
   const [showAttachMenu, setShowAttachMenu] = useState(false);
   const [showTopMenu, setShowTopMenu] = useState(false);
+  const [contextMsgId, setContextMsgId] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
   const bottomRef = useRef<HTMLDivElement>(null);
   const sentMessageIds = useRef<Set<string>>(new Set());
@@ -385,42 +385,11 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
     });
   }
 
-  function startLongPress(msgId: string) {
-    if (isSelecting) return;
-    longPressTriggeredRef.current = false;
-    longPressTimerRef.current = setTimeout(() => {
-      longPressTriggeredRef.current = true;
-      setContextMessageId(msgId);
-    }, 3000);
-  }
-
-  function cancelLongPress() {
-    if (longPressTimerRef.current) {
-      clearTimeout(longPressTimerRef.current);
-      longPressTimerRef.current = null;
-    }
-  }
-
-  function handleMessageClick(msgId: string) {
-    if (longPressTriggeredRef.current) {
-      longPressTriggeredRef.current = false;
-      return;
-    }
-    toggleMessage(msgId);
-  }
-
   function handleDelete() {
     // TODO: silme action'ı eklenecek
     setMessages((prev) => prev.filter((m) => !selectedMsgIds.has(m.id)));
     setSelectedMsgIds(new Set());
     setIsSelecting(false);
-  }
-
-  function handleContextDelete() {
-    if (!contextMessageId) return;
-    // TODO: silme action'ı eklenecek
-    setMessages((prev) => prev.filter((m) => m.id !== contextMessageId));
-    setContextMessageId(null);
   }
 
   return (
@@ -449,24 +418,6 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
                   {selectedMsgIds.size > 0 ? `Sil (${selectedMsgIds.size})` : 'Sil'}
                 </span>
               </button>
-            </>
-          ) : contextMessageId ? (
-            <>
-              <button
-                onClick={() => setContextMessageId(null)}
-                className="text-[0.75rem] text-slate-400 hover:text-slate-600 transition-colors"
-              >
-                İptal
-              </button>
-              {/* button group — buraya yeni aksiyonlar eklenebilir */}
-              <div className="flex items-center gap-1">
-                <button
-                  onClick={handleContextDelete}
-                  className="w-7 h-7 flex items-center justify-center rounded-md text-slate-400 hover:text-red-500 hover:bg-slate-100 transition-colors"
-                >
-                  <Trash2 size={15} strokeWidth={2} />
-                </button>
-              </div>
             </>
           ) : (
             <div className="ml-auto flex items-center gap-1">
@@ -504,19 +455,11 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
           {messages.map((msg) => {
             const isMine = msg.sender_id === viewerId;
             const isSelected = selectedMsgIds.has(msg.id);
-            const isContext = msg.id === contextMessageId;
             return (
               <div
                 key={msg.id}
-                className={`flex gap-2 items-end rounded-xl px-2 py-1 transition-colors ${isMine ? 'flex-row-reverse' : ''} ${isSelecting ? 'cursor-pointer' : ''} ${isSelected ? 'bg-red-100' : ''} ${isContext ? 'bg-blue-50' : ''}`}
-                onClick={() => handleMessageClick(msg.id)}
-                onMouseDown={() => startLongPress(msg.id)}
-                onMouseUp={cancelLongPress}
-                onMouseLeave={cancelLongPress}
-                onTouchStart={() => startLongPress(msg.id)}
-                onTouchEnd={cancelLongPress}
-                onTouchCancel={cancelLongPress}
-                onContextMenu={(e) => e.preventDefault()}
+                className={`flex gap-2 items-end rounded-xl px-2 py-1 transition-colors ${isMine ? 'flex-row-reverse' : ''} ${isSelecting ? 'cursor-pointer' : ''} ${isSelected ? 'bg-red-100' : ''}`}
+                onClick={() => toggleMessage(msg.id)}
               >
                 <Link
                   href={`/dashboard/profile/${msg.sender_id}`}
