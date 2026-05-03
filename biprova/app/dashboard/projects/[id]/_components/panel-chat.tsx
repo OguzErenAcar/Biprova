@@ -448,7 +448,7 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
       id: 'delete',
       icon: <Trash2 size={15} strokeWidth={2} />,
       className: 'text-slate-400 hover:text-red-500 hover:bg-slate-100',
-      showWhen: () => true,
+      showWhen: () => allSelectedAreMine,
       onApply: handleMsiDelete,
     },
     {
