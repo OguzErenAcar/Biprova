@@ -389,11 +389,21 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
     });
   }
 
-  function handleMsiDelete() {
+  function handleMsiDelete(selectedIds: Set<string>) {
     // TODO: silme action'ı eklenecek
-    setMessages((prev) => prev.filter((m) => !selectedMsgIds.has(m.id)));
+    setMessages((prev) => prev.filter((m) => !selectedIds.has(m.id)));
     cancelMsi();
   }
+
+  const topMenuButtons: TopMenuButton[] = [
+    {
+      id: 'delete',
+      icon: <Trash2 size={15} strokeWidth={2} />,
+      className: 'text-slate-400 hover:text-red-500 hover:bg-slate-100',
+      showWhen: () => true,
+      onApply: handleMsiDelete,
+    },
+  ];
 
   function startLongPress(msgId: string, clientX: number, clientY: number) {
     longPressTriggeredRef.current = false;
