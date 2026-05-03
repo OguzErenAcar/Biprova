@@ -111,6 +111,16 @@ function formatTime(dateStr: string) {
   return `${d.getHours()}:${String(d.getMinutes()).padStart(2, '0')}`;
 }
 
+interface TopMenuButton {
+  id: string;
+  icon: React.ReactNode;
+  className: string;
+  // MSI modunda hangi seçim sayısında gösterilsin (false → buton filtreden düşer)
+  showWhen: (selectedCount: number) => boolean;
+  // seçim tamamlandığında çalışacak işlem
+  onApply: (selectedIds: Set<string>) => void;
+}
+
 interface Props {
   teamId: string;
   messages: ProjectMessage[];
