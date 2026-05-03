@@ -621,7 +621,7 @@ export async function getProjectDetail(id: string): Promise<ProjectDetail | null
   let files: ProjectFile[] = [];
 
   if (project.team_id) {
-    const [{ data: rawMembers }, { data: rawProjectMembers }, { data: rawMessages }, { data: rawPosts }, { data: rawFiles }] = await Promise.all([
+    const [{ data: rawMembers }, { data: rawProjectMembers }, { data: rawMessages }, { data: rawPosts }, { data: rawFiles }, { data: rawFavorites }] = await Promise.all([
       supabase
         .from('team_members')
         .select('user_id, users!inner(name, avatar_url, badge), project_roles!role_id(role_name)')
