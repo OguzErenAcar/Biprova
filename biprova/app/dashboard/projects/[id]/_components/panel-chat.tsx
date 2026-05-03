@@ -419,65 +419,44 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
       >
         {/* Top bar */}
         <div id="chat-topbar" className="absolute top-0 left-0 right-0 h-[35px] bg-white z-10 flex items-center justify-between px-3">
-          {isSelecting ? (
-            <>
+          <div className={`flex items-center gap-1 ${msiActive ? 'w-full justify-between' : 'ml-auto'}`}>
+            {msiActive && (
               <button
-                onClick={toggleSelectMode}
+                onClick={cancelMsi}
                 className="text-[0.75rem] text-slate-400 hover:text-slate-600 transition-colors"
               >
                 İptal
               </button>
-              <button
-                onClick={handleDelete}
-                disabled={selectedMsgIds.size === 0}
-                className="flex items-center gap-1.5 text-red-500 hover:text-red-600 transition-colors disabled:opacity-30"
-              >
-                <Trash2 size={15} strokeWidth={2} />
-                <span className="text-[0.75rem] font-semibold">
-                  {selectedMsgIds.size > 0 ? `Sil (${selectedMsgIds.size})` : 'Sil'}
-                </span>
-              </button>
-            </>
-          ) : (
-            <div className={`flex items-center gap-1 ${contextMsgId ? 'w-full justify-between' : 'ml-auto'}`}>
-              {contextMsgId && (
+            )}
+            <div className="flex items-center gap-1">
+              {showTopMenu && (
+                <>
+                  {/* filtre placeholder — ileride her buton için ayrı kriter eklenecek */}
+                  <button
+                    onClick={() => {
+                      if (msiActive) {
+                        if (selectedMsgIds.size > 0) handleMsiDelete();
+                      } else {
+                        setMsiActive(true);
+                      }
+                    }}
+                    disabled={msiActive && selectedMsgIds.size === 0}
+                    className="w-7 h-7 flex items-center justify-center rounded-md text-slate-400 hover:text-red-500 hover:bg-slate-100 transition-colors disabled:opacity-30"
+                  >
+                    <Trash2 size={15} strokeWidth={2} />
+                  </button>
+                </>
+              )}
+              {!msiActive && (
                 <button
-                  onClick={() => { setContextMsgId(null); setSelectedMsgIds(new Set()); setShowTopMenu(false); }}
-                  className="text-[0.75rem] text-slate-400 hover:text-slate-600 transition-colors"
+                  onClick={() => setShowTopMenu((v) => !v)}
+                  className={`w-7 h-7 flex items-center justify-center rounded-md transition-colors ${showTopMenu ? 'text-slate-700 bg-slate-100' : 'text-slate-400 hover:text-slate-600 hover:bg-slate-100'}`}
                 >
-                  İptal
+                  <MoreHorizontal size={16} strokeWidth={2} />
                 </button>
               )}
-              <div className="flex items-center gap-1">
-                {showTopMenu && (
-                  <>
-                    {/* filtre placeholder — ileride her buton için ayrı kriter eklenecek */}
-                    <button
-                      onClick={() => {
-                        if (contextMsgId) {
-                          handleContextDelete();
-                        } else {
-                          setShowTopMenu(false);
-                          toggleSelectMode();
-                        }
-                      }}
-                      className="w-7 h-7 flex items-center justify-center rounded-md text-slate-400 hover:text-red-500 hover:bg-slate-100 transition-colors"
-                    >
-                      <Trash2 size={15} strokeWidth={2} />
-                    </button>
-                  </>
-                )}
-                {!contextMsgId && (
-                  <button
-                    onClick={() => setShowTopMenu((v) => !v)}
-                    className={`w-7 h-7 flex items-center justify-center rounded-md transition-colors ${showTopMenu ? 'text-slate-700 bg-slate-100' : 'text-slate-400 hover:text-slate-600 hover:bg-slate-100'}`}
-                  >
-                    <MoreHorizontal size={16} strokeWidth={2} />
-                  </button>
-                )}
-              </div>
             </div>
-          )}
+          </div>
         </div>
 
         {/* Messages */}
