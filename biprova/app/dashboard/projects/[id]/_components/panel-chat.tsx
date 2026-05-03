@@ -416,6 +416,13 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
     setIsSelecting(false);
   }
 
+  function handleContextDelete() {
+    if (!contextMessageId) return;
+    // TODO: silme action'ı eklenecek
+    setMessages((prev) => prev.filter((m) => m.id !== contextMessageId));
+    setContextMessageId(null);
+  }
+
   return (
     <div id="panel-chat">
       <div
