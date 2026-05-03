@@ -409,9 +409,14 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
   }
 
   function handleMsiDelete(selectedIds: Set<string>) {
-    // TODO: silme action'ı eklenecek
-    setMessages((prev) => prev.filter((m) => !selectedIds.has(m.id)));
+    const deletedAt = new Date().toISOString();
+    setMessages((prev) =>
+      prev.map((m) => selectedIds.has(m.id) ? { ...m, deleted_at: deletedAt } : m)
+    );
     cancelMsi();
+    selectedIds.forEach((id) => {
+      deleteProjectMessage(teamId, id);
+    });
   }
 
   const allSelectedFaved = selectedMsgIds.size > 0 && [...selectedMsgIds].every((id) => favMsgIds.has(id));
