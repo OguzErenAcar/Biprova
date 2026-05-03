@@ -318,6 +318,7 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
         content,
         created_at: new Date().toISOString(),
         deleted_at: null,
+        is_favorited: false,
         status: 'uploading',
         pendingFileNames: filesToSend.map((f) => f.name),
       };
