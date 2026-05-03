@@ -128,6 +128,7 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
   const [error, setError] = useState<string | null>(null);
   const [isSelecting, setIsSelecting] = useState(false);
   const [selectedMsgIds, setSelectedMsgIds] = useState<Set<string>>(new Set());
+  const [contextMessageId, setContextMessageId] = useState<string | null>(null);
   const [expandedMsgIds, setExpandedMsgIds] = useState<Set<string>>(new Set());
   const [pendingFiles, setPendingFiles] = useState<File[]>([]);
   const [uploading, setUploading] = useState(false);
