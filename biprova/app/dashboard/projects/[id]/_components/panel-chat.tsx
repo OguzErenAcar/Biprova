@@ -644,25 +644,37 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
                     const preview = m.deleted_at
                       ? 'bu mesaj silindi'
                       : textLines.join('\n').trim() || (hasFiles ? '📎 Dosya' : '');
+                    const isExpanded = expandedFavIds.has(m.id);
+                    const truncate = !m.deleted_at && !isExpanded && needsTruncation(m.content);
+                    const displayText = truncate ? truncateContent(preview) : preview;
                     return (
-                      <button
-                        key={m.id}
-                        onClick={() => {
-                          setShowFavPanel(false);
-                          setTimeout(() => {
-                            document.getElementById(`msg-${m.id}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                          }, 320);
-                        }}
-                        className="w-full text-left bg-slate-50 rounded-lg p-3 border border-slate-100 hover:border-amber-200 hover:bg-amber-50 transition-colors"
-                      >
-                        <div className="flex items-center justify-between mb-1">
-                          <span className="text-[0.7rem] font-semibold text-slate-400">{m.sender_name}</span>
-                          <span className="text-[0.65rem] text-slate-400">{formatTime(m.created_at)}</span>
-                        </div>
-                        <span className={`text-[0.82rem] ${m.deleted_at ? 'italic text-slate-400' : 'text-slate-700'}`}>
-                          {preview}
-                        </span>
-                      </button>
+                      <div key={m.id} className="bg-slate-50 rounded-lg border border-slate-100 overflow-hidden">
+                        <button
+                          onClick={() => {
+                            setShowFavPanel(false);
+                            setTimeout(() => {
+                              document.getElementById(`msg-${m.id}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            }, 320);
+                          }}
+                          className="w-full text-left p-3 hover:bg-amber-50 hover:border-amber-200 transition-colors"
+                        >
+                          <div className="flex items-center justify-between mb-1">
+                            <span className="text-[0.7rem] font-semibold text-slate-400">{m.sender_name}</span>
+                            <span className="text-[0.65rem] text-slate-400">{formatTime(m.created_at)}</span>
+                          </div>
+                          <span className={`text-[0.82rem] ${m.deleted_at ? 'italic text-slate-400' : 'text-slate-700'}`}>
+                            {displayText}
+                          </span>
+                        </button>
+                        {truncate && (
+                          <button
+                            onClick={() => setExpandedFavIds((prev) => new Set([...prev, m.id]))}
+                            className="w-full text-left px-3 pb-2 text-[0.75rem] font-semibold text-blue-500 hover:underline"
+                          >
+                            ...devamını oku
+                          </button>
+                        )}
+                      </div>
                     );
                   })}
                 </div>
