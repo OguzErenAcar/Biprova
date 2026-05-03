@@ -149,6 +149,7 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
   const [uploading, setUploading] = useState(false);
   const [showAttachMenu, setShowAttachMenu] = useState(false);
   const [showTopMenu, setShowTopMenu] = useState(false);
+  const [showFavPanel, setShowFavPanel] = useState(false);
   const [isPending, startTransition] = useTransition();
   const bottomRef = useRef<HTMLDivElement>(null);
   const sentMessageIds = useRef<Set<string>>(new Set());
