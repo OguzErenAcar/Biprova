@@ -673,6 +673,8 @@ export async function getProjectDetail(id: string): Promise<ProjectDetail | null
       is_project_leader: m.user_id === project.leader_id,
     }));
 
+    const favoritedIds = new Set((rawFavorites ?? []).map((f) => (f as { message_id: string }).message_id));
+
     messages = (rawMessages as unknown as RawMessageRow[] ?? []).map((m) => ({
       id: m.id,
       sender_id: m.sender_id,
@@ -681,7 +683,7 @@ export async function getProjectDetail(id: string): Promise<ProjectDetail | null
       content: m.content,
       created_at: m.created_at,
       deleted_at: m.deleted_at,
-      is_favorited: Array.isArray(m.message_favorites) && m.message_favorites.length > 0,
+      is_favorited: favoritedIds.has(m.id),
     }));
 
     posts = (rawPosts as unknown as RawPostRow[] ?? []).map((p) => ({
