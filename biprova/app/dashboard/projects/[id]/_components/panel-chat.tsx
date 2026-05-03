@@ -483,7 +483,14 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
               <div
                 key={msg.id}
                 className={`flex gap-2 items-end rounded-xl px-2 py-1 transition-colors ${isMine ? 'flex-row-reverse' : ''} ${isSelecting ? 'cursor-pointer' : ''} ${isSelected ? 'bg-red-100' : ''}`}
-                onClick={() => toggleMessage(msg.id)}
+                onClick={() => handleMessageClick(msg.id)}
+                onMouseDown={() => startLongPress(msg.id)}
+                onMouseUp={cancelLongPress}
+                onMouseLeave={cancelLongPress}
+                onTouchStart={() => startLongPress(msg.id)}
+                onTouchEnd={cancelLongPress}
+                onTouchCancel={cancelLongPress}
+                onContextMenu={(e) => e.preventDefault()}
               >
                 <Link
                   href={`/dashboard/profile/${msg.sender_id}`}
