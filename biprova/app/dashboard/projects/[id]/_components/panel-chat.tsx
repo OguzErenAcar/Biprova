@@ -490,7 +490,11 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
       id: 'details',
       icon: <Info size={15} strokeWidth={2} />,
       className: 'text-slate-400 hover:text-slate-700 hover:bg-slate-100',
-      showWhen: (count) => count === 1,
+      showWhen: (count) => {
+        if (count !== 1) return false;
+        const [id] = selectedMsgIds;
+        return messages.find((m) => m.id === id)?.sender_id === viewerId;
+      },
       onApply: (selectedIds) => {
         setDetailsMsgId([...selectedIds][0]);
         cancelMsi();
