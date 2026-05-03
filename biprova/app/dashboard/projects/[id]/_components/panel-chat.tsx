@@ -225,6 +225,7 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
                 sender_avatar: row.sender_avatar,
                 content: row.content,
                 created_at: row.created_at,
+                deleted_at: null,
                 status: 'sent' as const,
               }];
             });
@@ -240,9 +241,23 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
               sender_avatar: row.sender_avatar,
               content: row.content,
               created_at: row.created_at,
+              deleted_at: null,
               status: 'sent' as const,
             }];
           });
+        }
+      )
+      .on(
+        'broadcast',
+        { event: 'delete_message' },
+        ({ payload }: { payload: { message_id: string } }) => {
+          setMessages((prev) =>
+            prev.map((m) =>
+              m.id === payload.message_id
+                ? { ...m, deleted_at: new Date().toISOString() }
+                : m
+            )
+          );
         }
       )
       .subscribe();
