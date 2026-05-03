@@ -363,33 +363,26 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
     });
   }
 
-  function toggleSelectMode() {
-    if (isSelecting) {
-      setIsSelecting(false);
-      setSelectedMsgIds(new Set());
-    } else {
-      setIsSelecting(true);
-    }
+  function cancelMsi() {
+    setMsiActive(false);
+    setSelectedMsgIds(new Set());
+    setShowTopMenu(false);
   }
 
   function toggleMessage(msgId: string) {
-    if (!isSelecting && !contextMsgId) return;
+    if (!msiActive) return;
     setSelectedMsgIds((prev) => {
       const next = new Set(prev);
-      if (next.has(msgId)) {
-        next.delete(msgId);
-      } else {
-        next.add(msgId);
-      }
+      if (next.has(msgId)) next.delete(msgId);
+      else next.add(msgId);
       return next;
     });
   }
 
-  function handleDelete() {
+  function handleMsiDelete() {
     // TODO: silme action'ı eklenecek
     setMessages((prev) => prev.filter((m) => !selectedMsgIds.has(m.id)));
-    setSelectedMsgIds(new Set());
-    setIsSelecting(false);
+    cancelMsi();
   }
 
   function startLongPress(msgId: string, clientX: number, clientY: number) {
@@ -397,7 +390,7 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
     longPressStartPos.current = { x: clientX, y: clientY };
     longPressTimerRef.current = setTimeout(() => {
       longPressTriggeredRef.current = true;
-      setContextMsgId(msgId);
+      setMsiActive(true);
       setSelectedMsgIds(new Set([msgId]));
       setShowTopMenu(true);
     }, 1000);
@@ -416,13 +409,6 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
     const dx = e.clientX - longPressStartPos.current.x;
     const dy = e.clientY - longPressStartPos.current.y;
     if (dx * dx + dy * dy > 100) cancelLongPress();
-  }
-
-  function handleContextDelete() {
-    // TODO: silme action'ı eklenecek
-    setMessages((prev) => prev.filter((m) => !selectedMsgIds.has(m.id)));
-    setSelectedMsgIds(new Set());
-    setContextMsgId(null);
   }
 
   return (
