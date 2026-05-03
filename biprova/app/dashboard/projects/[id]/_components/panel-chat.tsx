@@ -453,42 +453,44 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
                 </span>
               </button>
             </>
-          ) : contextMsgId ? (
-            <>
-              <button
-                onClick={() => { setContextMsgId(null); setSelectedMsgIds(new Set()); }}
-                className="text-[0.75rem] text-slate-400 hover:text-slate-600 transition-colors"
-              >
-                İptal
-              </button>
-              <div className="flex items-center gap-1">
-                <button
-                  onClick={handleContextDelete}
-                  className="w-7 h-7 flex items-center justify-center rounded-md text-red-400 hover:text-red-600 hover:bg-slate-100 transition-colors"
-                >
-                  <Trash2 size={15} strokeWidth={2} />
-                </button>
-              </div>
-            </>
           ) : (
-            <div className="ml-auto flex items-center gap-1">
-              {showTopMenu && (
-                <>
-                  {/* button group — buraya yeni butonlar eklenebilir */}
-                  <button
-                    onClick={() => { setShowTopMenu(false); toggleSelectMode(); }}
-                    className="w-7 h-7 flex items-center justify-center rounded-md text-slate-400 hover:text-red-500 hover:bg-slate-100 transition-colors"
-                  >
-                    <Trash2 size={15} strokeWidth={2} />
-                  </button>
-                </>
+            <div className={`flex items-center gap-1 ${contextMsgId ? 'w-full justify-between' : 'ml-auto'}`}>
+              {contextMsgId && (
+                <button
+                  onClick={() => { setContextMsgId(null); setSelectedMsgIds(new Set()); setShowTopMenu(false); }}
+                  className="text-[0.75rem] text-slate-400 hover:text-slate-600 transition-colors"
+                >
+                  İptal
+                </button>
               )}
-              <button
-                onClick={() => setShowTopMenu((v) => !v)}
-                className={`w-7 h-7 flex items-center justify-center rounded-md transition-colors ${showTopMenu ? 'text-slate-700 bg-slate-100' : 'text-slate-400 hover:text-slate-600 hover:bg-slate-100'}`}
-              >
-                <MoreHorizontal size={16} strokeWidth={2} />
-              </button>
+              <div className="flex items-center gap-1">
+                {showTopMenu && (
+                  <>
+                    {/* filtre placeholder — ileride her buton için ayrı kriter eklenecek */}
+                    <button
+                      onClick={() => {
+                        if (contextMsgId) {
+                          handleContextDelete();
+                        } else {
+                          setShowTopMenu(false);
+                          toggleSelectMode();
+                        }
+                      }}
+                      className="w-7 h-7 flex items-center justify-center rounded-md text-slate-400 hover:text-red-500 hover:bg-slate-100 transition-colors"
+                    >
+                      <Trash2 size={15} strokeWidth={2} />
+                    </button>
+                  </>
+                )}
+                {!contextMsgId && (
+                  <button
+                    onClick={() => setShowTopMenu((v) => !v)}
+                    className={`w-7 h-7 flex items-center justify-center rounded-md transition-colors ${showTopMenu ? 'text-slate-700 bg-slate-100' : 'text-slate-400 hover:text-slate-600 hover:bg-slate-100'}`}
+                  >
+                    <MoreHorizontal size={16} strokeWidth={2} />
+                  </button>
+                )}
+              </div>
             </div>
           )}
         </div>
