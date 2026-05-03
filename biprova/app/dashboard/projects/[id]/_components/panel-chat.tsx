@@ -449,24 +449,25 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
               </button>
             )}
             <div className="flex items-center gap-1">
-              {showTopMenu && (
-                <>
-                  {/* filtre placeholder — ileride her buton için ayrı kriter eklenecek */}
+              {showTopMenu && topMenuButtons
+                .filter((btn) => !msiActive || btn.showWhen(selectedMsgIds.size))
+                .map((btn) => (
                   <button
+                    key={btn.id}
                     onClick={() => {
                       if (msiActive) {
-                        if (selectedMsgIds.size > 0) handleMsiDelete();
+                        if (selectedMsgIds.size > 0) btn.onApply(selectedMsgIds);
                       } else {
                         setMsiActive(true);
                       }
                     }}
                     disabled={msiActive && selectedMsgIds.size === 0}
-                    className="w-7 h-7 flex items-center justify-center rounded-md text-slate-400 hover:text-red-500 hover:bg-slate-100 transition-colors disabled:opacity-30"
+                    className={`w-7 h-7 flex items-center justify-center rounded-md transition-colors disabled:opacity-30 ${btn.className}`}
                   >
-                    <Trash2 size={15} strokeWidth={2} />
+                    {btn.icon}
                   </button>
-                </>
-              )}
+                ))
+              }
               {!msiActive && (
                 <button
                   onClick={() => setShowTopMenu((v) => !v)}
