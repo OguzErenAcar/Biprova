@@ -1097,6 +1097,70 @@ export async function toggleMessageFavorite(
   return {};
 }
 
+export interface MessageReader {
+  user_id: string;
+  name: string;
+  avatar_url: string | null;
+  read_at: string;
+}
+
+type RawMessageReadRow = {
+  user_id: string;
+  last_read_at: string;
+  users: { name: string; avatar_url: string | null } | null;
+};
+
+export async function markMessagesRead(
+  teamId: string,
+  lastMessageId: string,
+): Promise<{ error?: string }> {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return { error: 'Oturum açmanız gerekiyor.' };
+
+  const { error } = await supabase
+    .from('message_reads')
+    .upsert(
+      {
+        team_id: teamId,
+        user_id: user.id,
+        last_read_message_id: lastMessageId,
+        last_read_at: new Date().toISOString(),
+      },
+      { onConflict: 'team_id,user_id' }
+    );
+
+  if (error) return { error: error.message };
+  return {};
+}
+
+export async function getMessageReaders(
+  teamId: string,
+  messageCreatedAt: string,
+  senderId: string,
+): Promise<MessageReader[]> {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return [];
+
+  const { data } = await supabase
+    .from('message_reads')
+    .select('user_id, last_read_at, users!user_id(name, avatar_url)')
+    .eq('team_id', teamId)
+    .gte('last_read_at', messageCreatedAt)
+    .neq('user_id', senderId)
+    .limit(50);
+
+  return (data as unknown as RawMessageReadRow[] ?? [])
+    .filter((r) => r.users !== null)
+    .map((r) => ({
+      user_id: r.user_id,
+      name: r.users!.name,
+      avatar_url: r.users!.avatar_url,
+      read_at: r.last_read_at,
+    }));
+}
+
 const ALLOWED_IMAGE_EXTENSIONS = new Set(['jpg', 'jpeg', 'png', 'webp', 'gif']);
 
 export async function createProjectPost(teamId: string, content: string, imageUrls: string[] = []): Promise<{ error?: string }> {
