@@ -126,14 +126,13 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
   );
   const [text, setText] = useState('');
   const [error, setError] = useState<string | null>(null);
-  const [isSelecting, setIsSelecting] = useState(false);
+  const [msiActive, setMsiActive] = useState(false);
   const [selectedMsgIds, setSelectedMsgIds] = useState<Set<string>>(new Set());
   const [expandedMsgIds, setExpandedMsgIds] = useState<Set<string>>(new Set());
   const [pendingFiles, setPendingFiles] = useState<File[]>([]);
   const [uploading, setUploading] = useState(false);
   const [showAttachMenu, setShowAttachMenu] = useState(false);
   const [showTopMenu, setShowTopMenu] = useState(false);
-  const [contextMsgId, setContextMsgId] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
   const bottomRef = useRef<HTMLDivElement>(null);
   const sentMessageIds = useRef<Set<string>>(new Set());
