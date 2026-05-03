@@ -440,12 +440,16 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
         : 'text-slate-400 hover:text-amber-400 hover:bg-slate-100',
       showWhen: () => true,
       onApply: (selectedIds) => {
+        const allFaved = [...selectedIds].every((id) => favMsgIds.has(id));
         setFavMsgIds((prev) => {
           const next = new Set(prev);
-          const allFaved = [...selectedIds].every((id) => prev.has(id));
           if (allFaved) selectedIds.forEach((id) => next.delete(id));
           else selectedIds.forEach((id) => next.add(id));
           return next;
+        });
+        selectedIds.forEach((id) => {
+          if (allFaved) toggleMessageFavorite(id, true);
+          else if (!favMsgIds.has(id)) toggleMessageFavorite(id, false);
         });
         cancelMsi();
       },
