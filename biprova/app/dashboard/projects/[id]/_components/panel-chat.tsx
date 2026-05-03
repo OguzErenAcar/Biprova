@@ -390,8 +390,7 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
     longPressTriggeredRef.current = false;
     longPressTimerRef.current = setTimeout(() => {
       longPressTriggeredRef.current = true;
-      setIsSelecting(true);
-      setSelectedMsgIds(new Set([msgId]));
+      setContextMessageId(msgId);
     }, 3000);
   }
 
