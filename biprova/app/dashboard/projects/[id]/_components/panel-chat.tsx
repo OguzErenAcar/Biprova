@@ -455,7 +455,7 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
           ) : contextMsgId ? (
             <>
               <button
-                onClick={() => setContextMsgId(null)}
+                onClick={() => { setContextMsgId(null); setSelectedMsgIds(new Set()); }}
                 className="text-[0.75rem] text-slate-400 hover:text-slate-600 transition-colors"
               >
                 İptal
