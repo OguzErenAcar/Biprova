@@ -384,6 +384,31 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
     });
   }
 
+  function startLongPress(msgId: string) {
+    if (isSelecting) return;
+    longPressTriggeredRef.current = false;
+    longPressTimerRef.current = setTimeout(() => {
+      longPressTriggeredRef.current = true;
+      setIsSelecting(true);
+      setSelectedMsgIds(new Set([msgId]));
+    }, 3000);
+  }
+
+  function cancelLongPress() {
+    if (longPressTimerRef.current) {
+      clearTimeout(longPressTimerRef.current);
+      longPressTimerRef.current = null;
+    }
+  }
+
+  function handleMessageClick(msgId: string) {
+    if (longPressTriggeredRef.current) {
+      longPressTriggeredRef.current = false;
+      return;
+    }
+    toggleMessage(msgId);
+  }
+
   function handleDelete() {
     // TODO: silme action'ı eklenecek
     setMessages((prev) => prev.filter((m) => !selectedMsgIds.has(m.id)));
