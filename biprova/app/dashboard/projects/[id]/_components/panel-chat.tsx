@@ -400,6 +400,7 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
       longPressTriggeredRef.current = true;
       setContextMsgId(msgId);
       setSelectedMsgIds(new Set([msgId]));
+      setShowTopMenu(true);
     }, 1000);
   }
 
