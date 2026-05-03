@@ -675,6 +675,7 @@ export async function getProjectDetail(id: string): Promise<ProjectDetail | null
       sender_avatar: m.users?.avatar_url ?? null,
       content: m.content,
       created_at: m.created_at,
+      deleted_at: m.deleted_at,
     }));
 
     posts = (rawPosts as unknown as RawPostRow[] ?? []).map((p) => ({
