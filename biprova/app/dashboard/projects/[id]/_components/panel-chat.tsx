@@ -646,6 +646,9 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
                     })()}
                   </div>
                   <div className={`flex items-center gap-1 mt-0.5 ${isMine ? 'justify-end' : ''}`}>
+                    {favMsgIds.has(msg.id) && (
+                      <Star size={10} strokeWidth={2} fill="currentColor" className="text-amber-400 shrink-0" />
+                    )}
                     <span className="text-[0.65rem] text-slate-400">{formatTime(msg.created_at)}</span>
                     {isMine && msg.status !== 'uploading' && (
                       <span className="text-slate-400">
