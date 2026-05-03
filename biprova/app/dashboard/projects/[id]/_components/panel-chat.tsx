@@ -615,6 +615,51 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
           </div>
         </div>
 
+        {/* Favorites panel */}
+        <div
+          className={`absolute top-0 right-0 h-full w-[75%] bg-white z-20 flex flex-col shadow-xl transition-transform duration-300 ${showFavPanel ? 'translate-x-0' : 'translate-x-full'}`}
+        >
+          <div className="flex items-center justify-between px-4 h-[35px] border-b border-slate-100 shrink-0">
+            <span className="text-[0.8rem] font-semibold text-slate-600">Favori Mesajlar</span>
+            <button
+              onClick={() => setShowFavPanel(false)}
+              className="w-7 h-7 flex items-center justify-center rounded-md text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors"
+            >
+              <X size={15} strokeWidth={2} />
+            </button>
+          </div>
+          <div className="flex-1 overflow-y-auto p-3">
+            {(() => {
+              const favMessages = messages.filter((m) => favMsgIds.has(m.id));
+              if (favMessages.length === 0) {
+                return <p className="text-[0.8rem] text-slate-400 mt-2">Henüz favori mesaj yok</p>;
+              }
+              return (
+                <div className="flex flex-col gap-2">
+                  {favMessages.map((m) => {
+                    const textLines = m.content.split('\n').filter((l) => !l.startsWith('📎 '));
+                    const hasFiles = m.content.split('\n').some((l) => l.startsWith('📎 '));
+                    const preview = m.deleted_at
+                      ? 'bu mesaj silindi'
+                      : textLines.join('\n').trim() || (hasFiles ? '📎 Dosya' : '');
+                    return (
+                      <div key={m.id} className="bg-slate-50 rounded-lg p-3 border border-slate-100">
+                        <div className="flex items-center justify-between mb-1">
+                          <span className="text-[0.7rem] font-semibold text-slate-400">{m.sender_name}</span>
+                          <span className="text-[0.65rem] text-slate-400">{formatTime(m.created_at)}</span>
+                        </div>
+                        <span className={`text-[0.82rem] line-clamp-3 ${m.deleted_at ? 'italic text-slate-400' : 'text-slate-700'}`}>
+                          {preview}
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
+              );
+            })()}
+          </div>
+        </div>
+
         {/* Top bar */}
         <div id="chat-topbar" className="absolute top-0 left-0 right-0 h-[35px] bg-white z-10 flex items-center justify-between px-3">
           <div className={`flex items-center gap-1 ${msiActive ? 'w-full justify-between' : 'ml-auto'}`}>
