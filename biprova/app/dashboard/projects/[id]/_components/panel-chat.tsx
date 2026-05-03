@@ -498,6 +498,7 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
       },
       onApply: (selectedIds) => {
         setDetailsMsgId([...selectedIds][0]);
+        setShowFavPanel(false);
         cancelMsi();
       },
     },
