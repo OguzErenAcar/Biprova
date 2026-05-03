@@ -1029,7 +1029,7 @@ export async function sendProjectMessage(
 
   const { data: inserted, error: insertError } = await supabase
     .from('messages')
-    .insert({ team_id: teamId, sender_id: user.id, content: trimmed })
+    .insert({ team_id: teamId, sender_id: user.id, content: trimmed, ...(replyToId ? { reply_to_id: replyToId } : {}) })
     .select('id, created_at')
     .single();
 
