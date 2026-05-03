@@ -374,7 +374,7 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
   }
 
   function toggleMessage(msgId: string) {
-    if (!isSelecting) return;
+    if (!isSelecting && !contextMsgId) return;
     setSelectedMsgIds((prev) => {
       const next = new Set(prev);
       if (next.has(msgId)) {
