@@ -441,6 +441,23 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
                 </span>
               </button>
             </>
+          ) : contextMsgId ? (
+            <>
+              <button
+                onClick={() => setContextMsgId(null)}
+                className="text-[0.75rem] text-slate-400 hover:text-slate-600 transition-colors"
+              >
+                İptal
+              </button>
+              <div className="flex items-center gap-1">
+                <button
+                  onClick={handleContextDelete}
+                  className="w-7 h-7 flex items-center justify-center rounded-md text-red-400 hover:text-red-600 hover:bg-slate-100 transition-colors"
+                >
+                  <Trash2 size={15} strokeWidth={2} />
+                </button>
+              </div>
+            </>
           ) : (
             <div className="ml-auto flex items-center gap-1">
               {showTopMenu && (
