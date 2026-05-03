@@ -504,10 +504,11 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
           {messages.map((msg) => {
             const isMine = msg.sender_id === viewerId;
             const isSelected = selectedMsgIds.has(msg.id);
+            const isContext = msg.id === contextMessageId;
             return (
               <div
                 key={msg.id}
-                className={`flex gap-2 items-end rounded-xl px-2 py-1 transition-colors ${isMine ? 'flex-row-reverse' : ''} ${isSelecting ? 'cursor-pointer' : ''} ${isSelected ? 'bg-red-100' : ''}`}
+                className={`flex gap-2 items-end rounded-xl px-2 py-1 transition-colors ${isMine ? 'flex-row-reverse' : ''} ${isSelecting ? 'cursor-pointer' : ''} ${isSelected ? 'bg-red-100' : ''} ${isContext ? 'bg-blue-50' : ''}`}
                 onClick={() => handleMessageClick(msg.id)}
                 onMouseDown={() => startLongPress(msg.id)}
                 onMouseUp={cancelLongPress}
