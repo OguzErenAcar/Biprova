@@ -644,15 +644,24 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
                       ? 'bu mesaj silindi'
                       : textLines.join('\n').trim() || (hasFiles ? '📎 Dosya' : '');
                     return (
-                      <div key={m.id} className="bg-slate-50 rounded-lg p-3 border border-slate-100">
+                      <button
+                        key={m.id}
+                        onClick={() => {
+                          setShowFavPanel(false);
+                          setTimeout(() => {
+                            document.getElementById(`msg-${m.id}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                          }, 320);
+                        }}
+                        className="w-full text-left bg-slate-50 rounded-lg p-3 border border-slate-100 hover:border-amber-200 hover:bg-amber-50 transition-colors"
+                      >
                         <div className="flex items-center justify-between mb-1">
                           <span className="text-[0.7rem] font-semibold text-slate-400">{m.sender_name}</span>
                           <span className="text-[0.65rem] text-slate-400">{formatTime(m.created_at)}</span>
                         </div>
-                        <span className={`text-[0.82rem] line-clamp-3 ${m.deleted_at ? 'italic text-slate-400' : 'text-slate-700'}`}>
+                        <span className={`text-[0.82rem] ${m.deleted_at ? 'italic text-slate-400' : 'text-slate-700'}`}>
                           {preview}
                         </span>
-                      </div>
+                      </button>
                     );
                   })}
                 </div>
