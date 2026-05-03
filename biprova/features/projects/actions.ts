@@ -650,6 +650,10 @@ export async function getProjectDetail(id: string): Promise<ProjectDetail | null
         .eq('team_id', project.team_id)
         .order('created_at', { ascending: false })
         .limit(50),
+      supabase
+        .from('message_favorites')
+        .select('message_id')
+        .limit(200),
     ]);
 
     const activeProjectMemberIds = new Set((rawProjectMembers ?? []).map((m) => m.user_id));
