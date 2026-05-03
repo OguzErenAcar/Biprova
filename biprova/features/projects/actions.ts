@@ -532,6 +532,7 @@ type RawMessageRow = {
   created_at: string;
   deleted_at: string | null;
   users: { name: string; avatar_url: string | null } | null;
+  message_favorites: { user_id: string }[] | null;
 };
 
 type RawPostRow = {
