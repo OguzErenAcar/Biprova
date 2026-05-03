@@ -419,6 +419,7 @@ export interface ProjectMessage {
   sender_avatar: string | null;
   content: string;
   created_at: string;
+  deleted_at: string | null;
 }
 
 export interface ProjectPost {
