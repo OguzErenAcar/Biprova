@@ -633,7 +633,7 @@ export async function getProjectDetail(id: string): Promise<ProjectDetail | null
         .limit(20),
       supabase
         .from('messages')
-        .select('id, sender_id, content, created_at, users!sender_id(name, avatar_url)')
+        .select('id, sender_id, content, created_at, deleted_at, users!sender_id(name, avatar_url)')
         .eq('team_id', project.team_id)
         .order('created_at', { ascending: true })
         .limit(50),
