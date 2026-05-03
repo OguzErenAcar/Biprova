@@ -287,6 +287,26 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
     return () => document.removeEventListener('mousedown', handleOutside);
   }, [showAttachMenu]);
 
+  useEffect(() => {
+    const sent = messages.filter((m) => m.status === 'sent');
+    const lastMsg = sent[sent.length - 1];
+    if (!lastMsg || lastMsg.id === lastMarkedRef.current) return;
+    lastMarkedRef.current = lastMsg.id;
+    markMessagesRead(teamId, lastMsg.id);
+  }, [messages, teamId]);
+
+  useEffect(() => {
+    if (!detailsMsgId) { setReaders([]); return; }
+    const msg = messagesRef.current.find((m) => m.id === detailsMsgId);
+    if (!msg) return;
+    setReadersLoading(true);
+    getMessageReaders(teamId, msg.created_at, msg.sender_id).then((result) => {
+      setReaders(result);
+      setReadersLoading(false);
+    });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [detailsMsgId, teamId]);
+
   function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     const picked = Array.from(e.target.files ?? []);
     e.target.value = '';
