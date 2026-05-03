@@ -689,6 +689,9 @@ export async function getProjectDetail(id: string): Promise<ProjectDetail | null
       created_at: m.created_at,
       deleted_at: m.deleted_at,
       is_favorited: favoritedIds.has(m.id),
+      reply_to_id: m.reply_to_id,
+      reply_to_sender_name: m.reply_msg?.users?.name ?? null,
+      reply_to_content: m.reply_msg?.content ?? null,
     }));
 
     posts = (rawPosts as unknown as RawPostRow[] ?? []).map((p) => ({
