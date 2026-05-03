@@ -466,6 +466,24 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
         className="bg-gray-200 border-[1.5px] border-slate-200 flex flex-col relative"
         style={{ height: 'calc(100vh - 100px)', minHeight: '430px' }}
       >
+        {/* Details panel */}
+        <div
+          className={`absolute top-0 right-0 h-full w-[75%] bg-white z-20 flex flex-col shadow-xl transition-transform duration-300 ${detailsMsgId ? 'translate-x-0' : 'translate-x-full'}`}
+        >
+          <div className="flex items-center justify-between px-4 h-[35px] border-b border-slate-100 shrink-0">
+            <span className="text-[0.8rem] font-semibold text-slate-600">Mesaj Ayrıntıları</span>
+            <button
+              onClick={() => setDetailsMsgId(null)}
+              className="w-7 h-7 flex items-center justify-center rounded-md text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors"
+            >
+              <X size={15} strokeWidth={2} />
+            </button>
+          </div>
+          <div className="flex-1 overflow-y-auto p-4">
+            {/* içerik buraya gelecek */}
+          </div>
+        </div>
+
         {/* Top bar */}
         <div id="chat-topbar" className="absolute top-0 left-0 right-0 h-[35px] bg-white z-10 flex items-center justify-between px-3">
           <div className={`flex items-center gap-1 ${msiActive ? 'w-full justify-between' : 'ml-auto'}`}>
