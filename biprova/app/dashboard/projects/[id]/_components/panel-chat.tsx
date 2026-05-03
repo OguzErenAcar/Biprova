@@ -392,6 +392,28 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
     setIsSelecting(false);
   }
 
+  function startLongPress(msgId: string) {
+    longPressTriggeredRef.current = false;
+    longPressTimerRef.current = setTimeout(() => {
+      longPressTriggeredRef.current = true;
+      setContextMsgId(msgId);
+    }, 3000);
+  }
+
+  function cancelLongPress() {
+    if (longPressTimerRef.current) {
+      clearTimeout(longPressTimerRef.current);
+      longPressTimerRef.current = null;
+    }
+  }
+
+  function handleContextDelete() {
+    if (!contextMsgId) return;
+    // TODO: silme action'ı eklenecek
+    setMessages((prev) => prev.filter((m) => m.id !== contextMsgId));
+    setContextMsgId(null);
+  }
+
   return (
     <div id="panel-chat">
       <div
