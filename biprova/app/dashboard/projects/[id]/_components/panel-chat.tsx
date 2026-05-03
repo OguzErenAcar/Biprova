@@ -692,12 +692,20 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
                 ))
               }
               {!msiActive && (
-                <button
-                  onClick={() => setShowTopMenu((v) => !v)}
-                  className={`w-7 h-7 flex items-center justify-center rounded-md transition-colors ${showTopMenu ? 'text-slate-700 bg-slate-100' : 'text-slate-400 hover:text-slate-600 hover:bg-slate-100'}`}
-                >
-                  <MoreHorizontal size={16} strokeWidth={2} />
-                </button>
+                <>
+                  <button
+                    onClick={() => { setShowFavPanel((v) => !v); setDetailsMsgId(null); }}
+                    className={`w-7 h-7 flex items-center justify-center rounded-md transition-colors ${showFavPanel ? 'text-amber-400 bg-slate-100' : 'text-slate-400 hover:text-amber-400 hover:bg-slate-100'}`}
+                  >
+                    <Star size={15} strokeWidth={2} fill={showFavPanel ? 'currentColor' : 'none'} />
+                  </button>
+                  <button
+                    onClick={() => setShowTopMenu((v) => !v)}
+                    className={`w-7 h-7 flex items-center justify-center rounded-md transition-colors ${showTopMenu ? 'text-slate-700 bg-slate-100' : 'text-slate-400 hover:text-slate-600 hover:bg-slate-100'}`}
+                  >
+                    <MoreHorizontal size={16} strokeWidth={2} />
+                  </button>
+                </>
               )}
             </div>
           </div>
