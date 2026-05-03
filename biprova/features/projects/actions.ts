@@ -529,6 +529,7 @@ type RawMessageRow = {
   sender_id: string;
   content: string;
   created_at: string;
+  deleted_at: string | null;
   users: { name: string; avatar_url: string | null } | null;
 };
 
