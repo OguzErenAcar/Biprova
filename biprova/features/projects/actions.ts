@@ -420,6 +420,7 @@ export interface ProjectMessage {
   content: string;
   created_at: string;
   deleted_at: string | null;
+  is_favorited: boolean;
 }
 
 export interface ProjectPost {
