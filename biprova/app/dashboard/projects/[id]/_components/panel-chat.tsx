@@ -562,7 +562,51 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
             </button>
           </div>
           <div className="flex-1 overflow-y-auto p-4">
-            {/* içerik buraya gelecek */}
+            {detailsMsgId && (() => {
+              const msg = messages.find((m) => m.id === detailsMsgId);
+              if (!msg) return null;
+              const textLines = msg.content.split('\n').filter((l) => !l.startsWith('📎 '));
+              const hasFiles = msg.content.split('\n').some((l) => l.startsWith('📎 '));
+              const preview = msg.deleted_at
+                ? 'bu mesaj silindi'
+                : textLines.join('\n').trim() || (hasFiles ? '📎 Dosya' : '');
+              return (
+                <div className="flex flex-col gap-5">
+                  {/* Mesaj önizlemesi */}
+                  <div className="bg-slate-50 rounded-lg p-3 border border-slate-100">
+                    <span className="block text-[0.7rem] font-semibold text-slate-400 mb-1">{msg.sender_name}</span>
+                    <span className={`text-[0.82rem] line-clamp-4 ${msg.deleted_at ? 'italic text-slate-400' : 'text-slate-700'}`}>
+                      {preview}
+                    </span>
+                  </div>
+                  {/* Görüldü listesi */}
+                  <div>
+                    <span className="text-[0.7rem] font-semibold text-slate-400 uppercase tracking-wide">Görüldü</span>
+                    {readersLoading ? (
+                      <p className="text-[0.8rem] text-slate-400 mt-2">Yükleniyor...</p>
+                    ) : readers.length === 0 ? (
+                      <p className="text-[0.8rem] text-slate-400 mt-2">Henüz görülmedi</p>
+                    ) : (
+                      <div className="flex flex-col gap-2 mt-2">
+                        {readers.map((r) => (
+                          <div key={r.user_id} className="flex items-center gap-2">
+                            {r.avatar_url ? (
+                              <img src={r.avatar_url} alt={r.name} className="w-7 h-7 rounded-full object-cover shrink-0" />
+                            ) : (
+                              <span className="w-7 h-7 rounded-full bg-blue-500 flex items-center justify-center text-[0.65rem] font-bold text-white shrink-0">
+                                {getInitials(r.name)}
+                              </span>
+                            )}
+                            <span className="text-[0.82rem] text-slate-700 flex-1 truncate">{r.name}</span>
+                            <span className="text-[0.65rem] text-slate-400 shrink-0">{formatTime(r.read_at)}</span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              );
+            })()}
           </div>
         </div>
 
