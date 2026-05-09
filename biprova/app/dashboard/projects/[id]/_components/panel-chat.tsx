@@ -743,7 +743,9 @@ export function PanelChat({ teamId, projectName, messages: initialMessages, view
           {!msiActive && (
             <div className="flex flex-col leading-tight min-w-0">
               <span className="text-[0.75rem] font-semibold text-slate-700 truncate">{projectName}</span>
-              <span className="text-[0.65rem] text-slate-400">Grup</span>
+              <span className="text-[0.65rem] text-slate-400">
+                {onlineCount > 0 ? `${onlineCount} çevrimiçi` : 'Grup'}
+              </span>
             </div>
           )}
           <div className={`flex items-center gap-1 ${msiActive ? 'w-full justify-between' : 'ml-auto'}`}>
