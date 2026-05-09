@@ -181,6 +181,10 @@ export function PanelChat({ teamId, projectName, messages: initialMessages, view
   messagesRef.current = messages;
 
   useEffect(() => {
+    setMuted(isTeamMuted(teamId));
+  }, [teamId]);
+
+  useEffect(() => {
     const ta = textareaRef.current;
     if (!ta) return;
     ta.style.height = 'auto';
