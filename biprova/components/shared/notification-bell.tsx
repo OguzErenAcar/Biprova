@@ -18,6 +18,14 @@ export function NotificationBell() {
 
   useEffect(() => {
     getNotifications().then(setNotifications)
+    setMutedTeams(getMutedTeams())
+    const sync = () => setMutedTeams(getMutedTeams())
+    window.addEventListener(MUTE_EVENT, sync)
+    window.addEventListener('storage', sync)
+    return () => {
+      window.removeEventListener(MUTE_EVENT, sync)
+      window.removeEventListener('storage', sync)
+    }
   }, [])
 
   // Realtime: yeni bildirim gelince listeyi güncelle
