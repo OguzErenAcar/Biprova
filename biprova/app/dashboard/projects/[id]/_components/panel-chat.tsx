@@ -153,6 +153,7 @@ export function PanelChat({ teamId, projectName, messages: initialMessages, view
   const [showFavPanel, setShowFavPanel] = useState(false);
   const [expandedFavIds, setExpandedFavIds] = useState<Set<string>>(new Set());
   const [replyToMsg, setReplyToMsg] = useState<LocalMessage | null>(null);
+  const [onlineCount, setOnlineCount] = useState(0);
   const [showScrollBtn, setShowScrollBtn] = useState(false);
   const [isPending, startTransition] = useTransition();
   const bottomRef = useRef<HTMLDivElement>(null);
