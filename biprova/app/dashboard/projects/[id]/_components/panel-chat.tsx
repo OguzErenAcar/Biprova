@@ -830,6 +830,13 @@ export function PanelChat({ teamId, projectName, messages: initialMessages, view
                     <Star size={15} strokeWidth={2} fill={showFavPanel ? 'currentColor' : 'none'} />
                   </button>
                   <button
+                    onClick={() => setMuted(toggleTeamMute(teamId))}
+                    title={muted ? 'Bildirimleri aç' : 'Bildirimleri kapat'}
+                    className={`w-7 h-7 flex items-center justify-center rounded-md transition-colors ${muted ? 'text-slate-400 bg-slate-100' : 'text-slate-400 hover:text-slate-600 hover:bg-slate-100'}`}
+                  >
+                    {muted ? <BellOff size={15} strokeWidth={2} /> : <Bell size={15} strokeWidth={2} />}
+                  </button>
+                  <button
                     onClick={() => setShowTopMenu((v) => !v)}
                     className={`w-7 h-7 flex items-center justify-center rounded-md transition-colors ${showTopMenu ? 'text-slate-700 bg-slate-100' : 'text-slate-400 hover:text-slate-600 hover:bg-slate-100'}`}
                   >
