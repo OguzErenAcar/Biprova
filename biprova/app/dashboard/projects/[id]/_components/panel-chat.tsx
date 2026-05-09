@@ -518,7 +518,7 @@ export function PanelChat({ teamId, projectName, messages: initialMessages, view
       const next = new Set(prev);
       if (next.has(msgId)) next.delete(msgId);
       else next.add(msgId);
-      if (next.size === 0) setMsiActive(false);
+      if (next.size === 0) { setMsiActive(false); setShowTopMenu(false); }
       return next;
     });
   }
