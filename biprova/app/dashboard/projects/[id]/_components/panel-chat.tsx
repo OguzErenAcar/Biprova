@@ -123,6 +123,7 @@ interface TopMenuButton {
 
 interface Props {
   teamId: string;
+  projectName: string;
   messages: ProjectMessage[];
   viewerId: string;
   viewerName: string;
