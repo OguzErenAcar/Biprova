@@ -877,6 +877,8 @@ export function PanelChat({ teamId, projectName, messages: initialMessages, view
               setPullRefreshing(true);
               const fresh = await getTeamMessages(teamId);
               setMessages(fresh.map((m) => ({ ...m, status: 'sent' as const })));
+              hasMoreRef.current = fresh.length >= 30;
+              setHasMore(fresh.length >= 30);
               setPullRefreshing(false);
             } else {
               setPullUp(0);
