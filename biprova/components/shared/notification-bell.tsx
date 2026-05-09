@@ -13,6 +13,7 @@ import { getMutedTeams, MUTE_EVENT } from '@/lib/mute-prefs'
 export function NotificationBell() {
   const [notifications, setNotifications] = useState<NotificationItem[]>([])
   const [open, setOpen] = useState(false)
+  const [mutedTeams, setMutedTeams] = useState<Set<string>>(new Set())
   const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
