@@ -679,7 +679,7 @@ export async function getProjectDetail(id: string): Promise<ProjectDetail | null
 
     const favoritedIds = new Set((rawFavorites ?? []).map((f) => (f as { message_id: string }).message_id));
 
-    const typedRawMessages = (rawMessages as unknown as RawMessageRow[] ?? []);
+    const typedRawMessages = (rawMessages as unknown as RawMessageRow[] ?? []).reverse();
     const replyIds = [...new Set(typedRawMessages.map((m) => m.reply_to_id).filter(Boolean))] as string[];
     const replyMap = new Map<string, { content: string; sender_name: string }>();
     if (replyIds.length > 0) {
