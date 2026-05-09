@@ -152,8 +152,10 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
   const [showFavPanel, setShowFavPanel] = useState(false);
   const [expandedFavIds, setExpandedFavIds] = useState<Set<string>>(new Set());
   const [replyToMsg, setReplyToMsg] = useState<LocalMessage | null>(null);
+  const [showScrollBtn, setShowScrollBtn] = useState(false);
   const [isPending, startTransition] = useTransition();
   const bottomRef = useRef<HTMLDivElement>(null);
+  const chatContainerRef = useRef<HTMLDivElement>(null);
   const sentMessageIds = useRef<Set<string>>(new Set());
   const fileInputRef = useRef<HTMLInputElement>(null);
   const attachMenuRef = useRef<HTMLDivElement>(null);
