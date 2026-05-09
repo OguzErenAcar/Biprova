@@ -961,6 +961,11 @@ export function PanelChat({ teamId, projectName, messages: initialMessages, view
               </div>
             );
           })}
+          {(pullUp > 0 || pullRefreshing) && (
+            <div className="flex items-center justify-center py-1" style={{ height: pullRefreshing ? 32 : pullUp * 0.45 }}>
+              <div className={`w-5 h-5 rounded-full border-2 border-blue-400 border-t-transparent ${pullRefreshing ? 'animate-spin' : ''}`} />
+            </div>
+          )}
           <div ref={bottomRef} />
         </div>
 
