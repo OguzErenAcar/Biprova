@@ -296,7 +296,16 @@ export function PanelChat({ teamId, projectName, messages: initialMessages, view
           );
         }
       )
-      .subscribe();
+      .on('presence', { event: 'sync' }, () => {
+        const state = channel.presenceState<{ user_id: string }>();
+        const uniqueIds = new Set(Object.values(state).flat().map((p) => p.user_id));
+        setOnlineCount(uniqueIds.size);
+      })
+      .subscribe(async (status) => {
+        if (status === 'SUBSCRIBED') {
+          await channel.track({ user_id: viewerId });
+        }
+      });
 
     return () => {
       supabase.removeChannel(channel);
