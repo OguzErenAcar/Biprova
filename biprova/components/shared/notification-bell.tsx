@@ -81,7 +81,10 @@ export function NotificationBell() {
     }
   }
 
-  const unreadCount = notifications.filter((n) => n.unread).length
+  const visibleNotifications = notifications.filter(
+    (n) => !(n.teamId && mutedTeams.has(n.teamId))
+  )
+  const unreadCount = visibleNotifications.filter((n) => n.unread).length
 
   return (
     <div
