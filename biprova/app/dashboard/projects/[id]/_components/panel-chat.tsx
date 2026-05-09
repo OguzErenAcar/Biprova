@@ -926,7 +926,7 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
               <div className="flex-1 min-w-0">
                 <span className="text-[0.7rem] font-semibold text-blue-500 block">{replyToMsg.sender_name}</span>
                 <span className="text-[0.75rem] text-slate-500 truncate block">
-                  {replyToMsg.content.split('\n').filter((l) => !l.startsWith('📎 ')).join(' ').trim() || '📎 Dosya'}
+                  {(() => { const t = replyToMsg.content.split('\n').filter((l) => !l.startsWith('📎 ')).join(' ').trim() || '📎 Dosya'; return t.length > 80 ? t.slice(0, 80) + '…' : t; })()}
                 </span>
               </div>
               <button onClick={() => setReplyToMsg(null)} className="shrink-0 text-slate-400 hover:text-slate-600">
