@@ -1095,7 +1095,7 @@ export async function sendProjectMessage(
       otherMembers.map((m) => ({
         user_id: m.user_id,
         type: 'new_message',
-        payload: { title: `${senderName} bir mesaj gönderdi`, body: preview },
+        payload: { title: `${senderName} bir mesaj gönderdi`, body: preview, team_id: teamId },
         is_read: false,
       }))
     );
