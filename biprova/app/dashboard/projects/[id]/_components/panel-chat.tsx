@@ -808,12 +808,34 @@ export function PanelChat({ teamId, projectName, messages: initialMessages, view
           id="chat-messages"
           ref={chatContainerRef}
           className="flex-1 overflow-y-scroll p-4 pt-[46px] flex flex-col gap-3"
+          onTouchStart={(e) => {
+            const el = chatContainerRef.current;
+            if (!el) return;
+            const atBottom = el.scrollHeight - el.scrollTop - el.clientHeight < 8;
+            if (atBottom) {
+              pullStartY.current = e.touches[0].clientY;
+              pullActive.current = true;
+            }
+          }}
+          onTouchMove={(e) => {
+            if (!pullActive.current) return;
+            const delta = pullStartY.current - e.touches[0].clientY;
+            if (delta > 0) setPullUp(Math.min(delta, 72));
+          }}
+          onTouchEnd={async () => {
+            if (!pullActive.current) return;
+            pullActive.current = false;
+            if (pullUp >= 60 && !pullRefreshing) {
+              setPullUp(0);
+              setPullRefreshing(true);
+              const fresh = await getTeamMessages(teamId);
+              setMessages(fresh.map((m) => ({ ...m, status: 'sent' as const })));
+              setPullRefreshing(false);
+            } else {
+              setPullUp(0);
+            }
+          }}
         >
-          {pullRefreshing && (
-            <div className="flex items-center justify-center py-2">
-              <div className="w-5 h-5 rounded-full border-2 border-blue-400 border-t-transparent animate-spin" />
-            </div>
-          )}
           {messages.length === 0 && (
             <div className="text-center text-[0.82rem] text-slate-400 mt-8">
               Henüz mesaj yok. İlk mesajı sen gönder!
