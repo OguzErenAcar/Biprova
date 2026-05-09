@@ -830,7 +830,7 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
                       {msg.sender_name}
                     </Link>
                     {msg.reply_to_id && (
-                      <div className={`border-l-2 rounded-sm px-2 py-1 mb-1.5 ${isMine ? 'border-white/40 bg-white/10' : 'border-blue-400 bg-slate-200/70'}`}>
+                      <div onClick={() => document.getElementById(`msg-${msg.reply_to_id}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' })} className={`border-l-2 rounded-sm px-2 py-1 mb-1.5 cursor-pointer ${isMine ? 'border-white/40 bg-white/10 hover:bg-white/20' : 'border-blue-400 bg-slate-200/70 hover:bg-slate-300/70'}`}>
                         <span className={`text-[0.68rem] font-semibold block truncate ${isMine ? 'text-white/70' : 'text-blue-500'}`}>
                           {msg.reply_to_sender_name ?? ''}
                         </span>
