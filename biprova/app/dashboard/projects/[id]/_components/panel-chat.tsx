@@ -341,6 +341,10 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
     setError(null);
     const filesToSend = pendingFiles;
     setPendingFiles([]);
+    const replyId = replyToMsg?.id ?? null;
+    const replyName = replyToMsg?.sender_name ?? null;
+    const replyContent = replyToMsg?.content ?? null;
+    setReplyToMsg(null);
 
     const tempId = `temp-${crypto.randomUUID()}`;
     const isFileMessage = filesToSend.length > 0;
@@ -356,6 +360,9 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
         created_at: new Date().toISOString(),
         deleted_at: null,
         is_favorited: false,
+        reply_to_id: replyId,
+        reply_to_sender_name: replyName,
+        reply_to_content: replyContent,
         status: 'uploading',
         pendingFileNames: filesToSend.map((f) => f.name),
       };
@@ -371,6 +378,9 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
         created_at: new Date().toISOString(),
         deleted_at: null,
         is_favorited: false,
+        reply_to_id: replyId,
+        reply_to_sender_name: replyName,
+        reply_to_content: replyContent,
         status: 'sending',
       };
       setMessages((prev) => [...prev, optimistic]);
