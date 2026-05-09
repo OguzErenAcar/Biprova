@@ -186,23 +186,13 @@ export function PanelChat({ teamId, projectName, messages: initialMessages, view
   useEffect(() => {
     const el = chatContainerRef.current;
     if (!el) return;
-    let refreshing = false;
-    const onScroll = async () => {
+    const onScroll = () => {
       const distFromBottom = el.scrollHeight - el.scrollTop - el.clientHeight;
       setShowScrollBtn(distFromBottom > 120);
-
-      if (el.scrollTop <= 0 && !refreshing) {
-        refreshing = true;
-        setPullRefreshing(true);
-        const fresh = await getTeamMessages(teamId);
-        setMessages(fresh.map((m) => ({ ...m, status: 'sent' as const })));
-        setPullRefreshing(false);
-        refreshing = false;
-      }
     };
     el.addEventListener('scroll', onScroll, { passive: true });
     return () => el.removeEventListener('scroll', onScroll);
-  }, [teamId]);
+  }, []);
 
   useEffect(() => {
     const supabase = createClient();
