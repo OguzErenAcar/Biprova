@@ -10,6 +10,7 @@ export interface NotificationItem {
   body: string
   time: string
   unread: boolean
+  teamId?: string
 }
 
 const ICON_MAP: Record<string, { icon: string; iconBg: string }> = {
