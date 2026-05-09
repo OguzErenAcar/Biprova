@@ -679,7 +679,21 @@ export async function getProjectDetail(id: string): Promise<ProjectDetail | null
 
     const favoritedIds = new Set((rawFavorites ?? []).map((f) => (f as { message_id: string }).message_id));
 
-    messages = (rawMessages as unknown as RawMessageRow[] ?? []).map((m) => ({
+    const typedRawMessages = (rawMessages as unknown as RawMessageRow[] ?? []);
+    const replyIds = [...new Set(typedRawMessages.map((m) => m.reply_to_id).filter(Boolean))] as string[];
+    const replyMap = new Map<string, { content: string; sender_name: string }>();
+    if (replyIds.length > 0) {
+      const { data: replyRows } = await supabase
+        .from('messages')
+        .select('id, content, users!sender_id(name)')
+        .in('id', replyIds)
+        .limit(replyIds.length);
+      for (const row of (replyRows ?? []) as unknown as Array<{ id: string; content: string; users: { name: string } | null }>) {
+        replyMap.set(row.id, { content: row.content, sender_name: row.users?.name ?? '?' });
+      }
+    }
+
+    messages = typedRawMessages.map((m) => ({
       id: m.id,
       sender_id: m.sender_id,
       sender_name: m.users?.name ?? '?',
@@ -689,8 +703,8 @@ export async function getProjectDetail(id: string): Promise<ProjectDetail | null
       deleted_at: m.deleted_at,
       is_favorited: favoritedIds.has(m.id),
       reply_to_id: m.reply_to_id,
-      reply_to_sender_name: m.reply_msg?.users?.name ?? null,
-      reply_to_content: m.reply_msg?.content ?? null,
+      reply_to_sender_name: m.reply_to_id ? (replyMap.get(m.reply_to_id)?.sender_name ?? null) : null,
+      reply_to_content: m.reply_to_id ? (replyMap.get(m.reply_to_id)?.content ?? null) : null,
     }));
 
     posts = (rawPosts as unknown as RawPostRow[] ?? []).map((p) => ({
