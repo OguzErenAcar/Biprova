@@ -867,6 +867,14 @@ export function PanelChat({ teamId, projectName, messages: initialMessages, view
             }
           }}
         >
+          {loadingMore && (
+            <div className="flex items-center justify-center py-2">
+              <div className="w-4 h-4 rounded-full border-2 border-blue-400 border-t-transparent animate-spin" />
+            </div>
+          )}
+          {!hasMore && messages.length > 0 && (
+            <div className="text-center text-[0.72rem] text-slate-400 py-1">Tüm mesajlar yüklendi</div>
+          )}
           {messages.length === 0 && (
             <div className="text-center text-[0.82rem] text-slate-400 mt-8">
               Henüz mesaj yok. İlk mesajı sen gönder!
