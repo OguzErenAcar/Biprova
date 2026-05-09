@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useState, useTransition, useRef, useEffect } from 'react';
 import { Paperclip, FileText, Send, Trash2, Check, CheckCheck, MoreHorizontal, Copy, Info, X, Star, Reply, ChevronDown } from 'lucide-react';
 import type { ProjectMessage, MessageReader } from '@/features/projects/actions';
-import { sendProjectMessage, recordTeamFile, deleteProjectMessage, toggleMessageFavorite, markMessagesRead, getMessageReaders } from '@/features/projects/actions';
+import { sendProjectMessage, recordTeamFile, deleteProjectMessage, toggleMessageFavorite, markMessagesRead, getMessageReaders, getTeamMessages } from '@/features/projects/actions';
 import { createClient } from '@/lib/supabase/client';
 
 type LocalMessage = ProjectMessage & {
