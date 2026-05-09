@@ -8,6 +8,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Separator } from "@/components/ui/separator"
 import { createClient } from '@/lib/supabase/client'
 import { getNotifications, markAllAsRead, NotificationItem } from '@/features/notifications/actions'
+import { getMutedTeams, MUTE_EVENT } from '@/lib/mute-prefs'
 
 export function NotificationBell() {
   const [notifications, setNotifications] = useState<NotificationItem[]>([])
