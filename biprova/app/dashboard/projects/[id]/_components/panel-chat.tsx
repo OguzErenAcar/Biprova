@@ -480,6 +480,17 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
 
   const topMenuButtons: TopMenuButton[] = [
     {
+      id: 'reply',
+      icon: <Reply size={15} strokeWidth={2} />,
+      className: 'text-slate-400 hover:text-blue-500 hover:bg-slate-100',
+      showWhen: (count) => count === 1,
+      onApply: (selectedIds) => {
+        const msg = messages.find((m) => m.id === [...selectedIds][0]);
+        if (msg && !msg.deleted_at) setReplyToMsg(msg);
+        cancelMsi();
+      },
+    },
+    {
       id: 'fav',
       icon: <Star size={15} strokeWidth={2} fill={allSelectedFaved ? 'currentColor' : 'none'} />,
       className: allSelectedFaved
