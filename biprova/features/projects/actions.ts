@@ -536,7 +536,6 @@ type RawMessageRow = {
   created_at: string;
   deleted_at: string | null;
   reply_to_id: string | null;
-  reply_msg: { content: string; users: { name: string } | null } | null;
   users: { name: string; avatar_url: string | null } | null;
 };
 
