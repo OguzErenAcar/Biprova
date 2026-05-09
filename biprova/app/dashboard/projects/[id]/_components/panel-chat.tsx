@@ -131,7 +131,7 @@ interface Props {
   isLeader?: boolean;
 }
 
-export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerName, viewerAvatar }: Props) {
+export function PanelChat({ teamId, projectName, messages: initialMessages, viewerId, viewerName, viewerAvatar }: Props) {
   const [messages, setMessages] = useState<LocalMessage[]>(
     initialMessages.map((m) => ({ ...m, status: 'sent' as const }))
   );
