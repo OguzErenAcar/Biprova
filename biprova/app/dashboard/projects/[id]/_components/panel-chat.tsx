@@ -155,6 +155,7 @@ export function PanelChat({ teamId, projectName, messages: initialMessages, view
   const [expandedFavIds, setExpandedFavIds] = useState<Set<string>>(new Set());
   const [replyToMsg, setReplyToMsg] = useState<LocalMessage | null>(null);
   const [onlineCount, setOnlineCount] = useState(0);
+  const [muted, setMuted] = useState(false);
   const [showScrollBtn, setShowScrollBtn] = useState(false);
   const [pullRefreshing, setPullRefreshing] = useState(false);
   const [pullUp, setPullUp] = useState(0);
