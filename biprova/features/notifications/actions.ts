@@ -60,7 +60,7 @@ export async function getNotifications(limit = 10): Promise<NotificationItem[]> 
 
   return data.map((n) => {
     const { icon, iconBg } = ICON_MAP[n.type as string] ?? DEFAULT_ICON
-    const payload = n.payload as { title?: string; body?: string } | null
+    const payload = n.payload as { title?: string; body?: string; team_id?: string } | null
     return {
       id: n.id as string,
       icon,
@@ -69,6 +69,7 @@ export async function getNotifications(limit = 10): Promise<NotificationItem[]> 
       body:  payload?.body  ?? '',
       time:  toRelativeTime(n.created_at as string),
       unread: !(n.is_read as boolean),
+      teamId: payload?.team_id,
     }
   })
 }
