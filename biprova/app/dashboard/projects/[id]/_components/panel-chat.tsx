@@ -297,11 +297,13 @@ export function PanelChat({ teamId, projectName, messages: initialMessages, view
         }
       )
       .on('presence', { event: 'sync' }, () => {
-        const state = channel.presenceState<{ user_id: string }>();
-        const uniqueIds = new Set(Object.values(state).flat().map((p) => p.user_id));
+        const state = channel.presenceState();
+        const uniqueIds = new Set(
+          Object.values(state).flat().map((p) => (p as { user_id: string }).user_id)
+        );
         setOnlineCount(uniqueIds.size);
       })
-      .subscribe(async (status) => {
+      .subscribe(async (status: string) => {
         if (status === 'SUBSCRIBED') {
           await channel.track({ user_id: viewerId });
         }
