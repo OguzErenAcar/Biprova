@@ -193,9 +193,11 @@ export function PanelChat({ teamId, projectName, messages: initialMessages, view
     ta.style.overflowY = scrollH > 104 ? 'auto' : 'hidden';
   }, [text]);
 
+  const lastMsgId = messages[messages.length - 1]?.id;
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lastMsgId]);
 
   useEffect(() => {
     const el = chatContainerRef.current;
