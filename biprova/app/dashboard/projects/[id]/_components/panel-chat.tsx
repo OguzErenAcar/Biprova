@@ -911,6 +911,19 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
           id="chat-input-wrap"
           className="bg-white border-t border-slate-200 px-4 py-[0.8rem] flex flex-col gap-1.5"
         >
+          {replyToMsg && (
+            <div className="flex items-start gap-2 border-l-2 border-blue-500 pl-2 py-0.5 bg-blue-50 rounded-r-md">
+              <div className="flex-1 min-w-0">
+                <span className="text-[0.7rem] font-semibold text-blue-500 block">{replyToMsg.sender_name}</span>
+                <span className="text-[0.75rem] text-slate-500 truncate block">
+                  {replyToMsg.content.split('\n').filter((l) => !l.startsWith('📎 ')).join(' ').trim() || '📎 Dosya'}
+                </span>
+              </div>
+              <button onClick={() => setReplyToMsg(null)} className="shrink-0 text-slate-400 hover:text-slate-600">
+                <X size={13} strokeWidth={2} />
+              </button>
+            </div>
+          )}
           {error && (
             <p className="text-[0.75rem] text-red-500">{error}</p>
           )}
