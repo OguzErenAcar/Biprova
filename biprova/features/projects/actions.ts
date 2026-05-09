@@ -1150,6 +1150,54 @@ type RawMessageReadRow = {
   users: { name: string; avatar_url: string | null } | null;
 };
 
+export async function getTeamMessages(teamId: string): Promise<ProjectMessage[]> {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return [];
+
+  const { data: rawMessages } = await supabase
+    .from('messages')
+    .select('id, sender_id, content, created_at, deleted_at, reply_to_id, users!sender_id(name, avatar_url)')
+    .eq('team_id', teamId)
+    .order('created_at', { ascending: true })
+    .limit(50);
+
+  const { data: rawFavorites } = await supabase
+    .from('message_favorites')
+    .select('message_id')
+    .limit(200);
+
+  const favoritedIds = new Set((rawFavorites ?? []).map((f) => (f as { message_id: string }).message_id));
+  const typedRaw = (rawMessages as unknown as RawMessageRow[] ?? []);
+  const replyIds = [...new Set(typedRaw.map((m) => m.reply_to_id).filter(Boolean))] as string[];
+  const replyMap = new Map<string, { content: string; sender_name: string }>();
+
+  if (replyIds.length > 0) {
+    const { data: replyRows } = await supabase
+      .from('messages')
+      .select('id, content, users!sender_id(name)')
+      .in('id', replyIds)
+      .limit(replyIds.length);
+    for (const row of (replyRows ?? []) as unknown as Array<{ id: string; content: string; users: { name: string } | null }>) {
+      replyMap.set(row.id, { content: row.content, sender_name: row.users?.name ?? '?' });
+    }
+  }
+
+  return typedRaw.map((m) => ({
+    id: m.id,
+    sender_id: m.sender_id,
+    sender_name: m.users?.name ?? '?',
+    sender_avatar: m.users?.avatar_url ?? null,
+    content: m.content,
+    created_at: m.created_at,
+    deleted_at: m.deleted_at,
+    is_favorited: favoritedIds.has(m.id),
+    reply_to_id: m.reply_to_id,
+    reply_to_sender_name: m.reply_to_id ? (replyMap.get(m.reply_to_id)?.sender_name ?? null) : null,
+    reply_to_content: m.reply_to_id ? (replyMap.get(m.reply_to_id)?.content ?? null) : null,
+  }));
+}
+
 export async function markMessagesRead(
   teamId: string,
   lastMessageId: string,
