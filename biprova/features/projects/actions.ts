@@ -1082,6 +1082,25 @@ export async function sendProjectMessage(
     },
   });
 
+  const { data: otherMembers } = await admin
+    .from('team_members')
+    .select('user_id')
+    .eq('team_id', teamId)
+    .neq('user_id', user.id)
+    .limit(50);
+
+  if (otherMembers && otherMembers.length > 0) {
+    const preview = trimmed.length > 60 ? trimmed.slice(0, 60) + '…' : trimmed;
+    await admin.from('notifications').insert(
+      otherMembers.map((m) => ({
+        user_id: m.user_id,
+        type: 'new_message',
+        payload: { title: `${senderName} bir mesaj gönderdi`, body: preview },
+        is_read: false,
+      }))
+    );
+  }
+
   return { id: inserted.id };
 }
 
