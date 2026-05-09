@@ -829,6 +829,16 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
                     >
                       {msg.sender_name}
                     </Link>
+                    {msg.reply_to_id && (
+                      <div className={`border-l-2 rounded-sm px-2 py-1 mb-1.5 ${isMine ? 'border-white/40 bg-white/10' : 'border-blue-400 bg-slate-200/70'}`}>
+                        <span className={`text-[0.68rem] font-semibold block truncate ${isMine ? 'text-white/70' : 'text-blue-500'}`}>
+                          {msg.reply_to_sender_name ?? ''}
+                        </span>
+                        <span className={`text-[0.78rem] line-clamp-2 block ${isMine ? 'text-white/60' : 'text-slate-500'}`}>
+                          {msg.reply_to_content ?? ''}
+                        </span>
+                      </div>
+                    )}
                     {msg.deleted_at ? (
                       <span className={`text-[0.82rem] italic ${isMine ? 'text-white/50' : 'text-slate-400'}`}>
                         bu mesaj silindi
