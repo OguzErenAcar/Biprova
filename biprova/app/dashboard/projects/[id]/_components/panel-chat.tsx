@@ -192,13 +192,46 @@ export function PanelChat({ teamId, projectName, messages: initialMessages, view
   useEffect(() => {
     const el = chatContainerRef.current;
     if (!el) return;
-    const onScroll = () => {
+    const onScroll = async () => {
       const distFromBottom = el.scrollHeight - el.scrollTop - el.clientHeight;
       setShowScrollBtn(distFromBottom > 120);
+
+      if (el.scrollTop <= 0) {
+        setHasMore((currentHasMore) => {
+          if (!currentHasMore) return currentHasMore;
+          setLoadingMore((currentLoading) => {
+            if (currentLoading) return currentLoading;
+            setMessages((currentMsgs) => {
+              const oldest = currentMsgs[0];
+              if (!oldest) return currentMsgs;
+              scrollHeightRef.current = el.scrollHeight;
+              getOlderMessages(teamId, oldest.created_at).then((older) => {
+                if (older.length === 0) {
+                  setHasMore(false);
+                } else {
+                  setMessages((prev) => {
+                    const existingIds = new Set(prev.map((m) => m.id));
+                    const fresh = older.filter((m) => !existingIds.has(m.id));
+                    return [...fresh.map((m) => ({ ...m, status: 'sent' as const })), ...prev];
+                  });
+                  if (older.length < 30) setHasMore(false);
+                  requestAnimationFrame(() => {
+                    el.scrollTop = el.scrollHeight - scrollHeightRef.current;
+                  });
+                }
+                setLoadingMore(false);
+              });
+              return currentMsgs;
+            });
+            return true;
+          });
+          return currentHasMore;
+        });
+      }
     };
     el.addEventListener('scroll', onScroll, { passive: true });
     return () => el.removeEventListener('scroll', onScroll);
-  }, []);
+  }, [teamId]);
 
   useEffect(() => {
     const supabase = createClient();
