@@ -181,6 +181,17 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
   }, [messages]);
 
   useEffect(() => {
+    const el = chatContainerRef.current;
+    if (!el) return;
+    const onScroll = () => {
+      const distFromBottom = el.scrollHeight - el.scrollTop - el.clientHeight;
+      setShowScrollBtn(distFromBottom > 120);
+    };
+    el.addEventListener('scroll', onScroll, { passive: true });
+    return () => el.removeEventListener('scroll', onScroll);
+  }, []);
+
+  useEffect(() => {
     const supabase = createClient();
 
     interface ChatBroadcastPayload {
