@@ -807,7 +807,42 @@ export function PanelChat({ teamId, projectName, messages: initialMessages, view
           id="chat-messages"
           ref={chatContainerRef}
           className="flex-1 overflow-y-scroll p-4 pt-[46px] flex flex-col gap-3"
+          onTouchStart={(e) => {
+            if (chatContainerRef.current?.scrollTop === 0) {
+              pullStartY.current = e.touches[0].clientY;
+            } else {
+              pullStartY.current = 0;
+            }
+          }}
+          onTouchMove={(e) => {
+            if (!pullStartY.current) return;
+            const delta = e.touches[0].clientY - pullStartY.current;
+            if (delta > 0) setPullY(Math.min(delta, 72));
+          }}
+          onTouchEnd={async () => {
+            if (pullY >= 60 && !pullRefreshing) {
+              setPullRefreshing(true);
+              setPullY(0);
+              pullStartY.current = 0;
+              const fresh = await getTeamMessages(teamId);
+              setMessages(fresh.map((m) => ({ ...m, status: 'sent' as const })));
+              setPullRefreshing(false);
+            } else {
+              setPullY(0);
+              pullStartY.current = 0;
+            }
+          }}
         >
+          {(pullRefreshing || pullY > 0) && (
+            <div
+              className="flex items-center justify-center transition-all"
+              style={{ height: pullRefreshing ? 40 : pullY * 0.55 }}
+            >
+              <div className={`w-5 h-5 rounded-full border-2 border-blue-400 border-t-transparent ${pullRefreshing ? 'animate-spin' : ''}`}
+                style={!pullRefreshing ? { transform: `rotate(${pullY * 4}deg)` } : undefined}
+              />
+            </div>
+          )}
           {messages.length === 0 && (
             <div className="text-center text-[0.82rem] text-slate-400 mt-8">
               Henüz mesaj yok. İlk mesajı sen gönder!
