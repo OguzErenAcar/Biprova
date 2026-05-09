@@ -1159,8 +1159,8 @@ export async function getTeamMessages(teamId: string): Promise<ProjectMessage[]>
     .from('messages')
     .select('id, sender_id, content, created_at, deleted_at, reply_to_id, users!sender_id(name, avatar_url)')
     .eq('team_id', teamId)
-    .order('created_at', { ascending: true })
-    .limit(50);
+    .order('created_at', { ascending: false })
+    .limit(30);
 
   const { data: rawFavorites } = await supabase
     .from('message_favorites')
@@ -1168,7 +1168,7 @@ export async function getTeamMessages(teamId: string): Promise<ProjectMessage[]>
     .limit(200);
 
   const favoritedIds = new Set((rawFavorites ?? []).map((f) => (f as { message_id: string }).message_id));
-  const typedRaw = (rawMessages as unknown as RawMessageRow[] ?? []);
+  const typedRaw = (rawMessages as unknown as RawMessageRow[] ?? []).reverse();
   const replyIds = [...new Set(typedRaw.map((m) => m.reply_to_id).filter(Boolean))] as string[];
   const replyMap = new Map<string, { content: string; sender_name: string }>();
 
