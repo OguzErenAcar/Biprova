@@ -781,6 +781,7 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
         {/* Messages */}
         <div
           id="chat-messages"
+          ref={chatContainerRef}
           className="flex-1 overflow-y-scroll p-4 pt-[46px] flex flex-col gap-3"
         >
           {messages.length === 0 && (
