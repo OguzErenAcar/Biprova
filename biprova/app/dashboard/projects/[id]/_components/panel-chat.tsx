@@ -156,8 +156,6 @@ export function PanelChat({ teamId, projectName, messages: initialMessages, view
   const [onlineCount, setOnlineCount] = useState(0);
   const [showScrollBtn, setShowScrollBtn] = useState(false);
   const [pullRefreshing, setPullRefreshing] = useState(false);
-  const [pullY, setPullY] = useState(0);
-  const pullStartY = useRef(0);
   const [isPending, startTransition] = useTransition();
   const bottomRef = useRef<HTMLDivElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
