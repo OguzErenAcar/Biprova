@@ -120,10 +120,10 @@ export function NotificationBell() {
             <Separator className="mb-3" />
 
             <div className="flex flex-col">
-              {notifications.length === 0 ? (
+              {visibleNotifications.length === 0 ? (
                 <p className="text-caption text-slate-400 text-center py-3">Bildirim yok</p>
               ) : (
-                notifications.map((n) => (
+                visibleNotifications.map((n) => (
                   <div
                     key={n.id}
                     className="flex gap-3 py-[0.6rem] border-b border-slate-100 last:border-b-0 last:pb-0 first:pt-0 items-start"
