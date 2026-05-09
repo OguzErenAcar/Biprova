@@ -640,8 +640,8 @@ export async function getProjectDetail(id: string): Promise<ProjectDetail | null
         .from('messages')
         .select('id, sender_id, content, created_at, deleted_at, reply_to_id, users!sender_id(name, avatar_url)')
         .eq('team_id', project.team_id)
-        .order('created_at', { ascending: true })
-        .limit(50),
+        .order('created_at', { ascending: false })
+        .limit(30),
       supabase
         .from('team_posts')
         .select('id, author_id, content, image_urls, like_count, created_at, users!author_id(name, avatar_url), team_post_likes(user_id)')
