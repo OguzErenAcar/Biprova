@@ -193,6 +193,7 @@ export function ProjectTabView({ project }: Props) {
         {activeTab === 'chat' && project.team_id ? (
           <PanelChat
             teamId={project.team_id}
+            projectName={project.title}
             messages={project.messages}
             viewerId={project.viewer.id}
             viewerName={project.viewer.name}
