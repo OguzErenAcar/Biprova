@@ -159,6 +159,9 @@ export function PanelChat({ teamId, projectName, messages: initialMessages, view
   const [pullUp, setPullUp] = useState(0);
   const pullStartY = useRef(0);
   const pullActive = useRef(false);
+  const [hasMore, setHasMore] = useState(initialMessages.length >= 30);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const scrollHeightRef = useRef(0);
   const [isPending, startTransition] = useTransition();
   const bottomRef = useRef<HTMLDivElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
