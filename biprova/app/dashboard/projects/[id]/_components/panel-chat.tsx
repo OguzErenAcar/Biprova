@@ -835,7 +835,7 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
                           {msg.reply_to_sender_name ?? ''}
                         </span>
                         <span className={`text-[0.78rem] line-clamp-2 block ${isMine ? 'text-white/60' : 'text-slate-500'}`}>
-                          {msg.reply_to_content ?? ''}
+                          {(() => { const t = msg.reply_to_content ?? ''; return t.length > 80 ? t.slice(0, 80) + '…' : t; })()}
                         </span>
                       </div>
                     )}
