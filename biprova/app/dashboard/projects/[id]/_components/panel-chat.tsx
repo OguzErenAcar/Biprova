@@ -730,6 +730,12 @@ export function PanelChat({ teamId, projectName, messages: initialMessages, view
 
         {/* Top bar */}
         <div id="chat-topbar" className="absolute top-0 left-0 right-0 h-[35px] bg-white z-10 flex items-center justify-between px-3">
+          {!msiActive && (
+            <div className="flex flex-col leading-tight min-w-0">
+              <span className="text-[0.75rem] font-semibold text-slate-700 truncate">{projectName}</span>
+              <span className="text-[0.65rem] text-slate-400">Grup</span>
+            </div>
+          )}
           <div className={`flex items-center gap-1 ${msiActive ? 'w-full justify-between' : 'ml-auto'}`}>
             {msiActive && (
               <button
