@@ -912,6 +912,15 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
           <div ref={bottomRef} />
         </div>
 
+        {showScrollBtn && (
+          <button
+            onClick={() => bottomRef.current?.scrollIntoView({ behavior: 'smooth' })}
+            className="absolute bottom-[90px] right-4 z-30 bg-white border border-slate-200 shadow-md rounded-full w-8 h-8 flex items-center justify-center text-slate-500 hover:text-blue-500 hover:border-blue-300 transition-colors"
+          >
+            <ChevronDown size={16} strokeWidth={2} />
+          </button>
+        )}
+
         {/* Pending files preview */}
         {pendingFiles.length > 0 && (
           <div className="bg-slate-50 border-t border-slate-200 px-4 py-2 flex flex-col gap-1">
