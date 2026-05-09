@@ -259,6 +259,9 @@ export function PanelChat({ teamId, messages: initialMessages, viewerId, viewerN
               created_at: row.created_at,
               deleted_at: null,
               is_favorited: false,
+              reply_to_id: row.reply_to_id,
+              reply_to_sender_name: row.reply_to_sender_name,
+              reply_to_content: row.reply_to_content,
               status: 'sent' as const,
             }];
           });
