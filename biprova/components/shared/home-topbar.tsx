@@ -278,7 +278,7 @@ function MobileDrawer({ open, onClose, projects, lastActiveUsers }: { open: bool
         <Separator />
 
         {/* Projelerim */}
-        <div className="flex flex-col px-5 py-4 overflow-y-auto flex-1">
+        <div className="flex flex-col px-5 py-4 flex-1">
           <button
             onClick={() => setProjectsOpen((prev) => !prev)}
             className="flex items-center justify-between w-full mb-2 group"
