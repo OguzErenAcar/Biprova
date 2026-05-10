@@ -11,6 +11,52 @@ function formatDate(iso: string) {
   });
 }
 
+function formatFileAge(dateStr: string): string {
+  const diff = Date.now() - new Date(dateStr).getTime();
+  const min = Math.floor(diff / 60000);
+  if (min < 60) return `${min} dk önce`;
+  const hr = Math.floor(min / 60);
+  if (hr < 24) return `${hr} saat önce`;
+  const day = Math.floor(hr / 24);
+  if (day < 7) return `${day} gün önce`;
+  return `${Math.floor(day / 7)} hafta önce`;
+}
+
+function formatSize(bytes: number): string {
+  if (bytes < 1024) return `${bytes} B`;
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+}
+
+function FilePreviewItem({ file }: { file: ProjectFile }) {
+  return (
+    <div className="flex items-center gap-3 px-[1.2rem] py-[0.75rem] border-b border-slate-100 last:border-b-0">
+      <div className="shrink-0 w-7 h-7 rounded-[7px] bg-slate-100 flex items-center justify-center">
+        {file.type === 'link'
+          ? <Link2 size={13} strokeWidth={2} className="text-blue-500" />
+          : <FileText size={13} strokeWidth={2} className="text-slate-500" />
+        }
+      </div>
+      <div className="flex-1 min-w-0">
+        <a
+          href={file.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-[0.84rem] font-semibold text-slate-800 hover:text-blue-600 transition-colors flex items-center gap-1 truncate"
+        >
+          {file.name}
+          <ExternalLink size={10} strokeWidth={2} className="shrink-0 opacity-40" />
+        </a>
+        <p className="text-[0.72rem] text-slate-400">
+          {file.uploader_name}
+          {file.size !== null && ` • ${formatSize(file.size)}`}
+          {` • ${formatFileAge(file.created_at)}`}
+        </p>
+      </div>
+    </div>
+  );
+}
+
 function ProjectInfoCard({ project }: { project: ProjectDetail }) {
   const meta: { icon: string; label: string; value: string }[] = [
     project.city
