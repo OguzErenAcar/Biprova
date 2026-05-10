@@ -243,13 +243,13 @@ export function Sidebar({ projects = [], showInfoDialog = false, lastActiveUsers
 
       <Separator className="mb-4" />
 
-      {/* Projelerim */}
+      {/* Biprovalarım */}
       <button
         onClick={() => setProjectsOpen((prev) => !prev)}
         className="flex items-center justify-between w-full px-3 mb-1.5 group"
       >
         <span className="text-label font-bold tracking-[2px]  text-white/50">
-          Projelerim
+          Biprovalarım
         </span>
         <svg
           className={`w-3 h-3 text-white/50 transition-transform duration-200 ${projectsOpen ? "rotate-180" : ""}`}
