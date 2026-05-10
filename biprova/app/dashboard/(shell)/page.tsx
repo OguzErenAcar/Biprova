@@ -1,6 +1,5 @@
 import { Suspense } from "react";
 import { ProjectFeed } from "@/features/projects/components/project-feed";
-import { LastActiveUsers } from "@/components/shared/last-active-users";
 
 export default function DashboardHomePage({
   searchParams,
