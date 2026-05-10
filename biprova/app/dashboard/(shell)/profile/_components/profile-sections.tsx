@@ -113,7 +113,7 @@ export function ProfileSections({
       {(isOwner || projectsPublic) && (
         <SectionCard
           id="profile-projects"
-          title="Projelerim"
+          title="Biprovalarım"
           action={
             isOwner ? (
               <VisibilityToggle
