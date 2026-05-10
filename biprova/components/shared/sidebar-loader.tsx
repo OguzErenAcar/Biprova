@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { Sidebar } from "@/components/shared/sidebar";
+import { LastActiveUsers } from "@/components/shared/last-active-users";
 
 const THREE_DAYS_MS = 3 * 24 * 60 * 60 * 1000;
 
