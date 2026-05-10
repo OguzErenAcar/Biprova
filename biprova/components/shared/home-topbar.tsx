@@ -339,11 +339,6 @@ function MobileDrawer({ open, onClose, projects, lastActiveUsers }: { open: bool
         </div>
 
         <div className="px-5 pb-24 mt-auto">
-          {lastActiveUsers && (
-            <div className="mb-4">
-              {lastActiveUsers}
-            </div>
-          )}
           <Separator className="mb-4" />
           <button
             onClick={() => setInfoOpen(true)}
