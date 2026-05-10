@@ -35,6 +35,7 @@ interface SidebarProps {
   user?: SidebarUser;
   projects?: SidebarProject[];
   showInfoDialog?: boolean;
+  lastActiveUsers?: React.ReactNode;
 }
 
 const NAV_MAIN = [
