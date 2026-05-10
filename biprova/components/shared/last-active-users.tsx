@@ -43,25 +43,32 @@ export async function LastActiveUsers() {
   if (users.length === 0) return null;
 
   return (
-    <div className="flex items-center gap-4 px-1 py-3 mb-4 overflow-x-auto">
-      <span className="text-label text-slate-400 whitespace-nowrap shrink-0">
-        Son katılanlar
-      </span>
-      <div className="flex items-center gap-3">
+    <div className="bg-surface g-bg border border-slate-200 rounded-2xl shadow-sm mb-4 overflow-hidden">
+      <div className="px-4 py-2.5 border-b border-slate-100 flex items-center gap-2">
+        <span className="relative flex size-2">
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
+          <span className="relative inline-flex rounded-full size-2 bg-green-500" />
+        </span>
+        <span className="text-[0.78rem] font-semibold text-slate-500 tracking-wide uppercase">
+          Son katılanlar
+        </span>
+      </div>
+
+      <div className="flex items-center gap-1 px-4 py-3 overflow-x-auto">
         {users.map((u) => (
           <Link
             key={u.id}
             href={`/dashboard/profile/${u.id}`}
-            className="flex flex-col items-center gap-1 no-underline group shrink-0"
+            className="flex flex-col items-center gap-1.5 no-underline group shrink-0 px-3 py-1.5 rounded-xl hover:bg-slate-50 transition-colors"
           >
             <UserAvatar
               avatarUrl={u.avatar_url}
               initials={getInitials(u.name)}
               badge={u.badge_url}
-              size={40}
-              className="text-[0.72rem] ring-2 ring-transparent group-hover:ring-blue-400 transition-all"
+              size={44}
+              className="text-[0.72rem] ring-2 ring-transparent group-hover:ring-blue-500 transition-all duration-200"
             />
-            <span className="text-[0.65rem] text-slate-500 group-hover:text-slate-800 truncate max-w-[56px] transition-colors">
+            <span className="text-[0.68rem] font-medium text-slate-500 group-hover:text-slate-800 truncate max-w-[60px] transition-colors">
               {u.name.split(" ")[0]}
             </span>
           </Link>
