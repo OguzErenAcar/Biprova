@@ -19,7 +19,7 @@ const jakartaSans = Plus_Jakarta_Sans({
 
 export const metadata: Metadata = {
   title: "biprova — Birlikte Üret",
-  description: "Ekibini bul, birlikte üret. Türkiye'nin proje ekibi platformu.",
+  description: "Ekibini oluştur, birlikte üret. Türkiye'nin proje ekibi platformu.",
 };
 
 export const viewport: Viewport = {

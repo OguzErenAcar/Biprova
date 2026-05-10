@@ -17,7 +17,7 @@ export function SignupCard() {
       </Link>
 
       <p className="text-center text-[0.85rem] text-slate-500 mb-8 leading-relaxed">
-        Ekibini bul. Birlikte üret.<br />Hemen kayıt ol.
+        Ekibini oluştur. Birlikte üret.<br />Hemen kayıt ol.
       </p>
 
       <SignupForm />

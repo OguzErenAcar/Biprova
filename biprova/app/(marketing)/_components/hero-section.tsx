@@ -30,7 +30,7 @@ export function HeroSection() {
           className="font-nunito font-black text-[clamp(2.6rem,6.5vw,5.5rem)] leading-[1.05] tracking-[-2px] mb-6 animate-bp-fade-up text-slate-900"
           style={{ animationDelay: "0.1s" }}
         >
-          Ekibini bul.<br />
+          Ekibini oluştur.<br />
           <span className="bg-gradient-to-br from-blue-600 to-indigo-500 bg-clip-text text-transparent">
             Birlikte üret.
           </span>
