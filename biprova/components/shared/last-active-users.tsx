@@ -49,7 +49,7 @@ export async function LastActiveUsers() {
           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
           <span className="relative inline-flex rounded-full size-2 bg-green-500" />
         </span>
-        <span className="text-[0.78rem] font-semibold text-slate-400 tracking-wide uppercase">
+        <span className="text-[0.78rem] font-semibold text-white tracking-wide uppercase">
           Son katılanlar
         </span>
       </div>
@@ -68,7 +68,7 @@ export async function LastActiveUsers() {
               size={32}
               className="text-[0.6rem] ring-2 ring-transparent group-hover:ring-blue-500 transition-all duration-200"
             />
-            <span className="text-[0.62rem] font-medium text-slate-400 group-hover:text-white truncate max-w-[48px] transition-colors">
+            <span className="text-[0.62rem] font-medium text-white group-hover:text-white truncate max-w-[48px] transition-colors">
               {u.name.split(" ")[0]}
             </span>
           </Link>
