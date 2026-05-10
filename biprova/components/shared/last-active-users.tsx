@@ -59,7 +59,7 @@ export async function LastActiveUsers() {
           <Link
             key={u.id}
             href={`/dashboard/profile/${u.id}`}
-            className="flex flex-col items-center gap-1 no-underline group shrink-0 px-2 py-1 rounded-lg hover:bg-slate-50 transition-colors"
+            className="flex flex-col items-center gap-1 no-underline group shrink-0 px-2 py-1 rounded-lg hover:bg-white/10 transition-colors"
           >
             <UserAvatar
               avatarUrl={u.avatar_url}
