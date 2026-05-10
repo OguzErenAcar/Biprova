@@ -317,9 +317,17 @@ export function PanelGenel({ project, onGoToChat, onGoToFiles }: Props) {
                 Tümü →
               </button>
             </div>
-            <div className="px-[1.2rem] py-[1rem] text-[0.82rem] text-slate-400">
-              Dosya özelliği yakında geliyor.
-            </div>
+            {project.files.length === 0 ? (
+              <div className="px-[1.2rem] py-[1.5rem] text-center text-[0.82rem] text-slate-400">
+                Henüz dosya veya link yok.
+              </div>
+            ) : (
+              <div className="divide-y divide-slate-100">
+                {project.files.slice(0, 5).map((file) => (
+                  <FilePreviewItem key={file.id} file={file} />
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>
