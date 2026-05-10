@@ -360,7 +360,7 @@ function MobileDrawer({ open, onClose, projects, lastActiveUsers }: { open: bool
   );
 }
 
-export function HomeTopbar({ projects = [] }: { projects?: DrawerProject[] }) {
+export function HomeTopbar({ projects = [], lastActiveUsers }: { projects?: DrawerProject[]; lastActiveUsers?: React.ReactNode }) {
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   useEffect(() => {
