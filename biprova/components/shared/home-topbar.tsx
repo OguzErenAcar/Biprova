@@ -407,7 +407,7 @@ export function HomeTopbar({ projects = [], lastActiveUsers }: { projects?: Draw
         </div>
       </div>
 
-      <MobileDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} projects={projects} />
+      <MobileDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} projects={projects} lastActiveUsers={lastActiveUsers} />
     </>
   );
 }
