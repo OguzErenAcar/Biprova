@@ -141,7 +141,7 @@ function DrawerIconButton({ icon: Icon, label, onClick }: { icon: ElementType; l
   );
 }
 
-function MobileDrawer({ open, onClose, projects }: { open: boolean; onClose: () => void; projects: DrawerProject[] }) {
+function MobileDrawer({ open, onClose, projects, lastActiveUsers }: { open: boolean; onClose: () => void; projects: DrawerProject[]; lastActiveUsers?: React.ReactNode }) {
   const pathname = usePathname();
   const { locationOn, setLocation, clearLocation } = useLocation();
   const [projectsOpen, setProjectsOpen] = useState(true);
