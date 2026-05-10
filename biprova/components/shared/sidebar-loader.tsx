@@ -46,5 +46,5 @@ export async function SidebarLoader() {
       .eq("id", user.id);
   }
 
-  return <Sidebar projects={projects} showInfoDialog={showInfoDialog} lastActiveUsers={<LastActiveUsers />} />;
+  return <Sidebar projects={projects} showInfoDialog={showInfoDialog} lastActiveUsers={<LastActiveUsers variant="dark" />} />;
 }
