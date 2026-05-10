@@ -114,13 +114,13 @@ function TickerAnimation({ variant = "topbar" }: { variant?: "topbar" | "drawer"
     <div
       ref={containerRef}
       style={{ opacity: 0 }}
-      className="lg:flex hidden absolute right-10 lg:right-auto lg:left-1/2 lg:-translate-x-1/2 h-8 overflow-hidden items-center min-w-[140px] lg:min-w-[350px]"
+      className="lg:flex hidden absolute right-10 lg:right-auto lg:left-1/2 lg:-translate-x-1/2 h-8 overflow-hidden items-center min-w-[140px] lg:min-w-[420px]"
     >
       {SENTENCES.map((s) => (
         <p
           key={s}
           style={{ color: "rgba(55,100,236)" }}
-          className="absolute left-1/2 -translate-x-1/2 text-sm lg:text-lg font-semibold whitespace-nowrap"
+          className="absolute inset-x-0 text-center text-sm lg:text-lg font-semibold whitespace-nowrap"
         >
           {s}
         </p>
