@@ -309,7 +309,12 @@ export function Sidebar({ projects = [], showInfoDialog = false, lastActiveUsers
       )}
 
       <div className="mt-auto pt-4">
-        <Separator className="mb-4" />
+        {lastActiveUsers && (
+          <>
+            {lastActiveUsers}
+            <Separator className="mb-4" />
+          </>
+        )}
         <button
           onClick={() => setInfoOpen(true)}
           className="w-full flex items-center gap-2 px-3 py-2 rounded-[10px] text-label font-semibold text-white hover:bg-white/10 transition-colors"
