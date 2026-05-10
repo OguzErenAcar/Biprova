@@ -251,6 +251,7 @@ function MobileDrawer({ open, onClose, projects, lastActiveUsers }: { open: bool
               Ayarlar
             </Link>
           </div>
+          {lastActiveUsers}
         </div>
 
         <Separator />
