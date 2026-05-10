@@ -54,21 +54,21 @@ export async function LastActiveUsers() {
         </span>
       </div>
 
-      <div className="flex items-center gap-1 px-4 py-3 overflow-x-auto">
+      <div className="flex items-center gap-0.5 px-3 py-2 overflow-x-auto">
         {users.map((u) => (
           <Link
             key={u.id}
             href={`/dashboard/profile/${u.id}`}
-            className="flex flex-col items-center gap-1.5 no-underline group shrink-0 px-3 py-1.5 rounded-xl hover:bg-slate-50 transition-colors"
+            className="flex flex-col items-center gap-1 no-underline group shrink-0 px-2 py-1 rounded-lg hover:bg-slate-50 transition-colors"
           >
             <UserAvatar
               avatarUrl={u.avatar_url}
               initials={getInitials(u.name)}
               badge={u.badge_url}
-              size={44}
-              className="text-[0.72rem] ring-2 ring-transparent group-hover:ring-blue-500 transition-all duration-200"
+              size={32}
+              className="text-[0.6rem] ring-2 ring-transparent group-hover:ring-blue-500 transition-all duration-200"
             />
-            <span className="text-[0.68rem] font-medium text-slate-500 group-hover:text-slate-800 truncate max-w-[60px] transition-colors">
+            <span className="text-[0.62rem] font-medium text-slate-500 group-hover:text-slate-800 truncate max-w-[48px] transition-colors">
               {u.name.split(" ")[0]}
             </span>
           </Link>
