@@ -25,7 +25,7 @@ async function fetchLastActiveUsers(): Promise<ActiveUser[]> {
   const { data } = await supabase
     .from("users")
     .select("id, name, avatar_url, badge")
-    .order("created_at", { ascending: false })
+    .order("last_seen_at", { ascending: false, nullsFirst: false })
     .limit(5);
 
   const rows = (data ?? []) as Omit<ActiveUser, "badge_url">[];
