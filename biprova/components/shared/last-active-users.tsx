@@ -44,12 +44,12 @@ export async function LastActiveUsers() {
 
   return (
     <div className="rounded-2xl mb-4 overflow-hidden">
-      <div className="px-4 py-2.5 border-b border-slate-800 flex items-center gap-2">
+      <div className="px-4 py-2.5 border-b border-current/20 flex items-center gap-2">
         <span className="relative flex size-2">
           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
           <span className="relative inline-flex rounded-full size-2 bg-green-500" />
         </span>
-        <span className="text-[0.78rem] font-semibold text-white tracking-wide uppercase">
+        <span className="text-[0.78rem] font-semibold opacity-60 tracking-wide uppercase">
           Son katılanlar
         </span>
       </div>
@@ -59,7 +59,7 @@ export async function LastActiveUsers() {
           <Link
             key={u.id}
             href={`/dashboard/profile/${u.id}`}
-            className="flex flex-col items-center gap-1 no-underline group flex-1 min-w-0 py-1 rounded-lg hover:bg-white/10 transition-colors"
+            className="flex flex-col items-center gap-1 no-underline group flex-1 min-w-0 py-1 rounded-lg hover:bg-current/10 transition-colors"
             style={{ marginLeft: i === 0 ? 0 : "-8px", zIndex: i }}
           >
             <UserAvatar
@@ -67,9 +67,9 @@ export async function LastActiveUsers() {
               initials={getInitials(u.name)}
               badge={u.badge_url}
               size={32}
-              className="text-[0.6rem] ring-2 ring-black group-hover:ring-blue-500 transition-all duration-200"
+              className="text-[0.6rem] ring-2 ring-transparent group-hover:ring-blue-500 transition-all duration-200"
             />
-            <span className="text-[0.58rem] font-medium text-white truncate w-full text-center px-0.5 transition-colors">
+            <span className="text-[0.58rem] font-medium opacity-70 group-hover:opacity-100 truncate w-full text-center px-0.5 transition-opacity">
               {u.name.split(" ")[0]}
             </span>
           </Link>
