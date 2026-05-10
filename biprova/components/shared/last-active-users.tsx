@@ -68,7 +68,7 @@ export async function LastActiveUsers() {
               size={32}
               className="text-[0.6rem] ring-2 ring-transparent group-hover:ring-blue-500 transition-all duration-200"
             />
-            <span className="text-[0.62rem] font-medium text-slate-500 group-hover:text-slate-800 truncate max-w-[48px] transition-colors">
+            <span className="text-[0.62rem] font-medium text-slate-400 group-hover:text-white truncate max-w-[48px] transition-colors">
               {u.name.split(" ")[0]}
             </span>
           </Link>
