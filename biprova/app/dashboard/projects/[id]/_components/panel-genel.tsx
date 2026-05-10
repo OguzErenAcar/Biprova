@@ -1,4 +1,5 @@
-import type { ProjectDetail } from '@/features/projects/actions';
+import { FileText, Link2, ExternalLink } from 'lucide-react';
+import type { ProjectDetail, ProjectFile } from '@/features/projects/actions';
 import { UserAvatar } from '@/components/shared/user-avatar';
 import { TeamBarSection } from './team-bar-section';
 
