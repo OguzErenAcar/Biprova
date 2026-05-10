@@ -7,11 +7,8 @@ export default function DashboardHomePage({
   searchParams: Promise<{ filter?: string }>;
 }) {
   return (
-    <>
-      <LastActiveUsers />
-      <Suspense fallback={<div className="animate-pulse space-y-3 p-4">{Array.from({ length: 4 }).map((_, i) => (<div key={i} className="h-32 bg-gray-100 rounded-xl" />))}</div>}>
+    <Suspense fallback={<div className="animate-pulse space-y-3 p-4">{Array.from({ length: 4 }).map((_, i) => (<div key={i} className="h-32 bg-gray-100 rounded-xl" />))}</div>}>
       <ProjectFeed searchParams={searchParams} />
     </Suspense>
-    </>
   );
 }
